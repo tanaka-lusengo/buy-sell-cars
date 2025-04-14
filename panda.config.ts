@@ -1,4 +1,4 @@
-import { defineConfig } from "@pandacss/dev";
+import { defineConfig } from '@pandacss/dev';
 
 export default defineConfig({
   // Whether to use css reset
