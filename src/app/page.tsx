@@ -1,5 +1,5 @@
 import { Typography } from './page.styled';
-import { Container, Stack } from '@/styled-system/jsx';
+import { Stack } from '@/styled-system/jsx';
 
 export default function Home() {
   return (

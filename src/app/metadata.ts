@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { BASE_URL } from '@/src/constants/urls';
 
 /**
  * Metadata for the root layout of the application.
@@ -25,10 +26,10 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_GB',
-    url: `${process.env.PRODUCTION_BASE_URL}`,
+    url: new URL(BASE_URL),
     siteName: 'BuySellCars Zimbabwe',
     title: 'BuySellCars Zimbabwe',
     description: 'Buy and sell vehicles in Zimbabwe.',
   },
-  metadataBase: new URL(`${process.env.PRODUCTION_BASE_URL}`),
+  metadataBase: new URL(BASE_URL),
 };
