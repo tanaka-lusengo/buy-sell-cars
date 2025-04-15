@@ -9,7 +9,7 @@ export default function Home() {
       justifyContent="center"
       padding={10}
     >
-      <Typography>Zimbabwe&#39;s premier Vehicle Maket Place</Typography>
+      <Typography>Zimbabwe&#39;s premier Vehicle Marketplace</Typography>
     </Stack>
   );
 }
