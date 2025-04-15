@@ -26,7 +26,7 @@ A modern rebuild of [BuySellCars.co.zw](https://buysellcars.co.zw/), a platform 
 ### Running the app
 
 - Copy over the `.env.example` in the root folder and rename it to `.env`.
-- Or, run `vercel env pull` to pull environment variables from the Vercel deploymet
+- Or, run `vercel env pull` to pull environment variables from the Vercel deployment
 
 ```bash
 cd buy-sell-cars
