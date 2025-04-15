@@ -1,5 +1,15 @@
 import { Typography } from './page.styled';
+import { Container, Stack } from '@/styled-system/jsx';
 
 export default function Home() {
-  return <Typography>Hello 🐼!</Typography>;
+  return (
+    <Stack
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      padding={10}
+    >
+      <Typography>Zimbabwe&#39;s premier Vehicle Maket Place</Typography>
+    </Stack>
+  );
 }

@@ -11,7 +11,10 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write .",
     "type-check": "tsc --pretty --noEmit",
-    "checks": "pnpm lint && pnpm type-check"
+    "checks": "pnpm lint && pnpm type-check",
+    "clean-modules": "rm -rf node_modules */node_modules */*/node_modules",
+    "clean-next": "rm -rf .next */.next */*/.next",
+    "clean": "pnpm clean-modules && pnpm clean-next"
   },
   "dependencies": {
     "next": "15.3.0",
