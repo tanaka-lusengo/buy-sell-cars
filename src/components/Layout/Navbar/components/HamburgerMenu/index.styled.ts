@@ -9,7 +9,7 @@ export const Button = styled('button', {
     padding: '0.5rem',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 20,
+    zIndex: 60,
   },
 });
 
@@ -114,7 +114,7 @@ export const NavDrawer = styled('div', {
     pt: 'xl',
     pb: 'lg',
     overflowY: 'auto',
-    zIndex: 10,
+    zIndex: 30,
   },
   variants: {
     isOpen: {
@@ -135,6 +135,6 @@ export const Overlay = styled('div', {
     backgroundColor: 'black',
     opacity: 0.7,
     display: { base: 'block' },
-    zIndex: 5,
+    zIndex: 20,
   },
 });
