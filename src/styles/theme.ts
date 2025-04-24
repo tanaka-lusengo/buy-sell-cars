@@ -18,7 +18,7 @@ export const tokens = defineTokens({
     pageSm: { value: '54rem' },
     pageMd: { value: '72rem' },
     pageLg: { value: '96rem' },
-    pageXl: { value: '115rem' },
+    pageXl: { value: '144rem' },
   },
   fontSizes: {
     body1: { value: '1.8rem' },
@@ -33,6 +33,7 @@ export const tokens = defineTokens({
   colors: {
     primary: { value: '#d6bd83' },
     primaryLight: { value: '#e8d8b0' },
+    primaryDark: { value: '#b58f4d' },
     secondary: { value: '#fcfaf3' },
     secondaryDark: { value: '#39a2ae' },
     tertiary: { value: '#cbbaed' },
@@ -41,6 +42,7 @@ export const tokens = defineTokens({
     white: { value: '#ffffff' },
     black: { value: '#000000' },
     grey: { value: '#cccccc' },
+    greyLight: { value: '#f9f9f9' },
     success: { value: '#4caf50' },
     error: { value: '#f44336' },
   },
