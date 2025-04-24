@@ -1,11 +1,12 @@
 import { cva } from '@/styled-system/css';
 
-export const containerRecipe = cva({
+export const ResponsiveContainerRecipe = cva({
   base: {
-    width: '100%',
     marginX: 'auto',
-    backgroundColor: 'transparent',
+    width: '100%',
+    px: 'md',
     maxWidth: { sm: 'pageSm', md: 'pageMd', lg: 'pageLg', xl: 'pageXl' },
+    backgroundColor: 'transparent',
   },
   variants: {
     margin: {
