@@ -14,6 +14,13 @@ export const buttonRecipe = cva({
       ring: '2px',
       ringColor: 'primary',
     },
+    _disabled: {
+      opacity: 0.6,
+      backgroundColor: 'grey',
+      _hover: {
+        backgroundColor: 'grey',
+      },
+    },
   },
   variants: {
     variant: {
@@ -21,7 +28,7 @@ export const buttonRecipe = cva({
         bg: 'primary',
         color: 'white',
         _hover: {
-          bg: 'primaryLight',
+          bg: 'primaryDark',
         },
       },
       secondary: {

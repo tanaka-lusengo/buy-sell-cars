@@ -10,6 +10,13 @@ export const Button = styled('button', {
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 60,
+    _focus: {
+      borderColor: 'primary',
+    },
+    _focusVisible: {
+      outline: 'none',
+      borderColor: 'primary',
+    },
   },
 });
 

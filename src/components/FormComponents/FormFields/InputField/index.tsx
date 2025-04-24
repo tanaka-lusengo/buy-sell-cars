@@ -1,0 +1,48 @@
+import type {
+  UseFormRegister,
+  FieldErrors,
+  FieldValues,
+  Path,
+} from 'react-hook-form';
+
+import * as Styled from '../common.styled';
+
+type InputFieldProps<TFormValues extends FieldValues> = {
+  name: string;
+  register: UseFormRegister<TFormValues>;
+  errors: FieldErrors<TFormValues>;
+  label?: string;
+  type?: string;
+} & React.InputHTMLAttributes<HTMLInputElement>;
+
+export const InputField = <TFormValues extends FieldValues>({
+  name,
+  label,
+  type = 'text',
+  placeholder,
+  errors,
+  register,
+}: InputFieldProps<TFormValues>) => {
+  return (
+    <Styled.InputContainer>
+      {label && (
+        <Styled.Label key={`${name}-label`} htmlFor={name}>
+          {label}
+        </Styled.Label>
+      )}
+
+      <Styled.InputField
+        key={name}
+        type={type}
+        placeholder={placeholder}
+        {...register(name as Path<TFormValues>)}
+      />
+
+      {errors[name] && (
+        <Styled.ErrorText key={`${name}-error`} role="alert">
+          {typeof errors[name]?.message === 'string' && errors[name].message}
+        </Styled.ErrorText>
+      )}
+    </Styled.InputContainer>
+  );
+};
