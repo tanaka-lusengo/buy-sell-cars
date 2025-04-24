@@ -18,7 +18,7 @@ export const generateYears = (): number[] => {
 
 /**
  * Generates an array of prices in dollars from $0 to $2,000,000 in increments of $500.
- * @returns {number[]} An array of prices.
+ * @returns {string[]} An array of prices.
  */
 export const generatePrices = (): string[] => {
   const prices: string[] = [];
@@ -38,7 +38,7 @@ export const generatePrices = (): string[] => {
 
   // Add fixed prices
   const fixedPrices = [100000, 200000, 250000, 500000, 1000000, 2000000];
-  fixedPrices.forEach((price) => prices.push(`$ ${price.toLocaleString()}`));
+  fixedPrices.forEach((price) => prices.push(`$${price.toLocaleString()}`));
 
   // Remove duplicates from the prices array
   return Array.from(new Set(prices));

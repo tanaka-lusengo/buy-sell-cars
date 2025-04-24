@@ -16,7 +16,7 @@ const factListRight = [
   'AI-Enhanced Lead Generation',
   'Unlimited Premium Listings',
   'Advanced Analytics Dashboard',
-  'riority Support & Consultation',
+  'Priority Support & Consultation',
 ];
 
 export const InfoSection = () => {
