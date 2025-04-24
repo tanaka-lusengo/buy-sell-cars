@@ -5,3 +5,4 @@ out
 dist
 coverage
 .vscode
+pnpm-lock.yaml
