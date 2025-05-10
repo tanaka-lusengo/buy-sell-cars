@@ -35,7 +35,10 @@ export const typographyRecipe = cva({
     },
     color: {
       primary: { color: 'primary' },
+      primaryDark: { color: 'primaryDark' },
+      primaryLight: { color: 'primaryLight' },
       secondary: { color: 'secondary' },
+      grey: { color: 'grey' },
       success: { color: 'success' },
       error: { color: 'error' },
       warning: { color: 'warning' },
@@ -49,7 +52,7 @@ export const typographyRecipe = cva({
       color: {
         _hover: {
           transition: 'all 0.2s ease-in-out',
-          color: 'primary',
+          color: 'primaryDark',
         },
       },
       opacity: {

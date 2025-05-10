@@ -48,6 +48,14 @@ export const buttonRecipe = cva({
           color: 'white',
         },
       },
+      upload: {
+        bg: 'transparent',
+        border: '2px dashed',
+        borderColor: 'grey',
+        _hover: {
+          borderColor: 'primaryDark',
+        },
+      },
     },
     size: {
       sm: {

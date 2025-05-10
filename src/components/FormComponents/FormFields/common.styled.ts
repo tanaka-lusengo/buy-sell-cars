@@ -12,7 +12,6 @@ export const InputContainer = styled('div', {
     flexDirection: 'column',
     gap: 'xs',
     width: '100%',
-    maxWidth: '40rem',
     marginX: 'auto',
   },
 });
@@ -25,10 +24,12 @@ export const Label = styled('label', {
 
 export const InputField = styled('input', {
   base: {
+    cursor: 'pointer',
     padding: 'sm',
     border: '2px solid',
     borderColor: 'grey',
     borderRadius: '1.2rem',
+    transition: 'border-color 0.2s ease-in-out',
     _focusVisible: {
       outline: 'none',
       borderColor: 'primary',
@@ -39,6 +40,20 @@ export const InputField = styled('input', {
 export const SelectField = styled('select', {
   base: {
     cursor: 'pointer',
+    padding: 'sm',
+    height: '4.7rem',
+    border: '2px solid',
+    borderColor: 'grey',
+    borderRadius: '1.2rem',
+    _focusVisible: {
+      outline: 'none',
+      borderColor: 'primary',
+    },
+  },
+});
+
+export const TextareaField = styled('textarea', {
+  base: {
     padding: 'sm',
     border: '2px solid',
     borderColor: 'grey',
