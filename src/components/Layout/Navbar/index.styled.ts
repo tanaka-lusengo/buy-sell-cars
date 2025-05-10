@@ -3,8 +3,8 @@ import { styled } from '@/styled-system/jsx';
 export const Header = styled('header', {
   base: {
     position: 'relative',
-    py: 'md',
     backgroundColor: 'transparent',
+    paddingY: '1rem',
   },
 });
 
@@ -19,7 +19,7 @@ export const Nav = styled('nav', {
 
 export const NavList = styled('ul', {
   base: {
-    display: { base: 'none', lg: 'flex' },
+    display: { base: 'none', xl: 'flex' },
     gap: '2rem',
   },
 });
