@@ -1,9 +1,12 @@
+'use client';
+
 import Link from 'next/link';
 import { useState } from 'react';
 import { VStack } from '@/styled-system/jsx';
 import { Typography } from '@/src/components/ui';
 import { NavDrawer, NavList, Overlay } from './index.styled';
 import { Bar, BarWrapper, Button } from './index.styled';
+import { useAuth } from '@/src/context/auth-context';
 
 export const HamburgerMenu = ({
   navLinks,
@@ -11,6 +14,7 @@ export const HamburgerMenu = ({
   navLinks: { name: string; path: string }[];
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <>
@@ -36,10 +40,20 @@ export const HamburgerMenu = ({
             alignItems="flex-start"
           >
             <Typography variant="h4" weight="bold" hoverEffect="color">
-              <Link href="#">Sell Your Vehicle</Link>
+              <Link
+                href={user ? '/dashboard/add-listing' : '/sign-up'}
+                onClick={() => setIsOpen(false)}
+              >
+                Sell Your Vehicle
+              </Link>
             </Typography>
             <Typography variant="h4" weight="bold" hoverEffect="color">
-              <Link href="#">Login</Link>
+              <Link
+                href={`${user ? '/dashboard' : '/sign-in'}`}
+                onClick={() => setIsOpen(false)}
+              >
+                {user ? 'Account' : 'Login'}
+              </Link>
             </Typography>
           </VStack>
 
@@ -52,7 +66,9 @@ export const HamburgerMenu = ({
                 hoverEffect="size"
                 weight="bold"
               >
-                <Link href={link.path}>{link.name}</Link>
+                <Link href={link.path} onClick={() => setIsOpen(false)}>
+                  {link.name}
+                </Link>
               </Typography>
             ))}
           </NavList>

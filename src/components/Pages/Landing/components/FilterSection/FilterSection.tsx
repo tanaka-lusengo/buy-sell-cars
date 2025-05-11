@@ -8,8 +8,8 @@ import { Container, Grid } from '@/styled-system/jsx';
 import { InputField, SelectField } from '@/src/components/FormComponents';
 import { Button, ButtonAsLink } from '@/src/components/ui';
 import { Form } from './FilterSection.styled';
-import { generatePrices, generateYears } from '../../utils/generateData';
-import { CAR_CONDITIONS, FUEL_TYPES } from '../../constants';
+import { generatePrices, generateYears } from '@/src/utils';
+import { CAR_CONDITIONS, FUEL_TYPES } from '@/src/constants/values';
 import { filterValidationSchema } from '../../schema/filterValidationSchema';
 
 type FilterForm = ZodInfer<typeof filterValidationSchema>;
@@ -38,7 +38,7 @@ export const FilterSection = () => {
         async (formValues: FilterForm) => await handleAction(formValues)
       )}
     >
-      <Grid gridTemplateColumns={{ base: '1fr', sm: '1fr 1fr' }} gap="sm">
+      <Grid gridTemplateColumns="1fr 1fr" gap="sm">
         <InputField
           name="location"
           placeholder="Location"
@@ -54,7 +54,7 @@ export const FilterSection = () => {
         />
       </Grid>
 
-      <Grid gridTemplateColumns={{ base: '1fr', sm: '1fr 1fr' }} gap="sm">
+      <Grid gridTemplateColumns="1fr 1fr" gap="sm">
         <InputField
           name="model"
           placeholder="model"
@@ -78,7 +78,7 @@ export const FilterSection = () => {
         </SelectField>
       </Grid>
 
-      <Grid gridTemplateColumns={{ base: '1fr', sm: '1fr 1fr' }} gap="sm">
+      <Grid gridTemplateColumns="1fr 1fr" gap="sm">
         <SelectField<FilterForm>
           name="condition"
           register={register}
@@ -110,7 +110,7 @@ export const FilterSection = () => {
         </SelectField>
       </Grid>
 
-      <Grid gridTemplateColumns={{ base: '1fr', sm: '1fr 1fr' }} gap="sm">
+      <Grid gridTemplateColumns="1fr 1fr" gap="sm">
         <SelectField<FilterForm>
           name="minPrice"
           register={register}
