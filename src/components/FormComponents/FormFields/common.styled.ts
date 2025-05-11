@@ -24,7 +24,7 @@ export const Label = styled('label', {
 
 export const InputField = styled('input', {
   base: {
-    cursor: 'pointer',
+    cursor: 'text',
     padding: 'sm',
     border: '2px solid',
     borderColor: 'grey',

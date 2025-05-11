@@ -8,7 +8,7 @@ const Error = ({ error, reset }: ErrorBoundaryProps) => (
     error={error}
     reset={reset}
     message={
-      'Hmmm, looks like an error occurred while signing up. Please try again.'
+      'Hmmm, looks like an error occurred while signing in. Please try again.'
     }
   />
 );
