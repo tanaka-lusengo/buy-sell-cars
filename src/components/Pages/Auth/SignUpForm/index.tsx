@@ -94,7 +94,7 @@ export const SignUpForm = () => {
               label="Phone number"
               name="phone"
               type="tel"
-              placeholder="+1 234 567 8900"
+              placeholder="+263"
               register={register}
               errors={errors}
             />
@@ -138,6 +138,7 @@ export const SignUpForm = () => {
               <InputField
                 label="Location"
                 name="location"
+                placeholder="e.g. Harare"
                 register={register}
                 errors={errors}
               />
@@ -145,6 +146,7 @@ export const SignUpForm = () => {
               <TextareaField
                 label="Description"
                 name="description"
+                placeholder="Describe your business in a few words..."
                 register={register}
                 errors={errors}
               />
@@ -171,7 +173,7 @@ export const SignUpForm = () => {
             <Button type="submit">Submit</Button>
           </Stack>
 
-          <Divider marginY="lg" color="grey" />
+          <Divider marginY="md" color="grey" />
 
           <Typography color="primaryDark" weight="bold">
             <i>Already have an account?</i>

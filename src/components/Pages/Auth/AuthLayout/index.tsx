@@ -1,17 +1,23 @@
 import Image from 'next/image';
-import { Grid } from '@/styled-system/jsx';
+import { Grid, VStack } from '@/styled-system/jsx';
 
 export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Grid
       gridTemplateColumns={{ base: '1fr', lg: '1fr 1fr' }}
-      padding="md"
       height="100vh"
-      alignItems="center"
-      justifyContent="center"
+      overflow="hidden"
       position="relative"
     >
-      {children}
+      <VStack
+        height="100vh"
+        maxHeight="100vh"
+        overflowY="auto"
+        paddingX="lg"
+        justifyContent={{ base: 'normal', md: 'center' }}
+      >
+        {children}
+      </VStack>
 
       <Image
         src="/images/car-headlight.png"
@@ -19,9 +25,7 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         objectFit="cover"
         priority
         fill
-        style={{
-          zIndex: -1,
-        }}
+        style={{ zIndex: -1 }}
       />
     </Grid>
   );

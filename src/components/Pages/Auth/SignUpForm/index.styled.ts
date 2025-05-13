@@ -3,7 +3,7 @@ import { styled } from '@/styled-system/jsx';
 export const Form = styled('form', {
   base: {
     marginX: 'auto',
-    marginY: 'sm',
+    marginY: 'lg',
     display: 'flex',
     flexDirection: 'column',
     gap: 'sm',
