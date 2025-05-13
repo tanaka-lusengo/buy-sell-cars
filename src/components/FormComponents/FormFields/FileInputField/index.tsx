@@ -54,6 +54,7 @@ export const FileInputField = <TFormValues extends FieldValues>({
       <Styled.FileInputField
         type="file"
         id={name}
+        name={name}
         key={name}
         accept={accept}
         multiple={multiple}
