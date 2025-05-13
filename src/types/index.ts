@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { type infer as ZodInfer } from 'zod';
 import { Constants, Tables } from '@/database.types';
-import { signUpValidationSchema, signInValidationSchema } from '../schemas';
+import {
+  signUpValidationSchema,
+  signInValidationSchema,
+  updateProfileValidationSchema,
+  addVehicleValidationSchema,
+} from '../schemas';
 
 const {
   user_category_type,
@@ -33,9 +38,23 @@ export type SignUpFormType = ZodInfer<typeof signUpValidationSchema>;
 
 export type SignInFormType = ZodInfer<typeof signInValidationSchema>;
 
+export type UpdateProfileFormType = ZodInfer<
+  typeof updateProfileValidationSchema
+>;
+
+export type AddVehicleFormType = ZodInfer<typeof addVehicleValidationSchema>;
+
 // Database Tables Types
 export type Profile = Tables<'profiles'>;
 
 export type Vehicle = Tables<'vehicles'>;
 
 export type VehicleImage = Tables<'vehicle_images'>;
+
+// Server Actions Types
+export type AddVehicleDataType = Omit<
+  Vehicle,
+  'id' | 'created_at' | 'updated_at'
+>;
+
+export type AddVehicleImageDataType = Omit<VehicleImage, 'id' | 'created_at'>;

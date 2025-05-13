@@ -9,7 +9,10 @@ export const signUpValidationSchema = z
     lastName: z.string().min(2, {
       message: 'Last name must be at least 2 characters',
     }),
-    phone: z.string().min(5, { message: 'Enter a valid phone number' }),
+    phone: z
+      .string()
+      .min(5, { message: 'Enter a valid phone number' })
+      .regex(/^\+263\d{0,}$/, { message: 'Phone number must start with +263' }),
     categoryType: z
       .enum(['individual', 'dealership'] satisfies CategoryType, {
         errorMap: () => ({ message: 'Category is required' }),
