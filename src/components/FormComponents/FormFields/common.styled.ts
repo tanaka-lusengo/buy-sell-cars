@@ -29,11 +29,20 @@ export const InputField = styled('input', {
     border: '2px solid',
     borderColor: 'grey',
     borderRadius: '1.2rem',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
     transition: 'border-color 0.2s ease-in-out',
     _focusVisible: {
       outline: 'none',
       borderColor: 'primary',
     },
+  },
+});
+
+export const FileInputField = styled('input', {
+  base: {
+    display: 'none',
   },
 });
 
@@ -45,6 +54,9 @@ export const SelectField = styled('select', {
     border: '2px solid',
     borderColor: 'grey',
     borderRadius: '1.2rem',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
     _focusVisible: {
       outline: 'none',
       borderColor: 'primary',
@@ -58,6 +70,9 @@ export const TextareaField = styled('textarea', {
     border: '2px solid',
     borderColor: 'grey',
     borderRadius: '1.2rem',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
     _focusVisible: {
       outline: 'none',
       borderColor: 'primary',

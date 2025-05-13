@@ -43,5 +43,5 @@ export const handleClientError = (message: string, error: unknown) => {
 
 export const handleServerError = (error: unknown, context: string) => {
   logErrorMessage(error, context);
-  return { status: StatusCode.INTERNAL_SERVER_ERROR, error };
+  return { data: null, status: StatusCode.INTERNAL_SERVER_ERROR, error };
 };

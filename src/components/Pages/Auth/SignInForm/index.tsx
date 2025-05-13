@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 
 import { Typography, Button } from '@/src/components/ui';
-import { HStack, Divider } from '@/styled-system/jsx';
+import { HStack, Divider, Flex } from '@/styled-system/jsx';
 import { InputField } from '@/src/components/FormComponents';
 import { signInValidationSchema, signInFormDefaultValues } from '@/src/schemas';
 import { signIn } from '@/src/server/actions/auth';
@@ -69,14 +69,19 @@ export const SignInForm = () => {
         errors={errors}
       />
 
-      <HStack justifyContent="space-between" alignItems="flex-start">
+      <Flex
+        direction={{ base: 'column', sm: 'row' }}
+        justifyContent="space-between"
+        alignItems="flex-start"
+        gap="sm"
+      >
         <Button type="submit">Sign in</Button>
         <Link href="/">
           <Typography hoverEffect="color">Forgot password?</Typography>
         </Link>
-      </HStack>
+      </Flex>
 
-      <Divider marginY="lg" color="grey" />
+      <Divider marginY="md" color="grey" />
 
       <Typography color="primaryDark" weight="bold">
         <i>Don&apos;t have an account?</i>

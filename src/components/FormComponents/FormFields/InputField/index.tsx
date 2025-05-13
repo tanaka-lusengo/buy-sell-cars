@@ -34,6 +34,7 @@ export const InputField = <TFormValues extends FieldValues>({
       <Styled.InputField
         key={name}
         type={type}
+        step={type === 'number' ? '0.01' : undefined}
         placeholder={placeholder}
         {...register(name as Path<TFormValues>)}
       />

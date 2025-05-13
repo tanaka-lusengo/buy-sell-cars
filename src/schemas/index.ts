@@ -3,4 +3,14 @@ export {
   signUpValidationSchema,
 } from './authValidationSchemas';
 
-export { signUpFormDefaultValues, signInFormDefaultValues } from './constants';
+export {
+  updateProfileValidationSchema,
+  addVehicleValidationSchema,
+} from './generalSchemas';
+
+export {
+  signUpFormDefaultValues,
+  signInFormDefaultValues,
+  updateProfileFormDefaultValues,
+  addVehicleFormDefaultValues,
+} from './constants';

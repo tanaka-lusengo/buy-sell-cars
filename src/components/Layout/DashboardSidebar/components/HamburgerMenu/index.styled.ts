@@ -9,7 +9,7 @@ export const Button = styled('button', {
     padding: '0.5rem',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 35,
+    zIndex: 65,
     _focus: {
       borderColor: 'primary',
     },
@@ -98,7 +98,7 @@ export const Bar = styled('span', {
 // Navigation styles
 export const NavList = styled('ul', {
   base: {
-    marginTop: 'lg',
+    marginTop: 'md',
     display: { base: 'flex', xl: 'none' },
     flexDirection: 'column',
     alignItems: 'flex-start',
@@ -121,7 +121,7 @@ export const NavDrawer = styled('div', {
     pt: 'xl',
     pb: 'lg',
     overflowY: 'auto',
-    zIndex: 25,
+    zIndex: 40,
   },
   variants: {
     isOpen: {
@@ -142,6 +142,6 @@ export const Overlay = styled('div', {
     backgroundColor: 'black',
     opacity: 0.7,
     display: { base: 'block' },
-    zIndex: 15,
+    zIndex: 25,
   },
 });
