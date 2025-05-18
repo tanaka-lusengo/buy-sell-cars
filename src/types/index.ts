@@ -6,6 +6,7 @@ import {
   signInValidationSchema,
   updateProfileValidationSchema,
   addVehicleValidationSchema,
+  subscribeValidationSchema,
 } from '../schemas';
 
 const {
@@ -34,6 +35,9 @@ export type VehicleCategoryType = typeof vehicle_category_type;
 export type ListingCategoryType = typeof listing_category_type;
 
 // Validation Schema Types
+
+export type SubscribeFormType = ZodInfer<typeof subscribeValidationSchema>;
+
 export type SignUpFormType = ZodInfer<typeof signUpValidationSchema>;
 
 export type SignInFormType = ZodInfer<typeof signInValidationSchema>;
@@ -58,3 +62,14 @@ export type AddVehicleDataType = Omit<
 >;
 
 export type AddVehicleImageDataType = Omit<VehicleImage, 'id' | 'created_at'>;
+
+export type VehicleWithImage = Vehicle & {
+  images: VehicleImage[];
+};
+
+// Storage Bucket Types
+export type StorageBucket =
+  | 'profile-logos'
+  | 'vehicle-images'
+  | 'spec-sheets'
+  | 'government-ids';

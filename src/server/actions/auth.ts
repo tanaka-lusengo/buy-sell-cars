@@ -5,10 +5,50 @@ import { Tables } from '@/database.types';
 import {
   signUpValidationSchema,
   signInValidationSchema,
+  subscribeValidationSchema,
 } from '@/src/schemas/authValidationSchemas';
-import { SignUpFormType, SignInFormType } from '@/src/types';
+import { SignUpFormType, SignInFormType, SubscribeFormType } from '@/src/types';
 import { handleServerError, StatusCode } from '@/src/utils';
 import { createClient } from '@/supabase/server';
+
+export const subscribe = async (formData: SubscribeFormType) => {
+  try {
+    // Init supabase client
+    const supabase = await createClient();
+
+    // Validate form data
+    const parsedData = subscribeValidationSchema.parse(formData);
+
+    const { email } = parsedData;
+
+    // Check if the email is already subscribed
+    const { data: existingEmail } = await supabase
+      .from('subscribers')
+      .select('email')
+      .eq('email', email)
+      .single();
+
+    // If the email is already subscribed, return an error
+    if (existingEmail) {
+      return {
+        status: StatusCode.BAD_REQUEST,
+        error: 'Already subscribed',
+      };
+    }
+
+    const { error } = await supabase.from('subscribers').insert({ email });
+
+    if (error) {
+      return { status: StatusCode.BAD_REQUEST, error };
+    }
+
+    revalidatePath('/', 'layout');
+
+    return { status: StatusCode.SUCCESS, error: null };
+  } catch (error) {
+    return handleServerError(error, 'subscribing to newsletter (server)');
+  }
+};
 
 export const signUp = async (formData: SignUpFormType) => {
   try {

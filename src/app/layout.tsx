@@ -2,7 +2,7 @@ import './globals.css';
 import { ReactNode } from 'react';
 import { metadata } from './metadata';
 import { PreloadResources } from './preload-resources';
-import { Navbar } from '../components/Layout';
+import { Navbar, Footer } from '../components/Layout';
 import { AuthProvider } from '@/src/context/auth-context';
 import Toaster from '@/src/utils/reactHotToast/Toaster';
 import { createClient } from '@/supabase/server';
@@ -41,6 +41,7 @@ export default async function RootLayout({
         <AuthProvider initialUser={user} initialProfile={profile}>
           <Navbar />
           <main id="main-content">{children}</main>
+          <Footer />
         </AuthProvider>
 
         <Toaster />

@@ -1,6 +1,7 @@
 export {
   signInValidationSchema,
   signUpValidationSchema,
+  subscribeValidationSchema,
 } from './authValidationSchemas';
 
 export {

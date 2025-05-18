@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect } from 'react';
-
-import { ResponsiveContainer, Typography, Button } from '../ui';
-import { Stack } from '@/styled-system/jsx';
+import { useRouter } from 'next/navigation';
+import { ResponsiveContainer, Typography, Button, ButtonAsLink } from '../ui';
+import { Box, Stack } from '@/styled-system/jsx';
 
 export interface ErrorBoundaryProps {
   error: Error & { digest?: string };
@@ -20,6 +20,17 @@ export const ErrorBoundary = ({
     console.error('Error in ErrorBoundary:', error);
   }, [error]);
 
+  const router = useRouter();
+  const handleGoBack = () => {
+    reset();
+    router.back();
+  };
+
+  const handleReset = () => {
+    reset();
+    router.refresh();
+  };
+
   return (
     <ResponsiveContainer padding="lg" maxWidth="sm">
       <Stack gap="lg">
@@ -30,7 +41,12 @@ export const ErrorBoundary = ({
           &quot;{error.message}&quot;
         </Typography>
 
-        <Button onClick={() => reset()}>Try again!</Button>
+        <Button onClick={handleReset}>Try again!</Button>
+        <Box display="flex" justifyContent="center">
+          <ButtonAsLink textDecoration="underline" onClick={handleGoBack}>
+            Go back
+          </ButtonAsLink>
+        </Box>
       </Stack>
     </ResponsiveContainer>
   );

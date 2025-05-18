@@ -1,5 +1,17 @@
 import * as z from 'zod';
 import { CategoryType } from '../types';
+import { isValidZimbabwePhoneNumber } from '../utils';
+
+export const subscribeValidationSchema = z.object({
+  email: z.string().email({ message: 'Invalid email address' }),
+});
+
+export const signInValidationSchema = z.object({
+  email: z.string().email({ message: 'Invalid email address' }),
+  password: z.string().min(8, {
+    message: 'Password must be at least 8 characters',
+  }),
+});
 
 export const signUpValidationSchema = z
   .object({
@@ -9,17 +21,17 @@ export const signUpValidationSchema = z
     lastName: z.string().min(2, {
       message: 'Last name must be at least 2 characters',
     }),
-    phone: z
-      .string()
-      .min(5, { message: 'Enter a valid phone number' })
-      .regex(/^\+263\d{0,}$/, { message: 'Phone number must start with +263' }),
+    email: z.string().email({ message: 'Invalid email address' }),
+    phone: z.string().refine((val) => isValidZimbabwePhoneNumber(val), {
+      message: 'Enter a valid (+263) phone number',
+    }),
     categoryType: z
       .enum(['individual', 'dealership'] satisfies CategoryType, {
         errorMap: () => ({ message: 'Category is required' }),
       })
       .optional(),
     dealershipName: z.string().nullable(),
-    email: z.string().email({ message: 'Invalid email address' }),
+    location: z.string().nullable(),
     password: z.string().min(8, {
       message: 'Password must be at least 8 characters',
     }),
@@ -31,10 +43,3 @@ export const signUpValidationSchema = z
     message: 'Passwords do not match',
     path: ['confirmPassword'],
   });
-
-export const signInValidationSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address' }),
-  password: z.string().min(8, {
-    message: 'Password must be at least 8 characters',
-  }),
-});
