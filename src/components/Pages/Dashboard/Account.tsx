@@ -20,7 +20,7 @@ import {
   updateProfileValidationSchema,
 } from '@/src/schemas';
 import { RenderUploadedFile } from './components/RenderUploadedFile';
-import { useFileUploadHelpers } from './hooks/useFileUploadHelpers';
+import { useFileUploadHelpers } from '@/src/hooks';
 import { getLabelText } from './utils/getLabelText';
 
 export const Account = ({ profile }: { profile: Profile | null }) => {
@@ -108,15 +108,15 @@ export const Account = ({ profile }: { profile: Profile | null }) => {
   const imgLabel = getLabelText(
     imageFile,
     isSubmitting,
-    `Upload ${isDealership ? 'business' : 'profile'} logo`,
-    `Change ${isDealership ? 'business' : 'profile'} logo`
+    `${isDealership ? 'Business' : 'Profile'} logo`,
+    `${isDealership ? 'Business' : 'Profile'} logo`
   );
 
   const idLabel = getLabelText(
     idFile,
     isSubmitting,
-    'Upload government ID or document (Optional)',
-    'Change government ID or document (Optional)'
+    'Government ID',
+    'Government ID'
   );
 
   return (

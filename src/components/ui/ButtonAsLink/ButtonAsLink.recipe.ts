@@ -23,6 +23,17 @@ export const buttonAsLinkRecipe = cva({
         },
       },
     },
+    textDecoration: {
+      underline: {
+        borderBottom: '2px solid',
+        borderColor: 'primary',
+        _hover: {
+          transition: 'all 0.2s ease-in-out',
+          color: 'primaryDark',
+          borderColor: 'transparent',
+        },
+      },
+    },
   },
   defaultVariants: {
     fontWeight: 'medium',

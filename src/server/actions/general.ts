@@ -5,6 +5,7 @@ import {
   AddVehicleFormType,
   AddVehicleDataType,
   AddVehicleImageDataType,
+  ListingCategoryType,
 } from '@/src/types';
 import { handleServerError, StatusCode } from '@/src/utils';
 import { addVehicleValidationSchema } from '@/src/schemas';
@@ -61,7 +62,7 @@ export const addVehicle = async ({ profile, formData }: AddVehicleProps) => {
   }
 };
 
-export type AddVehicleImagePathsProps = {
+type AddVehicleImagePathsProps = {
   vehicleId: string;
   imagePaths: string[];
 };
@@ -141,5 +142,140 @@ export const updateVehicleWithSpecSheet = async ({
       error,
       'updating vehicle with spec sheet (server)'
     );
+  }
+};
+
+export const getVehicleByOwnerId = async (ownerId: string) => {
+  // Init supabase client
+  const supabase = await createClient();
+
+  try {
+    // fetch vehicle by owner id
+    const { data, error } = await supabase
+      .from('vehicles')
+      .select('*')
+      .eq('owner_id', ownerId);
+
+    if (error) {
+      return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+
+    // fetch vehicle images by vehicle id
+    const vehiclesWithImages = await Promise.all(
+      data.map(async (vehicle) => {
+        const { data: images, error: imagesError } = await supabase
+          .from('vehicle_images')
+          .select('*')
+          .eq('vehicle_id', vehicle.id);
+
+        if (imagesError) {
+          throw imagesError;
+        }
+        return { ...vehicle, images };
+      })
+    );
+
+    return {
+      data: vehiclesWithImages,
+      status: StatusCode.SUCCESS,
+      error: null,
+    };
+  } catch (error) {
+    return handleServerError(error, 'getting vehicles (server)');
+  }
+};
+
+export const getVehicleById = async (vehicleId: string) => {
+  // Init supabase client
+  const supabase = await createClient();
+
+  try {
+    // fetch vehicle by id
+    const { data, error } = await supabase
+      .from('vehicles')
+      .select('*')
+      .eq('id', vehicleId)
+      .single();
+
+    if (error) {
+      return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+
+    // fetch vehicle images by vehicle id
+    const { data: images, error: imagesError } = await supabase
+      .from('vehicle_images')
+      .select('*')
+      .eq('vehicle_id', vehicleId);
+
+    if (imagesError) {
+      throw imagesError;
+    }
+
+    return {
+      data: { ...data, images },
+      status: StatusCode.SUCCESS,
+      error: null,
+    };
+  } catch (error) {
+    return handleServerError(error, 'getting vehicle (server)');
+  }
+};
+
+export const getAllCarsByCategory = async (
+  category: ListingCategoryType[number]
+) => {
+  // Init supabase client
+  const supabase = await createClient();
+  try {
+    // fetch all cars
+    const { data, error } = await supabase
+      .from('vehicles')
+      .select('*')
+      .eq('listing_category', category);
+
+    if (error) {
+      return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+
+    // fetch vehicle images by vehicle id
+    const vehicleWithImages = await Promise.all(
+      data.map(async (vehicle) => {
+        const { data: images, error: imagesError } = await supabase
+          .from('vehicle_images')
+          .select('*')
+          .eq('vehicle_id', vehicle.id);
+
+        if (imagesError) {
+          throw imagesError;
+        }
+
+        return { ...vehicle, images };
+      })
+    );
+
+    return { data: vehicleWithImages, status: StatusCode.SUCCESS, error: null };
+  } catch (error) {
+    return handleServerError(error, 'getting cars (server)');
+  }
+};
+
+export const getAllDealers = async () => {
+  // Init supabase client
+  const supabase = await createClient();
+
+  try {
+    // fetch all dealers
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('user_category', 'dealership');
+
+    if (error) {
+      return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+
+    return { data, status: StatusCode.SUCCESS, error: null };
+  } catch (error) {
+    return handleServerError(error, 'getting dealers (server)');
   }
 };

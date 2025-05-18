@@ -14,10 +14,5 @@ export const Form = styled('form', {
     borderRadius: '1.2rem',
     backgroundColor: 'white',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    transition: 'box-shadow 0.3s ease-in-out',
-
-    '&:hover': {
-      boxShadow: '0 6px 12px rgba(0, 0, 0, 0.2)',
-    },
   },
 });

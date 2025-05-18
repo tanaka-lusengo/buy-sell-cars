@@ -1,7 +1,7 @@
 import * as z from 'zod';
 
 export const filterValidationSchema = z.object({
-  location: z.string().min(3, { message: 'Enter a valid location' }),
+  location: z.string().optional(),
   make: z.string().optional(),
   model: z.string().optional(),
   year: z.string().optional(),

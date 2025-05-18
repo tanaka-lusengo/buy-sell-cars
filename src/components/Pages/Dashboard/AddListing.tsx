@@ -39,7 +39,7 @@ import {
   updateVehicleWithSpecSheet,
   addVehicleImagePaths,
 } from '@/src/server/actions/general';
-import { useFileUploadHelpers } from './hooks/useFileUploadHelpers';
+import { useFileUploadHelpers } from '@/src/hooks';
 import { createClient } from '@/supabase/client';
 import Image from 'next/image';
 

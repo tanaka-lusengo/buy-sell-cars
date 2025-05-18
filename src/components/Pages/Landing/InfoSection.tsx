@@ -1,11 +1,12 @@
-/* eslint-disable quotes */
+'use client';
+
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Button, ResponsiveContainer, Typography } from '@/src/components/ui';
 import { Grid, HStack, VStack, Divider, Container } from '@/styled-system/jsx';
+import { useAuth } from '@/src/context/auth-context';
 
 const factListLeft = [
-  "Zimbabwe's Premier Auto Marketplace",
-  'AI-Powered Buyer Matching',
   'Instant Exposure to Quality Buyers',
   'Simple 3-Step Listing Process',
   '24/7 Digital Showcase',
@@ -13,29 +14,25 @@ const factListLeft = [
 
 const factListRight = [
   'First-To-Market Premium Platform',
-  'AI-Enhanced Lead Generation',
   'Unlimited Premium Listings',
-  'Advanced Analytics Dashboard',
   'Priority Support & Consultation',
 ];
 
 export const InfoSection = () => {
-  return (
-    <Container backgroundColor="greyLight" paddingY="lg">
-      <ResponsiveContainer>
-        <Container marginY="lg">
-          <Typography
-            as="h2"
-            variant="h3"
-            weight="bold"
-            font="heading"
-            color="primary"
-            align="center"
-          >
-            Sell your car on BuySellCar and get the best price
-          </Typography>
-        </Container>
+  const { user } = useAuth();
+  const { push } = useRouter();
 
+  const handleOnClick = () => {
+    if (user) {
+      push('/dashboard/add-listing');
+    } else {
+      push('/sign-up');
+    }
+  };
+
+  return (
+    <Container backgroundColor="greyLight" paddingY="sm">
+      <ResponsiveContainer>
         <Grid
           gridTemplateColumns={{ base: '1fr', md: '1fr 1fr 1fr' }}
           gap="lg"
@@ -48,7 +45,7 @@ export const InfoSection = () => {
           <Container width={{ base: '100%', md: '295px', lg: '400px' }}>
             <VStack alignItems="center" gap="md">
               <Typography variant="h2" align="center">
-                Sell your car smarter
+                Sell your car
               </Typography>
 
               {factListLeft.map((fact, index) => (
@@ -65,7 +62,7 @@ export const InfoSection = () => {
                   </div>
                 </HStack>
               ))}
-              <Button>Post your ad</Button>
+              <Button onClick={handleOnClick}>Post your ad</Button>
             </VStack>
           </Container>
 
@@ -97,7 +94,7 @@ export const InfoSection = () => {
                   </div>
                 </HStack>
               ))}
-              <Button>Sell your vehicle</Button>
+              <Button onClick={handleOnClick}>Sell your vehicle</Button>
             </VStack>
           </Container>
         </Grid>

@@ -6,6 +6,7 @@ import {
   VehicleCategoryType,
   ListingCategoryType,
 } from '../types';
+import { isValidZimbabwePhoneNumber } from '../utils';
 
 export const updateProfileValidationSchema = z.object({
   firstName: z.string().min(2, {
@@ -15,7 +16,9 @@ export const updateProfileValidationSchema = z.object({
   lastName: z.string().min(2, {
     message: 'Last name must be at least 2 characters',
   }),
-  phone: z.string().min(5, { message: 'Enter a valid phone number' }),
+  phone: z.string().refine((val) => isValidZimbabwePhoneNumber(val), {
+    message: 'Enter a valid (+263) phone number',
+  }),
   email: z.string().email({ message: 'Invalid email address' }),
   dealershipName: z.string().nullable(),
   location: z.string().nullable(),

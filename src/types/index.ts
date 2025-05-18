@@ -58,7 +58,7 @@ export type VehicleImage = Tables<'vehicle_images'>;
 // Server Actions Types
 export type AddVehicleDataType = Omit<
   Vehicle,
-  'id' | 'created_at' | 'updated_at'
+  'id' | 'created_at' | 'updated_at' | 'is_feature'
 >;
 
 export type AddVehicleImageDataType = Omit<VehicleImage, 'id' | 'created_at'>;
