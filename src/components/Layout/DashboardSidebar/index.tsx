@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { type LucideProps } from 'lucide-react';
 import { Flex, Box, Divider } from '@/styled-system/jsx';
+import { SignOut } from '@/src/components/Pages';
 import { ResponsiveContainer, Typography } from '@/src/components/ui';
 import { ForwardRefExoticComponent, RefAttributes } from 'react';
 import { HamburgerMenu } from './components/HamburgerMenu';
@@ -70,6 +71,10 @@ export const DashboardSidebar = ({
                     </Flex>
                   </Link>
                 ))}
+
+                <Divider width="15rem" marginY="sm" color="grey" />
+
+                <SignOut />
               </Flex>
             </Box>
 

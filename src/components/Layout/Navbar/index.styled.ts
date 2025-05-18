@@ -19,7 +19,16 @@ export const Nav = styled('nav', {
 
 export const NavList = styled('ul', {
   base: {
-    display: { base: 'none', xl: 'flex' },
+    display: { base: 'none', lg: 'flex' },
     gap: '2rem',
+  },
+});
+
+export const SubNavList = styled('ul', {
+  base: {
+    display: { base: 'none', lg: 'flex' },
+    gap: 'md',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

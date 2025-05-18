@@ -3,29 +3,45 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Stack } from '@/styled-system/jsx';
-import { Button, Typography, ResponsiveContainer } from '@/src/components/ui';
-import { Header, Nav, NavList } from './index.styled';
+import { Divider, Flex, Stack } from '@/styled-system/jsx';
+import { Typography, ResponsiveContainer } from '@/src/components/ui';
+import { Header, Nav, NavList, SubNavList } from './index.styled';
 import { HamburgerMenu } from './components/HamburgerMenu';
 import { useAuth } from '@/src/context/auth-context';
+import { navLinksMap } from './constants';
+import { stripTrailingSlash } from './utils/helpers';
 
-const navLinks = [
-  { name: 'Used cars', path: '#' },
-  { name: 'New cars', path: '#' },
-  { name: 'Car rentals', path: '#' },
-  { name: 'Bikes', path: '#' },
-  { name: 'Trucks', path: '#' },
-  { name: 'Agriculture', path: '#' },
-  { name: 'Earth moving', path: '#' },
-  { name: 'Dealers', path: '#' },
-];
+type BasePath = keyof typeof navLinksMap;
 
 export const Navbar = () => {
   const { user } = useAuth();
   const pathname = usePathname();
 
-  const isSignUpPage = pathname === '/sign-up/';
-  const isSignInPage = pathname === '/sign-in/';
+  const basePaths = Object.keys(navLinksMap).sort(
+    (a, b) => b.length - a.length
+  );
+
+  const matchingBasePath = basePaths.find((basePath) =>
+    stripTrailingSlash(pathname).startsWith(stripTrailingSlash(basePath))
+  );
+
+  const navLinks = matchingBasePath
+    ? navLinksMap[matchingBasePath as BasePath]
+    : navLinksMap['/'];
+
+  const subNavLinks = [
+    { label: 'Cars', href: '/cars/sales/' },
+    { label: 'Trucks', href: '/trucks/sales/' },
+    { label: 'Bikes', href: '/bikes/sales/' },
+    { label: 'Agriculture', href: '/agriculture/sales/' },
+    { label: 'Earth moving', href: '/earth-moving/sales/' },
+  ];
+
+  const isMatchingPath = (path: string, label: string) =>
+    path === matchingBasePath || (label === 'Cars' && pathname === '/');
+
+  const isSignUpPage = pathname.includes('/sign-up');
+  const isSignInPage = pathname.includes('/sign-in');
 
   if (isSignUpPage || isSignInPage) {
     return null;
@@ -35,53 +51,83 @@ export const Navbar = () => {
     <Header>
       <ResponsiveContainer>
         <Nav>
-          <Link href="/">
-            <Image
-              src="/logo/buy-sell-cars-logo.png"
-              width={75}
-              height={90}
-              style={{ height: 'auto', padding: '0.1rem 0' }}
-              alt="Buy Sell Cars logo"
-            />
-          </Link>
+          <Flex
+            direction={{ base: 'column', md: 'row' }}
+            alignItems="center"
+            gap="lg"
+          >
+            <Link href="/">
+              <Image
+                src="/logo/buy-sell-cars-logo.png"
+                width={65}
+                height={65}
+                priority
+                sizes="100vw"
+                style={{ height: 'auto', padding: '0.1rem 0' }}
+                alt="Buy Sell Cars logo"
+              />
+            </Link>
 
-          {/* Desktop Navigation */}
-          <NavList>
-            {navLinks.map((link) => (
-              <Typography
-                key={link.name}
-                as="li"
-                variant="h4"
-                color="primary"
-                hoverEffect="color"
-                weight="bold"
-              >
-                <Link href={link.path}>{link.name}</Link>
-              </Typography>
-            ))}
-          </NavList>
+            {/* Desktop Navigation */}
+            <NavList>
+              {navLinks.map((item) => (
+                <Typography
+                  key={item.label}
+                  as="li"
+                  color="primary"
+                  hoverEffect="color"
+                  weight="bold"
+                >
+                  <Link href={item.href}>{item.label}</Link>
+                </Typography>
+              ))}
+            </NavList>
+          </Flex>
 
           <Stack
-            display={{ base: 'none', xxl: 'flex' }}
+            display={{ base: 'none', lg: 'flex' }}
             flexDirection="row"
             gap="md"
           >
-            <Button fontWeight="bold">
+            <Typography hoverEffect="color" weight="bold">
               <Link href={user ? '/dashboard/add-listing' : '/sign-up'}>
-                Sell Your Vehicle
+                Sell your vehicle
               </Link>
-            </Button>
+            </Typography>
 
-            <Button fontWeight="bold" variant="ghost">
+            <Typography hoverEffect="color" weight="bold">
               <Link href={`${user ? '/dashboard' : '/sign-in'}`}>
                 {user ? 'Account' : 'Login'}
               </Link>
-            </Button>
+            </Typography>
           </Stack>
 
           {/* Hamburger Menu Button */}
-          <HamburgerMenu navLinks={navLinks} />
+          <HamburgerMenu navLinks={navLinks} subNavLinks={subNavLinks} />
         </Nav>
+
+        <Divider
+          marginY="sm"
+          color="grey"
+          display={{ base: 'none', lg: 'block' }}
+        />
+
+        <SubNavList>
+          {subNavLinks.map((item) => (
+            <Typography
+              key={item.label}
+              as="li"
+              variant="body2"
+              weight={isMatchingPath(item.href, item.label) ? 'bold' : 'normal'}
+              color={
+                isMatchingPath(item.href, item.label) ? 'primaryDark' : 'text'
+              }
+              hoverEffect="color"
+            >
+              <Link href={item.href}>{item.label}</Link>
+            </Typography>
+          ))}
+        </SubNavList>
       </ResponsiveContainer>
     </Header>
   );

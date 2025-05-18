@@ -1,6 +1,7 @@
+import { type Metadata } from 'next';
 import { AuthLayout, SignInForm } from '@/src/components/Pages';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Sign In',
   description: 'Sign in to your account',
 };
