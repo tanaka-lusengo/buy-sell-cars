@@ -11,6 +11,7 @@ export type Database = {
     Tables: {
       profiles: {
         Row: {
+          address: string | null;
           admin: boolean | null;
           created_at: string | null;
           dealership_name: string | null;
@@ -19,6 +20,7 @@ export type Database = {
           first_name: string;
           government_id_path: string | null;
           id: string;
+          is_feature: boolean | null;
           is_verified: boolean | null;
           last_name: string;
           location: string | null;
@@ -31,6 +33,7 @@ export type Database = {
             | null;
         };
         Insert: {
+          address?: string | null;
           admin?: boolean | null;
           created_at?: string | null;
           dealership_name?: string | null;
@@ -39,6 +42,7 @@ export type Database = {
           first_name: string;
           government_id_path?: string | null;
           id: string;
+          is_feature?: boolean | null;
           is_verified?: boolean | null;
           last_name: string;
           location?: string | null;
@@ -53,6 +57,7 @@ export type Database = {
             | null;
         };
         Update: {
+          address?: string | null;
           admin?: boolean | null;
           created_at?: string | null;
           dealership_name?: string | null;
@@ -61,6 +66,7 @@ export type Database = {
           first_name?: string;
           government_id_path?: string | null;
           id?: string;
+          is_feature?: boolean | null;
           is_verified?: boolean | null;
           last_name?: string;
           location?: string | null;
@@ -73,6 +79,33 @@ export type Database = {
           user_category?:
             | Database['public']['Enums']['user_category_type']
             | null;
+        };
+        Relationships: [];
+      };
+      subscribers: {
+        Row: {
+          confirmed: boolean | null;
+          email: string;
+          id: string;
+          source: Database['public']['Enums']['subscriber_source_type'] | null;
+          subscribed_at: string | null;
+          unsubscribed_at: string | null;
+        };
+        Insert: {
+          confirmed?: boolean | null;
+          email: string;
+          id?: string;
+          source?: Database['public']['Enums']['subscriber_source_type'] | null;
+          subscribed_at?: string | null;
+          unsubscribed_at?: string | null;
+        };
+        Update: {
+          confirmed?: boolean | null;
+          email?: string;
+          id?: string;
+          source?: Database['public']['Enums']['subscriber_source_type'] | null;
+          subscribed_at?: string | null;
+          unsubscribed_at?: string | null;
         };
         Relationships: [];
       };
@@ -114,6 +147,7 @@ export type Database = {
           fuel: Database['public']['Enums']['fuel_type'];
           gear_box: Database['public']['Enums']['gear_box_type'];
           id: string;
+          is_feature: boolean | null;
           listing_category:
             | Database['public']['Enums']['listing_category_type']
             | null;
@@ -139,6 +173,7 @@ export type Database = {
           fuel: Database['public']['Enums']['fuel_type'];
           gear_box: Database['public']['Enums']['gear_box_type'];
           id?: string;
+          is_feature?: boolean | null;
           listing_category?:
             | Database['public']['Enums']['listing_category_type']
             | null;
@@ -164,6 +199,7 @@ export type Database = {
           fuel?: Database['public']['Enums']['fuel_type'];
           gear_box?: Database['public']['Enums']['gear_box_type'];
           id?: string;
+          is_feature?: boolean | null;
           listing_category?:
             | Database['public']['Enums']['listing_category_type']
             | null;
@@ -203,6 +239,7 @@ export type Database = {
       fuel_type: 'petrol' | 'diesel' | 'electric' | 'hybrid';
       gear_box_type: 'manual' | 'automatic';
       listing_category_type: 'rental' | 'for_sale';
+      subscriber_source_type: 'web_page' | 'email';
       subscription_type:
         | 'starter_showcase'
         | 'growth_accelerator'
@@ -336,6 +373,7 @@ export const Constants = {
       fuel_type: ['petrol', 'diesel', 'electric', 'hybrid'],
       gear_box_type: ['manual', 'automatic'],
       listing_category_type: ['rental', 'for_sale'],
+      subscriber_source_type: ['web_page', 'email'],
       subscription_type: [
         'starter_showcase',
         'growth_accelerator',

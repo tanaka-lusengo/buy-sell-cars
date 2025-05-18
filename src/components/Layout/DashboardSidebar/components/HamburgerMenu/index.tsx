@@ -2,7 +2,13 @@
 
 import Link from 'next/link';
 import { type LucideProps } from 'lucide-react';
-import { useState, ForwardRefExoticComponent, RefAttributes } from 'react';
+import {
+  useState,
+  useEffect,
+  type RefAttributes,
+  type ForwardRefExoticComponent,
+} from 'react';
+import { SignOut } from '@/src/components/Pages';
 import { Divider, Flex, VStack } from '@/styled-system/jsx';
 import { Typography } from '@/src/components/ui';
 import { NavDrawer, NavList, Overlay } from './index.styled';
@@ -21,8 +27,21 @@ export const HamburgerMenu = ({
   }[];
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const pathname = usePathname();
+
+  // Lock scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    // Clean up on unmount
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   return (
     <>
@@ -66,6 +85,10 @@ export const HamburgerMenu = ({
                 </Flex>
               </Link>
             ))}
+
+            <Divider width="15rem" marginY="sm" color="grey" />
+
+            <SignOut />
           </NavList>
         </VStack>
       </NavDrawer>

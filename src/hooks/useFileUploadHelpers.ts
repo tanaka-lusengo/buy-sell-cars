@@ -1,6 +1,7 @@
 import imageCompression from 'browser-image-compression';
 import { handleClientError } from '@/src/utils';
 import { createClient } from '@/supabase/client';
+import { StorageBucket } from '../types';
 
 type UploadFileParams = {
   id: string;
@@ -13,7 +14,7 @@ type UploadFileParams = {
 export const useFileUploadHelpers = (
   supabase: ReturnType<typeof createClient>
 ) => {
-  const getPublicUrl = (bucket: string, path: string) => {
+  const getPublicUrl = (bucket: StorageBucket, path: string) => {
     const { data } = supabase.storage.from(bucket).getPublicUrl(path);
     return data?.publicUrl;
   };

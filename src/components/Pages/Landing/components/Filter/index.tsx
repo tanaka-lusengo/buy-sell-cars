@@ -6,20 +6,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { type infer as ZodInfer } from 'zod';
 import { Container, Grid } from '@/styled-system/jsx';
 import { InputField, SelectField } from '@/src/components/FormComponents';
-import { Button, ButtonAsLink } from '@/src/components/ui';
-import { Form } from './FilterSection.styled';
-import { generatePrices, generateYears } from '@/src/utils';
-import { CAR_CONDITIONS, FUEL_TYPES } from '@/src/constants/values';
-import { filterValidationSchema } from '../../schema/filterValidationSchema';
+import { Button, ButtonAsLink, Typography } from '@/src/components/ui';
+import { Form } from './index.styled';
+import { generatePrices, generateYears, toSnakeCase } from '@/src/utils';
+import { CAR_CONDITIONS, FUEL_TYPES, LOCATIONS } from '@/src/constants/values';
+import { filterValidationSchema } from '../../schema';
 
 type FilterForm = ZodInfer<typeof filterValidationSchema>;
 
-export const FilterSection = () => {
+export const Filter = () => {
   const {
     handleSubmit,
     register,
     reset,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<FilterForm>({
     resolver: zodResolver(filterValidationSchema),
     mode: 'all',
@@ -38,13 +38,21 @@ export const FilterSection = () => {
         async (formValues: FilterForm) => await handleAction(formValues)
       )}
     >
+      <Typography variant="h4" align="center">
+        Find your car
+      </Typography>
+
       <Grid gridTemplateColumns="1fr 1fr" gap="sm">
-        <InputField
-          name="location"
-          placeholder="Location"
-          register={register}
-          errors={errors}
-        />
+        <SelectField name="location" register={register} errors={errors}>
+          <option key="location" value={''}>
+            Location
+          </option>
+          {LOCATIONS.map((location) => (
+            <option key={location} value={location}>
+              {location}
+            </option>
+          ))}
+        </SelectField>
 
         <InputField
           name="make"
@@ -62,11 +70,7 @@ export const FilterSection = () => {
           errors={errors}
         />
 
-        <SelectField<FilterForm>
-          name="year"
-          register={register}
-          errors={errors}
-        >
+        <SelectField name="year" register={register} errors={errors}>
           <option key="year" value={''}>
             Years
           </option>
@@ -79,31 +83,23 @@ export const FilterSection = () => {
       </Grid>
 
       <Grid gridTemplateColumns="1fr 1fr" gap="sm">
-        <SelectField<FilterForm>
-          name="condition"
-          register={register}
-          errors={errors}
-        >
+        <SelectField name="condition" register={register} errors={errors}>
           <option key="condition" value={''}>
             Condition
           </option>
           {CAR_CONDITIONS.map((condition) => (
-            <option key={condition} value={condition}>
+            <option key={condition} value={toSnakeCase(condition)}>
               {condition}
             </option>
           ))}
         </SelectField>
 
-        <SelectField<FilterForm>
-          name="fuelType"
-          register={register}
-          errors={errors}
-        >
+        <SelectField name="fuelType" register={register} errors={errors}>
           <option key="fuel-type" value={''}>
             Fuel type
           </option>
           {FUEL_TYPES.map((type) => (
-            <option key={type} value={type}>
+            <option key={type} value={toSnakeCase(type)}>
               {type}
             </option>
           ))}
@@ -111,7 +107,7 @@ export const FilterSection = () => {
       </Grid>
 
       <Grid gridTemplateColumns="1fr 1fr" gap="sm">
-        <SelectField<FilterForm>
+        <SelectField
           name="minPrice"
           register={register}
           errors={errors}
@@ -127,11 +123,7 @@ export const FilterSection = () => {
           ))}
         </SelectField>
 
-        <SelectField<FilterForm>
-          name="maxPrice"
-          register={register}
-          errors={errors}
-        >
+        <SelectField name="maxPrice" register={register} errors={errors}>
           <option key="max-price" value={''}>
             Max price
           </option>
@@ -143,17 +135,14 @@ export const FilterSection = () => {
         </SelectField>
       </Grid>
 
-      <Button
-        type="submit"
-        variant="primary"
-        marginTop="sm"
-        disabled={!isValid}
-      >
+      <Button type="submit" variant="primary" marginTop="sm">
         Search
       </Button>
 
       <Container marginTop="sm">
-        <ButtonAsLink onClick={reset}>Reset fields</ButtonAsLink>
+        <ButtonAsLink textDecoration="underline" onClick={reset}>
+          Clear fields
+        </ButtonAsLink>
       </Container>
     </Form>
   );

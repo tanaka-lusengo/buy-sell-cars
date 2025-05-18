@@ -14,10 +14,11 @@ export const signInFormDefaultValues = {
 export const signUpFormDefaultValues = {
   firstName: '',
   lastName: '',
+  email: '',
   phone: '',
   categoryType: undefined,
   dealershipName: null,
-  email: '',
+  location: null,
   password: '',
   confirmPassword: '',
 } satisfies SignUpFormType;

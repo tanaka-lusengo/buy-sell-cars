@@ -24,6 +24,10 @@ const parseValidationErrorMessages = (error: unknown): string => {
     return (error as { message: string }).message;
   }
 
+  if (typeof error === 'string') {
+    return error;
+  }
+
   return 'Unknown error';
 };
 
@@ -42,6 +46,11 @@ export const handleClientError = (message: string, error: unknown) => {
 };
 
 export const handleServerError = (error: unknown, context: string) => {
+  const errorMessage = parseValidationErrorMessages(error);
   logErrorMessage(error, context);
-  return { data: null, status: StatusCode.INTERNAL_SERVER_ERROR, error };
+  return {
+    data: null,
+    status: StatusCode.INTERNAL_SERVER_ERROR,
+    error: errorMessage,
+  };
 };

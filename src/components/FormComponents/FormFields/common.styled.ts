@@ -25,6 +25,7 @@ export const Label = styled('label', {
 export const InputField = styled('input', {
   base: {
     cursor: 'text',
+    width: '100%',
     padding: 'sm',
     border: '2px solid',
     borderColor: 'grey',
@@ -49,13 +50,12 @@ export const FileInputField = styled('input', {
 export const SelectField = styled('select', {
   base: {
     cursor: 'pointer',
+    width: '100%',
     padding: 'sm',
     height: '4.7rem',
     border: '2px solid',
     borderColor: 'grey',
     borderRadius: '1.2rem',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
     whiteSpace: 'nowrap',
     _focusVisible: {
       outline: 'none',

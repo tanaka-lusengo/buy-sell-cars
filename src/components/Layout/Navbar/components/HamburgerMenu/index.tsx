@@ -1,20 +1,54 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
-import { VStack } from '@/styled-system/jsx';
+import { useEffect, useState } from 'react';
+import { Divider, VStack } from '@/styled-system/jsx';
 import { Typography } from '@/src/components/ui';
-import { NavDrawer, NavList, Overlay } from './index.styled';
+import { NavDrawer, NavList, SubNavList, Overlay } from './index.styled';
 import { Bar, BarWrapper, Button } from './index.styled';
 import { useAuth } from '@/src/context/auth-context';
+import { SignOut } from '@/src/components/Pages';
+import { usePathname } from 'next/navigation';
+import { navLinksMap } from '../../constants';
+import { stripTrailingSlash } from '../../utils/helpers';
+
+type HanburgerMenuProps = {
+  navLinks: { label: string; href: string }[];
+  subNavLinks: { label: string; href: string }[];
+};
 
 export const HamburgerMenu = ({
   navLinks,
-}: {
-  navLinks: { name: string; path: string }[];
-}) => {
+  subNavLinks,
+}: HanburgerMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
+  const pathname = usePathname();
+
+  const basePaths = Object.keys(navLinksMap).sort(
+    (a, b) => b.length - a.length
+  );
+
+  const matchingBasePath = basePaths.find((basePath) =>
+    stripTrailingSlash(pathname).startsWith(stripTrailingSlash(basePath))
+  );
+
+  const isMatchingPath = (path: string, label: string) =>
+    path === matchingBasePath || (label === 'Cars' && pathname === '/');
+
+  // Lock scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    // Clean up on unmount
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   return (
     <>
@@ -55,19 +89,47 @@ export const HamburgerMenu = ({
                 {user ? 'Account' : 'Login'}
               </Link>
             </Typography>
+            {user && (
+              <Typography variant="h4" weight="bold" hoverEffect="color">
+                <SignOut />
+              </Typography>
+            )}
           </VStack>
 
-          <NavList>
-            {navLinks.map((link) => (
+          <Divider width="100%" marginY="md" color="grey" />
+
+          <SubNavList>
+            {subNavLinks.map((item) => (
               <Typography
-                key={link.name}
+                key={item.label}
+                as="li"
+                variant="body2"
+                weight={
+                  isMatchingPath(item.href, item.label) ? 'bold' : 'normal'
+                }
+                color={
+                  isMatchingPath(item.href, item.label) ? 'primaryDark' : 'text'
+                }
+                hoverEffect="color"
+              >
+                <Link href={item.href} onClick={() => setIsOpen(false)}>
+                  {item.label}
+                </Link>
+              </Typography>
+            ))}
+          </SubNavList>
+
+          <NavList>
+            {navLinks.map((item) => (
+              <Typography
+                key={item.label}
                 as="li"
                 color="primary"
-                hoverEffect="size"
+                hoverEffect="color"
                 weight="bold"
               >
-                <Link href={link.path} onClick={() => setIsOpen(false)}>
-                  {link.name}
+                <Link href={item.href} onClick={() => setIsOpen(false)}>
+                  {item.label}
                 </Link>
               </Typography>
             ))}

@@ -4,6 +4,7 @@ export const ResponsiveContainerRecipe = cva({
   base: {
     marginX: 'auto',
     width: '100%',
+    height: '100%',
     px: 'md',
     maxWidth: { sm: 'pageSm', md: 'pageMd', lg: 'pageLg', xl: 'pageXl' },
     backgroundColor: 'transparent',

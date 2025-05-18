@@ -3,7 +3,7 @@ import { styled } from '@/styled-system/jsx';
 // Button styles
 export const Button = styled('button', {
   base: {
-    display: { lg: 'flex', xxl: 'none' },
+    display: { base: 'flex', lg: 'none' },
     color: 'primary',
     cursor: 'pointer',
     padding: '0.5rem',
@@ -98,11 +98,20 @@ export const Bar = styled('span', {
 // Navigation styles
 export const NavList = styled('ul', {
   base: {
-    marginTop: 'lg',
-    display: { base: 'flex', xl: 'none' },
+    display: { base: 'flex', lg: 'none' },
     flexDirection: 'column',
     alignItems: 'flex-start',
     gap: '2rem',
+  },
+});
+
+export const SubNavList = styled('ul', {
+  base: {
+    marginBottom: 'lg',
+    display: { base: 'flex', lg: 'none' },
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    gap: '1rem',
   },
 });
 

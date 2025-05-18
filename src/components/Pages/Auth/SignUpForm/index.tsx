@@ -12,8 +12,14 @@ import {
 } from '@/src/components/FormComponents';
 import { signUpValidationSchema, signUpFormDefaultValues } from '@/src/schemas';
 import { signUp } from '@/src/server/actions/auth';
-import { CategoryType, type SignUpFormType } from '@/src/types';
-import { handleClientError, StatusCode, toastNotifySuccess } from '@/src/utils';
+import { type SignUpFormType } from '@/src/types';
+import {
+  handleClientError,
+  StatusCode,
+  toastNotifySuccess,
+  toSnakeCase,
+} from '@/src/utils';
+import { USER_CATEGORYS, LOCATIONS } from '@/src/constants/values';
 import { Form } from './index.styled';
 import { useState } from 'react';
 
@@ -46,8 +52,6 @@ export const SignUpForm = () => {
     }
   };
 
-  const Category: CategoryType = ['individual', 'dealership'];
-
   const categoryType = watch('categoryType');
 
   return (
@@ -58,7 +62,7 @@ export const SignUpForm = () => {
     >
       <HStack marginBottom="md">
         <Typography variant="h1">
-          {!showSuccess ? 'Sign up' : 'Check your email'}
+          {!showSuccess ? 'Sign up' : 'Thank you for signing up!'}
         </Typography>
       </HStack>
 
@@ -94,7 +98,7 @@ export const SignUpForm = () => {
               label="Phone number"
               name="phone"
               type="tel"
-              placeholder="+263"
+              placeholder="+263..."
               register={register}
               errors={errors}
             />
@@ -116,9 +120,9 @@ export const SignUpForm = () => {
               <option key="user-type" value={''}>
                 Select category
               </option>
-              {Category.map((type) => (
-                <option key={type} value={type}>
-                  {type}
+              {USER_CATEGORYS.map((category) => (
+                <option key={category} value={toSnakeCase(category)}>
+                  {category}
                 </option>
               ))}
             </SelectField>
@@ -135,13 +139,21 @@ export const SignUpForm = () => {
 
           {categoryType === 'dealership' && (
             <>
-              <InputField
+              <SelectField
                 label="Location"
                 name="location"
-                placeholder="e.g. Harare"
                 register={register}
                 errors={errors}
-              />
+              >
+                <option key="user-type" value={''}>
+                  Select location
+                </option>
+                {LOCATIONS.map((location) => (
+                  <option key={location} value={location}>
+                    {location}
+                  </option>
+                ))}
+              </SelectField>
 
               <TextareaField
                 label="Description"
@@ -194,10 +206,6 @@ export const SignUpForm = () => {
           <Typography variant="h4" align="center">
             Check your email for a confirmation link.
           </Typography>
-
-          <Link href="/">
-            <Typography hoverEffect="color">Go Back</Typography>
-          </Link>
         </Stack>
       )}
     </Form>
