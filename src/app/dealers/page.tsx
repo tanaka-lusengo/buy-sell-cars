@@ -4,7 +4,7 @@ import { getAllDealers } from '@/src/server/actions/general';
 
 export const metadata: Metadata = {
   title: 'Dealers',
-  description: 'Descover our range of dealers',
+  description: 'Discover our range of dealers',
 };
 
 const DealersPage = async () => {
