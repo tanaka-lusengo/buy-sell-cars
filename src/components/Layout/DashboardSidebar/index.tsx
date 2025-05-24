@@ -1,26 +1,16 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Flex, Box, Divider } from "@/styled-system/jsx";
 import { SignOut } from "@/src/components/Pages";
 import { ResponsiveContainer, Typography } from "@/src/components/ui";
-import { JSX } from "react";
-import { HamburgerMenu } from "./components/HamburgerMenu";
-
-type DashboardSidebarProps = {
-  navLinks: {
-    href: string;
-    icon: JSX.Element;
-    label: string;
-  }[];
-  children: React.ReactNode;
-};
+import { HamburgerMenu, NavLinksDashboard } from "./components";
 
 export const DashboardSidebar = ({
-  navLinks,
   children,
-}: DashboardSidebarProps) => {
+}: {
+  children: React.ReactNode;
+}) => {
   const pathname = usePathname();
 
   const isListingPage = pathname === "/dashboard/listings/";
@@ -58,21 +48,8 @@ export const DashboardSidebar = ({
                 paddingBottom="lg"
                 gap="md"
               >
-                {navLinks.map((item) => (
-                  <Link key={item.href} href={item.href} passHref>
-                    <Flex justifyContent="flex-start" align="center" gap="md">
-                      <Box width="2rem">{item.icon}</Box>
-                      <Typography
-                        as="span"
-                        weight={pathname === item.href ? "bold" : "normal"}
-                        color={pathname === item.href ? "primaryDark" : "text"}
-                        hoverEffect="color"
-                      >
-                        {item.label}
-                      </Typography>
-                    </Flex>
-                  </Link>
-                ))}
+                {/* Render different navigation links based on verification status */}
+                <NavLinksDashboard pathname={pathname} />
 
                 <Divider width="15rem" marginY="sm" color="grey" />
 
@@ -92,7 +69,7 @@ export const DashboardSidebar = ({
               borderRadius="1.2rem"
             >
               <Typography weight="bold">Settings</Typography>
-              <HamburgerMenu navLinks={navLinks} />
+              <HamburgerMenu pathname={pathname} />
             </Box>
 
             <Divider display={{ base: "block", md: "none" }} />

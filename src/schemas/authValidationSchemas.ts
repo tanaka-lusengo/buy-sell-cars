@@ -43,3 +43,21 @@ export const signUpValidationSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const updatePasswordValidationSchema = z
+  .object({
+    currentPassword: z.string(),
+    newPassword: z.string().min(8, {
+      message: "New password must be at least 8 characters",
+    }),
+    confirmNewPassword: z.string().min(8, {
+      message: "Confirm password must be at least 8 characters",
+    }),
+  })
+  .refine(
+    ({ newPassword, confirmNewPassword }) => newPassword === confirmNewPassword,
+    {
+      message: "New passwords do not match",
+      path: ["confirmNewPassword"],
+    }
+  );

@@ -1,22 +1,31 @@
 import { redirect } from "next/navigation";
-import { createClient } from "@/supabase/server";
+import { type Metadata } from "next";
+import { fetchUserAndProfile } from "@/src/server/actions/auth";
 import { getAllVehiclesByOwnerId } from "@/src/server/actions/general";
 import { Listings } from "@/src/components/Pages";
+import { PendingVerification } from "@/src/components/Pages/Dashboard/components";
+
+export const metadata: Metadata = {
+  title: "Listings | Your Vehicles",
+  description: "View and manage your vehicle listings",
+};
 
 const ListingsPage = async () => {
-  const supabase = await createClient();
+  const { profile } = await fetchUserAndProfile();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
+  if (!profile) {
     redirect("/sign-in");
   }
 
-  const { data, error, status } = await getAllVehiclesByOwnerId(user.id);
+  const { data, error, status } = await getAllVehiclesByOwnerId(profile.id);
 
-  return <Listings vehicles={data || []} error={error} status={status} />;
+  const isVerified = Boolean(profile.is_verified);
+
+  return isVerified ? (
+    <Listings vehicles={data || []} error={error} status={status} />
+  ) : (
+    <PendingVerification />
+  );
 };
 
 export default ListingsPage;

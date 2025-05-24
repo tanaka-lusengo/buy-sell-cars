@@ -1,16 +1,19 @@
 import Image from "next/image";
 import { Flex } from "@/styled-system/jsx";
 import { Typography } from "@/src/components/ui";
+import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 
 type RenderUploadedFileProps = {
   filePath: string | null;
   fieleSrc: string;
+  profileName?: string;
   alt: string;
 };
 
 export const RenderUploadedFile = ({
   filePath,
   fieleSrc,
+  profileName,
   alt,
 }: RenderUploadedFileProps) =>
   filePath ? (
@@ -22,9 +25,11 @@ export const RenderUploadedFile = ({
       style={{
         width: "150px",
         height: "150px",
-        objectFit: "cover",
         borderRadius: "1.2rem",
         marginBottom: "1rem",
+        objectFit: DEALER_LOGOS_TO_CONTAIN.includes(profileName || "")
+          ? "contain"
+          : "cover",
       }}
     />
   ) : (

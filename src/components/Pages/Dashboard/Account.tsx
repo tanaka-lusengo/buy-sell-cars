@@ -148,6 +148,7 @@ export const Account = ({ profile }: { profile: Profile | null }) => {
               imagesPreview ||
               `${getPublicUrl("profile-logos", profileLogoPath as string)}`
             }
+            profileName={profile?.dealership_name || ""}
             alt="Profile Logo"
           />
 

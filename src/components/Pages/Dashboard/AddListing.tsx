@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { AddVehicleFormType } from "@/src/types";
+import { AddVehicleFormType, Profile } from "@/src/types";
 import { Button, Typography } from "@/src/components/ui";
 import {
   FileInputField,
@@ -35,7 +35,6 @@ import {
 import { SelectField } from "@/src/components/FormComponents";
 import { SuspenseLoader } from "../../shared";
 import { getLabelText } from "./utils/getLabelText";
-import { useAuth } from "@/src/context/auth-context";
 import {
   addVehicle,
   updateVehicleWithSpecSheet,
@@ -45,7 +44,7 @@ import { useFileUploadHelpers } from "@/src/hooks";
 import { createClient } from "@/supabase/client";
 import Image from "next/image";
 
-export const AddListing = () => {
+export const AddListing = ({ profile }: { profile: Profile }) => {
   const {
     register,
     handleSubmit,
@@ -58,7 +57,6 @@ export const AddListing = () => {
   });
 
   const supabase = createClient();
-  const { profile } = useAuth();
   const router = useRouter();
   const { compressAndUploadFile } = useFileUploadHelpers(supabase);
 

@@ -7,27 +7,20 @@ import { Box, Stack } from "@/styled-system/jsx";
 
 export interface ErrorBoundaryProps {
   error: Error & { digest?: string };
-  reset: () => void;
   message?: string;
 }
 
-export const ErrorBoundary = ({
-  error,
-  reset,
-  message,
-}: ErrorBoundaryProps) => {
+export const ErrorBoundary = ({ error, message }: ErrorBoundaryProps) => {
   useEffect(() => {
     console.error("Error in ErrorBoundary:", error);
   }, [error]);
 
   const router = useRouter();
   const handleGoBack = () => {
-    reset();
     router.back();
   };
 
   const handleReset = () => {
-    reset();
     router.refresh();
   };
 

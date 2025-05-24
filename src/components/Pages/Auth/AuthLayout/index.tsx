@@ -19,7 +19,6 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
       <Grid gridTemplateColumns={{ base: "1fr", lg: "1fr 1fr" }} height="100%">
         <VStack
           height="100vh"
-          maxHeight="100vh"
           overflowY="auto"
           paddingX="lg"
           justifyContent={{ base: "normal", md: "center" }}

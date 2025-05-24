@@ -49,7 +49,7 @@ export const Footer = () => {
   };
 
   const isHomePage = pathname === "/";
-  const isDashboardPage = pathname.includes("/dashboard");
+  const isDashboardPage = pathname.startsWith("/dashboard");
 
   const showGreyBackground =
     isHomePage || isDashboardPage ? "greyLight" : "white";
@@ -158,6 +158,29 @@ export const Footer = () => {
                 ></i>
                 <Typography variant="body2">
                   {SOCIAL_MEDIA_URLS.phone}
+                </Typography>
+              </HStack>
+            </Link>
+
+            <Link
+              href={`${SOCIAL_MEDIA_URLS.email}?subject=General%20Enquiry`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <HStack
+                _hover={{
+                  color: "primary",
+                  transition: "0.3s ease-in-out",
+                }}
+              >
+                <i
+                  className="fa-solid fa-envelope"
+                  aria-hidden="true"
+                  title="email"
+                  style={{ width: "2rem" }}
+                ></i>
+                <Typography variant="body2">
+                  {SOCIAL_MEDIA_URLS.email.replace("mailto:", "")}
                 </Typography>
               </HStack>
             </Link>
