@@ -27,6 +27,42 @@ export const addVehicle = async ({ profile, formData }: AddVehicleProps) => {
     // Init supabase client
     const supabase = await createClient();
 
+    // 1. Count current vehicles for this profile
+    const { count, error: countError } = await supabase
+      .from("vehicles")
+      .select("*", { count: "exact", head: true })
+      .eq("owner_id", profile.id);
+
+    if (countError) {
+      // Return error if unable to count vehicles
+      return { data: null, status: StatusCode.BAD_REQUEST, error: countError };
+    }
+
+    // 2. Determine max allowed vehicles based on user category and subscription
+    let maxVehicles = 0;
+
+    if (profile?.user_category === "dealership") {
+      if (profile?.subscription === "starter_showcase") {
+        maxVehicles = 25;
+      } else if (profile?.subscription === "growth_accelerator") {
+        maxVehicles = 75;
+      } else if (profile?.subscription === "dealership_dominator") {
+        maxVehicles = 150; // Unlimited for dominator plan
+      }
+    } else if (profile?.user_category === "individual") {
+      maxVehicles = 2;
+    }
+
+    // 3. Check if user is within their allowed range
+    if (count !== null && count >= maxVehicles) {
+      // Return error if limit reached
+      return {
+        data: null,
+        status: StatusCode.BAD_REQUEST,
+        error: `You have reached your vehicle listing limit on your current aubacription (${maxVehicles}).`,
+      };
+    }
+
     // Validate form data
     const parsedData = addVehicleValidationSchema.parse(formData);
 
