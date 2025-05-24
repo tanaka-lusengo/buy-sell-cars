@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { JSX, useCallback, useEffect, useState } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { EmblaCarouselType } from 'embla-carousel';
+import { JSX, useCallback, useEffect, useState } from "react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { EmblaCarouselType } from "embla-carousel";
 
 type UsePrevNextButtonsType = {
   prevBtnDisabled: boolean;
@@ -38,16 +38,16 @@ export const usePrevNextCarouselFunctions = (
     if (!emblaApi) return;
 
     onSelect(emblaApi);
-    emblaApi.on('reInit', onSelect).on('select', onSelect);
+    emblaApi.on("reInit", onSelect).on("select", onSelect);
   }, [emblaApi, onSelect]);
 
   const PrevButton = () => (
     <ArrowLeft
       size={35}
       style={{
-        transition: 'all 0.3s ease-in-out',
-        color: prevBtnDisabled ? 'grey' : 'black',
-        cursor: prevBtnDisabled ? 'default' : 'pointer',
+        transition: "all 0.3s ease-in-out",
+        color: prevBtnDisabled ? "grey" : "black",
+        cursor: prevBtnDisabled ? "default" : "pointer",
       }}
       onClick={onPrevButtonClick}
     />
@@ -57,9 +57,9 @@ export const usePrevNextCarouselFunctions = (
     <ArrowRight
       size={35}
       style={{
-        transition: 'all 0.3s ease-in-out',
-        color: nextBtnDisabled ? 'grey' : 'black',
-        cursor: nextBtnDisabled ? 'default' : 'pointer',
+        transition: "all 0.3s ease-in-out",
+        color: nextBtnDisabled ? "grey" : "black",
+        cursor: nextBtnDisabled ? "default" : "pointer",
       }}
       onClick={onNextButtonClick}
     />

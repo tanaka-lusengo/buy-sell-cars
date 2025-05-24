@@ -1,5 +1,5 @@
-import type { Metadata } from 'next';
-import { BASE_URL } from '@/src/constants/urls';
+import type { Metadata } from "next";
+import { BASE_URL } from "@/src/constants/urls";
 
 /**
  * Metadata for the root layout of the application.
@@ -9,27 +9,27 @@ import { BASE_URL } from '@/src/constants/urls';
  */
 export const metadata: Metadata = {
   title: {
-    template: '%s | BuySellCars Zimbabwe',
-    default: 'BuySellCars Zimbabwe',
+    template: "%s | BuySellCars Zimbabwe",
+    default: "BuySellCars Zimbabwe",
   },
-  description: 'Buy and sell vehicles in Zimbabwe.',
-  generator: 'Next.js',
-  applicationName: 'BuySellCars Zimbabwe',
-  referrer: 'origin-when-cross-origin',
-  keywords: ['BuySellCars', 'Zimbabwe', 'Cars', 'Vehicles', 'Marketplace'],
-  creator: 'Tanaka Lusengo @ Lusengo.Studio',
+  description: "Buy and sell vehicles in Zimbabwe.",
+  generator: "Next.js",
+  applicationName: "BuySellCars Zimbabwe",
+  referrer: "origin-when-cross-origin",
+  keywords: ["BuySellCars", "Zimbabwe", "Cars", "Vehicles", "Marketplace"],
+  creator: "Tanaka Lusengo @ Lusengo.Studio",
   // TODO: Set to true when app is ready for production
   robots: {
     follow: false,
     index: false,
   },
   openGraph: {
-    type: 'website',
-    locale: 'en_GB',
+    type: "website",
+    locale: "en_GB",
     url: new URL(BASE_URL),
-    siteName: 'BuySellCars Zimbabwe',
-    title: 'BuySellCars Zimbabwe',
-    description: 'Buy and sell vehicles in Zimbabwe.',
+    siteName: "BuySellCars Zimbabwe",
+    title: "BuySellCars Zimbabwe",
+    description: "Buy and sell vehicles in Zimbabwe.",
   },
   metadataBase: new URL(BASE_URL),
 };

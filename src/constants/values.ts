@@ -1,30 +1,31 @@
-export const CAR_CONDITIONS = ['New', 'Used'];
+export const CAR_CONDITIONS = ["New", "Used"];
 
-export const FUEL_TYPES = ['Petrol', 'Diesel', 'Electric', 'Hybrid'];
+export const FUEL_TYPES = ["Petrol", "Diesel", "Electric", "Hybrid"];
 
-export const GEARBOX_TYPES = ['Manual', 'Automatic'];
+export const GEARBOX_TYPES = ["Manual", "Automatic"];
 
-export const USER_CATEGORYS = ['Individual', 'Dealership'];
+export const USER_CATEGORYS = ["Individual", "Dealership"];
 
 export const VEHICLE_CATEGORIES = [
-  'Car rental',
-  'New car',
-  'Used car',
-  'Boat',
-  'Motorcycle',
-  'Truck',
-  'Agriculture',
-  'Earth moving',
+  "Car",
+  "Boat",
+  "Bike",
+  "Truck",
+  "Agriculture",
+  "Earth moving",
 ];
 
-export const LISTING_TYPES = ['Rental', 'For Sale'];
+export const LISTING_TYPES = ["Rental", "For Sale"];
 
 export const LOCATIONS = [
-  'Bulawayo',
-  'Gweru',
-  'Marondera',
-  'Masvingo',
-  'Mutare',
-  'Ruwa',
-  'Harare',
+  "Bulawayo",
+  "Gweru",
+  "Marondera",
+  "Masvingo",
+  "Mutare",
+  "Msasa",
+  "Ruwa",
+  "Harare",
 ];
+
+export const DEALER_LOGOS_TO_CONTAIN = ["Willy's Auto Group", "JP Motors"];

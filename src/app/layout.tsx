@@ -1,11 +1,11 @@
-import './globals.css';
-import { ReactNode } from 'react';
-import { metadata } from './metadata';
-import { PreloadResources } from './preload-resources';
-import { Navbar, Footer } from '../components/Layout';
-import { AuthProvider } from '@/src/context/auth-context';
-import Toaster from '@/src/utils/reactHotToast/Toaster';
-import { createClient } from '@/supabase/server';
+import "./globals.css";
+import { ReactNode } from "react";
+import { metadata } from "./metadata";
+import { PreloadResources } from "./preload-resources";
+import { Navbar, Footer } from "../components/Layout";
+import { AuthProvider } from "@/src/context/auth-context";
+import Toaster from "@/src/utils/reactHotToast/Toaster";
+import { createClient } from "@/supabase/server";
 
 // Base metadata for the app
 export { metadata };
@@ -25,9 +25,9 @@ export default async function RootLayout({
 
   if (user) {
     const { data: profileData } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
       .single();
 
     profile = profileData ?? null;

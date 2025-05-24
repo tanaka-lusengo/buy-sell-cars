@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { type infer as ZodInfer } from 'zod';
-import { Flex, Grid } from '@/styled-system/jsx';
-import { SelectField } from '@/src/components/FormComponents';
-import { Button, ButtonAsLink, Typography } from '@/src/components/ui';
-import { LOCATIONS } from '@/src/constants/values';
-import { Form } from './common.styled';
-import { filterValidationSchema } from '../schema';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { type infer as ZodInfer } from "zod";
+import { Flex, Grid } from "@/styled-system/jsx";
+import { SelectField } from "@/src/components/FormComponents";
+import { Button, ButtonAsLink, Typography } from "@/src/components/ui";
+import { LOCATIONS } from "@/src/constants/values";
+import { Form } from "./common.styled";
+import { filterValidationSchema } from "../schema";
 
 type FilterForm = ZodInfer<typeof filterValidationSchema>;
 
@@ -20,11 +20,11 @@ export const Filter = ({ dealers }: { dealers: string[] }) => {
     formState: { errors },
   } = useForm<FilterForm>({
     resolver: zodResolver(filterValidationSchema),
-    mode: 'all',
+    mode: "all",
   });
 
   const handleAction = async (formData: FilterForm) => {
-    console.log('Form data:', formData);
+    console.log("Form data:", formData);
   };
 
   return (
@@ -47,7 +47,7 @@ export const Filter = ({ dealers }: { dealers: string[] }) => {
 
       <Grid gridTemplateColumns="1fr" gap="sm">
         <SelectField name="dealer" register={register} errors={errors}>
-          <option key="dealer" value={''}>
+          <option key="dealer" value={""}>
             Dealer
           </option>
           {dealers.map((dealer) => (
@@ -58,7 +58,7 @@ export const Filter = ({ dealers }: { dealers: string[] }) => {
         </SelectField>
 
         <SelectField name="location" register={register} errors={errors}>
-          <option key="location" value={''}>
+          <option key="location" value={""}>
             Location
           </option>
           {LOCATIONS.map((location) => (

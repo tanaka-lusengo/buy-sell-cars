@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import { Box, Grid, VStack } from '@/styled-system/jsx';
+import Image from "next/image";
+import { Box, Grid, VStack } from "@/styled-system/jsx";
 
 export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -9,27 +9,27 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         alt="Red car headlight"
         fill
         style={{
-          objectFit: 'cover',
+          objectFit: "cover",
           zIndex: -1,
         }}
         priority
       />
 
       {/* Foreground layout */}
-      <Grid gridTemplateColumns={{ base: '1fr', lg: '1fr 1fr' }} height="100%">
+      <Grid gridTemplateColumns={{ base: "1fr", lg: "1fr 1fr" }} height="100%">
         <VStack
           height="100vh"
           maxHeight="100vh"
           overflowY="auto"
           paddingX="lg"
-          justifyContent={{ base: 'normal', md: 'center' }}
+          justifyContent={{ base: "normal", md: "center" }}
           zIndex={1}
         >
           {children}
         </VStack>
 
         {/* Empty right column on large screens */}
-        <Box display={{ base: 'none', lg: 'block' }} />
+        <Box display={{ base: "none", lg: "block" }} />
       </Grid>
     </Box>
   );

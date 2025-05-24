@@ -1,1 +1,1 @@
-export { RenderUploadedFile } from './RenderUploadedFile';
+export { RenderUploadedFile } from "./RenderUploadedFile";

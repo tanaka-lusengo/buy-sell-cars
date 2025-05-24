@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useMemo } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { type infer as ZodInfer } from 'zod';
-import { Container, Grid } from '@/styled-system/jsx';
-import { InputField, SelectField } from '@/src/components/FormComponents';
-import { Button, ButtonAsLink, Typography } from '@/src/components/ui';
-import { Form } from './index.styled';
-import { generatePrices, generateYears, toSnakeCase } from '@/src/utils';
-import { CAR_CONDITIONS, FUEL_TYPES, LOCATIONS } from '@/src/constants/values';
-import { filterValidationSchema } from '../../schema';
+import { useMemo } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { type infer as ZodInfer } from "zod";
+import { Container, Grid } from "@/styled-system/jsx";
+import { InputField, SelectField } from "@/src/components/FormComponents";
+import { Button, ButtonAsLink, Typography } from "@/src/components/ui";
+import { Form } from "./index.styled";
+import { generatePrices, generateYears, toSnakeCase } from "@/src/utils";
+import { CAR_CONDITIONS, FUEL_TYPES, LOCATIONS } from "@/src/constants/values";
+import { filterValidationSchema } from "../../schema";
 
 type FilterForm = ZodInfer<typeof filterValidationSchema>;
 
@@ -22,14 +22,14 @@ export const Filter = () => {
     formState: { errors },
   } = useForm<FilterForm>({
     resolver: zodResolver(filterValidationSchema),
-    mode: 'all',
+    mode: "all",
   });
 
   const YEARS = useMemo(() => generateYears(), []);
   const PRICES = useMemo(() => generatePrices(), []);
 
   const handleAction = async (formData: FilterForm) => {
-    console.log('Form data:', formData);
+    console.log("Form data:", formData);
   };
 
   return (
@@ -44,7 +44,7 @@ export const Filter = () => {
 
       <Grid gridTemplateColumns="1fr 1fr" gap="sm">
         <SelectField name="location" register={register} errors={errors}>
-          <option key="location" value={''}>
+          <option key="location" value={""}>
             Location
           </option>
           {LOCATIONS.map((location) => (
@@ -71,7 +71,7 @@ export const Filter = () => {
         />
 
         <SelectField name="year" register={register} errors={errors}>
-          <option key="year" value={''}>
+          <option key="year" value={""}>
             Years
           </option>
           {YEARS.map((year) => (
@@ -84,7 +84,7 @@ export const Filter = () => {
 
       <Grid gridTemplateColumns="1fr 1fr" gap="sm">
         <SelectField name="condition" register={register} errors={errors}>
-          <option key="condition" value={''}>
+          <option key="condition" value={""}>
             Condition
           </option>
           {CAR_CONDITIONS.map((condition) => (
@@ -95,7 +95,7 @@ export const Filter = () => {
         </SelectField>
 
         <SelectField name="fuelType" register={register} errors={errors}>
-          <option key="fuel-type" value={''}>
+          <option key="fuel-type" value={""}>
             Fuel type
           </option>
           {FUEL_TYPES.map((type) => (
@@ -113,7 +113,7 @@ export const Filter = () => {
           errors={errors}
           defaultValue="Min price"
         >
-          <option key="min-price" value={''}>
+          <option key="min-price" value={""}>
             Min price
           </option>
           {PRICES.map((price) => (
@@ -124,7 +124,7 @@ export const Filter = () => {
         </SelectField>
 
         <SelectField name="maxPrice" register={register} errors={errors}>
-          <option key="max-price" value={''}>
+          <option key="max-price" value={""}>
             Max price
           </option>
           {PRICES.map((price) => (

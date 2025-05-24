@@ -3,9 +3,9 @@ import type {
   FieldValues,
   Path,
   UseFormRegister,
-} from 'react-hook-form';
+} from "react-hook-form";
 
-import * as Styled from '../common.styled';
+import * as Styled from "../common.styled";
 
 type SelectFieldProps<TFormValues extends FieldValues> = {
   name: string;
@@ -42,7 +42,7 @@ export const SelectField = <TFormValues extends FieldValues>({
 
       {errors[name] && (
         <Styled.ErrorText key={`${name}-error`} role="alert">
-          {typeof errors[name]?.message === 'string' && errors[name].message}
+          {typeof errors[name]?.message === "string" && errors[name].message}
         </Styled.ErrorText>
       )}
     </Styled.InputContainer>

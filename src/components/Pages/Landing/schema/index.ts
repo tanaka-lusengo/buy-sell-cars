@@ -1,4 +1,4 @@
-import * as z from 'zod';
+import * as z from "zod";
 
 export const filterValidationSchema = z.object({
   location: z.string().optional(),

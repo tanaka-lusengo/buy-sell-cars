@@ -1,20 +1,17 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { type LucideProps } from 'lucide-react';
-import { Flex, Box, Divider } from '@/styled-system/jsx';
-import { SignOut } from '@/src/components/Pages';
-import { ResponsiveContainer, Typography } from '@/src/components/ui';
-import { ForwardRefExoticComponent, RefAttributes } from 'react';
-import { HamburgerMenu } from './components/HamburgerMenu';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Flex, Box, Divider } from "@/styled-system/jsx";
+import { SignOut } from "@/src/components/Pages";
+import { ResponsiveContainer, Typography } from "@/src/components/ui";
+import { JSX } from "react";
+import { HamburgerMenu } from "./components/HamburgerMenu";
 
 type DashboardSidebarProps = {
   navLinks: {
     href: string;
-    icon: ForwardRefExoticComponent<
-      Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
-    >;
+    icon: JSX.Element;
     label: string;
   }[];
   children: React.ReactNode;
@@ -26,23 +23,28 @@ export const DashboardSidebar = ({
 }: DashboardSidebarProps) => {
   const pathname = usePathname();
 
+  const isListingPage = pathname === "/dashboard/listings/";
+
   return (
     <>
       {/* Container */}
       <Flex
         height="100%"
         overflow="hidden"
-        borderTop={{ base: '1px solid' }}
-        borderColor={{ base: 'grey' }}
+        borderTop={{ base: "1px solid" }}
+        borderColor={{ base: "grey" }}
       >
         <ResponsiveContainer>
           <Flex
-            direction={{ base: 'column', md: 'row' }}
-            alignItems={{ base: 'center', md: 'normal' }}
+            direction={{ base: "column", md: "row" }}
+            alignItems={{
+              base: isListingPage ? "normal" : "center",
+              md: "normal",
+            }}
           >
             {/* Sidebar */}
             <Box
-              display={{ base: 'none', md: 'block' }}
+              display={{ base: "none", md: "block" }}
               width="20rem"
               borderRight="1px solid"
               borderColor="grey"
@@ -59,11 +61,11 @@ export const DashboardSidebar = ({
                 {navLinks.map((item) => (
                   <Link key={item.href} href={item.href} passHref>
                     <Flex justifyContent="flex-start" align="center" gap="md">
-                      <item.icon width="20" height="20" />
+                      <Box width="2rem">{item.icon}</Box>
                       <Typography
                         as="span"
-                        weight={pathname === item.href ? 'bold' : 'normal'}
-                        color={pathname === item.href ? 'primaryDark' : 'text'}
+                        weight={pathname === item.href ? "bold" : "normal"}
+                        color={pathname === item.href ? "primaryDark" : "text"}
                         hoverEffect="color"
                       >
                         {item.label}
@@ -80,7 +82,7 @@ export const DashboardSidebar = ({
 
             {/* Mobile navigation */}
             <Box
-              display={{ base: 'flex', md: 'none' }}
+              display={{ base: "flex", md: "none" }}
               justifyContent="space-between"
               alignItems="center"
               width="100%"
@@ -93,13 +95,13 @@ export const DashboardSidebar = ({
               <HamburgerMenu navLinks={navLinks} />
             </Box>
 
-            <Divider display={{ base: 'block', md: 'none' }} />
+            <Divider display={{ base: "block", md: "none" }} />
 
             {/* Main content */}
             <Box
               flex="1"
               overflowY="auto"
-              paddingX={{ base: 'none', md: 'lg' }}
+              paddingX={{ base: "none", md: "lg" }}
             >
               {children}
             </Box>

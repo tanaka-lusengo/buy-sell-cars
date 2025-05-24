@@ -1,15 +1,15 @@
-'use server';
+"use server";
 
-import { revalidatePath } from 'next/cache';
-import { Tables } from '@/database.types';
+import { revalidatePath } from "next/cache";
+import { Tables } from "@/database.types";
 import {
   signUpValidationSchema,
   signInValidationSchema,
   subscribeValidationSchema,
-} from '@/src/schemas/authValidationSchemas';
-import { SignUpFormType, SignInFormType, SubscribeFormType } from '@/src/types';
-import { handleServerError, StatusCode } from '@/src/utils';
-import { createClient } from '@/supabase/server';
+} from "@/src/schemas/authValidationSchemas";
+import { SignUpFormType, SignInFormType, SubscribeFormType } from "@/src/types";
+import { handleServerError, StatusCode } from "@/src/utils";
+import { createClient } from "@/supabase/server";
 
 export const subscribe = async (formData: SubscribeFormType) => {
   try {
@@ -23,30 +23,30 @@ export const subscribe = async (formData: SubscribeFormType) => {
 
     // Check if the email is already subscribed
     const { data: existingEmail } = await supabase
-      .from('subscribers')
-      .select('email')
-      .eq('email', email)
+      .from("subscribers")
+      .select("email")
+      .eq("email", email)
       .single();
 
     // If the email is already subscribed, return an error
     if (existingEmail) {
       return {
         status: StatusCode.BAD_REQUEST,
-        error: 'Already subscribed',
+        error: "Already subscribed",
       };
     }
 
-    const { error } = await supabase.from('subscribers').insert({ email });
+    const { error } = await supabase.from("subscribers").insert({ email });
 
     if (error) {
       return { status: StatusCode.BAD_REQUEST, error };
     }
 
-    revalidatePath('/', 'layout');
+    revalidatePath("/", "layout");
 
     return { status: StatusCode.SUCCESS, error: null };
   } catch (error) {
-    return handleServerError(error, 'subscribing to newsletter (server)');
+    return handleServerError(error, "subscribing to newsletter (server)");
   }
 };
 
@@ -58,13 +58,15 @@ export const signUp = async (formData: SignUpFormType) => {
     // Validate form data
     const parsedData = signUpValidationSchema.parse(formData);
 
-    const createUserData: Partial<Tables<'profiles'>> = {
+    const createUserData: Partial<Tables<"profiles">> = {
       email: parsedData.email,
       first_name: parsedData.firstName,
       last_name: parsedData.lastName,
-      phone: parsedData.phone.replace(/\s+/g, ''),
+      phone: parsedData.phone.replace(/\s+/g, ""),
       user_category: parsedData.categoryType,
       dealership_name: parsedData.dealershipName,
+      location: parsedData.location,
+      description: parsedData.description,
     };
 
     // Sign up with Supabase Auth and pass user data to the profiles table
@@ -83,11 +85,11 @@ export const signUp = async (formData: SignUpFormType) => {
       return { data: null, status: StatusCode.BAD_REQUEST, error };
     }
 
-    revalidatePath('/', 'layout');
+    revalidatePath("/", "layout");
 
     return { data: user, status: StatusCode.SUCCESS, error: null };
   } catch (error) {
-    return handleServerError(error, 'signing up (server)');
+    return handleServerError(error, "signing up (server)");
   }
 };
 
@@ -113,11 +115,11 @@ export const signIn = async (formData: SignInFormType) => {
       return { status: StatusCode.BAD_REQUEST, error };
     }
 
-    revalidatePath('/', 'layout');
+    revalidatePath("/", "layout");
 
     return { status: StatusCode.SUCCESS, error: null };
   } catch (error) {
-    return handleServerError(error, 'signing in (server)');
+    return handleServerError(error, "signing in (server)");
   }
 };
 
@@ -135,11 +137,11 @@ export const signOut = async () => {
       await supabase.auth.signOut();
     }
 
-    revalidatePath('/', 'layout');
+    revalidatePath("/", "layout");
 
     return { status: StatusCode.SUCCESS, error: null };
   } catch (error) {
-    return handleServerError(error, 'signing out (server)');
+    return handleServerError(error, "signing out (server)");
   }
 };
 
@@ -160,9 +162,9 @@ export const fetchUserAndProfile = async () => {
   // If a user is authenticated, fetch their profile
   if (user) {
     const { data: profileData } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
       .single();
 
     profile = profileData ?? null;
@@ -182,11 +184,11 @@ export const resetPassword = async (email: string) => {
       return { status: StatusCode.BAD_REQUEST, error };
     }
 
-    revalidatePath('/', 'layout');
+    revalidatePath("/", "layout");
 
     return { status: StatusCode.SUCCESS, error: null };
   } catch (error) {
-    return handleServerError(error, 'resetting password (server)');
+    return handleServerError(error, "resetting password (server)");
   }
 };
 
@@ -201,15 +203,15 @@ export const updatePassword = async (password: string) => {
       return { status: StatusCode.BAD_REQUEST, error };
     }
 
-    revalidatePath('/', 'layout');
+    revalidatePath("/", "layout");
 
     return { status: StatusCode.SUCCESS, error: null };
   } catch (error) {
-    return handleServerError(error, 'updating password (server)');
+    return handleServerError(error, "updating password (server)");
   }
 };
 
-export const updateUser = async (userData: Partial<Tables<'profiles'>>) => {
+export const updateUser = async (userData: Partial<Tables<"profiles">>) => {
   try {
     // Init supabase client
     const supabase = await createClient();
@@ -222,10 +224,10 @@ export const updateUser = async (userData: Partial<Tables<'profiles'>>) => {
       return { status: StatusCode.BAD_REQUEST, error };
     }
 
-    revalidatePath('/', 'layout');
+    revalidatePath("/", "layout");
 
     return { status: StatusCode.SUCCESS, error: null };
   } catch (error) {
-    return handleServerError(error, 'updating user (server)');
+    return handleServerError(error, "updating user (server)");
   }
 };

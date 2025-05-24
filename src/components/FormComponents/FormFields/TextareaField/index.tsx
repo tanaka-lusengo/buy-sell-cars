@@ -3,15 +3,16 @@ import type {
   FieldErrors,
   FieldValues,
   Path,
-} from 'react-hook-form';
+} from "react-hook-form";
 
-import * as Styled from '../common.styled';
+import * as Styled from "../common.styled";
 
 type TextareaFieldProps<TFormValues extends FieldValues> = {
   name: string;
   register: UseFormRegister<TFormValues>;
   errors: FieldErrors<TFormValues>;
   label?: string;
+  defaultValue?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 export const TextareaField = <TFormValues extends FieldValues>({
@@ -20,6 +21,7 @@ export const TextareaField = <TFormValues extends FieldValues>({
   placeholder,
   errors,
   register,
+  defaultValue,
 }: TextareaFieldProps<TFormValues>) => {
   return (
     <Styled.InputContainer>
@@ -32,12 +34,13 @@ export const TextareaField = <TFormValues extends FieldValues>({
       <Styled.TextareaField
         key={name}
         placeholder={placeholder}
+        defaultValue={defaultValue}
         {...register(name as Path<TFormValues>)}
       />
 
       {errors[name] && (
         <Styled.ErrorText key={`${name}-error`} role="alert">
-          {typeof errors[name]?.message === 'string' && errors[name].message}
+          {typeof errors[name]?.message === "string" && errors[name].message}
         </Styled.ErrorText>
       )}
     </Styled.InputContainer>

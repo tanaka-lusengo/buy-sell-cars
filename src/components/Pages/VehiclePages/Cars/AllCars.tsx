@@ -1,14 +1,14 @@
-import { useMemo } from 'react';
-import { Container, Box, Flex } from '@/styled-system/jsx';
-import { ResponsiveContainer, Typography } from '../../../ui';
-import { StatusCode } from '@/src/utils';
-import { VehicleWithImage } from '@/src/types';
-import { PostgrestError } from '@supabase/supabase-js';
-import { CarPreviewCard } from '@/src/components/shared';
-import { Filter } from './components/Filter';
+import { useMemo } from "react";
+import { Container, Box, Flex, Grid } from "@/styled-system/jsx";
+import { ResponsiveContainer, Typography } from "../../../ui";
+import { StatusCode } from "@/src/utils";
+import { VehicleWithImageAndDealer } from "@/src/types";
+import { PostgrestError } from "@supabase/supabase-js";
+import { FeaturePreviewCard } from "@/src/components/shared";
+import { Filter } from "./components/Filter";
 
 type AllCarsProps = {
-  cars: VehicleWithImage[];
+  cars: VehicleWithImageAndDealer[];
   error: string | PostgrestError | null;
   status: StatusCode;
   isRental: boolean;
@@ -39,7 +39,7 @@ export const AllCars = ({ cars, error, status, isRental }: AllCarsProps) => {
       <ResponsiveContainer>
         <Box paddingY="md">
           <Typography variant="h2">
-            Browse cars {isRental ? 'to rent' : 'for sale'}
+            Browse cars {isRental ? "to rent" : "for sale"}
           </Typography>
         </Box>
       </ResponsiveContainer>
@@ -55,56 +55,63 @@ export const AllCars = ({ cars, error, status, isRental }: AllCarsProps) => {
               <Typography color="error">
                 Please try again a later time
               </Typography>
-              {error === typeof 'string' && (
+              {error === typeof "string" && (
                 <Typography color="error">{error}</Typography>
               )}
             </Flex>
           </ResponsiveContainer>
         )}
 
-        {successStatus && cars?.length === 0 && (
+        {successStatus && cars.length === 0 && (
           <ResponsiveContainer backgroundColor="greyLight">
-            <Box paddingY="lg">
-              <Typography variant="h4" align="center">
-                No Cars found
+            <Flex direction="column" gap="sm" paddingY="lg">
+              <Typography variant="h3" align="center" color="primaryDark">
+                Sorry, it looks like we don&#39;t have any cars available{" "}
+                {isRental ? "to rent" : "for sale"} at the moment.
               </Typography>
-            </Box>
+              <Typography variant="h4" align="center">
+                Please come back later or check out our other listings.
+              </Typography>
+            </Flex>
           </ResponsiveContainer>
         )}
 
-        {successStatus && cars && cars.length > 0 && (
+        {successStatus && cars.length > 0 && (
           <ResponsiveContainer backgroundColor="greyLight">
             <Box paddingY="lg">
-              <Flex
-                direction={{ base: 'column', lg: 'row' }}
-                justifyItems={{ base: 'center' }}
-                alignItems={{ base: 'center', lg: 'flex-start' }}
-                gap="md"
+              <Grid
+                gridTemplateColumns={{ base: "1fr", lg: "1fr 3fr" }}
+                alignItems={{ base: "center", lg: "flex-start" }}
+                justifyItems="center"
+                gap="lg"
               >
-                <Filter carFilterData={carFilterData} />
+                <Flex
+                  position="sticky"
+                  top={{ base: "none", lg: "130px" }}
+                  minWidth={{ base: "100%", md: "40rem" }}
+                  justifyContent="center"
+                  paddingX="md"
+                >
+                  <Filter carFilterData={carFilterData} />
+                </Flex>
 
                 <Flex
                   flexWrap="wrap"
-                  justifyContent={{ base: 'center', lg: 'start' }}
+                  justifyContent="center"
                   gap="md"
                   paddingX="md"
                 >
                   {cars.map((car) => (
-                    <CarPreviewCard
+                    <FeaturePreviewCard
                       key={car.id}
-                      car={car}
-                      isRental={isRental}
-                    />
-                  ))}
-                  {cars.map((car) => (
-                    <CarPreviewCard
-                      key={car.id}
+                      width="26rem"
+                      height="25rem"
                       car={car}
                       isRental={isRental}
                     />
                   ))}
                 </Flex>
-              </Flex>
+              </Grid>
             </Box>
           </ResponsiveContainer>
         )}

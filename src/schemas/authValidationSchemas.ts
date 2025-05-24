@@ -1,45 +1,45 @@
-import * as z from 'zod';
-import { CategoryType } from '../types';
-import { isValidZimbabwePhoneNumber } from '../utils';
+import * as z from "zod";
+import { CategoryType } from "../types";
 
 export const subscribeValidationSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address' }),
+  email: z.string().email({ message: "Invalid email address" }),
 });
 
 export const signInValidationSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address' }),
+  email: z.string().email({ message: "Invalid email address" }),
   password: z.string().min(8, {
-    message: 'Password must be at least 8 characters',
+    message: "Password must be at least 8 characters",
   }),
 });
 
 export const signUpValidationSchema = z
   .object({
     firstName: z.string().min(2, {
-      message: 'First name must be at least 2 characters',
+      message: "First name must be at least 2 characters",
     }),
     lastName: z.string().min(2, {
-      message: 'Last name must be at least 2 characters',
+      message: "Last name must be at least 2 characters",
     }),
-    email: z.string().email({ message: 'Invalid email address' }),
-    phone: z.string().refine((val) => isValidZimbabwePhoneNumber(val), {
-      message: 'Enter a valid (+263) phone number',
+    email: z.string().email({ message: "Invalid email address" }),
+    phone: z.string().min(10, {
+      message: "Enter a valid phone number",
     }),
     categoryType: z
-      .enum(['individual', 'dealership'] satisfies CategoryType, {
-        errorMap: () => ({ message: 'Category is required' }),
+      .enum(["individual", "dealership"] satisfies CategoryType, {
+        errorMap: () => ({ message: "Category is required" }),
       })
       .optional(),
     dealershipName: z.string().nullable(),
     location: z.string().nullable(),
+    description: z.string().nullable(),
     password: z.string().min(8, {
-      message: 'Password must be at least 8 characters',
+      message: "Password must be at least 8 characters",
     }),
     confirmPassword: z.string().min(8, {
-      message: 'Confirm password must be at least 8 characters',
+      message: "Confirm password must be at least 8 characters",
     }),
   })
   .refine(({ password, confirmPassword }) => password === confirmPassword, {
-    message: 'Passwords do not match',
-    path: ['confirmPassword'],
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
   });

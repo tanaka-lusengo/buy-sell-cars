@@ -1,6 +1,6 @@
-import { type ZodError } from 'zod';
-import { toastNotifyError } from './reactHotToast';
-import { StatusCode } from './constants';
+import { type ZodError } from "zod";
+import { toastNotifyError } from "./reactHotToast";
+import { StatusCode } from "./constants";
 
 type ParsedZodError = {
   path: string[];
@@ -14,21 +14,21 @@ const parseValidationErrorMessages = (error: unknown): string => {
       const errMessages = errorArray.map(
         (error: ParsedZodError) => `${error.path[0]}: ${error.message}`
       );
-      return errMessages.join(', ');
+      return errMessages.join(", ");
     } catch {
       return error.message;
     }
   }
 
-  if (typeof error === 'object' && error !== null && 'message' in error) {
+  if (typeof error === "object" && error !== null && "message" in error) {
     return (error as { message: string }).message;
   }
 
-  if (typeof error === 'string') {
+  if (typeof error === "string") {
     return error;
   }
 
-  return 'Unknown error';
+  return "Unknown error";
 };
 
 export const logErrorMessage = (error: unknown, errorDetail: string): void => {

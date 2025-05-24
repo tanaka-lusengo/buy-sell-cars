@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { Button, ResponsiveContainer, Typography } from '@/src/components/ui';
-import { Grid, HStack, VStack, Divider, Container } from '@/styled-system/jsx';
-import { useAuth } from '@/src/context/auth-context';
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Button, ResponsiveContainer, Typography } from "@/src/components/ui";
+import { Grid, HStack, VStack, Divider, Container } from "@/styled-system/jsx";
+import { useAuth } from "@/src/context/auth-context";
 
 const factListLeft = [
-  'Instant Exposure to Quality Buyers',
-  'Simple 3-Step Listing Process',
-  '24/7 Digital Showcase',
+  "Instant Exposure to Quality Buyers",
+  "Simple 3-Step Listing Process",
+  "24/7 Digital Showcase",
 ];
 
 const factListRight = [
-  'First-To-Market Premium Platform',
-  'Unlimited Premium Listings',
-  'Priority Support & Consultation',
+  "First-To-Market Premium Platform",
+  "Unlimited Premium Listings",
+  "Priority Support & Consultation",
 ];
 
 export const InfoSection = () => {
@@ -24,9 +24,9 @@ export const InfoSection = () => {
 
   const handleOnClick = () => {
     if (user) {
-      push('/dashboard/add-listing');
+      push("/dashboard/add-listing");
     } else {
-      push('/sign-up');
+      push("/sign-up");
     }
   };
 
@@ -34,15 +34,15 @@ export const InfoSection = () => {
     <Container backgroundColor="greyLight" paddingY="sm">
       <ResponsiveContainer>
         <Grid
-          gridTemplateColumns={{ base: '1fr', md: '1fr 1fr 1fr' }}
+          gridTemplateColumns={{ base: "1fr", md: "1fr 1fr 1fr" }}
           gap="lg"
-          maxWidth={{ base: '100%', xl: 'pageLg' }}
+          maxWidth={{ base: "100%", xl: "pageLg" }}
           marginX="auto"
           width="100%"
           marginY="lg"
         >
           {/* LHS */}
-          <Container width={{ base: '100%', md: '295px', lg: '400px' }}>
+          <Container width={{ base: "100%", md: "295px", lg: "400px" }}>
             <VStack alignItems="center" gap="md">
               <Typography variant="h2" align="center">
                 Sell your car
@@ -55,9 +55,9 @@ export const InfoSection = () => {
                     alt="Green Check Icon"
                     width={24}
                     height={24}
-                    style={{ height: 'auto' }}
+                    style={{ height: "auto" }}
                   />
-                  <div style={{ width: '281px' }}>
+                  <div style={{ width: "281px" }}>
                     <Typography>{fact}</Typography>
                   </div>
                 </HStack>
@@ -74,7 +74,7 @@ export const InfoSection = () => {
           </HStack>
 
           {/* RHS */}
-          <Container width={{ base: '100%', md: '295px', lg: '400px' }}>
+          <Container width={{ base: "100%", md: "295px", lg: "400px" }}>
             <VStack alignItems="center" gap="md">
               <Typography variant="h2" align="center">
                 Elevate your dealership
@@ -87,9 +87,9 @@ export const InfoSection = () => {
                     alt="Green Check Icon"
                     width={24}
                     height={24}
-                    style={{ height: 'auto' }}
+                    style={{ height: "auto" }}
                   />
-                  <div style={{ width: '251px' }}>
+                  <div style={{ width: "251px" }}>
                     <Typography>{fact}</Typography>
                   </div>
                 </HStack>

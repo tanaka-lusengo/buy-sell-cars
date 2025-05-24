@@ -1,10 +1,10 @@
-import type { NextConfig } from 'next';
+import type { NextConfig } from "next";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const securityHeaders = require('./securityHeaders.js');
+const securityHeaders = require("./securityHeaders.js");
 
 const supabaseHostname = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(
-  'https://',
-  ''
+  "https://",
+  ""
 ) as string;
 
 const nextConfig: NextConfig = {
@@ -19,7 +19,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
+        protocol: "https",
         hostname: supabaseHostname,
       },
     ],
@@ -27,7 +27,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: '/:path*',
+        source: "/:path*",
         headers: securityHeaders,
       },
     ];

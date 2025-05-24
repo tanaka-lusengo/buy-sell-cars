@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { createClient } from '@/supabase/client';
-import { User } from '@supabase/supabase-js';
-import { Profile } from '@/src/types';
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createClient } from "@/supabase/client";
+import { User } from "@supabase/supabase-js";
+import { Profile } from "@/src/types";
 
 type AuthContextType = {
   user: User | null;
@@ -45,13 +45,13 @@ export const AuthProvider = ({
       setUser(user);
 
       const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
         .single();
 
       if (profileError) {
-        console.error('Profile fetch error:', profileError);
+        console.error("Profile fetch error:", profileError);
       } else {
         setProfile(profileData);
       }
@@ -63,9 +63,9 @@ export const AuthProvider = ({
     }
 
     const { data: authListener } = supabase.auth.onAuthStateChange((event) => {
-      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+      if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
         fetchUserAndProfile();
-      } else if (event === 'SIGNED_OUT') {
+      } else if (event === "SIGNED_OUT") {
         setUser(null);
         setProfile(null);
       }
@@ -87,7 +87,7 @@ export const useAuth = () => {
   const context = useContext(AuthContext);
 
   if (!context) {
-    throw new Error('useAuth must be used within a AuthContextProvider');
+    throw new Error("useAuth must be used within a AuthContextProvider");
   }
 
   return context;

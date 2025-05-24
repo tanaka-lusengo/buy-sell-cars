@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { ResponsiveContainer, Typography, Button, ButtonAsLink } from '../ui';
-import { Box, Stack } from '@/styled-system/jsx';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { ResponsiveContainer, Typography, Button, ButtonAsLink } from "../ui";
+import { Box, Stack } from "@/styled-system/jsx";
 
 export interface ErrorBoundaryProps {
   error: Error & { digest?: string };
@@ -17,7 +17,7 @@ export const ErrorBoundary = ({
   message,
 }: ErrorBoundaryProps) => {
   useEffect(() => {
-    console.error('Error in ErrorBoundary:', error);
+    console.error("Error in ErrorBoundary:", error);
   }, [error]);
 
   const router = useRouter();
@@ -35,7 +35,7 @@ export const ErrorBoundary = ({
     <ResponsiveContainer padding="lg" maxWidth="sm">
       <Stack gap="lg">
         <Typography as="h2" align="center">
-          {message ? message : 'Hmmm, Something went wrong!'}
+          {message ? message : "Hmmm, Something went wrong!"}
         </Typography>
         <Typography as="h4" align="center">
           &quot;{error.message}&quot;
