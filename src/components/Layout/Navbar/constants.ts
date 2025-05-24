@@ -1,32 +1,32 @@
 export const navLinksMap = {
-  '/': [
-    { label: 'Cars for sale', href: '/cars/sales' },
-    { label: 'Car rentals', href: '/cars/rentals' },
-    { label: 'Dealers', href: '/dealers' },
+  "/": [
+    { label: "Cars for sale", href: "/cars/sales" },
+    { label: "Car rentals", href: "/cars/rentals" },
+    { label: "Dealers", href: "/dealers" },
   ],
-  '/cars/sales/': [
-    { label: 'Cars for sale', href: '/cars/sales' },
-    { label: 'Car rentals', href: '/cars/rentals' },
-    { label: 'Car dealers', href: '/cars/dealers' },
+  "/cars/sales/": [
+    { label: "Cars for sale", href: "/cars/sales" },
+    { label: "Car rentals", href: "/cars/rentals" },
+    { label: "Dealers", href: "/dealers" },
   ],
-  '/trucks/sales/': [
-    { label: 'Trucks for sale', href: '/trucks/sales' },
-    { label: 'Truck rentals', href: '/trucks/rentals' },
-    { label: 'Truck dealers', href: '/trucks/dealers' },
+  "/trucks/sales/": [
+    { label: "Trucks for sale", href: "/trucks/sales" },
+    { label: "Truck rentals", href: "/trucks/rentals" },
+    { label: "Dealers", href: "/dealers" },
   ],
-  '/bikes/sales/': [
-    { label: 'Bikes for sale', href: '/bikes/sales' },
-    { label: 'Bike rentals', href: '/bikes/rentals' },
-    { label: 'Bike dealers', href: '/bikes/dealers' },
+  "/bikes/sales/": [
+    { label: "Bikes for sale", href: "/bikes/sales" },
+    { label: "Bike rentals", href: "/bikes/rentals" },
+    { label: "Dealers", href: "/dealers" },
   ],
-  '/agriculture/sales/': [
-    { label: 'Agriculture equipment sales', href: '/agriculture/sales' },
-    { label: 'Rentals', href: '/agriculture/rentals' },
-    { label: 'Dealers', href: '/agriculture/dealers' },
+  "/agriculture/sales/": [
+    { label: "Agriculture machinery sales", href: "/agriculture/sales" },
+    { label: "Rentals", href: "/agriculture/rentals" },
+    { label: "Dealers", href: "/dealers" },
   ],
-  '/earth-moving/sales/': [
-    { label: 'Earth-moving equipment sales', href: '/earth-moving/salse' },
-    { label: 'Rentals', href: '/earth-moving/rentals' },
-    { label: 'Dealers', href: '/earth-moving/dealers' },
+  "/earth-moving/sales/": [
+    { label: "Earth-moving machinery sales", href: "/earth-moving/salse" },
+    { label: "Rentals", href: "/earth-moving/rentals" },
+    { label: "Dealers", href: "/dealers" },
   ],
 };

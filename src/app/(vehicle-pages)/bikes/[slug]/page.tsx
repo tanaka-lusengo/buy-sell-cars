@@ -1,4 +1,4 @@
-import { Params } from '@/src/types/next-types';
+import { Params } from "@/src/types/next-types";
 
 export const BikesDetailPage = async ({ params }: Params) => {
   const { slug } = await params;

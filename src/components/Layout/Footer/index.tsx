@@ -1,25 +1,27 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { useState } from 'react';
-import { FooterContainer, FooterContent, FooterLink } from './index.styled';
-import { Typography, Button } from '../../ui';
-import { Box, Flex, Grid, HStack } from '@/styled-system/jsx';
-import { SOCIAL_MEDIA_URLS } from '@/src/constants/urls';
-import { InputField } from '@/src/components/FormComponents';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { subscribeValidationSchema } from '@/src/schemas';
-import { SubscribeFormType } from '@/src/types';
-import { subscribe } from '@/src/server/actions/auth';
-import { handleClientError, StatusCode, toastNotifySuccess } from '@/src/utils';
-import { SocialMediaLink } from '../../shared';
-import { useAuth } from '@/src/context/auth-context';
+import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
+import { FooterContainer, FooterContent, FooterLink } from "./index.styled";
+import { Typography, Button } from "../../ui";
+import { Box, Flex, Grid, HStack } from "@/styled-system/jsx";
+import { SOCIAL_MEDIA_URLS } from "@/src/constants/urls";
+import { InputField } from "@/src/components/FormComponents";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { subscribeValidationSchema } from "@/src/schemas";
+import { SubscribeFormType } from "@/src/types";
+import { subscribe } from "@/src/server/actions/auth";
+import { handleClientError, StatusCode, toastNotifySuccess } from "@/src/utils";
+import { SocialMediaLink } from "../../shared";
+import { useAuth } from "@/src/context/auth-context";
+import { usePathname } from "next/navigation";
 
 export const Footer = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const { user } = useAuth();
+  const pathname = usePathname();
 
   const {
     register,
@@ -27,8 +29,8 @@ export const Footer = () => {
     formState: { errors },
   } = useForm<SubscribeFormType>({
     resolver: zodResolver(subscribeValidationSchema),
-    mode: 'all',
-    defaultValues: { email: '' },
+    mode: "all",
+    defaultValues: { email: "" },
   });
 
   const handleAction = async (formData: SubscribeFormType) => {
@@ -36,18 +38,24 @@ export const Footer = () => {
       const { status, error } = await subscribe(formData);
 
       if (status !== StatusCode.SUCCESS) {
-        return handleClientError('subscribing', error);
+        return handleClientError("subscribing", error);
       }
 
       setIsSuccess(true);
-      toastNotifySuccess('Subscribed to newsletter successfully!');
+      toastNotifySuccess("Subscribed to newsletter successfully!");
     } catch (error) {
-      handleClientError('subscribing', error);
+      handleClientError("subscribing", error);
     }
   };
 
+  const isHomePage = pathname === "/";
+  const isDashboardPage = pathname.includes("/dashboard");
+
+  const showGreyBackground =
+    isHomePage || isDashboardPage ? "greyLight" : "white";
+
   return (
-    <FooterContainer>
+    <FooterContainer bg={showGreyBackground ? "greyLight" : "white"}>
       <FooterContent>
         <Link href="/">
           <Image
@@ -56,7 +64,7 @@ export const Footer = () => {
             height={65}
             priority
             sizes="100vw"
-            style={{ height: 'auto', padding: '0.1rem 0' }}
+            style={{ height: "auto", padding: "0.1rem 0" }}
             alt="Buy Sell Cars logo"
           />
         </Link>
@@ -69,8 +77,8 @@ export const Footer = () => {
         </Box>
 
         <Grid
-          gridTemplateColumns={{ base: '1fr', md: 'repeat(4, 1fr)' }}
-          gap={{ base: 'xxs', md: 'lg' }}
+          gridTemplateColumns={{ base: "1fr", md: "repeat(4, 1fr)" }}
+          gap={{ base: "xxs", md: "lg" }}
         >
           {/* Block 1 */}
           <Flex direction="column" mb="lg">
@@ -82,10 +90,10 @@ export const Footer = () => {
             <FooterLink href="/trucks/sales/">Truck sales</FooterLink>
             <FooterLink href="/bikes/sales/">Bike sales</FooterLink>
             <FooterLink href="/agriculture/sales/">
-              Agriculture equipmentsales
+              Agriculture machinery sales
             </FooterLink>
             <FooterLink href="/earth-moving/sales/">
-              Earth-moving equipment sales
+              Earth-moving machinery sales
             </FooterLink>
           </Flex>
 
@@ -95,13 +103,13 @@ export const Footer = () => {
               Sell Your Vehicle
             </Typography>
 
-            <FooterLink href={user ? '/dashboard/add-listing' : '/sign-up'}>
+            <FooterLink href={user ? "/dashboard/add-listing" : "/sign-up"}>
               Post your car ad
             </FooterLink>
-            <FooterLink href={user ? '/dashboard/' : '/sign-in/'}>
+            <FooterLink href={user ? "/dashboard/" : "/sign-in/"}>
               {user
-                ? 'Manage your listings'
-                : 'Sign in to manage your listings'}
+                ? "Manage your listings"
+                : "Sign in to manage your listings"}
             </FooterLink>
           </Flex>
 
@@ -110,25 +118,59 @@ export const Footer = () => {
             <Typography as="h5" variant="h3">
               Contact Us
             </Typography>
-            <Typography variant="body2" hoverEffect="color">
-              <Link
-                href={SOCIAL_MEDIA_URLS.phone_whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
+            <Link
+              href={SOCIAL_MEDIA_URLS.phone_whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <HStack
+                _hover={{
+                  color: "green",
+                  transition: "0.3s ease-in-out",
+                }}
               >
-                WhatsApp
-              </Link>
-            </Typography>
-            <Typography variant="body2" hoverEffect="color">
-              <Link
-                href={SOCIAL_MEDIA_URLS.phone_tel}
-                target="_blank"
-                rel="noopener noreferrer"
+                <i
+                  className="fa-brands fa-whatsapp"
+                  aria-hidden="true"
+                  title="whatsapp"
+                  style={{ width: "2rem" }}
+                ></i>
+                <Typography variant="body2">WhatsApp</Typography>
+              </HStack>
+            </Link>
+
+            <Link
+              href={SOCIAL_MEDIA_URLS.phone_tel}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <HStack
+                _hover={{
+                  color: "primary",
+                  transition: "0.3s ease-in-out",
+                }}
               >
-                Phone: {SOCIAL_MEDIA_URLS.phone}
-              </Link>
-            </Typography>
-            <Typography variant="body2">Harare Zimbabwe</Typography>
+                <i
+                  className="fa-solid fa-phone"
+                  aria-hidden="true"
+                  title="phone"
+                  style={{ width: "2rem" }}
+                ></i>
+                <Typography variant="body2">
+                  {SOCIAL_MEDIA_URLS.phone}
+                </Typography>
+              </HStack>
+            </Link>
+
+            <HStack>
+              <i
+                className="fa-solid fa-location-dot"
+                aria-hidden="true"
+                title="location"
+                style={{ width: "2rem" }}
+              ></i>
+              <Typography variant="body2">Harare Zimbabwe</Typography>
+            </HStack>
           </Flex>
 
           {/* Block 4 */}

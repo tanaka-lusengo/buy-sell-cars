@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import Link, { LinkProps } from 'next/link';
-import { buttonAsLinkRecipe } from './ButtonAsLink.recipe';
-import { cx, type RecipeVariantProps } from '@/styled-system/css';
+import Link, { LinkProps } from "next/link";
+import { buttonAsLinkRecipe } from "./ButtonAsLink.recipe";
+import { cx, type RecipeVariantProps } from "@/styled-system/css";
 
 export type ButtonAsLinkProps = RecipeVariantProps<typeof buttonAsLinkRecipe> &
-  Omit<LinkProps, 'href'> & {
+  Omit<LinkProps, "href"> & {
     href?: string;
     onClick: () => void;
     children: React.ReactNode;
@@ -20,7 +20,7 @@ export const ButtonAsLink = (props: ButtonAsLinkProps) => {
 
   return (
     <Link
-      href={href || '#'}
+      href={href || "#"}
       onClick={(e) => {
         e.preventDefault();
         onClick();

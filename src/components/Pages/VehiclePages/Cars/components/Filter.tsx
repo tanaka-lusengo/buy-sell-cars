@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import { useMemo } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { type infer as ZodInfer } from 'zod';
-import { Flex, Grid } from '@/styled-system/jsx';
-import { SelectField } from '@/src/components/FormComponents';
-import { Button, ButtonAsLink, Typography } from '@/src/components/ui';
-import { Form } from './common.styled';
-import { filterValidationSchema } from '../schema';
+import { useMemo } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { type infer as ZodInfer } from "zod";
+import { Flex, Grid } from "@/styled-system/jsx";
+import { SelectField } from "@/src/components/FormComponents";
+import { Button, ButtonAsLink, Typography } from "@/src/components/ui";
+import { Form } from "./common.styled";
+import { filterValidationSchema } from "../schema";
 import {
   CAR_CONDITIONS,
   FUEL_TYPES,
   GEARBOX_TYPES,
   LOCATIONS,
-} from '@/src/constants/values';
-import { generatePrices, toSnakeCase } from '@/src/utils';
+} from "@/src/constants/values";
+import { generatePrices, toSnakeCase } from "@/src/utils";
 
 type FilterForm = ZodInfer<typeof filterValidationSchema>;
 
@@ -34,11 +34,11 @@ export const Filter = ({
     formState: { errors },
   } = useForm<FilterForm>({
     resolver: zodResolver(filterValidationSchema),
-    mode: 'all',
+    mode: "all",
   });
 
   const handleAction = async (formData: FilterForm) => {
-    console.log('Form data:', formData);
+    console.log("Form data:", formData);
   };
 
   const PRICES = useMemo(() => generatePrices(), []);
@@ -63,7 +63,7 @@ export const Filter = ({
 
       <Grid gridTemplateColumns="1fr 1fr" gap="sm">
         <SelectField name="make" register={register} errors={errors}>
-          <option key="make" value={''}>
+          <option key="make" value={""}>
             Car make
           </option>
           {carFilterData.makes.map((make) => (
@@ -74,7 +74,7 @@ export const Filter = ({
         </SelectField>
 
         <SelectField name="model" register={register} errors={errors}>
-          <option key="model" value={''}>
+          <option key="model" value={""}>
             Car model
           </option>
           {carFilterData.models.map((model) => (
@@ -87,7 +87,7 @@ export const Filter = ({
 
       <Grid gridTemplateColumns="1fr 1fr" gap="sm">
         <SelectField name="location" register={register} errors={errors}>
-          <option key="location" value={''}>
+          <option key="location" value={""}>
             Location
           </option>
           {LOCATIONS.map((location) => (
@@ -98,7 +98,7 @@ export const Filter = ({
         </SelectField>
 
         <SelectField name="condition" register={register} errors={errors}>
-          <option key="condition" value={''}>
+          <option key="condition" value={""}>
             Condition
           </option>
           {CAR_CONDITIONS.map((condition) => (
@@ -111,7 +111,7 @@ export const Filter = ({
 
       <Grid gridTemplateColumns="1fr 1fr" gap="sm">
         <SelectField name="fuelType" register={register} errors={errors}>
-          <option key="fuel-type" value={''}>
+          <option key="fuel-type" value={""}>
             Fuel type
           </option>
           {FUEL_TYPES.map((type) => (
@@ -122,7 +122,7 @@ export const Filter = ({
         </SelectField>
 
         <SelectField name="gearboxType" register={register} errors={errors}>
-          <option key="gearbox-type" value={''}>
+          <option key="gearbox-type" value={""}>
             Gearbox
           </option>
           {GEARBOX_TYPES.map((type) => (
@@ -140,7 +140,7 @@ export const Filter = ({
           errors={errors}
           defaultValue="Min price"
         >
-          <option key="min-price" value={''}>
+          <option key="min-price" value={""}>
             Min price
           </option>
           {PRICES.map((price) => (
@@ -151,7 +151,7 @@ export const Filter = ({
         </SelectField>
 
         <SelectField name="maxPrice" register={register} errors={errors}>
-          <option key="max-price" value={''}>
+          <option key="max-price" value={""}>
             Max price
           </option>
           {PRICES.map((price) => (

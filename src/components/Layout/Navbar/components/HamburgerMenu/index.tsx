@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { Divider, VStack } from '@/styled-system/jsx';
-import { Typography } from '@/src/components/ui';
-import { NavDrawer, NavList, SubNavList, Overlay } from './index.styled';
-import { Bar, BarWrapper, Button } from './index.styled';
-import { useAuth } from '@/src/context/auth-context';
-import { SignOut } from '@/src/components/Pages';
-import { usePathname } from 'next/navigation';
-import { navLinksMap } from '../../constants';
-import { stripTrailingSlash } from '../../utils/helpers';
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Divider, VStack } from "@/styled-system/jsx";
+import { Typography } from "@/src/components/ui";
+import { NavDrawer, NavList, SubNavList, Overlay } from "./index.styled";
+import { Bar, BarWrapper, Button } from "./index.styled";
+import { useAuth } from "@/src/context/auth-context";
+import { SignOut } from "@/src/components/Pages";
+import { usePathname } from "next/navigation";
+import { navLinksMap } from "../../constants";
+import { stripTrailingSlash } from "../../utils/helpers";
 
 type HanburgerMenuProps = {
   navLinks: { label: string; href: string }[];
@@ -34,19 +34,19 @@ export const HamburgerMenu = ({
   );
 
   const isMatchingPath = (path: string, label: string) =>
-    path === matchingBasePath || (label === 'Cars' && pathname === '/');
+    path === matchingBasePath || (label === "Cars" && pathname === "/");
 
   // Lock scroll when menu is open
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
 
     // Clean up on unmount
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [isOpen]);
 
@@ -70,12 +70,12 @@ export const HamburgerMenu = ({
         <VStack gap="sm" alignItems="flex-start">
           <VStack
             marginTop="lg"
-            display={{ base: 'flex', xxl: 'none' }}
+            display={{ base: "flex", xxl: "none" }}
             alignItems="flex-start"
           >
             <Typography variant="h4" weight="bold" hoverEffect="color">
               <Link
-                href={user ? '/dashboard/add-listing' : '/sign-up'}
+                href={user ? "/dashboard/add-listing" : "/sign-up"}
                 onClick={() => setIsOpen(false)}
               >
                 Sell Your Vehicle
@@ -83,10 +83,10 @@ export const HamburgerMenu = ({
             </Typography>
             <Typography variant="h4" weight="bold" hoverEffect="color">
               <Link
-                href={`${user ? '/dashboard' : '/sign-in'}`}
+                href={`${user ? "/dashboard" : "/sign-in"}`}
                 onClick={() => setIsOpen(false)}
               >
-                {user ? 'Account' : 'Login'}
+                {user ? "Account" : "Login"}
               </Link>
             </Typography>
             {user && (
@@ -105,10 +105,10 @@ export const HamburgerMenu = ({
                 as="li"
                 variant="body2"
                 weight={
-                  isMatchingPath(item.href, item.label) ? 'bold' : 'normal'
+                  isMatchingPath(item.href, item.label) ? "bold" : "normal"
                 }
                 color={
-                  isMatchingPath(item.href, item.label) ? 'primaryDark' : 'text'
+                  isMatchingPath(item.href, item.label) ? "primaryDark" : "text"
                 }
                 hoverEffect="color"
               >
@@ -144,7 +144,7 @@ export const HamburgerMenu = ({
           tabIndex={0}
           onClick={() => setIsOpen(false)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
+            if (e.key === "Enter" || e.key === " ") {
               setIsOpen(false);
             }
           }}

@@ -1,10 +1,11 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { useFileUploadHelpers } from '@/src/hooks';
-import { Profile } from '@/src/types';
-import { createClient } from '@/supabase/client';
-import { Typography } from '@/src/components/ui';
-import { VStack, Box } from '@/styled-system/jsx';
+import Link from "next/link";
+import Image from "next/image";
+import { useFileUploadHelpers } from "@/src/hooks";
+import { Profile } from "@/src/types";
+import { createClient } from "@/supabase/client";
+import { Typography } from "@/src/components/ui";
+import { VStack, Box } from "@/styled-system/jsx";
+import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 
 export const FeaturedDealersCard = ({ dealer }: { dealer: Profile }) => {
   const supabase = createClient();
@@ -14,12 +15,12 @@ export const FeaturedDealersCard = ({ dealer }: { dealer: Profile }) => {
   return (
     <Box
       bg="white"
+      marginX="sm"
       borderRadius="1rem"
       boxShadow="0 4px 10px rgba(0, 0, 0, 0.1)"
-      marginX="sm"
       _hover={{
-        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.2)',
-        transform: 'scale(1.01)',
+        boxShadow: "0 6px 12px rgba(0, 0, 0, 0.2)",
+        transform: "scale(1.01)",
       }}
       transition="all 0.3s ease-in-out"
     >
@@ -34,19 +35,27 @@ export const FeaturedDealersCard = ({ dealer }: { dealer: Profile }) => {
           >
             <Image
               src={getPublicUrl(
-                'profile-logos',
-                dealer.profile_logo_path ?? ''
+                "profile-logos",
+                dealer.profile_logo_path ?? ""
               )}
-              alt={dealer.dealership_name ?? ''}
+              alt={dealer.dealership_name ?? ""}
               fill
               objectFit="cover"
+              loading="lazy"
               style={{
-                borderRadius: '1rem',
+                objectFit: DEALER_LOGOS_TO_CONTAIN.includes(
+                  String(dealer.dealership_name)
+                )
+                  ? "contain"
+                  : "cover",
+                borderRadius: "1rem",
               }}
             />
           </Box>
 
-          <Typography align="center">{dealer.dealership_name}</Typography>
+          <Typography variant="h4" align="center">
+            {dealer.dealership_name}
+          </Typography>
         </VStack>
       </Link>
     </Box>

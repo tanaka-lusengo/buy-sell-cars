@@ -1,19 +1,24 @@
-'use server';
+"use server";
 
-import { createClient } from '@/supabase/server';
+import { createClient } from "@/supabase/server";
 import {
   AddVehicleFormType,
   AddVehicleDataType,
   AddVehicleImageDataType,
   ListingCategoryType,
-} from '@/src/types';
-import { handleServerError, StatusCode } from '@/src/utils';
-import { addVehicleValidationSchema } from '@/src/schemas';
-import { revalidatePath } from 'next/cache';
-import { Tables } from '@/database.types';
+  EditVehicleDataType,
+  EditVehicleFormType,
+} from "@/src/types";
+import { handleServerError, StatusCode, shuffleArray } from "@/src/utils";
+import {
+  addVehicleValidationSchema,
+  editVehicleValidationSchema,
+} from "@/src/schemas";
+import { revalidatePath } from "next/cache";
+import { Tables } from "@/database.types";
 
 type AddVehicleProps = {
-  profile: Tables<'profiles'>;
+  profile: Tables<"profiles">;
   formData: AddVehicleFormType;
 };
 
@@ -43,10 +48,11 @@ export const addVehicle = async ({ profile, formData }: AddVehicleProps) => {
       seats: Number(parsedData.seats),
       description: parsedData.description,
       spec_sheet_path: null,
+      is_active: false,
     };
 
     const { data, error } = await supabase
-      .from('vehicles')
+      .from("vehicles")
       .insert(addVehicleData)
       .select();
 
@@ -54,11 +60,172 @@ export const addVehicle = async ({ profile, formData }: AddVehicleProps) => {
       return { data: null, status: StatusCode.BAD_REQUEST, error };
     }
 
-    revalidatePath('/', 'layout');
+    revalidatePath("/dashboard/add-listing/", "page");
 
     return { data: data[0], status: StatusCode.SUCCESS, error: null };
   } catch (error) {
-    return handleServerError(error, 'adding vehicle (server)');
+    return handleServerError(error, "adding vehicle (server)");
+  }
+};
+
+type UpdateVehicleProps = {
+  vehicleId: string;
+  formData: EditVehicleFormType;
+};
+
+export const updateVehicle = async ({
+  vehicleId,
+  formData,
+}: UpdateVehicleProps) => {
+  // Init supabase client
+  const supabase = await createClient();
+
+  try {
+    // Validate form data
+    const parsedData = editVehicleValidationSchema.parse(formData);
+
+    // Create vehicle data object
+    const addVehicleData: EditVehicleDataType = {
+      listing_category: parsedData.listingCategory,
+      make: parsedData.make,
+      model: parsedData.model,
+      location: parsedData.location,
+      price: Number(parsedData.price),
+      mileage: Number(parsedData.mileage),
+      condition: parsedData.condition,
+      year: Number(parsedData.year),
+      fuel: parsedData.fuelType,
+      gear_box: parsedData.gearBox,
+      vehicle_category: parsedData.vehicleCategory,
+      doors: Number(parsedData.doors),
+      seats: Number(parsedData.seats),
+      description: parsedData.description,
+      spec_sheet_path: null,
+      is_active: parsedData.isActive === "true" ? true : false,
+    };
+
+    const { data, error } = await supabase
+      .from("vehicles")
+      .update(addVehicleData)
+      .eq("id", vehicleId)
+      .select();
+
+    if (error) {
+      return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+    revalidatePath("/dashboard/listings/", "page");
+    return { data: data[0], status: StatusCode.SUCCESS, error: null };
+  } catch (error) {
+    return handleServerError(error, "updating vehicle (server)");
+  }
+};
+
+export const deleteVehicle = async (vehicleId: string) => {
+  // Initialize Supabase client
+  const supabase = await createClient();
+
+  try {
+    // 1. Get all image paths for the vehicle from the vehicle_images table
+    const { data: imagesData, error: imagesError } = await supabase
+      .from("vehicle_images")
+      .select("image_path")
+      .eq("vehicle_id", vehicleId);
+
+    if (imagesError) {
+      // Return error if unable to fetch image paths
+      return { data: null, status: StatusCode.BAD_REQUEST, error: imagesError };
+    }
+
+    // Extract image paths into an array
+    const imagePaths = imagesData.map((image) => image.image_path);
+
+    // 2. Get the spec sheet path for the vehicle
+    const { data: vehicleData, error: vehicleError } = await supabase
+      .from("vehicles")
+      .select("spec_sheet_path")
+      .eq("id", vehicleId)
+      .single();
+
+    if (vehicleError) {
+      // Return error if unable to fetch vehicle data
+      return {
+        data: null,
+        status: StatusCode.BAD_REQUEST,
+        error: vehicleError,
+      };
+    }
+
+    const specSheetPath = vehicleData?.spec_sheet_path;
+
+    // 3. Delete vehicle images from storage bucket
+    if (imagePaths.length > 0) {
+      const { error: deleteImagesStorageError } = await supabase.storage
+        .from("vehicle-images")
+        .remove(imagePaths);
+
+      if (deleteImagesStorageError) {
+        // Return error if unable to delete images from storage
+        return {
+          data: null,
+          status: StatusCode.BAD_REQUEST,
+          error: deleteImagesStorageError,
+        };
+      }
+    }
+
+    // 4. Delete spec sheet file from storage bucket if it exists
+    if (specSheetPath) {
+      const { error: deleteSpecSheetStorageError } = await supabase.storage
+        .from("spec-sheets")
+        .remove([specSheetPath]);
+
+      if (deleteSpecSheetStorageError) {
+        // Return error if unable to delete spec sheet from storage
+        return {
+          data: null,
+          status: StatusCode.BAD_REQUEST,
+          error: deleteSpecSheetStorageError,
+        };
+      }
+    }
+
+    // 5. Delete vehicle images records from vehicle_images table
+    const { error: deleteImagesError } = await supabase
+      .from("vehicle_images")
+      .delete()
+      .eq("vehicle_id", vehicleId);
+
+    if (deleteImagesError) {
+      // Return error if unable to delete image records
+      return {
+        data: null,
+        status: StatusCode.BAD_REQUEST,
+        error: deleteImagesError,
+      };
+    }
+
+    // 6. Delete the vehicle record itself
+    const { error: deleteVehicleError } = await supabase
+      .from("vehicles")
+      .delete()
+      .eq("id", vehicleId);
+
+    if (deleteVehicleError) {
+      // Return error if unable to delete the vehicle
+      return {
+        data: null,
+        status: StatusCode.BAD_REQUEST,
+        error: deleteVehicleError,
+      };
+    }
+
+    // 7. Revalidate the path to update the UI
+    revalidatePath("/dashboard/listings/", "page");
+
+    // Return success response
+    return { data: null, status: StatusCode.SUCCESS, error: null };
+  } catch (error) {
+    return handleServerError(error, "deleting vehicle (server)");
   }
 };
 
@@ -74,7 +241,7 @@ export const addVehicleImagePaths = async ({
   // Init supabase client
   const supabase = await createClient();
 
-  console.info('Saving image paths to database...');
+  console.info("Saving image paths to database...");
   try {
     const addVehicleImagesData = () =>
       imagePaths.map((url) => {
@@ -85,7 +252,7 @@ export const addVehicleImagePaths = async ({
       });
 
     const { error: addVehicleImagesError } = await supabase
-      .from('vehicle_images')
+      .from("vehicle_images")
       .insert(addVehicleImagesData());
 
     if (addVehicleImagesError) {
@@ -96,9 +263,11 @@ export const addVehicleImagePaths = async ({
       };
     }
 
+    revalidatePath("/dashboard/listings/", "page");
+
     return { data: null, status: StatusCode.SUCCESS, error: null };
   } catch (error) {
-    return handleServerError(error, 'adding vehicle image paths (server)');
+    return handleServerError(error, "adding vehicle image paths (server)");
   }
 };
 
@@ -119,14 +288,14 @@ export const updateVehicleWithSpecSheet = async ({
       return {
         data: null,
         status: StatusCode.BAD_REQUEST,
-        error: 'spec sheet file path is required',
+        error: "spec sheet file path is required",
       };
     }
 
     const { error: updateVehicleSpecSheetError } = await supabase
-      .from('vehicles')
+      .from("vehicles")
       .update({ spec_sheet_path: specSheetFilePath })
-      .eq('id', vehicleId);
+      .eq("id", vehicleId);
 
     if (updateVehicleSpecSheetError) {
       return {
@@ -140,21 +309,21 @@ export const updateVehicleWithSpecSheet = async ({
   } catch (error) {
     return handleServerError(
       error,
-      'updating vehicle with spec sheet (server)'
+      "updating vehicle with spec sheet (server)"
     );
   }
 };
 
-export const getVehicleByOwnerId = async (ownerId: string) => {
+export const getAllVehiclesByOwnerId = async (ownerId: string) => {
   // Init supabase client
   const supabase = await createClient();
 
   try {
     // fetch vehicle by owner id
     const { data, error } = await supabase
-      .from('vehicles')
-      .select('*')
-      .eq('owner_id', ownerId);
+      .from("vehicles")
+      .select("*")
+      .eq("owner_id", ownerId);
 
     if (error) {
       return { data: null, status: StatusCode.BAD_REQUEST, error };
@@ -164,9 +333,9 @@ export const getVehicleByOwnerId = async (ownerId: string) => {
     const vehiclesWithImages = await Promise.all(
       data.map(async (vehicle) => {
         const { data: images, error: imagesError } = await supabase
-          .from('vehicle_images')
-          .select('*')
-          .eq('vehicle_id', vehicle.id);
+          .from("vehicle_images")
+          .select("*")
+          .eq("vehicle_id", vehicle.id);
 
         if (imagesError) {
           throw imagesError;
@@ -181,7 +350,7 @@ export const getVehicleByOwnerId = async (ownerId: string) => {
       error: null,
     };
   } catch (error) {
-    return handleServerError(error, 'getting vehicles (server)');
+    return handleServerError(error, "getting vehicles (server)");
   }
 };
 
@@ -192,9 +361,10 @@ export const getVehicleById = async (vehicleId: string) => {
   try {
     // fetch vehicle by id
     const { data, error } = await supabase
-      .from('vehicles')
-      .select('*')
-      .eq('id', vehicleId)
+      .from("vehicles")
+      .select("*")
+      .eq("id", vehicleId)
+      .eq("is_active", true)
       .single();
 
     if (error) {
@@ -203,9 +373,9 @@ export const getVehicleById = async (vehicleId: string) => {
 
     // fetch vehicle images by vehicle id
     const { data: images, error: imagesError } = await supabase
-      .from('vehicle_images')
-      .select('*')
-      .eq('vehicle_id', vehicleId);
+      .from("vehicle_images")
+      .select("*")
+      .eq("vehicle_id", vehicleId);
 
     if (imagesError) {
       throw imagesError;
@@ -217,33 +387,54 @@ export const getVehicleById = async (vehicleId: string) => {
       error: null,
     };
   } catch (error) {
-    return handleServerError(error, 'getting vehicle (server)');
+    return handleServerError(error, "getting vehicle (server)");
   }
 };
 
-export const getAllCarsByCategory = async (
-  category: ListingCategoryType[number]
+export const getAllCarsByListingCategory = async (
+  category: ListingCategoryType[number],
+  isLandingPage: boolean = false
 ) => {
   // Init supabase client
   const supabase = await createClient();
   try {
     // fetch all cars
-    const { data, error } = await supabase
-      .from('vehicles')
-      .select('*')
-      .eq('listing_category', category);
+    let response = null;
+
+    if (isLandingPage) {
+      response = await supabase
+        .from("vehicles")
+        .select("*")
+        .eq("is_active", true)
+        .eq("vehicle_category", "car")
+        .eq("listing_category", category)
+        .range(0, 99);
+    } else {
+      response = await supabase
+        .from("vehicles")
+        .select("*")
+        .eq("vehicle_category", "car")
+        .eq("listing_category", category);
+    }
+
+    const { data, error } = response;
 
     if (error) {
       return { data: null, status: StatusCode.BAD_REQUEST, error };
     }
 
+    // Shuffle and limit the data to 12 items
+    const shuffledData = isLandingPage
+      ? shuffleArray(data).slice(0, 12)
+      : shuffleArray(data);
+
     // fetch vehicle images by vehicle id
     const vehicleWithImages = await Promise.all(
-      data.map(async (vehicle) => {
+      shuffledData.map(async (vehicle) => {
         const { data: images, error: imagesError } = await supabase
-          .from('vehicle_images')
-          .select('*')
-          .eq('vehicle_id', vehicle.id);
+          .from("vehicle_images")
+          .select("*")
+          .eq("vehicle_id", vehicle.id);
 
         if (imagesError) {
           throw imagesError;
@@ -255,7 +446,7 @@ export const getAllCarsByCategory = async (
 
     return { data: vehicleWithImages, status: StatusCode.SUCCESS, error: null };
   } catch (error) {
-    return handleServerError(error, 'getting cars (server)');
+    return handleServerError(error, "getting cars (server)");
   }
 };
 
@@ -266,9 +457,9 @@ export const getAllDealers = async () => {
   try {
     // fetch all dealers
     const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('user_category', 'dealership');
+      .from("profiles")
+      .select("*")
+      .eq("user_category", "dealership");
 
     if (error) {
       return { data: null, status: StatusCode.BAD_REQUEST, error };
@@ -276,6 +467,28 @@ export const getAllDealers = async () => {
 
     return { data, status: StatusCode.SUCCESS, error: null };
   } catch (error) {
-    return handleServerError(error, 'getting dealers (server)');
+    return handleServerError(error, "getting dealers (server)");
+  }
+};
+
+export const getProfileById = async (profileId: string) => {
+  // Init supabase client
+  const supabase = await createClient();
+
+  try {
+    // fetch profile by id
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", profileId)
+      .single();
+
+    if (error) {
+      return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+
+    return { data, status: StatusCode.SUCCESS, error: null };
+  } catch (error) {
+    return handleServerError(error, "getting profile (server)");
   }
 };

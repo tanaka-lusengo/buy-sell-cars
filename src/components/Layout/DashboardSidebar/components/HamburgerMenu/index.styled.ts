@@ -1,42 +1,42 @@
-import { styled } from '@/styled-system/jsx';
+import { styled } from "@/styled-system/jsx";
 
 // Button styles
-export const Button = styled('button', {
+export const Button = styled("button", {
   base: {
-    display: { lg: 'flex', xxl: 'none' },
-    color: 'primary',
-    cursor: 'pointer',
-    padding: '0.5rem',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: { lg: "flex", xxl: "none" },
+    color: "primary",
+    cursor: "pointer",
+    padding: "0.5rem",
+    justifyContent: "center",
+    alignItems: "center",
     zIndex: 65,
     _focus: {
-      borderColor: 'primary',
+      borderColor: "primary",
     },
     _focusVisible: {
-      outline: 'none',
-      borderColor: 'primary',
+      outline: "none",
+      borderColor: "primary",
     },
   },
 });
 
-export const BarWrapper = styled('div', {
+export const BarWrapper = styled("div", {
   base: {
-    position: 'relative',
-    padding: 'md',
+    position: "relative",
+    padding: "md",
   },
 });
 
-export const Bar = styled('span', {
+export const Bar = styled("span", {
   base: {
-    display: 'block',
-    position: 'absolute',
+    display: "block",
+    position: "absolute",
     left: 0,
-    height: '2px',
-    width: '100%',
-    backgroundColor: 'primary',
-    borderRadius: '9px',
-    transition: 'all 0.3s ease-in-out',
+    height: "2px",
+    width: "100%",
+    backgroundColor: "primary",
+    borderRadius: "9px",
+    transition: "all 0.3s ease-in-out",
   },
   variants: {
     position: {
@@ -51,97 +51,97 @@ export const Bar = styled('span', {
   },
   compoundVariants: [
     {
-      position: 'top',
+      position: "top",
       isOpen: true,
       css: {
-        transform: 'rotate(45deg)',
+        transform: "rotate(45deg)",
       },
     },
     {
-      position: 'top',
+      position: "top",
       isOpen: false,
       css: {
-        transform: 'translateY(-8px)',
+        transform: "translateY(-8px)",
       },
     },
     {
-      position: 'middle',
+      position: "middle",
       isOpen: true,
       css: {
         opacity: 0,
       },
     },
     {
-      position: 'middle',
+      position: "middle",
       isOpen: false,
       css: {
         opacity: 1,
       },
     },
     {
-      position: 'bottom',
+      position: "bottom",
       isOpen: true,
       css: {
-        transform: 'rotate(-45deg)',
+        transform: "rotate(-45deg)",
       },
     },
     {
-      position: 'bottom',
+      position: "bottom",
       isOpen: false,
       css: {
-        transform: 'translateY(8px)',
+        transform: "translateY(8px)",
       },
     },
   ],
 });
 
 // Navigation styles
-export const NavList = styled('ul', {
+export const NavList = styled("ul", {
   base: {
-    marginTop: 'md',
-    display: { base: 'flex', xl: 'none' },
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    gap: '2rem',
+    marginTop: "md",
+    display: { base: "flex", xl: "none" },
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "2rem",
   },
 });
 
-export const NavDrawer = styled('div', {
+export const NavDrawer = styled("div", {
   base: {
-    display: { base: 'block', xxl: 'none' },
-    position: 'fixed',
+    display: { base: "block", xxl: "none" },
+    position: "fixed",
     top: 0,
     right: 0,
     bottom: 0,
-    width: '100%',
-    maxWidth: { base: '100vw', sm: '30rem' },
-    backgroundColor: 'white',
-    transition: 'all 0.3s ease-in-out',
-    px: 'lg',
-    pt: 'xl',
-    pb: 'lg',
-    overflowY: 'auto',
+    width: "100%",
+    maxWidth: { base: "100vw", sm: "30rem" },
+    backgroundColor: "white",
+    transition: "all 0.3s ease-in-out",
+    px: "lg",
+    pt: "xl",
+    pb: "lg",
+    overflowY: "auto",
     zIndex: 40,
   },
   variants: {
     isOpen: {
-      true: { transform: 'translateX(0)' },
-      false: { transform: 'translateX(100%)' },
+      true: { transform: "translateX(0)" },
+      false: { transform: "translateX(100%)" },
     },
   },
 });
 
-export const Overlay = styled('div', {
+export const Overlay = styled("div", {
   base: {
-    position: 'fixed',
+    position: "fixed",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    transition: 'all 0.3s ease-in-out',
-    backgroundColor: 'black',
+    transition: "all 0.3s ease-in-out",
+    backgroundColor: "black",
     opacity: 0.7,
-    display: { base: 'block' },
+    display: { base: "block" },
     zIndex: 25,
   },
 });

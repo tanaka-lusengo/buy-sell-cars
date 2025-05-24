@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { type infer as ZodInfer } from 'zod';
-import { Constants, Tables } from '@/database.types';
+import { type infer as ZodInfer } from "zod";
+import { Constants, Tables } from "@/database.types";
 import {
   signUpValidationSchema,
   signInValidationSchema,
   updateProfileValidationSchema,
   addVehicleValidationSchema,
+  editVehicleValidationSchema,
   subscribeValidationSchema,
-} from '../schemas';
+} from "../schemas";
 
 const {
   user_category_type,
@@ -48,28 +49,41 @@ export type UpdateProfileFormType = ZodInfer<
 
 export type AddVehicleFormType = ZodInfer<typeof addVehicleValidationSchema>;
 
+export type EditVehicleFormType = ZodInfer<typeof editVehicleValidationSchema>;
+
 // Database Tables Types
-export type Profile = Tables<'profiles'>;
+export type Profile = Tables<"profiles">;
 
-export type Vehicle = Tables<'vehicles'>;
+export type Vehicle = Tables<"vehicles">;
 
-export type VehicleImage = Tables<'vehicle_images'>;
+export type VehicleImage = Tables<"vehicle_images">;
 
 // Server Actions Types
 export type AddVehicleDataType = Omit<
   Vehicle,
-  'id' | 'created_at' | 'updated_at' | 'is_feature'
+  "id" | "created_at" | "updated_at" | "is_feature"
 >;
 
-export type AddVehicleImageDataType = Omit<VehicleImage, 'id' | 'created_at'>;
+export type AddVehicleImageDataType = Omit<VehicleImage, "id" | "created_at">;
+
+export type EditVehicleDataType = Partial<
+  Omit<Vehicle, "id" | "created_at" | "updated_at">
+>;
 
 export type VehicleWithImage = Vehicle & {
   images: VehicleImage[];
 };
 
+export type VehicleWithImageAndDealer = VehicleWithImage & {
+  dealer: {
+    dealership_name: string | null | undefined;
+    profile_logo_path: string | null | undefined;
+  };
+};
+
 // Storage Bucket Types
 export type StorageBucket =
-  | 'profile-logos'
-  | 'vehicle-images'
-  | 'spec-sheets'
-  | 'government-ids';
+  | "profile-logos"
+  | "vehicle-images"
+  | "spec-sheets"
+  | "government-ids";

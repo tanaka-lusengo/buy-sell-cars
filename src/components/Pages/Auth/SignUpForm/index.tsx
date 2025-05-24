@@ -1,27 +1,27 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Typography, Button } from '@/src/components/ui';
-import { Stack, Grid, HStack, Divider } from '@/styled-system/jsx';
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Typography, Button } from "@/src/components/ui";
+import { Stack, Grid, HStack, Divider } from "@/styled-system/jsx";
 import {
   InputField,
   SelectField,
   TextareaField,
-} from '@/src/components/FormComponents';
-import { signUpValidationSchema, signUpFormDefaultValues } from '@/src/schemas';
-import { signUp } from '@/src/server/actions/auth';
-import { type SignUpFormType } from '@/src/types';
+} from "@/src/components/FormComponents";
+import { signUpValidationSchema, signUpFormDefaultValues } from "@/src/schemas";
+import { signUp } from "@/src/server/actions/auth";
+import { type SignUpFormType } from "@/src/types";
 import {
   handleClientError,
   StatusCode,
   toastNotifySuccess,
   toSnakeCase,
-} from '@/src/utils';
-import { USER_CATEGORYS, LOCATIONS } from '@/src/constants/values';
-import { Form } from './index.styled';
-import { useState } from 'react';
+} from "@/src/utils";
+import { USER_CATEGORYS, LOCATIONS } from "@/src/constants/values";
+import { Form } from "./index.styled";
+import { useState } from "react";
 
 export const SignUpForm = () => {
   const [showSuccess, setShowSuccess] = useState(false);
@@ -33,7 +33,7 @@ export const SignUpForm = () => {
     formState: { errors },
   } = useForm<SignUpFormType>({
     resolver: zodResolver(signUpValidationSchema),
-    mode: 'all',
+    mode: "all",
     defaultValues: signUpFormDefaultValues,
   });
 
@@ -42,17 +42,17 @@ export const SignUpForm = () => {
       const { status, error } = await signUp(formData);
 
       if (status !== StatusCode.SUCCESS) {
-        return handleClientError('signing up, please try again later.', error);
+        return handleClientError("signing up, please try again later.", error);
       }
 
-      toastNotifySuccess('Sign up Success!');
+      toastNotifySuccess("Sign up Success!");
       setShowSuccess(true);
     } catch (error) {
-      handleClientError('signing up', error);
+      handleClientError("signing up", error);
     }
   };
 
-  const categoryType = watch('categoryType');
+  const categoryType = watch("categoryType");
 
   return (
     <Form
@@ -62,13 +62,13 @@ export const SignUpForm = () => {
     >
       <HStack marginBottom="md">
         <Typography variant="h1">
-          {!showSuccess ? 'Sign up' : 'Thank you for signing up!'}
+          {!showSuccess ? "Sign up" : "Thank you for signing up!"}
         </Typography>
       </HStack>
 
       {!showSuccess ? (
         <>
-          <Grid gridTemplateColumns={{ base: '1fr', sm: '1fr 1fr' }} gap="sm">
+          <Grid gridTemplateColumns={{ base: "1fr", sm: "1fr 1fr" }} gap="sm">
             <InputField
               label="First name"
               name="firstName"
@@ -84,7 +84,7 @@ export const SignUpForm = () => {
             />
           </Grid>
 
-          <Grid gridTemplateColumns={{ base: '1fr', sm: '1fr 1fr' }} gap="sm">
+          <Grid gridTemplateColumns={{ base: "1fr", sm: "1fr 1fr" }} gap="sm">
             <InputField
               label="Email address"
               name="email"
@@ -106,8 +106,8 @@ export const SignUpForm = () => {
 
           <Grid
             gridTemplateColumns={{
-              base: '1fr',
-              sm: categoryType === 'dealership' ? '1fr 1fr' : '1fr',
+              base: "1fr",
+              sm: categoryType === "dealership" ? "1fr 1fr" : "1fr",
             }}
             gap="sm"
           >
@@ -117,7 +117,7 @@ export const SignUpForm = () => {
               register={register}
               errors={errors}
             >
-              <option key="user-type" value={''}>
+              <option key="user-type" value={""}>
                 Select category
               </option>
               {USER_CATEGORYS.map((category) => (
@@ -127,7 +127,7 @@ export const SignUpForm = () => {
               ))}
             </SelectField>
 
-            {categoryType === 'dealership' && (
+            {categoryType === "dealership" && (
               <InputField
                 label="Dealership name"
                 name="dealershipName"
@@ -137,7 +137,7 @@ export const SignUpForm = () => {
             )}
           </Grid>
 
-          {categoryType === 'dealership' && (
+          {categoryType === "dealership" && (
             <>
               <SelectField
                 label="Location"
@@ -145,7 +145,7 @@ export const SignUpForm = () => {
                 register={register}
                 errors={errors}
               >
-                <option key="user-type" value={''}>
+                <option key="location" value={""}>
                   Select location
                 </option>
                 {LOCATIONS.map((location) => (
@@ -206,6 +206,10 @@ export const SignUpForm = () => {
           <Typography variant="h4" align="center">
             Check your email for a confirmation link.
           </Typography>
+
+          <Link href="/sign-in">
+            <Button>Sign in</Button>
+          </Link>
         </Stack>
       )}
     </Form>

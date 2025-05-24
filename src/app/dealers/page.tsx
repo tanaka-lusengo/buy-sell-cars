@@ -1,10 +1,10 @@
-import { type Metadata } from 'next';
-import { AllDealers } from '@/src/components/Pages';
-import { getAllDealers } from '@/src/server/actions/general';
+import { type Metadata } from "next";
+import { AllDealers } from "@/src/components/Pages";
+import { getAllDealers } from "@/src/server/actions/general";
 
 export const metadata: Metadata = {
-  title: 'Dealers',
-  description: 'Discover our range of dealers',
+  title: "Dealers",
+  description: "Discover our range of dealers",
 };
 
 const DealersPage = async () => {

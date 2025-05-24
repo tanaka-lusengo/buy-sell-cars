@@ -2,16 +2,17 @@ export {
   signInValidationSchema,
   signUpValidationSchema,
   subscribeValidationSchema,
-} from './authValidationSchemas';
+} from "./authValidationSchemas";
 
 export {
   updateProfileValidationSchema,
   addVehicleValidationSchema,
-} from './generalSchemas';
+  editVehicleValidationSchema,
+} from "./generalSchemas";
 
 export {
   signUpFormDefaultValues,
   signInFormDefaultValues,
   updateProfileFormDefaultValues,
   addVehicleFormDefaultValues,
-} from './constants';
+} from "./constants";

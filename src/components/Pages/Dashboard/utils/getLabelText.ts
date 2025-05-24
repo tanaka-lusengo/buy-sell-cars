@@ -1,4 +1,4 @@
-import { JSX } from 'react';
+import { JSX } from "react";
 
 // Utility function to determine label text
 export const getLabelText = (
@@ -7,7 +7,7 @@ export const getLabelText = (
   defaultLabel: string | JSX.Element,
   changeLabel: string | JSX.Element
 ): string | JSX.Element => {
-  if (loading) return 'Uploading...';
+  if (loading) return "Uploading...";
   if (file !== null) return changeLabel;
   return defaultLabel;
 };

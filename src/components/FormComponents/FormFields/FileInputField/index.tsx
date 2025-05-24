@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import * as Styled from '../common.styled';
-import { Button } from '@/src/components/ui';
-import { useRef, useState } from 'react';
-import type { ChangeEvent, CSSProperties, JSX } from 'react';
+import * as Styled from "../common.styled";
+import { Button } from "@/src/components/ui";
+import { useRef, useState } from "react";
+import type { ChangeEvent, CSSProperties, JSX } from "react";
 import type {
   FieldErrors,
   FieldValues,
   UseFormRegisterReturn,
-} from 'react-hook-form';
+} from "react-hook-form";
 
 type FileInputFieldProps<TFormValues extends FieldValues> = {
   label?: string | string[] | JSX.Element;
   name: string;
   accept?: string;
   multiple?: boolean;
-  width?: CSSProperties['width'];
+  width?: CSSProperties["width"];
   disabled?: boolean;
   register: UseFormRegisterReturn;
   errors: FieldErrors<TFormValues>;
@@ -26,7 +26,7 @@ export const FileInputField = <TFormValues extends FieldValues>({
   name,
   accept,
   multiple = undefined,
-  width = 'max-content',
+  width = "max-content",
   disabled,
   register,
   errors,
@@ -67,7 +67,7 @@ export const FileInputField = <TFormValues extends FieldValues>({
           register?.onChange?.(e);
         }}
         disabled={disabled}
-        aria-label={label ? `${label} file` : 'File'}
+        aria-label={label ? `${label} file` : "File"}
       />
 
       <Button
@@ -79,12 +79,12 @@ export const FileInputField = <TFormValues extends FieldValues>({
         whiteSpace="nowrap"
         onClick={triggerFileInput}
       >
-        {fileName ? `Files pending upload... ${fileCount}` : 'Upload Files'}
+        {fileName ? `Files pending upload: ${fileCount}` : "Upload Files"}
       </Button>
 
       {errors[name] && (
         <Styled.ErrorText key={`${name}-error`} role="alert">
-          {typeof errors[name]?.message === 'string' && errors[name].message}
+          {typeof errors[name]?.message === "string" && errors[name].message}
         </Styled.ErrorText>
       )}
     </Styled.InputContainer>

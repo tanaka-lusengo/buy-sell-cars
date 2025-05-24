@@ -1,17 +1,25 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Divider, Flex, Stack } from '@/styled-system/jsx';
-import { Typography, ResponsiveContainer } from '@/src/components/ui';
-import { Header, Nav, NavList, SubNavList } from './index.styled';
-import { HamburgerMenu } from './components/HamburgerMenu';
-import { useAuth } from '@/src/context/auth-context';
-import { navLinksMap } from './constants';
-import { stripTrailingSlash } from './utils/helpers';
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Divider, Flex, HStack, Stack } from "@/styled-system/jsx";
+import { Typography, ResponsiveContainer } from "@/src/components/ui";
+import { Header, Nav, NavList, SubNavList } from "./index.styled";
+import { HamburgerMenu } from "./components/HamburgerMenu";
+import { useAuth } from "@/src/context/auth-context";
+import { navLinksMap } from "./constants";
+import { stripTrailingSlash } from "./utils/helpers";
+import { generateIcon } from "@/src/utils";
 
 type BasePath = keyof typeof navLinksMap;
+
+const AccountIcon = (
+  <HStack>
+    <Typography weight="bold">Account</Typography>
+    {generateIcon("user")}
+  </HStack>
+);
 
 export const Navbar = () => {
   const { user } = useAuth();
@@ -27,21 +35,21 @@ export const Navbar = () => {
 
   const navLinks = matchingBasePath
     ? navLinksMap[matchingBasePath as BasePath]
-    : navLinksMap['/'];
+    : navLinksMap["/"];
 
   const subNavLinks = [
-    { label: 'Cars', href: '/cars/sales/' },
-    { label: 'Trucks', href: '/trucks/sales/' },
-    { label: 'Bikes', href: '/bikes/sales/' },
-    { label: 'Agriculture', href: '/agriculture/sales/' },
-    { label: 'Earth moving', href: '/earth-moving/sales/' },
+    { label: "Cars", href: "/cars/sales/" },
+    { label: "Trucks", href: "/trucks/sales/" },
+    { label: "Bikes", href: "/bikes/sales/" },
+    { label: "Agriculture", href: "/agriculture/sales/" },
+    { label: "Earth moving", href: "/earth-moving/sales/" },
   ];
 
   const isMatchingPath = (path: string, label: string) =>
-    path === matchingBasePath || (label === 'Cars' && pathname === '/');
+    path === matchingBasePath || (label === "Cars" && pathname === "/");
 
-  const isSignUpPage = pathname.includes('/sign-up');
-  const isSignInPage = pathname.includes('/sign-in');
+  const isSignUpPage = pathname.includes("/sign-up");
+  const isSignInPage = pathname.includes("/sign-in");
 
   if (isSignUpPage || isSignInPage) {
     return null;
@@ -52,7 +60,7 @@ export const Navbar = () => {
       <ResponsiveContainer>
         <Nav>
           <Flex
-            direction={{ base: 'column', md: 'row' }}
+            direction={{ base: "column", md: "row" }}
             alignItems="center"
             gap="lg"
           >
@@ -63,7 +71,7 @@ export const Navbar = () => {
                 height={65}
                 priority
                 sizes="100vw"
-                style={{ height: 'auto', padding: '0.1rem 0' }}
+                style={{ height: "auto", padding: "0.1rem 0" }}
                 alt="Buy Sell Cars logo"
               />
             </Link>
@@ -85,19 +93,19 @@ export const Navbar = () => {
           </Flex>
 
           <Stack
-            display={{ base: 'none', lg: 'flex' }}
+            display={{ base: "none", lg: "flex" }}
             flexDirection="row"
             gap="md"
           >
             <Typography hoverEffect="color" weight="bold">
-              <Link href={user ? '/dashboard/add-listing' : '/sign-up'}>
+              <Link href={user ? "/dashboard/add-listing" : "/sign-up"}>
                 Sell your vehicle
               </Link>
             </Typography>
 
             <Typography hoverEffect="color" weight="bold">
-              <Link href={`${user ? '/dashboard' : '/sign-in'}`}>
-                {user ? 'Account' : 'Login'}
+              <Link href={`${user ? "/dashboard" : "/sign-in"}`}>
+                {user ? AccountIcon : "Login"}
               </Link>
             </Typography>
           </Stack>
@@ -109,7 +117,7 @@ export const Navbar = () => {
         <Divider
           marginY="sm"
           color="grey"
-          display={{ base: 'none', lg: 'block' }}
+          display={{ base: "none", lg: "block" }}
         />
 
         <SubNavList>
@@ -118,9 +126,9 @@ export const Navbar = () => {
               key={item.label}
               as="li"
               variant="body2"
-              weight={isMatchingPath(item.href, item.label) ? 'bold' : 'normal'}
+              weight={isMatchingPath(item.href, item.label) ? "bold" : "normal"}
               color={
-                isMatchingPath(item.href, item.label) ? 'primaryDark' : 'text'
+                isMatchingPath(item.href, item.label) ? "primaryDark" : "text"
               }
               hoverEffect="color"
             >

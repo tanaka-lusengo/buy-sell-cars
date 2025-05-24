@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 
-import { Typography, Button } from '@/src/components/ui';
-import { HStack, Divider, Flex } from '@/styled-system/jsx';
-import { InputField } from '@/src/components/FormComponents';
-import { signInValidationSchema, signInFormDefaultValues } from '@/src/schemas';
-import { signIn } from '@/src/server/actions/auth';
-import { type SignInFormType } from '@/src/types';
-import { handleClientError, StatusCode, toastNotifySuccess } from '@/src/utils';
-import { Form } from './index.styled';
+import { Typography, Button } from "@/src/components/ui";
+import { HStack, Divider, Flex } from "@/styled-system/jsx";
+import { InputField } from "@/src/components/FormComponents";
+import { signInValidationSchema, signInFormDefaultValues } from "@/src/schemas";
+import { signIn } from "@/src/server/actions/auth";
+import { type SignInFormType } from "@/src/types";
+import { handleClientError, StatusCode, toastNotifySuccess } from "@/src/utils";
+import { Form } from "./index.styled";
 
 export const SignInForm = () => {
   const router = useRouter();
@@ -23,7 +23,7 @@ export const SignInForm = () => {
     formState: { errors },
   } = useForm<SignInFormType>({
     resolver: zodResolver(signInValidationSchema),
-    mode: 'all',
+    mode: "all",
     defaultValues: signInFormDefaultValues,
   });
 
@@ -32,13 +32,13 @@ export const SignInForm = () => {
       const { status, error } = await signIn(formData);
 
       if (status === StatusCode.BAD_REQUEST) {
-        return handleClientError('signing in', error);
+        return handleClientError("signing in", error);
       }
 
-      toastNotifySuccess('Sign in Success! ');
-      router.push('/dashboard');
+      toastNotifySuccess("Sign in Success! ");
+      router.push("/dashboard");
     } catch (error) {
-      handleClientError('signing up', error);
+      handleClientError("signing up", error);
     }
   };
 
@@ -70,7 +70,7 @@ export const SignInForm = () => {
       />
 
       <Flex
-        direction={{ base: 'column', sm: 'row' }}
+        direction={{ base: "column", sm: "row" }}
         justifyContent="space-between"
         alignItems="flex-start"
         gap="sm"

@@ -1,2 +1,2 @@
-export { AllCars } from './AllCars';
-export { CarDetails } from './CarDetails';
+export { AllCars } from "./AllCars";
+export { VehicleDetails } from "./VehicleDetails";

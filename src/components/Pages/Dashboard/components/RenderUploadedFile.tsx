@@ -1,6 +1,6 @@
-import Image from 'next/image';
-import { Flex } from '@/styled-system/jsx';
-import { Typography } from '@/src/components/ui';
+import Image from "next/image";
+import { Flex } from "@/styled-system/jsx";
+import { Typography } from "@/src/components/ui";
 
 type RenderUploadedFileProps = {
   filePath: string | null;
@@ -20,11 +20,11 @@ export const RenderUploadedFile = ({
       src={fieleSrc}
       alt={alt}
       style={{
-        width: '150px',
-        height: '150px',
-        objectFit: 'cover',
-        borderRadius: '1.2rem',
-        marginBottom: '1rem',
+        width: "150px",
+        height: "150px",
+        objectFit: "cover",
+        borderRadius: "1.2rem",
+        marginBottom: "1rem",
       }}
     />
   ) : (

@@ -1,32 +1,32 @@
-import { Typography } from '@/src/components/ui';
-import Image from 'next/image';
-import { Box, Container, Flex, HStack } from '@/styled-system/jsx';
-import { ResponsiveContainer } from '@/src/components/ui';
+import { Typography } from "@/src/components/ui";
+import Image from "next/image";
+import { Box, Container, Flex, HStack } from "@/styled-system/jsx";
+import { ResponsiveContainer } from "@/src/components/ui";
 
 const factList = [
-  'Launching a new era of digital automotive trading',
-  'Secure, transparent, and professional platform',
-  'Simple 24/7 Digital Showcase',
+  "Launching a new era of digital automotive trading",
+  "Secure, transparent, and professional platform",
+  "Simple 24/7 Digital Showcase",
 ];
 
 export const HeroBanner = () => {
   return (
     <Container
       px="0"
-      minHeight={{ base: '48rem', md: '54rem' }}
+      minHeight={{ base: "48rem", md: "54rem" }}
       position="relative"
     >
       <Image
-        src="/hero.jpg"
+        src="/images/hero.jpg"
         alt="Hero Image"
         objectFit="cover"
         fill
         priority
         sizes="100vw"
         style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
+          position: "absolute",
+          width: "100%",
+          height: "100%",
         }}
       />
       <Box
@@ -35,7 +35,8 @@ export const HeroBanner = () => {
         left="0"
         width="100%"
         height="100%"
-        background="rgba(0, 0, 0, 0.5)" // Semi-transparent black
+        // background="rgba(0, 0, 0, 0.5)" // Semi-transparent black
+        backgroundGradient="linear-gradient(rgba(30, 39, 55, 0.65), rgba(30, 39, 55, 0.65))"
         zIndex={5} // Ensure it appears above the image
       />
       <Container
@@ -75,12 +76,12 @@ export const HeroBanner = () => {
                 variant="h2"
                 font="heading"
                 weight="bold"
-                color="secondary"
+                color="white"
               >
                 Revolutionising the way you buy and sell cars
               </Typography>
 
-              <Box display={{ base: 'none', md: 'block' }}>
+              <Box display={{ base: "none", md: "block" }}>
                 {factList.map((fact, index) => (
                   <HStack key={index} alignItems="flex-start">
                     <Image
@@ -88,9 +89,9 @@ export const HeroBanner = () => {
                       alt="Green Check Icon"
                       width={24}
                       height={24}
-                      style={{ height: 'auto' }}
+                      style={{ height: "auto" }}
                     />
-                    <Typography color="secondary">{fact}</Typography>
+                    <Typography color="white">{fact}</Typography>
                   </HStack>
                 ))}
               </Box>

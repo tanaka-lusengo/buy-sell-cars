@@ -1,7 +1,8 @@
-import imageCompression from 'browser-image-compression';
-import { handleClientError } from '@/src/utils';
-import { createClient } from '@/supabase/client';
-import { StorageBucket } from '../types';
+import { v4 as uuidv4 } from "uuid";
+import imageCompression from "browser-image-compression";
+import { handleClientError } from "@/src/utils";
+import { createClient } from "@/supabase/client";
+import { StorageBucket } from "../types";
 
 type UploadFileParams = {
   id: string;
@@ -26,9 +27,9 @@ export const useFileUploadHelpers = (
     oldPath,
     fileNamePrefix,
   }: UploadFileParams) => {
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const ext = file.name.split('.').pop();
-    const filePath = `${id}/${fileNamePrefix}-${timestamp}.${ext}`;
+    const uniqueSuffix = uuidv4();
+    const ext = file.name.split(".").pop();
+    const filePath = `${id}/${fileNamePrefix}-${uniqueSuffix}.${ext}`;
 
     try {
       if (oldPath && oldPath !== filePath) {

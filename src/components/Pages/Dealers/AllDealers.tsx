@@ -1,10 +1,10 @@
-import { useMemo } from 'react';
-import { Container, Box, Grid, Flex } from '@/styled-system/jsx';
-import { ResponsiveContainer, Typography } from '../../../ui';
-import { StatusCode } from '@/src/utils';
-import { Profile } from '@/src/types';
-import { PostgrestError } from '@supabase/supabase-js';
-import { Filter, DealerCard } from './components';
+import { useMemo } from "react";
+import { Container, Box, Grid, Flex } from "@/styled-system/jsx";
+import { ResponsiveContainer, Typography } from "../../ui";
+import { StatusCode } from "@/src/utils";
+import { Profile } from "@/src/types";
+import { PostgrestError } from "@supabase/supabase-js";
+import { Filter, DealerCard } from "./components";
 
 type AllDealersProps = {
   dealers: Profile[];
@@ -16,7 +16,7 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
   const successStatus = status === StatusCode.SUCCESS;
 
   const dealerNames = useMemo(
-    () => dealers.map((dealer) => dealer.dealership_name ?? '') || [],
+    () => dealers.map((dealer) => dealer.dealership_name ?? "") || [],
     [dealers]
   );
 
@@ -39,7 +39,7 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
               <Typography color="error">
                 Please try again a later time
               </Typography>
-              {error === typeof 'string' && (
+              {error === typeof "string" && (
                 <Typography color="error">{error}</Typography>
               )}
             </Flex>
@@ -60,13 +60,27 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
           <ResponsiveContainer backgroundColor="greyLight">
             <Box paddingY="lg">
               <Grid
-                gridTemplateColumns={{ base: '1fr ', md: '40% 1fr' }}
+                gridTemplateColumns={{ base: "1fr", lg: "1fr 3fr" }}
+                alignItems={{ base: "center", lg: "flex-start" }}
                 justifyItems="center"
-                gap="lg"
+                gap="md"
               >
-                <Filter dealers={dealerNames} />
+                <Flex
+                  position="sticky"
+                  top={{ base: "none", lg: "130px" }}
+                  minWidth={{ base: "100%", md: "35rem" }}
+                  justifyContent="center"
+                  paddingX="md"
+                >
+                  <Filter dealers={dealerNames} />
+                </Flex>
 
-                <Flex flexWrap="wrap" justifyContent="center" gap="md">
+                <Flex
+                  flexWrap="wrap"
+                  justifyContent="center"
+                  gap="md"
+                  paddingX="md"
+                >
                   {dealers.map((dealer) => (
                     <DealerCard key={dealer.id} dealer={dealer} />
                   ))}
