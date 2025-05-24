@@ -6,8 +6,14 @@ import {
   signUpValidationSchema,
   signInValidationSchema,
   subscribeValidationSchema,
+  updatePasswordValidationSchema,
 } from "@/src/schemas/authValidationSchemas";
-import { SignUpFormType, SignInFormType, SubscribeFormType } from "@/src/types";
+import {
+  SignUpFormType,
+  SignInFormType,
+  SubscribeFormType,
+  UpdatePasswordFormType,
+} from "@/src/types";
 import { handleServerError, StatusCode } from "@/src/utils";
 import { createClient } from "@/supabase/server";
 
@@ -192,20 +198,36 @@ export const resetPassword = async (email: string) => {
   }
 };
 
-export const updatePassword = async (password: string) => {
+export const updatePassword = async (formData: UpdatePasswordFormType) => {
   try {
     // Init supabase client
     const supabase = await createClient();
 
-    const { error } = await supabase.auth.updateUser({ password });
+    // Validate form data
+    const parsedData = updatePasswordValidationSchema.parse(formData);
 
-    if (error) {
-      return { status: StatusCode.BAD_REQUEST, error };
+    const { newPassword, confirmNewPassword } = parsedData;
+
+    // Check if the new password and confirm password match
+    if (newPassword !== confirmNewPassword) {
+      return {
+        data: null,
+        status: StatusCode.BAD_REQUEST,
+        error: "New passwords do not match",
+      };
     }
 
-    revalidatePath("/", "layout");
+    const { data, error } = await supabase.auth.updateUser({
+      password: confirmNewPassword,
+    });
 
-    return { status: StatusCode.SUCCESS, error: null };
+    if (error) {
+      return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+
+    revalidatePath("/dashboard/security", "page");
+
+    return { data, status: StatusCode.SUCCESS, error: null };
   } catch (error) {
     return handleServerError(error, "updating password (server)");
   }

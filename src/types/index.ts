@@ -8,6 +8,7 @@ import {
   addVehicleValidationSchema,
   editVehicleValidationSchema,
   subscribeValidationSchema,
+  updatePasswordValidationSchema,
 } from "../schemas";
 
 const {
@@ -36,12 +37,15 @@ export type VehicleCategoryType = typeof vehicle_category_type;
 export type ListingCategoryType = typeof listing_category_type;
 
 // Validation Schema Types
-
 export type SubscribeFormType = ZodInfer<typeof subscribeValidationSchema>;
 
 export type SignUpFormType = ZodInfer<typeof signUpValidationSchema>;
 
 export type SignInFormType = ZodInfer<typeof signInValidationSchema>;
+
+export type UpdatePasswordFormType = ZodInfer<
+  typeof updatePasswordValidationSchema
+>;
 
 export type UpdateProfileFormType = ZodInfer<
   typeof updateProfileValidationSchema
