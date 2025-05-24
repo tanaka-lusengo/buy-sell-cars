@@ -10,4 +10,11 @@ export {
 } from "./Landing";
 export { AllDealers } from "./Dealers";
 export { SignUpForm, SignInForm, SignOut, AuthLayout } from "./Auth";
-export { Account, AddListing, Listings, Security } from "./Dashboard";
+export {
+  Account,
+  AddListing,
+  Listings,
+  Security,
+  Subscriptions,
+  SubscriptionsDashboard,
+} from "./Dashboard";
