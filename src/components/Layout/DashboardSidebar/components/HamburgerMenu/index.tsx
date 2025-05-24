@@ -1,25 +1,21 @@
 "use client";
 
-import Link from "next/link";
-import { useState, useEffect, JSX } from "react";
+import { useState, useEffect } from "react";
 import { SignOut } from "@/src/components/Pages";
-import { Box, Divider, Flex, VStack } from "@/styled-system/jsx";
+import { NavLinksDashboard } from "../NavLinksDashboard";
+import { Divider, VStack } from "@/styled-system/jsx";
 import { Typography } from "@/src/components/ui";
-import { NavDrawer, NavList, Overlay } from "./index.styled";
-import { Bar, BarWrapper, Button } from "./index.styled";
-import { usePathname } from "next/navigation";
+import {
+  NavDrawer,
+  NavList,
+  Overlay,
+  Bar,
+  BarWrapper,
+  Button,
+} from "./index.styled";
 
-export const HamburgerMenu = ({
-  navLinks,
-}: {
-  navLinks: {
-    href: string;
-    icon: JSX.Element;
-    label: string;
-  }[];
-}) => {
+export const HamburgerMenu = ({ pathname }: { pathname: string }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
 
   // Lock scroll when menu is open
   useEffect(() => {
@@ -62,21 +58,8 @@ export const HamburgerMenu = ({
           <Divider marginY="sm" display={{ base: "block", md: "none" }} />
 
           <NavList>
-            {navLinks.map((item) => (
-              <Link key={item.href} href={item.href} passHref>
-                <Flex justifyContent="flex-start" align="center" gap="md">
-                  <Box width="1.5rem">{item.icon}</Box>
-                  <Typography
-                    as="span"
-                    weight={pathname === item.href ? "bold" : "normal"}
-                    color={pathname === item.href ? "primaryDark" : "text"}
-                    hoverEffect="color"
-                  >
-                    {item.label}
-                  </Typography>
-                </Flex>
-              </Link>
-            ))}
+            {/* Render different navigation links based on verification status */}
+            <NavLinksDashboard pathname={pathname} />
 
             <Divider width="15rem" marginY="sm" color="grey" />
 

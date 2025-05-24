@@ -1,41 +1,24 @@
-"use client";
-
+import { redirect } from "next/navigation";
 import { DashboardSidebar } from "@/src/components/Layout";
-import { generateIcon } from "@/src/utils";
+import { Subscriptions } from "@/src/components/Pages";
+import { fetchUserAndProfile } from "@/src/server/actions/auth";
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const navLinks = [
-    { href: "/dashboard/", icon: generateIcon("user"), label: "Profile" },
-    {
-      href: "/dashboard/add-listing/",
-      icon: generateIcon("plus"),
-      label: "Add Listing",
-    },
-    {
-      href: "/dashboard/listings/",
-      icon: generateIcon("car-side"),
-      label: "Your Listings",
-    },
-    {
-      href: "/dashboard/performance/",
-      icon: generateIcon("chart-line"),
-      label: "Performance",
-    },
-    {
-      href: "/dashboard/security/",
-      icon: generateIcon("lock"),
-      label: "Security",
-    },
-    {
-      href: "/dashboard/subscriptions/",
-      icon: generateIcon("wallet"),
-      label: "Subscriptions",
-    },
-  ];
+const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
+  const { profile } = await fetchUserAndProfile();
 
-  return <DashboardSidebar navLinks={navLinks}>{children}</DashboardSidebar>;
-}
+  if (!profile) {
+    redirect("/sign-in");
+  }
+
+  const hasSubscription =
+    Boolean(profile?.subscription) ||
+    profile?.admin ||
+    profile?.user_category === "individual";
+
+  return hasSubscription ? (
+    <DashboardSidebar>{children}</DashboardSidebar>
+  ) : (
+    <Subscriptions profile={profile} />
+  );
+};
+export default DashboardLayout;

@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 
 import { signOut } from "@/src/server/actions/auth";
 import { ButtonAsLink } from "@/src/components/ui";
+import { Box, Flex } from "@/styled-system/jsx";
+import { generateIcon } from "@/src/utils";
 
 export const SignOut = () => {
   const router = useRouter();
@@ -14,8 +16,11 @@ export const SignOut = () => {
   };
 
   return (
-    <ButtonAsLink hoverEffect="color" onClick={handleLogout}>
-      Sign Out
-    </ButtonAsLink>
+    <Flex justifyContent="flex-start" align="center" gap="md">
+      <Box width="2rem">{generateIcon("right-from-bracket")}</Box>
+      <ButtonAsLink hoverEffect="color" onClick={handleLogout}>
+        Sign Out
+      </ButtonAsLink>
+    </Flex>
   );
 };

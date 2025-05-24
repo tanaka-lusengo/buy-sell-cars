@@ -1,35 +1,24 @@
 import { type Metadata } from "next";
 import { Account } from "@/src/components/Pages";
-import { createClient } from "@/supabase/server";
+import { fetchUserAndProfile } from "@/src/server/actions/auth";
 import { redirect } from "next/navigation";
+import { PendingVerification } from "@/src/components/Pages/Dashboard/components";
 
 export const metadata: Metadata = {
   title: "Dashboard | Your Account",
   description: "Your account dashboard",
 };
 
-export default async function Dashboard() {
-  const supabase = await createClient();
+const AccountPage = async () => {
+  const { profile } = await fetchUserAndProfile();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
+  if (!profile) {
     redirect("/sign-in");
   }
 
-  let profile = null;
+  const isVerified = Boolean(profile.is_verified);
 
-  if (user) {
-    const { data: profileData } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", user.id)
-      .single();
+  return isVerified ? <Account profile={profile} /> : <PendingVerification />;
+};
 
-    profile = profileData ?? null;
-  }
-
-  return <Account profile={profile} />;
-}
+export default AccountPage;
