@@ -1,5 +1,7 @@
 import { type Metadata } from "next";
 import { Security } from "@/src/components/Pages";
+import { fetchUserAndProfile } from "@/src/server/actions/auth";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Security | Your Account",
@@ -7,6 +9,12 @@ export const metadata: Metadata = {
 };
 
 const SecurityPage = async () => {
+  const { profile } = await fetchUserAndProfile();
+
+  if (!profile) {
+    redirect("/sign-in");
+  }
+
   return <Security />;
 };
 

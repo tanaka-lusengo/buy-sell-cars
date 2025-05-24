@@ -7,7 +7,6 @@ import { Box, Stack } from "@/styled-system/jsx";
 
 export interface ErrorBoundaryProps {
   error: Error & { digest?: string };
-  reset?: () => void;
   message?: string;
 }
 

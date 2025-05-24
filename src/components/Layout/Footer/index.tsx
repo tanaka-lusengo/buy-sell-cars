@@ -49,7 +49,7 @@ export const Footer = () => {
   };
 
   const isHomePage = pathname === "/";
-  const isDashboardPage = pathname.includes("dashboard");
+  const isDashboardPage = pathname.startsWith("/dashboard");
 
   const showGreyBackground =
     isHomePage || isDashboardPage ? "greyLight" : "white";
