@@ -9,6 +9,7 @@ import {
   editVehicleValidationSchema,
   subscribeValidationSchema,
   updatePasswordValidationSchema,
+  updateProfileAdminValidationSchema,
 } from "../schemas";
 
 const {
@@ -54,6 +55,10 @@ export type UpdateProfileFormType = ZodInfer<
 export type AddVehicleFormType = ZodInfer<typeof addVehicleValidationSchema>;
 
 export type EditVehicleFormType = ZodInfer<typeof editVehicleValidationSchema>;
+
+export type UpdateProfileAdminFormType = ZodInfer<
+  typeof updateProfileAdminValidationSchema
+>;
 
 // Database Tables Types
 export type Profile = Tables<"profiles">;

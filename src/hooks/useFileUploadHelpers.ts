@@ -8,7 +8,6 @@ type UploadFileParams = {
   id: string;
   file: File;
   bucket: string;
-  oldPath?: string | null;
   fileNamePrefix: string;
 };
 
@@ -20,11 +19,44 @@ export const useFileUploadHelpers = (
     return data?.publicUrl;
   };
 
+  const deleteOldFiles = async (bucket: string, oldPaths: string[]) => {
+    try {
+      const { error: deleteError } = await supabase.storage
+        .from(bucket)
+        .remove(oldPaths);
+
+      if (deleteError) {
+        // Handle and throw error if deletion fails
+        handleClientError(
+          `Error deleting old files from ${bucket}`,
+          deleteError
+        );
+        throw deleteError;
+      }
+
+      const { error: dbError } = await supabase
+        .from("vehicle_images")
+        .delete()
+        .in("image_path", oldPaths);
+
+      if (dbError) {
+        // Handle and throw error if deletion from database fails
+        handleClientError(
+          `Error deleting file paths from vehicle_images table`,
+          dbError
+        );
+        throw dbError;
+      }
+    } catch (error) {
+      handleClientError(`deleting old files from ${bucket}`, error);
+      throw error;
+    }
+  };
+
   const compressAndUploadFile = async ({
     file,
     id,
     bucket,
-    oldPath,
     fileNamePrefix,
   }: UploadFileParams) => {
     const uniqueSuffix = uuidv4();
@@ -32,20 +64,6 @@ export const useFileUploadHelpers = (
     const filePath = `${id}/${fileNamePrefix}-${uniqueSuffix}.${ext}`;
 
     try {
-      if (oldPath && oldPath !== filePath) {
-        const { error: deleteError } = await supabase.storage
-          .from(bucket)
-          .remove([oldPath]);
-
-        if (deleteError) {
-          handleClientError(
-            `Error deleting old file from ${bucket}`,
-            deleteError
-          );
-          throw deleteError;
-        }
-      }
-
       const compressedFile = await imageCompression(file, {
         maxSizeMB: 1,
         maxWidthOrHeight: 1920,
@@ -69,5 +87,5 @@ export const useFileUploadHelpers = (
     }
   };
 
-  return { getPublicUrl, compressAndUploadFile };
+  return { getPublicUrl, deleteOldFiles, compressAndUploadFile };
 };

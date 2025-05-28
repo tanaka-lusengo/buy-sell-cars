@@ -1,5 +1,6 @@
-import toast from "react-hot-toast";
 import { CSSProperties } from "react";
+import toast from "react-hot-toast";
+import { generateIcon } from "../generateIcon";
 
 interface ToastConfig {
   duration: number;
@@ -17,3 +18,10 @@ export const toastNotifyError = (message: string) =>
 
 export const toastNotifySuccess = (message: string) =>
   toast.success(message, toastConfig);
+
+export const toastNotifyInfo = (message: string) =>
+  toast(message, {
+    ...toastConfig,
+    icon: generateIcon("circle-info"),
+    style: { ...toastConfig.style, backgroundColor: "#e0f7fa" },
+  });

@@ -7,6 +7,7 @@ export {
 
 export {
   updateProfileValidationSchema,
+  updateProfileAdminValidationSchema,
   addVehicleValidationSchema,
   editVehicleValidationSchema,
 } from "./generalSchemas";

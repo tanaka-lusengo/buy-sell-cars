@@ -1,7 +1,6 @@
 "use client";
 
 import { JSX, useCallback, useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { EmblaCarouselType } from "embla-carousel";
 
 type UsePrevNextButtonsType = {
@@ -42,27 +41,31 @@ export const usePrevNextCarouselFunctions = (
   }, [emblaApi, onSelect]);
 
   const PrevButton = () => (
-    <ArrowLeft
-      size={35}
+    <i
+      className="fa-solid fa-arrow-left fa-xl"
+      aria-hidden="true"
+      title="Arrow Left"
       style={{
         transition: "all 0.3s ease-in-out",
         color: prevBtnDisabled ? "grey" : "black",
         cursor: prevBtnDisabled ? "default" : "pointer",
       }}
       onClick={onPrevButtonClick}
-    />
+    ></i>
   );
 
   const NextButton = () => (
-    <ArrowRight
-      size={35}
+    <i
+      className="fa-solid fa-arrow-right fa-xl"
+      aria-hidden="true"
+      title="Arrow Right"
       style={{
         transition: "all 0.3s ease-in-out",
         color: nextBtnDisabled ? "grey" : "black",
         cursor: nextBtnDisabled ? "default" : "pointer",
       }}
       onClick={onNextButtonClick}
-    />
+    ></i>
   );
 
   return {
