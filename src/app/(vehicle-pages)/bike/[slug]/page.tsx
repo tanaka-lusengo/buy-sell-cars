@@ -1,22 +1,22 @@
 import { Params } from "@/src/types/next-types";
-import { AllCars } from "@/src/components/Pages/VehiclePages";
 import {
-  getAllCarsByListingCategory,
+  getAllVehiclesByVehicleCategory,
   getAllDealers,
 } from "@/src/server/actions/general";
+import { AllVehicles } from "@/src/components/Pages/VehiclePages";
 
-export const AllCarsPage = async ({ params }: Params) => {
+export const BikesPage = async ({ params }: Params) => {
   const { slug } = await params;
 
   const isRental = slug === "rentals";
 
   const [featuredCarsResponse, featuredDealersResponse] = await Promise.all([
-    getAllCarsByListingCategory(isRental ? "rental" : "for_sale"),
+    getAllVehiclesByVehicleCategory("bike", isRental ? "rental" : "for_sale"),
     getAllDealers(),
   ]);
 
   // get dealer by car owner_id
-  const featuredCarsWithDealerDetails = featuredCarsResponse?.data?.map(
+  const featuredVehiclesWithDealerDetails = featuredCarsResponse?.data?.map(
     (car) => {
       const dealer = featuredDealersResponse?.data?.find(
         (dealer) => dealer.id === car.owner_id
@@ -36,8 +36,9 @@ export const AllCarsPage = async ({ params }: Params) => {
   const { error: dealerError, status: dealerStatus } = featuredDealersResponse;
 
   return (
-    <AllCars
-      cars={featuredCarsWithDealerDetails || []}
+    <AllVehicles
+      vehicleCategory="bike"
+      vehicles={featuredVehiclesWithDealerDetails || []}
       error={carsError || dealerError}
       status={carsStatus || dealerStatus}
       isRental={isRental}
@@ -45,4 +46,4 @@ export const AllCarsPage = async ({ params }: Params) => {
   );
 };
 
-export default AllCarsPage;
+export default BikesPage;

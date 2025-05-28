@@ -2,11 +2,12 @@ import { Container, Box, Flex } from "@/styled-system/jsx";
 import { ResponsiveContainer, Typography } from "../../../ui";
 import { VehicleDetailCard } from "@/src/components/shared";
 import { generateIcon, StatusCode } from "@/src/utils";
-import { Profile, VehicleWithImage } from "@/src/types";
+import { Profile, VehicleCategoryType, VehicleWithImage } from "@/src/types";
 import { PostgrestError } from "@supabase/supabase-js";
 import Link from "next/link";
 
 type VehicleDetailsProps = {
+  vehicleCategory: VehicleCategoryType[number];
   vehicle: VehicleWithImage | null;
   allVehiclesByOwner?: VehicleWithImage[] | null;
   owner: Profile | null;
@@ -15,6 +16,7 @@ type VehicleDetailsProps = {
 };
 
 export const VehicleDetails = ({
+  vehicleCategory,
   vehicle,
   allVehiclesByOwner,
   owner,
@@ -25,13 +27,16 @@ export const VehicleDetails = ({
 
   const isRental = vehicle?.listing_category === "rental";
 
+  const slug =
+    vehicleCategory === "earth_moving" ? "earth-moving" : vehicleCategory;
+
   return (
     <>
       <ResponsiveContainer>
         <Box paddingY="md">
           <Flex alignItems="center" gap="0.5rem">
             {/* Wrapping both the icon and the text inside the Link to make them clickable */}
-            <Link href={isRental ? "/cars/rentals/" : "/cars/sales/"}>
+            <Link href={isRental ? `/${slug}/rentals/` : `/${slug}/sales/`}>
               <Flex
                 alignItems="center"
                 gap="0.5rem"
@@ -59,7 +64,7 @@ export const VehicleDetails = ({
           <ResponsiveContainer backgroundColor="greyLight">
             <Flex direction="column" paddingY="md">
               <Typography as="h2" variant="h3" color="error">
-                Error fetching car
+                Error fetching vehicle
               </Typography>
 
               <Typography color="error">
@@ -84,6 +89,7 @@ export const VehicleDetails = ({
 
         {successStatus && vehicle && (
           <VehicleDetailCard
+            vehicleCategory={vehicleCategory}
             vehicle={vehicle}
             allVehiclesByOwner={allVehiclesByOwner}
             owner={owner}

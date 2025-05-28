@@ -20,9 +20,9 @@ import { generatePrices, toSnakeCase } from "@/src/utils";
 type FilterForm = ZodInfer<typeof filterValidationSchema>;
 
 export const Filter = ({
-  carFilterData,
+  vehicleFilterData,
 }: {
-  carFilterData: {
+  vehicleFilterData: {
     makes: string[];
     models: string[];
   };
@@ -66,7 +66,7 @@ export const Filter = ({
           <option key="make" value={""}>
             Car make
           </option>
-          {carFilterData.makes.map((make) => (
+          {vehicleFilterData.makes.map((make) => (
             <option key={make} value={make}>
               {make}
             </option>
@@ -77,7 +77,7 @@ export const Filter = ({
           <option key="model" value={""}>
             Car model
           </option>
-          {carFilterData.models.map((model) => (
+          {vehicleFilterData.models.map((model) => (
             <option key={model} value={model}>
               {model}
             </option>

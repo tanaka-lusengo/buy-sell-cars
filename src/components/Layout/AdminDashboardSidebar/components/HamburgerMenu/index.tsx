@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { SignOut } from "@/src/components/Pages";
 import { NavLinksDashboard } from "../NavLinksDashboard";
-import { Box, Divider, VStack } from "@/styled-system/jsx";
+import { Divider, VStack } from "@/styled-system/jsx";
 import { Typography } from "@/src/components/ui";
 import {
   NavDrawer,

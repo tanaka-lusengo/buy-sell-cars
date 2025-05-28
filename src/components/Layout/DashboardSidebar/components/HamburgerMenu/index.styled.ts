@@ -110,7 +110,7 @@ export const NavDrawer = styled("div", {
   base: {
     display: { base: "block", xxl: "none" },
     position: "fixed",
-    top: 0,
+    top: 30,
     right: 0,
     bottom: 0,
     width: "100%",

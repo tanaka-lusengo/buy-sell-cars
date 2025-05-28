@@ -1,45 +1,65 @@
 import { useMemo } from "react";
 import { Container, Box, Flex, Grid } from "@/styled-system/jsx";
 import { ResponsiveContainer, Typography } from "../../../ui";
-import { StatusCode } from "@/src/utils";
-import { VehicleWithImageAndDealer } from "@/src/types";
+import { formatToReadableString, StatusCode } from "@/src/utils";
+import { VehicleCategoryType, VehicleWithImageAndDealer } from "@/src/types";
 import { PostgrestError } from "@supabase/supabase-js";
 import { FeaturePreviewCard } from "@/src/components/shared";
 import { Filter } from "./components/Filter";
 
-type AllCarsProps = {
-  cars: VehicleWithImageAndDealer[];
+type AllVehiclesProps = {
+  vehicleCategory: VehicleCategoryType[number];
+  vehicles: VehicleWithImageAndDealer[];
   error: string | PostgrestError | null;
   status: StatusCode;
   isRental: boolean;
 };
 
-export const AllCars = ({ cars, error, status, isRental }: AllCarsProps) => {
+export const AllVehicles = ({
+  vehicleCategory,
+  vehicles,
+  error,
+  status,
+  isRental,
+}: AllVehiclesProps) => {
   const successStatus = status === StatusCode.SUCCESS;
 
-  const carMakes = useMemo(() => {
-    const makes = cars.map((car) => car.make);
+  const vehicleMakes = useMemo(() => {
+    const makes = vehicles.map((vehicle) => vehicle.make);
     return [...new Set(makes)];
-  }, [cars]);
+  }, [vehicles]);
 
-  const carModels = useMemo(() => {
-    const models = cars.map((car) => car.model);
+  const vehicleModels = useMemo(() => {
+    const models = vehicles.map((vehicle) => vehicle.model);
     return [...new Set(models)];
-  }, [cars]);
+  }, [vehicles]);
 
-  const carFilterData = useMemo(() => {
+  const vehicleFilterData = useMemo(() => {
     return {
-      makes: carMakes,
-      models: carModels,
+      makes: vehicleMakes,
+      models: vehicleModels,
     };
-  }, [carMakes, carModels]);
+  }, [vehicleMakes, vehicleModels]);
+
+  const category = () => {
+    if (vehicleCategory === "earth_moving") {
+      return "Earth Moving Equipment";
+    }
+    if (vehicleCategory === "agriculture") {
+      return "Agricultural Equipment";
+    }
+    if (["truck", "bike", "car"].includes(vehicleCategory)) {
+      return `${formatToReadableString(vehicleCategory)}s`;
+    }
+    return formatToReadableString(vehicleCategory);
+  };
 
   return (
     <>
       <ResponsiveContainer>
         <Box paddingY="md">
           <Typography variant="h2">
-            Browse cars {isRental ? "to rent" : "for sale"}
+            Browse {category()} {isRental ? "to rent" : "for sale"}
           </Typography>
         </Box>
       </ResponsiveContainer>
@@ -49,7 +69,7 @@ export const AllCars = ({ cars, error, status, isRental }: AllCarsProps) => {
           <ResponsiveContainer backgroundColor="greyLight">
             <Flex direction="column" paddingY="md" gap="sm">
               <Typography as="h2" variant="h3" color="error">
-                Error fetching cars
+                Error fetching bikes
               </Typography>
 
               <Typography color="error">
@@ -62,12 +82,12 @@ export const AllCars = ({ cars, error, status, isRental }: AllCarsProps) => {
           </ResponsiveContainer>
         )}
 
-        {successStatus && cars.length === 0 && (
+        {successStatus && vehicles.length === 0 && (
           <ResponsiveContainer backgroundColor="greyLight">
             <Flex direction="column" gap="sm" paddingY="lg">
               <Typography variant="h3" align="center" color="primaryDark">
-                Sorry, it looks like we don&#39;t have any cars available{" "}
-                {isRental ? "to rent" : "for sale"} at the moment.
+                Sorry, it looks like we don&#39;t have any {category()}{" "}
+                available {isRental ? "to rent" : "for sale"} at the moment.
               </Typography>
               <Typography variant="h4" align="center">
                 Please come back later or check out our other listings.
@@ -76,7 +96,7 @@ export const AllCars = ({ cars, error, status, isRental }: AllCarsProps) => {
           </ResponsiveContainer>
         )}
 
-        {successStatus && cars.length > 0 && (
+        {successStatus && vehicles.length > 0 && (
           <ResponsiveContainer backgroundColor="greyLight">
             <Box paddingY="lg">
               <Grid
@@ -92,7 +112,7 @@ export const AllCars = ({ cars, error, status, isRental }: AllCarsProps) => {
                   justifyContent="center"
                   paddingX="md"
                 >
-                  <Filter carFilterData={carFilterData} />
+                  <Filter vehicleFilterData={vehicleFilterData} />
                 </Flex>
 
                 <Flex
@@ -101,12 +121,13 @@ export const AllCars = ({ cars, error, status, isRental }: AllCarsProps) => {
                   gap="md"
                   paddingX="md"
                 >
-                  {cars.map((car) => (
+                  {vehicles.map((vehicle) => (
                     <FeaturePreviewCard
-                      key={car.id}
+                      key={vehicle.id}
+                      vehicleCategory={vehicleCategory}
                       width="26rem"
                       height="25rem"
-                      car={car}
+                      vehicle={vehicle}
                       isRental={isRental}
                     />
                   ))}

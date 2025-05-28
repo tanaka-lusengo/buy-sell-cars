@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Box, Flex } from "@/styled-system/jsx";
 import { createClient } from "@/supabase/client";
 import { useFileUploadHelpers } from "@/src/hooks";
-import { Profile, VehicleWithImage } from "@/src/types";
+import { Profile, VehicleCategoryType, VehicleWithImage } from "@/src/types";
 import useEmblaCarousel from "embla-carousel-react";
 import {
   CarouselThumbnails,
@@ -19,12 +19,14 @@ import { FeaturePreviewCard } from "../FeaturePreviewCard";
 import { Typography } from "../../ui";
 
 type VehicleDetailCardProps = {
+  vehicleCategory: VehicleCategoryType[number];
   vehicle: VehicleWithImage;
   allVehiclesByOwner?: VehicleWithImage[] | null;
   owner: Profile | null;
 };
 
 export const VehicleDetailCard = ({
+  vehicleCategory,
   vehicle,
   allVehiclesByOwner,
   owner,
@@ -144,9 +146,10 @@ export const VehicleDetailCard = ({
           {filterVehiclesByOwner.map((vehicle) => (
             <FeaturePreviewCard
               key={vehicle.id}
+              vehicleCategory={vehicleCategory}
               width="26rem"
               height="25rem"
-              car={vehicle}
+              vehicle={vehicle}
               owner={owner}
               isRental={vehicle.listing_category === "rental"}
             />

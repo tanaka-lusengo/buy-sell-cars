@@ -38,9 +38,10 @@ export const BrowseCarsSection = ({
             {allCarsForSaleWithDealerDetails?.map((car, index) => (
               <FeaturePreviewCard
                 key={index}
+                vehicleCategory="car"
                 height={cardWidth}
                 width={cardheight}
-                car={car}
+                vehicle={car}
                 isRental={false}
               />
             ))}

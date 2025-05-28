@@ -79,7 +79,7 @@ export const FileInputField = <TFormValues extends FieldValues>({
         whiteSpace="nowrap"
         onClick={triggerFileInput}
       >
-        {fileName ? `Files pending upload: ${fileCount}` : "Upload Files"}
+        {fileName ? `Pending: ${fileCount}` : "Upload Files"}
       </Button>
 
       {errors[name] && (

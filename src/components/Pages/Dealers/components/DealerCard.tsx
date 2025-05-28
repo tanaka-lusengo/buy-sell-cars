@@ -12,8 +12,10 @@ export const DealerCard = ({ dealer }: { dealer: Profile }) => {
 
   const { getPublicUrl } = useFileUploadHelpers(supabase);
 
+  // TODO:  add vehicle category:
+  // <Link href={`/${slug}/${categoryPath}/${vehicle.id}/`}>
   return (
-    <Link href={`/dealers/${dealer.id}`}>
+    <Link href={`/car/sales/${dealer.id}/`}>
       <Box
         border="1.5px solid"
         borderColor="grey"

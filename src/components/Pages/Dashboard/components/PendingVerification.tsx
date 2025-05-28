@@ -10,7 +10,7 @@ export const PendingVerification = () => {
     <ResponsiveContainer>
       <Flex
         marginX="auto"
-        maxWidth="60rem"
+        maxWidth="65rem"
         direction="column"
         padding="xl"
         gap="md"
@@ -20,8 +20,9 @@ export const PendingVerification = () => {
         </Typography>
 
         <Typography align="center">
-          We are currently reviewing your account details. Please check back
-          once notified to list your vehicles. In the meantime, you can{" "}
+          We are currently reviewing your account details. This may take up to
+          24hrs. Please check back once notified via email to list your
+          vehicles. In the meantime, you can{" "}
           <Typography
             color="primary"
             as="span"

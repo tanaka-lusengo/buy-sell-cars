@@ -6,7 +6,7 @@ import {
 } from "@/src/server/actions/general";
 import { VehicleDetails } from "@/src/components/Pages/VehiclePages";
 
-const CarDetailPage = async ({ params }: ParamsWithId) => {
+const TruckDetailPage = async ({ params }: ParamsWithId) => {
   const { id } = await params;
 
   // Fetch vehicle details using the provided ID
@@ -20,6 +20,7 @@ const CarDetailPage = async ({ params }: ParamsWithId) => {
   if (!vehicleData) {
     return (
       <VehicleDetails
+        vehicleCategory="truck"
         vehicle={null}
         owner={null}
         error={vehicleByIdError || "Vehicle not found"}
@@ -47,6 +48,7 @@ const CarDetailPage = async ({ params }: ParamsWithId) => {
 
   return (
     <VehicleDetails
+      vehicleCategory="truck"
       vehicle={vehicleData}
       allVehiclesByOwner={allVehiclesByOwner}
       owner={ownerData}
@@ -56,4 +58,4 @@ const CarDetailPage = async ({ params }: ParamsWithId) => {
   );
 };
 
-export default CarDetailPage;
+export default TruckDetailPage;

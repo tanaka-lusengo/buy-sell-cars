@@ -43,7 +43,12 @@ export const FeaturedCarSection = ({
             <CorouselViewport ref={emblaRef}>
               <Flex gap="lg">
                 {featuredCarsWithDealerDetails?.map((car, index) => (
-                  <FeaturePreviewCard key={index} car={car} isRental={false} />
+                  <FeaturePreviewCard
+                    vehicleCategory="car"
+                    key={index}
+                    vehicle={car}
+                    isRental={false}
+                  />
                 ))}
               </Flex>
             </CorouselViewport>

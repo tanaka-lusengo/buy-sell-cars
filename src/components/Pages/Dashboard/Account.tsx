@@ -52,7 +52,7 @@ export const Account = ({ profile }: { profile: Profile | null }) => {
     defaultValues: updateProfileFormDefaultValues(profile as Profile),
   });
 
-  const { getPublicUrl, compressAndUploadFile } =
+  const { getPublicUrl, deleteOldFiles, compressAndUploadFile } =
     useFileUploadHelpers(supabase);
 
   const updateProfile = async (formData: UpdateProfileFormType) => {
@@ -64,20 +64,30 @@ export const Account = ({ profile }: { profile: Profile | null }) => {
             id: profile.id,
             file: imageFile,
             bucket: "profile-logos",
-            oldPath: profileLogoPath,
             fileNamePrefix: "profile-logo",
           })
         : profileLogoPath;
+
+      try {
+        await deleteOldFiles("profile-logos", [profileLogoPath || ""]);
+      } catch (err) {
+        return handleClientError("deleting old profile logo", err);
+      }
 
       const newGovernmentIdPath = idFile
         ? await compressAndUploadFile({
             id: profile.id,
             file: idFile,
             bucket: "government-ids",
-            oldPath: governmentIdPath,
             fileNamePrefix: "government-id",
           })
         : governmentIdPath;
+
+      try {
+        await deleteOldFiles("government-ids", [governmentIdPath || ""]);
+      } catch (err) {
+        return handleClientError("deleting old government ID", err);
+      }
 
       const updatedProfile = {
         id: profile.id,

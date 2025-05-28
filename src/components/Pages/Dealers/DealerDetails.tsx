@@ -10,7 +10,7 @@ import {
 import { createClient } from "@/supabase/client";
 import { useFileUploadHelpers } from "@/src/hooks";
 import { DealerVehicleCard } from "./components";
-import { Link } from "lucide-react";
+import Link from "next/link";
 
 type DealerDetailsProps = {
   vehicles: VehicleWithImage[] | null;
