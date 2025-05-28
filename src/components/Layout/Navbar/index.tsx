@@ -38,9 +38,9 @@ export const Navbar = () => {
     : navLinksMap["/"];
 
   const subNavLinks = [
-    { label: "Cars", href: "/cars/sales/" },
-    { label: "Trucks", href: "/trucks/sales/" },
-    { label: "Bikes", href: "/bikes/sales/" },
+    { label: "Cars", href: "/car/sales/" },
+    { label: "Trucks", href: "/truck/sales/" },
+    { label: "Bikes", href: "/bike/sales/" },
     { label: "Agriculture", href: "/agriculture/sales/" },
     { label: "Earth moving", href: "/earth-moving/sales/" },
   ];

@@ -27,6 +27,26 @@ export const updateProfileValidationSchema = z.object({
   governmentIdPath: z.any().optional(),
 });
 
+export const updateProfileAdminValidationSchema = z.object({
+  isVerified: z.string().optional(),
+  firstName: z.string().min(2, {
+    message: "First name must be at least 2 characters",
+  }),
+  lastName: z.string().min(2, {
+    message: "Last name must be at least 2 characters",
+  }),
+  phone: z.string().min(10, {
+    message: "Enter a valid phone number",
+  }),
+  email: z.string().email({ message: "Invalid email address" }),
+  dealershipName: z.string().nullable(),
+  location: z.string().nullable(),
+  description: z.string().nullable(),
+  subscription: z.string().nullable(),
+  profileLogoPath: z.any().optional(),
+  governmentIdPath: z.any().optional(),
+});
+
 export const addVehicleValidationSchema = z.object({
   listingCategory: z.enum(
     ["rental", "for_sale"] satisfies ListingCategoryType,

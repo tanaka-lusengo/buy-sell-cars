@@ -105,10 +105,10 @@ export const AddListing = ({ profile }: { profile: Profile }) => {
     vehicleImageFiles,
     isSubmitting,
     <>
-      Upload Vehicle Images (Required) <br /> (max 10 files)
+      Upload Images <br /> (max 10 files)
     </>,
     <>
-      Update Vehicle Images (Required) <br /> (max 10 files)
+      Update Images <br /> (max 10 files)
     </>
   );
 

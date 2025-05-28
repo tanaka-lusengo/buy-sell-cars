@@ -1,1 +1,1 @@
-export { AllCars, VehicleDetails } from "./Cars";
+export { AllVehicles, VehicleDetails } from "./shared";

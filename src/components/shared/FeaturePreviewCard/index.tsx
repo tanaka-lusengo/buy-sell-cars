@@ -7,6 +7,7 @@ import { Box, Divider, Flex, HStack, VStack } from "@/styled-system/jsx";
 import { Typography } from "../../ui";
 import {
   Profile,
+  VehicleCategoryType,
   VehicleWithImage,
   VehicleWithImageAndDealer,
 } from "@/src/types";
@@ -15,32 +16,40 @@ import { useFileUploadHelpers } from "@/src/hooks";
 import { formatPriceToDollars, formatMileage } from "@/src/utils";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 
-type CarPreviewCardProps = {
+type VehiclePreviewCardProps = {
+  vehicleCategory: VehicleCategoryType[number];
   width?: string;
   height?: string;
-  car: VehicleWithImageAndDealer | VehicleWithImage;
+  vehicle: VehicleWithImageAndDealer | VehicleWithImage;
   owner?: Profile | null;
   isRental: boolean;
 };
 
 export const FeaturePreviewCard = ({
+  vehicleCategory,
   width = "31rem",
   height = "31rem",
-  car,
+  vehicle,
   owner,
   isRental,
-}: CarPreviewCardProps) => {
+}: VehiclePreviewCardProps) => {
   const supabase = createClient();
 
   const { getPublicUrl } = useFileUploadHelpers(supabase);
 
-  const carPrice = useMemo(() => formatPriceToDollars(car.price), [car.price]);
-  const carMileage = useMemo(
-    () => formatMileage(car.mileage || 0),
-    [car.mileage]
+  const vehiclePrice = useMemo(
+    () => formatPriceToDollars(vehicle.price || 0),
+    [vehicle.price]
+  );
+  const vehicleMileage = useMemo(
+    () => formatMileage(vehicle.mileage || 0),
+    [vehicle.mileage]
   );
 
-  const isUsedCar = car.condition === "used";
+  const isUsedvehicle = vehicle.condition === "used";
+
+  const slug =
+    vehicleCategory === "earth_moving" ? "earth-moving" : vehicleCategory;
 
   return (
     <Box
@@ -53,7 +62,10 @@ export const FeaturePreviewCard = ({
       }}
       transition="all 0.3s ease-in-out"
     >
-      <Link href={`/cars/${isRental ? "rentals" : "sales"}/${car.id}`} passHref>
+      <Link
+        href={`/${slug}/${isRental ? "rentals" : "sales"}/${vehicle.id}`}
+        passHref
+      >
         <VStack alignItems="center" padding="sm">
           <Box
             display="flex"
@@ -67,9 +79,9 @@ export const FeaturePreviewCard = ({
             <Image
               src={getPublicUrl(
                 "vehicle-images",
-                car.images[0]?.image_path ?? ""
+                vehicle.images[0]?.image_path ?? ""
               )}
-              alt={`${car.id}: Car: ${car.make}`}
+              alt={`${vehicle.id}: vehicle: ${vehicle.make}`}
               fill
               loading="lazy"
               objectFit="cover"
@@ -87,12 +99,12 @@ export const FeaturePreviewCard = ({
             width="100%"
           >
             <Box>
-              <Typography>{car.year}</Typography>
+              <Typography>{vehicle.year}</Typography>
               <Typography weight="bold" variant="h3">
-                {car.make}, {car.model}
+                {vehicle.make}, {vehicle.model}
               </Typography>
               <Typography color="grey" weight="bold">
-                Mileage: {carMileage} km
+                Mileage: {vehicleMileage} km
               </Typography>
             </Box>
 
@@ -100,7 +112,7 @@ export const FeaturePreviewCard = ({
 
             <Box>
               <Typography variant="h3" weight="bold" color="primaryDark">
-                {carPrice}{" "}
+                {vehiclePrice}{" "}
                 {isRental ? (
                   <Typography as="span" variant="h4">
                     / per day
@@ -109,7 +121,9 @@ export const FeaturePreviewCard = ({
                   ""
                 )}
               </Typography>
-              <Typography>{isUsedCar ? "Pre-owned" : "Brand new"}</Typography>
+              <Typography>
+                {isUsedvehicle ? "Pre-owned" : "Brand new"}
+              </Typography>
 
               <HStack alignItems="end" justifyContent="space-between">
                 <HStack>
@@ -118,7 +132,7 @@ export const FeaturePreviewCard = ({
                     aria-hidden="true"
                     title="location"
                   ></i>
-                  <Typography>{car.location}</Typography>
+                  <Typography>{vehicle.location}</Typography>
                 </HStack>
                 <Box
                   position="relative"
@@ -130,13 +144,13 @@ export const FeaturePreviewCard = ({
                   <Image
                     src={getPublicUrl(
                       "profile-logos",
-                      "dealer" in car && car.dealer?.profile_logo_path
-                        ? car.dealer.profile_logo_path
+                      "dealer" in vehicle && vehicle.dealer?.profile_logo_path
+                        ? vehicle.dealer.profile_logo_path
                         : owner?.profile_logo_path || ""
                     )}
                     alt={
-                      "dealer" in car && car.dealer?.dealership_name
-                        ? car.dealer.dealership_name
+                      "dealer" in vehicle && vehicle.dealer?.dealership_name
+                        ? vehicle.dealer.dealership_name
                         : owner?.dealership_name || ""
                     }
                     fill
@@ -144,8 +158,8 @@ export const FeaturePreviewCard = ({
                     style={{
                       objectFit: DEALER_LOGOS_TO_CONTAIN.includes(
                         String(
-                          "dealer" in car && car.dealer?.dealership_name
-                            ? car.dealer.dealership_name
+                          "dealer" in vehicle && vehicle.dealer?.dealership_name
+                            ? vehicle.dealer.dealership_name
                             : owner?.dealership_name || ""
                         )
                       )

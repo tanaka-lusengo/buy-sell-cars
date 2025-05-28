@@ -15,7 +15,7 @@ import { handleClientError, StatusCode, toastNotifySuccess } from "@/src/utils";
 import { Form } from "./index.styled";
 
 export const SignInForm = () => {
-  const router = useRouter();
+  const { push, refresh } = useRouter();
 
   const {
     register,
@@ -36,7 +36,9 @@ export const SignInForm = () => {
       }
 
       toastNotifySuccess("Sign in Success! ");
-      router.push("/dashboard");
+
+      refresh();
+      push("/dashboard");
     } catch (error) {
       handleClientError("signing up", error);
     }

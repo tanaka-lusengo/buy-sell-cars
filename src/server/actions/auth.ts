@@ -13,6 +13,7 @@ import {
   SignInFormType,
   SubscribeFormType,
   UpdatePasswordFormType,
+  Profile,
 } from "@/src/types";
 import { handleServerError, StatusCode } from "@/src/utils";
 import { createClient } from "@/supabase/server";
@@ -64,15 +65,15 @@ export const signUp = async (formData: SignUpFormType) => {
     // Validate form data
     const parsedData = signUpValidationSchema.parse(formData);
 
-    const createUserData: Partial<Tables<"profiles">> = {
+    const createUserData: Partial<Profile> = {
       email: parsedData.email,
       first_name: parsedData.firstName,
       last_name: parsedData.lastName,
       phone: parsedData.phone.replace(/\s+/g, ""),
       user_category: parsedData.categoryType,
-      dealership_name: parsedData.dealershipName,
-      location: parsedData.location,
-      description: parsedData.description,
+      dealership_name: parsedData.dealershipName || null,
+      location: parsedData.location || null,
+      description: parsedData.description || null,
     };
 
     // Sign up with Supabase Auth and pass user data to the profiles table

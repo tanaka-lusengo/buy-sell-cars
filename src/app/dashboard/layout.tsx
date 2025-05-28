@@ -10,12 +10,12 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
     redirect("/sign-in");
   }
 
-  const hasSubscription =
-    Boolean(profile?.subscription) ||
+  const hasPermission =
     profile?.admin ||
-    profile?.user_category === "individual";
+    profile?.user_category === "individual" ||
+    Boolean(profile?.subscription);
 
-  return hasSubscription ? (
+  return hasPermission ? (
     <DashboardSidebar>{children}</DashboardSidebar>
   ) : (
     <Subscriptions profile={profile} />

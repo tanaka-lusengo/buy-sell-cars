@@ -22,7 +22,12 @@ const ListingsPage = async () => {
   const isVerified = Boolean(profile.is_verified);
 
   return isVerified ? (
-    <Listings vehicles={data || []} error={error} status={status} />
+    <Listings
+      profile={profile}
+      vehicles={data || []}
+      error={error}
+      status={status}
+    />
   ) : (
     <PendingVerification />
   );

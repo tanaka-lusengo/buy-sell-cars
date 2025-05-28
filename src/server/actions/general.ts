@@ -8,6 +8,9 @@ import {
   ListingCategoryType,
   EditVehicleDataType,
   EditVehicleFormType,
+  Profile,
+  CategoryType,
+  VehicleCategoryType,
 } from "@/src/types";
 import { handleServerError, StatusCode, shuffleArray } from "@/src/utils";
 import {
@@ -15,10 +18,9 @@ import {
   editVehicleValidationSchema,
 } from "@/src/schemas";
 import { revalidatePath } from "next/cache";
-import { Tables } from "@/database.types";
 
 type AddVehicleProps = {
-  profile: Tables<"profiles">;
+  profile: Profile;
   formData: AddVehicleFormType;
 };
 
@@ -390,6 +392,83 @@ export const getAllVehiclesByOwnerId = async (ownerId: string) => {
   }
 };
 
+export const getAllVehicles = async () => {
+  // Init supabase client
+  const supabase = await createClient();
+  try {
+    // fetch all vehicles by user category
+
+    const { data, error } = await supabase.from("vehicles").select("*");
+
+    if (error) {
+      return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+
+    const vehicleWithImages = await Promise.all(
+      data.map(async (vehicle) => {
+        const { data: images, error: imagesError } = await supabase
+          .from("vehicle_images")
+          .select("*")
+          .eq("vehicle_id", vehicle.id);
+
+        if (imagesError) {
+          throw imagesError;
+        }
+
+        return { ...vehicle, images };
+      })
+    );
+    return { data: vehicleWithImages, status: StatusCode.SUCCESS, error: null };
+  } catch (error) {
+    return handleServerError(
+      error,
+      "getting vehicles by user category (server)"
+    );
+  }
+};
+
+export const getAllVehiclesByVehicleCategory = async (
+  vehicleCategory: VehicleCategoryType[number],
+  listingCategory: ListingCategoryType[number]
+) => {
+  // Init supabase client
+  const supabase = await createClient();
+
+  try {
+    // fetch all vehicles by vehicle category
+    const { data, error } = await supabase
+      .from("vehicles")
+      .select("*")
+      .eq("vehicle_category", vehicleCategory)
+      .eq("listing_category", listingCategory);
+
+    if (error) {
+      return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+
+    const vehicleWithImages = await Promise.all(
+      data.map(async (vehicle) => {
+        const { data: images, error: imagesError } = await supabase
+          .from("vehicle_images")
+          .select("*")
+          .eq("vehicle_id", vehicle.id);
+
+        if (imagesError) {
+          throw imagesError;
+        }
+
+        return { ...vehicle, images };
+      })
+    );
+    return { data: vehicleWithImages, status: StatusCode.SUCCESS, error: null };
+  } catch (error) {
+    return handleServerError(
+      error,
+      "getting vehicles by vehicle category (server)"
+    );
+  }
+};
+
 export const getVehicleById = async (vehicleId: string) => {
   // Init supabase client
   const supabase = await createClient();
@@ -507,6 +586,32 @@ export const getAllDealers = async () => {
   }
 };
 
+export const getAllProfilesByUserCategory = async (
+  userCategory: CategoryType[number]
+) => {
+  // Init supabase client
+  const supabase = await createClient();
+
+  try {
+    // fetch all profiles by user category
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("user_category", userCategory);
+
+    if (error) {
+      return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+
+    return { data, status: StatusCode.SUCCESS, error: null };
+  } catch (error) {
+    return handleServerError(
+      error,
+      "getting profiles by user category (server)"
+    );
+  }
+};
+
 export const getProfileById = async (profileId: string) => {
   // Init supabase client
   const supabase = await createClient();
@@ -526,5 +631,33 @@ export const getProfileById = async (profileId: string) => {
     return { data, status: StatusCode.SUCCESS, error: null };
   } catch (error) {
     return handleServerError(error, "getting profile (server)");
+  }
+};
+
+export const updateProfileVerificationStatus = async (
+  profileId: string,
+  isVerified: boolean
+) => {
+  // Init supabase client
+  const supabase = await createClient();
+
+  try {
+    // Update profile verification status
+    const { data, error } = await supabase
+      .from("profiles")
+      .update({ is_verified: isVerified })
+      .eq("id", profileId)
+      .select();
+
+    if (error) {
+      return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+
+    return { data: data[0], status: StatusCode.SUCCESS, error: null };
+  } catch (error) {
+    return handleServerError(
+      error,
+      "updating profile verification status (server)"
+    );
   }
 };

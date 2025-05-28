@@ -1,22 +1,22 @@
 export const navLinksMap = {
   "/": [
-    { label: "Cars for sale", href: "/cars/sales" },
-    { label: "Car rentals", href: "/cars/rentals" },
+    { label: "Cars for sale", href: "/car/sales" },
+    { label: "Car rentals", href: "/car/rentals" },
     { label: "Dealers", href: "/dealers" },
   ],
-  "/cars/sales/": [
-    { label: "Cars for sale", href: "/cars/sales" },
-    { label: "Car rentals", href: "/cars/rentals" },
+  "/car/sales/": [
+    { label: "Cars for sale", href: "/car/sales" },
+    { label: "Car rentals", href: "/car/rentals" },
     { label: "Dealers", href: "/dealers" },
   ],
-  "/trucks/sales/": [
-    { label: "Trucks for sale", href: "/trucks/sales" },
-    { label: "Truck rentals", href: "/trucks/rentals" },
+  "/truck/sales/": [
+    { label: "Trucks for sale", href: "/truck/sales" },
+    { label: "Truck rentals", href: "/truck/rentals" },
     { label: "Dealers", href: "/dealers" },
   ],
-  "/bikes/sales/": [
-    { label: "Bikes for sale", href: "/bikes/sales" },
-    { label: "Bike rentals", href: "/bikes/rentals" },
+  "/bike/sales/": [
+    { label: "Bikes for sale", href: "/bike/sales" },
+    { label: "Bike rentals", href: "/bike/rentals" },
     { label: "Dealers", href: "/dealers" },
   ],
   "/agriculture/sales/": [

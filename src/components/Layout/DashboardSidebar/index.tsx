@@ -18,6 +18,11 @@ export const DashboardSidebar = ({
   return (
     <>
       {/* Container */}
+      <Box paddingY="xs" paddingX="md" backgroundColor="greyLight">
+        <Typography as="h1" variant="h4" align="center">
+          Account Dashboard
+        </Typography>
+      </Box>
       <Flex
         height="100%"
         overflow="hidden"
