@@ -8,6 +8,7 @@ import {
   FeaturedDealersSection,
   SocialMediaSection,
 } from "@/src/components/Pages";
+import { SubscribeModal } from "@/src/components/SubscribeModal";
 import {
   getAllCarsByListingCategory,
   getAllDealers,
@@ -50,6 +51,7 @@ export const Home = async () => {
       <FeaturedDealersSection featuredDealers={allDealersResponse} />
       <FeatureBannerTwo />
       <SocialMediaSection />
+      <SubscribeModal />
     </>
   );
 };

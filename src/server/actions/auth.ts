@@ -15,7 +15,7 @@ import {
   UpdatePasswordFormType,
   Profile,
 } from "@/src/types";
-import { handleServerError, StatusCode } from "@/src/utils";
+import { handleServerError, logErrorMessage, StatusCode } from "@/src/utils";
 import { createClient } from "@/supabase/server";
 
 export const subscribe = async (formData: SubscribeFormType) => {
@@ -54,6 +54,23 @@ export const subscribe = async (formData: SubscribeFormType) => {
     return { status: StatusCode.SUCCESS, error: null };
   } catch (error) {
     return handleServerError(error, "subscribing to newsletter (server)");
+  }
+};
+
+export const hasAlreadySubscribed = async (email: string) => {
+  try {
+    const supabase = await createClient();
+
+    const { data: existingEmail } = await supabase
+      .from("subscribers")
+      .select("email")
+      .eq("email", email)
+      .single();
+
+    return { hasSubscribed: !!existingEmail };
+  } catch (error) {
+    logErrorMessage(error, "checking email subscription (server)");
+    return { hasSubscribed: false };
   }
 };
 
