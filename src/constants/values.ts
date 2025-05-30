@@ -28,14 +28,20 @@ export const LOCATIONS = [
   "Harare",
 ];
 
+export const DEALER_LOGOS_TO_CONTAIN = [
+  "Willy's Auto Group",
+  "JP Motors",
+  "Kenmac motors",
+];
+
 export const SUBSCRIPTION_TYPES = [
   "Starter Showcase",
   "Growth Accelerator",
   "Dealership Dominator",
 ];
 
-export const DEALER_LOGOS_TO_CONTAIN = [
-  "Willy's Auto Group",
-  "JP Motors",
-  "Kenmac motors",
-];
+export const SUBSCRIPTION_PLAN_MAPPING: Record<string, string> = {
+  "P-780685339T092612HNA3VWYA": "Starter Showcase",
+  "P-98477851NX466604ENA3VYTY": "Growth Accelerator",
+  "P-09P4770066006133BNA3WGJY": "Dealership Dominator",
+};

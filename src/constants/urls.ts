@@ -1,7 +1,3 @@
-export const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL
-  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-  : "http://localhost:3000";
-
 export const SOCIAL_MEDIA_URLS = {
   phone_whatsapp: "https://wa.me/+263773607117",
   phone_tel: "tel:+263773607117",

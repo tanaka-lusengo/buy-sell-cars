@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { BASE_URL } from "@/src/constants/urls";
+import { BASE_URL } from "@/src/constants/environments";
 
 /**
  * Metadata for the root layout of the application.

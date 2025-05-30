@@ -67,6 +67,8 @@ export type Vehicle = Tables<"vehicles">;
 
 export type VehicleImage = Tables<"vehicle_images">;
 
+export type Subscription = Tables<"subscriptions">;
+
 // Server Actions Types
 export type AddVehicleDataType = Omit<
   Vehicle,
@@ -89,6 +91,11 @@ export type VehicleWithImageAndDealer = VehicleWithImage & {
     profile_logo_path: string | null | undefined;
   };
 };
+
+export type LogSubscription = Omit<
+  Subscription,
+  "id" | "created_at" | "updated_at" | "cancel_time"
+>;
 
 // Storage Bucket Types
 export type StorageBucket =
