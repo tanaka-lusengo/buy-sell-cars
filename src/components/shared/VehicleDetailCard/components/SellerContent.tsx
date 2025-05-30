@@ -96,6 +96,11 @@ type SellerContentProps = {
 };
 
 export const SellerContent = ({ vehicle, owner }: SellerContentProps) => {
+  const formatedNumber = useMemo(
+    () => formatPhoneNumberToZimCountryCode(owner?.phone),
+    [owner?.phone]
+  );
+
   const listingCategory =
     vehicle?.listing_category === "rental" ? "rent" : "sale";
 
@@ -115,7 +120,7 @@ export const SellerContent = ({ vehicle, owner }: SellerContentProps) => {
       </Typography>
 
       <Link
-        href={`https://wa.me/${formatPhoneNumberToZimCountryCode(owner?.phone)}?text=${encodeURIComponent(whatsappMessage)}`}
+        href={`https://wa.me/${formatedNumber}?text=${encodeURIComponent(whatsappMessage)}`}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -142,7 +147,7 @@ export const SellerContent = ({ vehicle, owner }: SellerContentProps) => {
       </Link>
 
       <Link
-        href={`tel:${formatPhoneNumberToZimCountryCode(owner?.phone)}`}
+        href={`tel:${formatedNumber}`}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -155,9 +160,7 @@ export const SellerContent = ({ vehicle, owner }: SellerContentProps) => {
           }}
         >
           <i className="fa-solid fa-phone" aria-hidden="true" title="phone"></i>
-          <Typography>
-            {formatPhoneNumberToZimCountryCode(owner?.phone)}
-          </Typography>
+          <Typography>{formatedNumber}</Typography>
         </HStack>
       </Link>
       <Link
