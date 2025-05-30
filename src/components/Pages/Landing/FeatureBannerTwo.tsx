@@ -10,7 +10,7 @@ export const FeatureBannerTwo = () => {
         marginX="auto"
         height="100%"
         justifyItems="center"
-        width={{ base: "100%", md: "110rem" }}
+        width={{ base: "100%", xl: "110rem" }}
         borderRadius="1.2rem"
         _hover={{
           boxShadow: "0 6px 12px rgba(0, 0, 0, 0.2)",
@@ -33,16 +33,3 @@ export const FeatureBannerTwo = () => {
     </Box>
   );
 };
-{
-  /* <Image
-  src="/images/sponsors/road-boys-logistics.jpg"
-  alt="Rossi Tyres Harrare Drive Zimbabwe"
-  objectFit="cover"
-  loading="lazy"
-  height={1000}
-  width={1000}
-  style={{
-    width: '100%',
-  }}
-/> */
-}
