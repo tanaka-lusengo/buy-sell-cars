@@ -76,3 +76,32 @@ export const formatDate = (timestamp: string): string => {
 export const formatToReadableString = (
   value: string | number | boolean
 ): string => capitaliseFirstChar(String(value).replace(/_/g, " "));
+
+/**
+ * Formats a phone number to ensure it includes Zimbabwe's country code (+263)
+ * and is suitable for WhatsApp links (no spaces, dashes, or parentheses).
+ *
+ * @param phone The input phone number as a string.
+ * @returns The formatted phone number string.
+ */
+export function formatPhoneNumberToZimCountryCode(
+  phone: string | undefined | null
+): string {
+  if (!phone) return "";
+
+  // Remove all non-digit characters
+  const digits = phone.replace(/\D/g, "");
+
+  // If the number starts with '263', it's already in the correct format
+  if (digits.startsWith("263")) {
+    return digits;
+  }
+
+  // If the number starts with '0', replace it with '263'
+  if (digits.startsWith("0")) {
+    return "263" + digits.slice(1);
+  }
+
+  // If the number starts with anything else, prepend '263'
+  return "263" + digits;
+}

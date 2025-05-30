@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export const FeatureBannerTwo = () => {
   return (
-    <Box bg="greyLight" paddingY="lg">
+    <Box bg="greyLight" paddingY="lg" paddingX="md" width="100%">
       <Flex
         marginX="auto"
         height="100%"

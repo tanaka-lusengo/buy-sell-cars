@@ -16,10 +16,10 @@ export const SocialMediaSection = () => {
         borderRadius={8}
         maxWidth={500}
       >
-        <Typography as="h5" variant="h3" color="primary">
+        <Typography as="h5" variant="h3" color="primary" align="center">
           Follow us on social media
         </Typography>
-        <Typography as="h5" variant="h4">
+        <Typography as="h5" variant="h4" align="center">
           Stay updated with the latest news and offers
         </Typography>
 

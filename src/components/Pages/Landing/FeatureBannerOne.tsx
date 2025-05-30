@@ -16,7 +16,7 @@ export const FeatureBannerOne = () => {
 
   return (
     <Link href={EXTERNAL_URLS.ROSSI_TYRES_URL} target="_blank">
-      <Box bg="greyLight" paddingY="md">
+      <Box bg="greyLight" padding="md" width="100%">
         <Flex
           marginX="auto"
           height="100%"
@@ -45,17 +45,3 @@ export const FeatureBannerOne = () => {
     </Link>
   );
 };
-
-{
-  /* <Image
-  src={isMobile ? mobileImage : desktopImage}
-  alt="Rossi Tyres Harrare Drive Zimbabwe"
-  objectFit="cover"
-  loading="lazy"
-  height={1000}
-  width={1000}
-  style={{
-    width: '100%',
-  }}
-/>; */
-}

@@ -3,7 +3,10 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { Typography } from "@/src/components/ui";
 import { Profile, StorageBucket, VehicleWithImage } from "@/src/types";
-import { formatPriceToDollars } from "@/src/utils";
+import {
+  formatPhoneNumberToZimCountryCode,
+  formatPriceToDollars,
+} from "@/src/utils";
 import { Box, Flex, HStack, VStack } from "@/styled-system/jsx";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 
@@ -93,6 +96,19 @@ type SellerContentProps = {
 };
 
 export const SellerContent = ({ vehicle, owner }: SellerContentProps) => {
+  const formatedNumber = useMemo(
+    () => formatPhoneNumberToZimCountryCode(owner?.phone),
+    [owner?.phone]
+  );
+
+  const listingCategory =
+    vehicle?.listing_category === "rental" ? "rent" : "sale";
+
+  const whatsappMessage =
+    owner && vehicle
+      ? `Hello ${owner.first_name},\n\nI'm interested in ${owner.dealership_name} and your vehicle ${vehicle.make} ${vehicle.model} for ${listingCategory}!\n\nWhat are next steps?`
+      : `Hello,\n\nI'm interested in your vehicle!\n\nWhat are next steps?`;
+
   return (
     <VStack alignItems="flex-start">
       <Typography variant="h3" weight="bold">
@@ -104,7 +120,7 @@ export const SellerContent = ({ vehicle, owner }: SellerContentProps) => {
       </Typography>
 
       <Link
-        href={`https://wa.me/${owner?.phone}`}
+        href={`https://wa.me/${formatedNumber}?text=${encodeURIComponent(whatsappMessage)}`}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -131,7 +147,7 @@ export const SellerContent = ({ vehicle, owner }: SellerContentProps) => {
       </Link>
 
       <Link
-        href={`tel:${owner?.phone}`}
+        href={`tel:${formatedNumber}`}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -144,7 +160,7 @@ export const SellerContent = ({ vehicle, owner }: SellerContentProps) => {
           }}
         >
           <i className="fa-solid fa-phone" aria-hidden="true" title="phone"></i>
-          <Typography>{owner?.phone}</Typography>
+          <Typography>{formatedNumber}</Typography>
         </HStack>
       </Link>
       <Link

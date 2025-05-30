@@ -79,15 +79,11 @@ export const Navbar = () => {
             {/* Desktop Navigation */}
             <NavList>
               {navLinks.map((item) => (
-                <Typography
-                  key={item.label}
-                  as="li"
-                  color="primary"
-                  hoverEffect="color"
-                  weight="bold"
-                >
-                  <Link href={item.href}>{item.label}</Link>
-                </Typography>
+                <li key={item.label}>
+                  <Typography color="primary" hoverEffect="color" weight="bold">
+                    <Link href={item.href}>{item.label}</Link>
+                  </Typography>
+                </li>
               ))}
             </NavList>
           </Flex>
@@ -97,13 +93,13 @@ export const Navbar = () => {
             flexDirection="row"
             gap="md"
           >
-            <Typography hoverEffect="color" weight="bold">
+            <Typography as="div" hoverEffect="color" weight="bold">
               <Link href={user ? "/dashboard/add-listing" : "/sign-up"}>
                 Sell your vehicle
               </Link>
             </Typography>
 
-            <Typography hoverEffect="color" weight="bold">
+            <Typography as="div" hoverEffect="color" weight="bold">
               <Link href={`${user ? "/dashboard" : "/sign-in"}`}>
                 {user ? AccountIcon : "Login"}
               </Link>
@@ -122,18 +118,20 @@ export const Navbar = () => {
 
         <SubNavList>
           {subNavLinks.map((item) => (
-            <Typography
-              key={item.label}
-              as="li"
-              variant="body2"
-              weight={isMatchingPath(item.href, item.label) ? "bold" : "normal"}
-              color={
-                isMatchingPath(item.href, item.label) ? "primaryDark" : "text"
-              }
-              hoverEffect="color"
-            >
-              <Link href={item.href}>{item.label}</Link>
-            </Typography>
+            <li key={item.label}>
+              <Typography
+                variant="body2"
+                weight={
+                  isMatchingPath(item.href, item.label) ? "bold" : "normal"
+                }
+                color={
+                  isMatchingPath(item.href, item.label) ? "primaryDark" : "text"
+                }
+                hoverEffect="color"
+              >
+                <Link href={item.href}>{item.label}</Link>
+              </Typography>
+            </li>
           ))}
         </SubNavList>
       </ResponsiveContainer>

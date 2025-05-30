@@ -35,9 +35,8 @@ export const HeroBanner = () => {
         left="0"
         width="100%"
         height="100%"
-        // background="rgba(0, 0, 0, 0.5)" // Semi-transparent black
         backgroundGradient="linear-gradient(rgba(30, 39, 55, 0.65), rgba(30, 39, 55, 0.65))"
-        zIndex={5} // Ensure it appears above the image
+        zIndex={5}
       />
       <Container
         px="0"

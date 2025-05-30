@@ -90,8 +90,13 @@ export const HamburgerMenu = ({
               </Link>
             </Typography>
             {user && (
-              <Typography variant="h4" weight="bold" hoverEffect="color">
-                <SignOut />
+              <Typography
+                as="div"
+                variant="h4"
+                weight="bold"
+                hoverEffect="color"
+              >
+                <SignOut showIcon={false} />
               </Typography>
             )}
           </VStack>
@@ -100,38 +105,36 @@ export const HamburgerMenu = ({
 
           <SubNavList>
             {subNavLinks.map((item) => (
-              <Typography
-                key={item.label}
-                as="li"
-                variant="body2"
-                weight={
-                  isMatchingPath(item.href, item.label) ? "bold" : "normal"
-                }
-                color={
-                  isMatchingPath(item.href, item.label) ? "primaryDark" : "text"
-                }
-                hoverEffect="color"
-              >
-                <Link href={item.href} onClick={() => setIsOpen(false)}>
-                  {item.label}
-                </Link>
-              </Typography>
+              <li key={item.label}>
+                <Typography
+                  variant="body2"
+                  weight={
+                    isMatchingPath(item.href, item.label) ? "bold" : "normal"
+                  }
+                  color={
+                    isMatchingPath(item.href, item.label)
+                      ? "primaryDark"
+                      : "text"
+                  }
+                  hoverEffect="color"
+                >
+                  <Link href={item.href} onClick={() => setIsOpen(false)}>
+                    {item.label}
+                  </Link>
+                </Typography>
+              </li>
             ))}
           </SubNavList>
 
           <NavList>
             {navLinks.map((item) => (
-              <Typography
-                key={item.label}
-                as="li"
-                color="primary"
-                hoverEffect="color"
-                weight="bold"
-              >
-                <Link href={item.href} onClick={() => setIsOpen(false)}>
-                  {item.label}
-                </Link>
-              </Typography>
+              <li key={item.label}>
+                <Typography color="primary" hoverEffect="color" weight="bold">
+                  <Link href={item.href} onClick={() => setIsOpen(false)}>
+                    {item.label}
+                  </Link>
+                </Typography>
+              </li>
             ))}
           </NavList>
         </VStack>
