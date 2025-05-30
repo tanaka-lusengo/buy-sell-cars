@@ -1,10 +1,11 @@
 export const starterShowcasePlan = {
   name: "Starter Showcase",
+  planId: "P-780685339T092612HNA3VWYA",
   price: 50,
   description: "Perfect entry point for new or smaller dealerships.",
   features: [
     <>
-      List up to <b>25 vehicles</b>
+      List up to <b>25 vehicles</b> at once
     </>,
     <>
       <b>1 Featured Listing</b> (rotated weekly)
@@ -20,17 +21,18 @@ export const starterShowcasePlan = {
 
 export const growthAcceleratorPlan = {
   name: "Growth Accelerator",
+  planId: "P-98477851NX466604ENA3VYTY",
   price: 225,
   description: "Ideal for growing dealerships looking to stand out.",
   features: [
     <>
-      List up to <b>75 vehicles</b>
+      List up to <b>75 vehicles</b> at once
     </>,
     <>
       <b>3 Featured Listing</b> (rotated weekly)
     </>,
     <>
-      <b>Priority Listing Placement</b>
+      <b>Priority Listing Placement on homepage</b>
     </>,
     <>
       Monthly <b>Performance Reports</b>
@@ -40,7 +42,8 @@ export const growthAcceleratorPlan = {
 
 export const dealershipDominatorPlan = {
   name: "Dealership Dominator",
-  price: 350,
+  planId: "P-09P4770066006133BNA3WGJY",
+  price: 400,
   description: "Maximum visibility for high-volume dealerships.",
   features: [
     <>
