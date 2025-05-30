@@ -106,9 +106,12 @@ export const VehicleListings = ({
 
   const handleDeleteClick = async (vehicleId: string) => {
     if (!confirm("Are you sure you want to delete this vehicle?")) return;
+
     const { error, status } = await deleteVehicle(vehicleId);
+
     if (status !== StatusCode.SUCCESS || error)
       return handleClientError("deleting your vehicle listing", error);
+
     toastNotifySuccess("Vehicle deleted successfully!");
   };
 
