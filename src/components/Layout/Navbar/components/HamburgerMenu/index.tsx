@@ -96,7 +96,7 @@ export const HamburgerMenu = ({
                 weight="bold"
                 hoverEffect="color"
               >
-                <SignOut />
+                <SignOut showIcon={false} />
               </Typography>
             )}
           </VStack>

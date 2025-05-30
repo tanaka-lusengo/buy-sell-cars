@@ -129,6 +129,7 @@ export const SubscribeModal = () => {
     >
       <Box
         bg="white"
+        marginX="md"
         padding="lg"
         borderRadius="1.2rem"
         shadow="lg"

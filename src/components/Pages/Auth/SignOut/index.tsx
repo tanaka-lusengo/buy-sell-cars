@@ -7,7 +7,7 @@ import { ButtonAsLink } from "@/src/components/ui";
 import { Box, Flex } from "@/styled-system/jsx";
 import { generateIcon } from "@/src/utils";
 
-export const SignOut = () => {
+export const SignOut = ({ showIcon = true }: { showIcon?: boolean }) => {
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -17,7 +17,7 @@ export const SignOut = () => {
 
   return (
     <Flex justifyContent="flex-start" align="center" gap="md">
-      <Box width="2rem">{generateIcon("right-from-bracket")}</Box>
+      {showIcon && <Box width="2rem">{generateIcon("right-from-bracket")}</Box>}
       <ButtonAsLink hoverEffect="color" onClick={handleLogout}>
         Sign Out
       </ButtonAsLink>
