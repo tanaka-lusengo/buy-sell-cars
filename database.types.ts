@@ -26,7 +26,7 @@ export type Database = {
           location: string | null;
           phone: string | null;
           profile_logo_path: string | null;
-          subscription: Database["public"]["Enums"]["subscription_type"] | null;
+          subscription: string | null;
           updated_at: string | null;
           user_category:
             | Database["public"]["Enums"]["user_category_type"]
@@ -48,9 +48,7 @@ export type Database = {
           location?: string | null;
           phone?: string | null;
           profile_logo_path?: string | null;
-          subscription?:
-            | Database["public"]["Enums"]["subscription_type"]
-            | null;
+          subscription?: string | null;
           updated_at?: string | null;
           user_category?:
             | Database["public"]["Enums"]["user_category_type"]
@@ -72,9 +70,7 @@ export type Database = {
           location?: string | null;
           phone?: string | null;
           profile_logo_path?: string | null;
-          subscription?:
-            | Database["public"]["Enums"]["subscription_type"]
-            | null;
+          subscription?: string | null;
           updated_at?: string | null;
           user_category?:
             | Database["public"]["Enums"]["user_category_type"]
@@ -108,6 +104,59 @@ export type Database = {
           unsubscribed_at?: string | null;
         };
         Relationships: [];
+      };
+      subscriptions: {
+        Row: {
+          cancel_time: string | null;
+          created_at: string | null;
+          email: string | null;
+          id: string;
+          plan_id: string | null;
+          plan_name: string | null;
+          profile_id: string;
+          raw_response: Json | null;
+          start_time: string | null;
+          status: string | null;
+          subscription_id: string;
+          updated_at: string | null;
+        };
+        Insert: {
+          cancel_time?: string | null;
+          created_at?: string | null;
+          email?: string | null;
+          id?: string;
+          plan_id?: string | null;
+          plan_name?: string | null;
+          profile_id: string;
+          raw_response?: Json | null;
+          start_time?: string | null;
+          status?: string | null;
+          subscription_id: string;
+          updated_at?: string | null;
+        };
+        Update: {
+          cancel_time?: string | null;
+          created_at?: string | null;
+          email?: string | null;
+          id?: string;
+          plan_id?: string | null;
+          plan_name?: string | null;
+          profile_id?: string;
+          raw_response?: Json | null;
+          start_time?: string | null;
+          status?: string | null;
+          subscription_id?: string;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       vehicle_images: {
         Row: {
