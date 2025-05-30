@@ -21,7 +21,7 @@ export const FeatureBannerOne = () => {
           marginX="auto"
           height="100%"
           justifyItems="center"
-          width={{ base: "100%", md: "110rem" }}
+          width={{ base: "100%", xl: "110rem" }}
           borderRadius="1.2rem"
           _hover={{
             boxShadow: "0 6px 12px rgba(0, 0, 0, 0.2)",
