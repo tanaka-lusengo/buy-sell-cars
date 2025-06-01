@@ -30,8 +30,12 @@ export const signUpValidationSchema = z
       })
       .optional(),
     dealershipName: z.string().nullable(),
-    location: z.string().nullable(),
-    description: z.string().nullable(),
+    location: z.string().min(2, {
+      message: "Location is required",
+    }),
+    description: z.string().min(10, {
+      message: "Description must be at least 10 characters",
+    }),
     password: z.string().min(8, {
       message: "Password must be at least 8 characters",
     }),
@@ -50,15 +54,6 @@ export const signUpValidationSchema = z
     {
       message: "Dealership name is required",
       path: ["dealershipName"],
-    }
-  )
-  .refine(
-    ({ categoryType, location }) =>
-      categoryType !== "dealership" ||
-      (typeof location === "string" && location.trim().length > 0),
-    {
-      message: "Location is required",
-      path: ["location"],
     }
   );
 

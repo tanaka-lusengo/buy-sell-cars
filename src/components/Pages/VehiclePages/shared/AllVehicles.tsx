@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Container, Box, Flex, Grid } from "@/styled-system/jsx";
+import { Container, Box, Flex, Grid, Divider } from "@/styled-system/jsx";
 import { ResponsiveContainer, Typography } from "../../../ui";
 import { formatToReadableString, StatusCode } from "@/src/utils";
 import { VehicleCategoryType, VehicleWithImageAndDealer } from "@/src/types";
@@ -8,11 +8,13 @@ import {
   FeaturePreviewCard,
   PaidSponsorFeature,
 } from "@/src/components/shared";
-// import { Filter } from "./components/Filter";
+import { FeatureVehicles } from "./components/FeatureVehicles";
+import { Filter } from "./components/Filter";
 
 type AllVehiclesProps = {
   vehicleCategory: VehicleCategoryType[number];
   vehicles: VehicleWithImageAndDealer[];
+  featruredVehiclesWithDealerDetails: VehicleWithImageAndDealer[];
   error: string | PostgrestError | null;
   status: StatusCode;
   isRental: boolean;
@@ -21,28 +23,29 @@ type AllVehiclesProps = {
 export const AllVehicles = ({
   vehicleCategory,
   vehicles,
+  featruredVehiclesWithDealerDetails,
   error,
   status,
   isRental,
 }: AllVehiclesProps) => {
   const successStatus = status === StatusCode.SUCCESS;
 
-  // const vehicleMakes = useMemo(() => {
-  //   const makes = vehicles.map((vehicle) => vehicle.make);
-  //   return [...new Set(makes)];
-  // }, [vehicles]);
+  const vehicleMakes = useMemo(() => {
+    const makes = vehicles.map((vehicle) => vehicle.make);
+    return [...new Set(makes)];
+  }, [vehicles]);
 
-  // const vehicleModels = useMemo(() => {
-  //   const models = vehicles.map((vehicle) => vehicle.model);
-  //   return [...new Set(models)];
-  // }, [vehicles]);
+  const vehicleModels = useMemo(() => {
+    const models = vehicles.map((vehicle) => vehicle.model);
+    return [...new Set(models)];
+  }, [vehicles]);
 
-  // const vehicleFilterData = useMemo(() => {
-  //   return {
-  //     makes: vehicleMakes,
-  //     models: vehicleModels,
-  //   };
-  // }, [vehicleMakes, vehicleModels]);
+  const vehicleFilterData = useMemo(() => {
+    return {
+      makes: vehicleMakes,
+      models: vehicleModels,
+    };
+  }, [vehicleMakes, vehicleModels]);
 
   const category = () => {
     if (vehicleCategory === "earth_moving") {
@@ -112,7 +115,8 @@ export const AllVehicles = ({
                 justifyItems="center"
                 gap="lg"
               >
-                {/* <Flex
+                <Flex
+                  display="none"
                   position="sticky"
                   top={{ base: "none", lg: "130px" }}
                   minWidth={{ base: "100%", md: "40rem" }}
@@ -120,7 +124,17 @@ export const AllVehicles = ({
                   paddingX="md"
                 >
                   <Filter vehicleFilterData={vehicleFilterData} />
-                </Flex> */}
+                </Flex>
+
+                <FeatureVehicles
+                  vehicleCategory={vehicleCategory}
+                  isRental={isRental}
+                  featuredCarsWithDealerDetails={
+                    featruredVehiclesWithDealerDetails
+                  }
+                />
+
+                <Divider color="grey" marginTop="md" maxWidth="100rem" />
 
                 <Flex
                   flexWrap="wrap"

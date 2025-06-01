@@ -29,13 +29,26 @@ export const LOCATIONS = [
 ];
 
 export const DEALER_LOGOS_TO_CONTAIN = [
+  "Welly Motors",
+  "August Auto Zimbabwe",
   "Willy's Auto Group",
   "JP Motors",
   "Kenmac motors",
 ];
 
+export enum SubscriptionTypeValues {
+  StarterShowcase = "Starter Showcase",
+  GrowthAccelerator = "Growth Accelerator",
+  DealershipDominator = "Dealership Dominator",
+}
+
 export const SUBSCRIPTION_TYPES = [
-  "Starter Showcase",
+  SubscriptionTypeValues.StarterShowcase,
+  SubscriptionTypeValues.GrowthAccelerator,
+  SubscriptionTypeValues.DealershipDominator,
+];
+
+export const SUBSCRIPTION_FEATURE_TYPES = [
   "Growth Accelerator",
   "Dealership Dominator",
 ];

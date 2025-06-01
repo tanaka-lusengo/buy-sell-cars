@@ -89,6 +89,7 @@ export type VehicleWithImageAndDealer = VehicleWithImage & {
   dealer: {
     dealership_name: string | null | undefined;
     profile_logo_path: string | null | undefined;
+    subscription: string | null | undefined;
   };
 };
 

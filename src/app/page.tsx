@@ -10,12 +10,19 @@ import {
 } from "@/src/components/Pages";
 import { SubscribeModal } from "@/src/components/SubscribeModal";
 import {
+  getAllFeaturedDealersAndVehiclesWithImages,
   getAllCarsByListingCategory,
   getAllDealers,
 } from "../server/actions/general";
+import { StatusCode } from "../utils";
 
 export const Home = async () => {
-  const [allCarsForSaleResponse, allDealersResponse] = await Promise.all([
+  const [
+    allFeatureCarsWithDealersResponse,
+    allCarsForSaleResponse,
+    allDealersResponse,
+  ] = await Promise.all([
+    getAllFeaturedDealersAndVehiclesWithImages("car", "for_sale"),
     getAllCarsByListingCategory("for_sale", true),
     getAllDealers(),
   ]);
@@ -32,16 +39,27 @@ export const Home = async () => {
         dealer: {
           dealership_name: dealer?.dealership_name,
           profile_logo_path: dealer?.profile_logo_path,
+          subscription: dealer?.subscription,
         },
       };
     }
   );
 
+  const {
+    data: featuredCarsWithDealerDetails,
+    error: carsError,
+    status: carsStatus,
+  } = allFeatureCarsWithDealersResponse;
+
+  if (carsError || carsStatus !== StatusCode.SUCCESS) {
+    console.error("Error fetching featured cars:", carsError);
+  }
+
   return (
     <>
       <HeroBanner />
       <FeaturedCarSection
-        featuredCarsWithDealerDetails={allCarsForSaleWithDealerDetails}
+        featuredCarsWithDealerDetails={featuredCarsWithDealerDetails || []}
       />
       <BrowseCarsSection
         allCarsForSaleWithDealerDetails={allCarsForSaleWithDealerDetails}

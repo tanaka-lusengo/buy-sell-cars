@@ -1,12 +1,13 @@
-// import { useMemo } from "react";
-import { Container, Box, Grid, Flex } from "@/styled-system/jsx";
+import { useMemo } from "react";
+import { Container, Box, Grid, Flex, Divider } from "@/styled-system/jsx";
 import { ResponsiveContainer, Typography } from "../../ui";
 import { StatusCode } from "@/src/utils";
 import { Profile } from "@/src/types";
 import { PostgrestError } from "@supabase/supabase-js";
-import { DealerCard } from "./components";
 import { PaidSponsorFeature } from "../../shared";
-// import { Filter, DealerCard } from "./components";
+import { filterAndSortByDealers } from "@/src/utils";
+import { SUBSCRIPTION_FEATURE_TYPES } from "@/src/constants/values";
+import { Filter, DealerCard } from "./components";
 
 type AllDealersProps = {
   dealers: Profile[];
@@ -17,10 +18,10 @@ type AllDealersProps = {
 export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
   const successStatus = status === StatusCode.SUCCESS;
 
-  // const dealerNames = useMemo(
-  //   () => dealers.map((dealer) => dealer.dealership_name ?? "") || [],
-  //   [dealers]
-  // );
+  const dealerNames = useMemo(
+    () => dealers.map((dealer) => dealer.dealership_name ?? "") || [],
+    [dealers]
+  );
 
   return (
     <>
@@ -68,7 +69,8 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
                 gap="md"
               >
                 {/* TODO: When implementing filter post MVP */}
-                {/* <Flex
+                <Flex
+                  display="none"
                   position="sticky"
                   top={{ base: "none", lg: "130px" }}
                   minWidth={{ base: "100%", md: "35rem" }}
@@ -76,7 +78,29 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
                   paddingX="md"
                 >
                   <Filter dealers={dealerNames} />
-                </Flex> */}
+                </Flex>
+
+                {/* Featured Dealers base on Subscription type */}
+                <Flex
+                  flexWrap="wrap"
+                  justifyContent="center"
+                  gap="md"
+                  paddingX="md"
+                >
+                  {filterAndSortByDealers(
+                    dealers,
+                    SUBSCRIPTION_FEATURE_TYPES,
+                    true
+                  ).map((dealer) => (
+                    <DealerCard
+                      key={dealer.id}
+                      dealer={dealer}
+                      isFeature={true}
+                    />
+                  ))}
+                </Flex>
+
+                <Divider color="grey" marginY="md" maxWidth="100rem" />
 
                 <Flex
                   flexWrap="wrap"
@@ -84,7 +108,10 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
                   gap="md"
                   paddingX="md"
                 >
-                  {dealers.map((dealer) => (
+                  {filterAndSortByDealers(
+                    dealers,
+                    SUBSCRIPTION_FEATURE_TYPES
+                  ).map((dealer) => (
                     <DealerCard key={dealer.id} dealer={dealer} />
                   ))}
                 </Flex>

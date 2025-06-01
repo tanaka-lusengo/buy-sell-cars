@@ -148,6 +148,12 @@ export const Account = ({ profile }: { profile: Profile | null }) => {
         </Typography>
 
         <Typography variant="h4">Update your account details</Typography>
+        <Typography>
+          <i>
+            (Note: If you have <b>no profile logo</b>, your listing will not be
+            visible on the platform)
+          </i>
+        </Typography>
       </Box>
 
       <Grid gridTemplateColumns="1fr 1fr" gap="sm">

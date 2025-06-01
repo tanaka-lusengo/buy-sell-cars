@@ -11,6 +11,7 @@ import {
   Profile,
   CategoryType,
   VehicleCategoryType,
+  VehicleWithImageAndDealer,
 } from "@/src/types";
 import { handleServerError, StatusCode, shuffleArray } from "@/src/utils";
 import {
@@ -18,6 +19,10 @@ import {
   editVehicleValidationSchema,
 } from "@/src/schemas";
 import { revalidatePath } from "next/cache";
+import {
+  SUBSCRIPTION_FEATURE_TYPES,
+  SubscriptionTypeValues,
+} from "@/src/constants/values";
 
 type AddVehicleProps = {
   profile: Profile;
@@ -40,16 +45,25 @@ export const addVehicle = async ({ profile, formData }: AddVehicleProps) => {
       return { data: null, status: StatusCode.BAD_REQUEST, error: countError };
     }
 
+    console.log(
+      `Current vehicle count for profile ${profile.dealership_name}:`,
+      count
+    );
+
     // 2. Determine max allowed vehicles based on user category and subscription
     let maxVehicles = 0;
 
     if (profile?.user_category === "dealership") {
-      if (profile?.subscription === "starter_showcase") {
+      if (profile?.subscription === SubscriptionTypeValues.StarterShowcase) {
         maxVehicles = 25;
-      } else if (profile?.subscription === "growth_accelerator") {
+      } else if (
+        profile?.subscription === SubscriptionTypeValues.GrowthAccelerator
+      ) {
         maxVehicles = 75;
-      } else if (profile?.subscription === "dealership_dominator") {
-        maxVehicles = 150; // Unlimited for dominator plan
+      } else if (
+        profile?.subscription === SubscriptionTypeValues.DealershipDominator
+      ) {
+        maxVehicles = 100;
       }
     } else if (profile?.user_category === "individual") {
       maxVehicles = 2;
@@ -61,7 +75,7 @@ export const addVehicle = async ({ profile, formData }: AddVehicleProps) => {
       return {
         data: null,
         status: StatusCode.BAD_REQUEST,
-        error: `You have reached your vehicle listing limit on your current aubacription (${maxVehicles}).`,
+        error: `You have reached your vehicle listing limit on your current subacription (${maxVehicles}).`,
       };
     }
 
@@ -86,7 +100,7 @@ export const addVehicle = async ({ profile, formData }: AddVehicleProps) => {
       seats: Number(parsedData.seats),
       description: parsedData.description,
       spec_sheet_path: null,
-      is_active: false,
+      is_active: true,
     };
 
     const { data, error } = await supabase
@@ -565,6 +579,54 @@ export const getAllCarsByListingCategory = async (
   }
 };
 
+type AllListingsByCategoryType = {
+  listingCategory: ListingCategoryType[number];
+  vehicleCategory: VehicleCategoryType[number];
+};
+
+export const getAllVehicleListingsByCategory = async ({
+  listingCategory,
+  vehicleCategory,
+}: AllListingsByCategoryType) => {
+  // Init supabase client
+  const supabase = await createClient();
+  try {
+    // fetch all vehicles by listing category and subscription
+    const { data, error } = await supabase
+      .from("vehicles")
+      .select("*")
+      .eq("listing_category", listingCategory)
+      .eq("vehicle_category", vehicleCategory)
+      .neq("is_active", false);
+
+    if (error) {
+      return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+    // fetch vehicle images by vehicle id
+    const vehicleWithImages = await Promise.all(
+      data.map(async (vehicle) => {
+        const { data: images, error: imagesError } = await supabase
+          .from("vehicle_images")
+          .select("*")
+          .eq("vehicle_id", vehicle.id);
+
+        if (imagesError) {
+          throw imagesError;
+        }
+
+        return { ...vehicle, images };
+      })
+    );
+
+    return { data: vehicleWithImages, status: StatusCode.SUCCESS, error: null };
+  } catch (error) {
+    return handleServerError(
+      error,
+      "getting subscription feature listings by category (server)"
+    );
+  }
+};
+
 export const getAllDealers = async () => {
   // Init supabase client
   const supabase = await createClient();
@@ -575,7 +637,9 @@ export const getAllDealers = async () => {
       .from("profiles")
       .select("*")
       .eq("user_category", "dealership")
-      .neq("admin", true);
+      .neq("admin", true)
+      .not("profile_logo_path", "is", null)
+      .order("dealership_name", { ascending: true });
 
     if (error) {
       return { data: null, status: StatusCode.BAD_REQUEST, error };
@@ -584,6 +648,97 @@ export const getAllDealers = async () => {
     return { data, status: StatusCode.SUCCESS, error: null };
   } catch (error) {
     return handleServerError(error, "getting dealers (server)");
+  }
+};
+
+export const getAllFeaturedDealersAndVehiclesWithImages = async (
+  vehicleCategory: VehicleCategoryType[number],
+  listingCategory: ListingCategoryType[number]
+) => {
+  // Init supabase client
+  const supabase = await createClient();
+  try {
+    // fetch all featured dealers
+    const { data: dealers, error: dealersError } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("user_category", "dealership")
+      .in("subscription", SUBSCRIPTION_FEATURE_TYPES)
+      .neq("admin", true)
+      .not("profile_logo_path", "is", null);
+
+    if (dealersError) {
+      return {
+        data: null,
+        status: StatusCode.BAD_REQUEST,
+        error: dealersError,
+      };
+    }
+
+    // For each dealer, fetch up to 3 vehicles and their images
+    const vehiclesWithDealer: VehicleWithImageAndDealer[] = (
+      await Promise.all(
+        dealers.map(async (dealer) => {
+          // Fetch up to 3 active cars for sale for this dealer
+          const { data: vehicles, error: vehiclesError } = await supabase
+            .from("vehicles")
+            .select("*")
+            .eq("owner_id", dealer.id)
+            .eq("is_active", true)
+            .eq("listing_category", listingCategory)
+            .eq("vehicle_category", vehicleCategory)
+            .limit(3);
+
+          if (vehiclesError) {
+            throw vehiclesError;
+          }
+
+          // For each vehicle, fetch its images and attach dealer info
+          const vehiclesWithImagesAndDealer: VehicleWithImageAndDealer[] =
+            await Promise.all(
+              vehicles.map(async (vehicle) => {
+                // Fetch images for this vehicle
+                const { data: images, error: imagesError } = await supabase
+                  .from("vehicle_images")
+                  .select("*")
+                  .eq("vehicle_id", vehicle.id);
+
+                if (imagesError) {
+                  throw imagesError;
+                }
+
+                // Return the vehicle with images and dealer info
+                return {
+                  ...vehicle,
+                  images,
+                  dealer: {
+                    dealership_name: dealer.dealership_name,
+                    profile_logo_path: dealer.profile_logo_path,
+                    subscription: dealer.subscription,
+                  },
+                };
+              })
+            );
+
+          return vehiclesWithImagesAndDealer;
+        })
+      )
+    ).flat(); // Flatten the array so all vehicles are in a single array
+
+    // Shuffle the dealers to randomize the order
+    const shuffledDealers = shuffleArray(vehiclesWithDealer);
+    // Limit to 6 featured dealers
+    const featuredDealers = shuffledDealers.slice(0, 6);
+    return {
+      data: featuredDealers,
+      status: StatusCode.SUCCESS,
+      error: null,
+    };
+  } catch (error) {
+    return handleServerError(
+      error,
+      "getting featured dealers and vehicles with images (server)"
+    );
   }
 };
 
@@ -599,7 +754,8 @@ export const getAllProfilesByUserCategory = async (
       .from("profiles")
       .select("*")
       .eq("user_category", userCategory)
-      .neq("admin", true);
+      .neq("admin", true)
+      .order("dealership_name", { ascending: true });
 
     if (error) {
       return { data: null, status: StatusCode.BAD_REQUEST, error };

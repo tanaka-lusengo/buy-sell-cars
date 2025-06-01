@@ -1,5 +1,6 @@
 import { Params } from "@/src/types/next-types";
 import {
+  getAllFeaturedDealersAndVehiclesWithImages,
   getAllVehiclesByVehicleCategory,
   getAllDealers,
 } from "@/src/server/actions/general";
@@ -10,7 +11,15 @@ export const EarthMovingPage = async ({ params }: Params) => {
 
   const isRental = slug === "rentals";
 
-  const [featuredCarsResponse, featuredDealersResponse] = await Promise.all([
+  const [
+    allFeatureCarsWithDealersResponse,
+    featuredCarsResponse,
+    featuredDealersResponse,
+  ] = await Promise.all([
+    getAllFeaturedDealersAndVehiclesWithImages(
+      "earth_moving",
+      isRental ? "rental" : "for_sale"
+    ),
     getAllVehiclesByVehicleCategory(
       "earth_moving",
       isRental ? "rental" : "for_sale"
@@ -30,6 +39,7 @@ export const EarthMovingPage = async ({ params }: Params) => {
         dealer: {
           dealership_name: dealer?.dealership_name,
           profile_logo_path: dealer?.profile_logo_path,
+          subscription: dealer?.subscription,
         },
       };
     }
@@ -37,13 +47,22 @@ export const EarthMovingPage = async ({ params }: Params) => {
 
   const { error: carsError, status: carsStatus } = featuredCarsResponse;
   const { error: dealerError, status: dealerStatus } = featuredDealersResponse;
+  const {
+    data: featuredCarsWithDealerDetails,
+    error: featureError,
+    status: featureSatus,
+  } = allFeatureCarsWithDealersResponse;
+
+  const error = carsError || dealerError || featureError;
+  const status = carsStatus || dealerStatus || featureSatus;
 
   return (
     <AllVehicles
       vehicleCategory="earth_moving"
       vehicles={featuredVehiclesWithDealerDetails || []}
-      error={carsError || dealerError}
-      status={carsStatus || dealerStatus}
+      featruredVehiclesWithDealerDetails={featuredCarsWithDealerDetails || []}
+      error={error}
+      status={status}
       isRental={isRental}
     />
   );
