@@ -93,13 +93,13 @@ export const Navbar = () => {
             flexDirection="row"
             gap="md"
           >
-            <Typography as="div" hoverEffect="color" weight="bold">
+            <Typography as="span" hoverEffect="color" weight="bold">
               <Link href={user ? "/dashboard/add-listing" : "/sign-up"}>
                 Sell your vehicle
               </Link>
             </Typography>
 
-            <Typography as="div" hoverEffect="color" weight="bold">
+            <Typography as="span" hoverEffect="color" weight="bold">
               <Link href={`${user ? "/dashboard" : "/sign-in"}`}>
                 {user ? AccountIcon : "Login"}
               </Link>

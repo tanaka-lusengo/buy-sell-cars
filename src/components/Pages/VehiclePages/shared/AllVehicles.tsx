@@ -4,8 +4,11 @@ import { ResponsiveContainer, Typography } from "../../../ui";
 import { formatToReadableString, StatusCode } from "@/src/utils";
 import { VehicleCategoryType, VehicleWithImageAndDealer } from "@/src/types";
 import { PostgrestError } from "@supabase/supabase-js";
-import { FeaturePreviewCard } from "@/src/components/shared";
-import { Filter } from "./components/Filter";
+import {
+  FeaturePreviewCard,
+  PaidSponsorFeature,
+} from "@/src/components/shared";
+// import { Filter } from "./components/Filter";
 
 type AllVehiclesProps = {
   vehicleCategory: VehicleCategoryType[number];
@@ -24,22 +27,22 @@ export const AllVehicles = ({
 }: AllVehiclesProps) => {
   const successStatus = status === StatusCode.SUCCESS;
 
-  const vehicleMakes = useMemo(() => {
-    const makes = vehicles.map((vehicle) => vehicle.make);
-    return [...new Set(makes)];
-  }, [vehicles]);
+  // const vehicleMakes = useMemo(() => {
+  //   const makes = vehicles.map((vehicle) => vehicle.make);
+  //   return [...new Set(makes)];
+  // }, [vehicles]);
 
-  const vehicleModels = useMemo(() => {
-    const models = vehicles.map((vehicle) => vehicle.model);
-    return [...new Set(models)];
-  }, [vehicles]);
+  // const vehicleModels = useMemo(() => {
+  //   const models = vehicles.map((vehicle) => vehicle.model);
+  //   return [...new Set(models)];
+  // }, [vehicles]);
 
-  const vehicleFilterData = useMemo(() => {
-    return {
-      makes: vehicleMakes,
-      models: vehicleModels,
-    };
-  }, [vehicleMakes, vehicleModels]);
+  // const vehicleFilterData = useMemo(() => {
+  //   return {
+  //     makes: vehicleMakes,
+  //     models: vehicleModels,
+  //   };
+  // }, [vehicleMakes, vehicleModels]);
 
   const category = () => {
     if (vehicleCategory === "earth_moving") {
@@ -84,14 +87,18 @@ export const AllVehicles = ({
 
         {successStatus && vehicles.length === 0 && (
           <ResponsiveContainer backgroundColor="greyLight">
-            <Flex direction="column" gap="sm" paddingY="lg">
+            <Flex direction="column" gap="md" paddingY="lg">
               <Typography variant="h3" align="center" color="primaryDark">
-                Sorry, it looks like we don&#39;t have any {category()}{" "}
-                available {isRental ? "to rent" : "for sale"} at the moment.
+                Sorry, we currently don&#39;t have any {category()} available{" "}
+                {isRental ? "to rent" : "for sale"} at the moment.
               </Typography>
-              <Typography variant="h4" align="center">
-                Please come back later or check out our other listings.
-              </Typography>
+              <Box maxWidth="70rem" marginX="auto">
+                <Typography variant="h4" align="center">
+                  We&#39;re working closely with new dealers and individuals to
+                  feature new listings as we speak. Please come back later or
+                  check out our other listings.
+                </Typography>
+              </Box>
             </Flex>
           </ResponsiveContainer>
         )}
@@ -100,12 +107,12 @@ export const AllVehicles = ({
           <ResponsiveContainer backgroundColor="greyLight">
             <Box paddingY="lg">
               <Grid
-                gridTemplateColumns={{ base: "1fr", lg: "1fr 3fr" }}
+                // gridTemplateColumns={{ base: "1fr", lg: "1fr 3fr" }}
                 alignItems={{ base: "center", lg: "flex-start" }}
                 justifyItems="center"
                 gap="lg"
               >
-                <Flex
+                {/* <Flex
                   position="sticky"
                   top={{ base: "none", lg: "130px" }}
                   minWidth={{ base: "100%", md: "40rem" }}
@@ -113,7 +120,7 @@ export const AllVehicles = ({
                   paddingX="md"
                 >
                   <Filter vehicleFilterData={vehicleFilterData} />
-                </Flex>
+                </Flex> */}
 
                 <Flex
                   flexWrap="wrap"
@@ -136,6 +143,8 @@ export const AllVehicles = ({
             </Box>
           </ResponsiveContainer>
         )}
+
+        <PaidSponsorFeature />
       </Container>
     </>
   );

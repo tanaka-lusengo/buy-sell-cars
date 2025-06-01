@@ -63,6 +63,12 @@ export const FileInputField = <TFormValues extends FieldValues>({
           fileInputRef.current = e;
         }}
         onChange={(e) => {
+          const selectedFiles = Array.from(e.target.files || []);
+          if (selectedFiles.length > 10) {
+            alert("You can only upload a maximum of 10 images.");
+            e.target.value = "";
+            return;
+          }
           handleFileChange(e);
           register?.onChange?.(e);
         }}

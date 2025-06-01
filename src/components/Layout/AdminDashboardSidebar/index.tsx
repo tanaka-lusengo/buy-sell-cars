@@ -50,7 +50,7 @@ export const AdminDashboardSidebar = ({
 
                 <Divider width="15rem" marginY="sm" color="grey" />
 
-                <SignOut />
+                <SignOut variant="body1" />
               </Flex>
             </Box>
 

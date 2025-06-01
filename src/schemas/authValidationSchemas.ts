@@ -42,7 +42,25 @@ export const signUpValidationSchema = z
   .refine(({ password, confirmPassword }) => password === confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
-  });
+  })
+  .refine(
+    ({ categoryType, dealershipName }) =>
+      categoryType !== "dealership" ||
+      (typeof dealershipName === "string" && dealershipName.trim().length > 0),
+    {
+      message: "Dealership name is required",
+      path: ["dealershipName"],
+    }
+  )
+  .refine(
+    ({ categoryType, location }) =>
+      categoryType !== "dealership" ||
+      (typeof location === "string" && location.trim().length > 0),
+    {
+      message: "Location is required",
+      path: ["location"],
+    }
+  );
 
 export const updatePasswordValidationSchema = z
   .object({

@@ -15,13 +15,17 @@ export const FeatureBannerOne = () => {
   const desktopImage = "/images/sponsors/rossi-tyres-lg.jpg";
 
   return (
-    <Link href={EXTERNAL_URLS.ROSSI_TYRES_URL} target="_blank">
+    <Link
+      href={EXTERNAL_URLS.ROSSI_TYRES_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <Box bg="greyLight" padding="md" width="100%">
         <Flex
           marginX="auto"
           height="100%"
           justifyItems="center"
-          width={{ base: "100%", xl: "110rem" }}
+          width={{ base: "100%", xl: "100rem" }}
           borderRadius="1.2rem"
           _hover={{
             boxShadow: "0 6px 12px rgba(0, 0, 0, 0.2)",
