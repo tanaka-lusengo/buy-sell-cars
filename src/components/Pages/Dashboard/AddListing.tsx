@@ -9,7 +9,7 @@ import {
   InputField,
   TextareaField,
 } from "@/src/components/FormComponents";
-import { Divider, Flex, Grid } from "@/styled-system/jsx";
+import { Box, Divider, Flex, Grid } from "@/styled-system/jsx";
 import { Form } from "./common.styled";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -43,6 +43,7 @@ import {
 import { useFileUploadHelpers } from "@/src/hooks";
 import { createClient } from "@/supabase/client";
 import Image from "next/image";
+import Link from "next/link";
 
 export const AddListing = ({ profile }: { profile: Profile }) => {
   const {
@@ -233,9 +234,12 @@ export const AddListing = ({ profile }: { profile: Profile }) => {
   }, [loading]);
 
   if (showLoader) {
-    // Show SuspenseLoader when uploading listing
     return <SuspenseLoader label="Uploading listing..." />;
   }
+
+  const { profile_logo_path, address, description } = profile;
+
+  const restrictAccess = !profile_logo_path || !address || !description;
 
   return (
     <Form
@@ -247,279 +251,304 @@ export const AddListing = ({ profile }: { profile: Profile }) => {
         List your vehicle details
       </Typography>
 
-      <Typography as="h2" variant="h5">
-        Select your type of listing:
-      </Typography>
-
-      <Grid
-        gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
-        gap="sm"
-        width="100%"
-      >
-        <SelectField
-          label="Listing type"
-          name="listingCategory"
-          register={register}
-          errors={errors}
+      {restrictAccess ? (
+        <Flex
+          direction="column"
+          gap="md"
+          width="100%"
+          marginY="md"
+          marginX="auto"
         >
-          <option key="listingCategory" value={""}>
-            Type of listing
-          </option>
-          {LISTING_TYPES.map((type) => (
-            <option key={type} value={toSnakeCase(type)}>
-              {type}
-            </option>
-          ))}
-        </SelectField>
-
-        <SelectField
-          label="Vehicle category"
-          name="vehicleCategory"
-          register={register}
-          errors={errors}
-        >
-          <option key="vehicleCategory" value={""}>
-            Vehicle category
-          </option>
-          {VEHICLE_CATEGORIES.map((type) => (
-            <option key={type} value={toSnakeCase(type)}>
-              {type}
-            </option>
-          ))}
-        </SelectField>
-      </Grid>
-
-      <Divider marginY="md" color="grey" />
-
-      <Grid gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }} gap="sm">
-        <InputField
-          name="make"
-          placeholder="Make e.g Honda"
-          register={register}
-          errors={errors}
-        />
-
-        <InputField
-          name="model"
-          placeholder="Model e.g Fit"
-          register={register}
-          errors={errors}
-        />
-      </Grid>
-
-      <Grid
-        gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
-        gap="sm"
-        width="100%"
-      >
-        <SelectField name="location" register={register} errors={errors}>
-          <option key="location" value={""}>
-            Location
-          </option>
-          {LOCATIONS.map((location) => (
-            <option key={location} value={location}>
-              {location}
-            </option>
-          ))}
-        </SelectField>
-
-        <InputField
-          name="price"
-          type="number"
-          placeholder={`Price ($) ${isRental ? "(Per day)" : "(Total)"}`}
-          register={register}
-          errors={errors}
-        />
-      </Grid>
-
-      <Grid
-        gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
-        gap="sm"
-        width="100%"
-      >
-        <SelectField name="year" register={register} errors={errors}>
-          <option key="year" value={""} color="grey">
-            Manufactured year
-          </option>
-          {YEARS.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </SelectField>
-
-        <SelectField name="condition" register={register} errors={errors}>
-          <option key="condition" value={""}>
-            Condition
-          </option>
-          {isUsedCar && (
-            <option
-              key={CAR_CONDITIONS[1]}
-              value={toSnakeCase(CAR_CONDITIONS[1])}
-            >
-              {CAR_CONDITIONS[1]}
-            </option>
-          )}
-          {isNewCar && (
-            <option
-              key={CAR_CONDITIONS[0]}
-              value={toSnakeCase(CAR_CONDITIONS[0])}
-            >
-              {CAR_CONDITIONS[0]}
-            </option>
-          )}
-          {!isUsedCar &&
-            !isNewCar &&
-            CAR_CONDITIONS.map((condition) => {
-              return (
-                <option key={condition} value={toSnakeCase(condition)}>
-                  {condition}
-                </option>
-              );
-            })}
-        </SelectField>
-      </Grid>
-
-      <Grid
-        gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
-        gap="sm"
-        width="100%"
-      >
-        <SelectField name="gearBox" register={register} errors={errors}>
-          <option key="gearBox" value={""}>
-            Gearbox
-          </option>
-          {GEARBOX_TYPES.map((type) => (
-            <option key={type} value={toSnakeCase(type)}>
-              {type}
-            </option>
-          ))}
-        </SelectField>
-
-        <SelectField name="fuelType" register={register} errors={errors}>
-          <option key="fuel-type" value={""}>
-            Fuel Type
-          </option>
-          {FUEL_TYPES.map((type) => (
-            <option key={type} value={toSnakeCase(type)}>
-              {type}
-            </option>
-          ))}
-        </SelectField>
-      </Grid>
-
-      <Grid
-        gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
-        gap="sm"
-        width="100%"
-      >
-        <InputField
-          name="mileage"
-          type="number"
-          placeholder="Mileage (km)"
-          register={register}
-          errors={errors}
-        />
-
-        <InputField
-          name="doors"
-          type="number"
-          placeholder="No. of doors"
-          register={register}
-          errors={errors}
-        />
-      </Grid>
-
-      <Grid
-        gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
-        gap="sm"
-        width="100%"
-      >
-        <InputField
-          name="seats"
-          type="number"
-          placeholder="No. of seats"
-          register={register}
-          errors={errors}
-        />
-      </Grid>
-
-      <TextareaField
-        label="Vehicle Description"
-        name="description"
-        maxLength={500}
-        placeholder="Write a brief description about your vehicle..."
-        register={register}
-        errors={errors}
-      />
-
-      <Grid
-        gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
-        gap="sm"
-        width="100%"
-      >
-        <FileInputField
-          accept="image/*"
-          multiple
-          label={imgLabel}
-          name="vehicleImages"
-          disabled={isSubmitting}
-          register={{
-            ...register("vehicleImages"),
-            onChange: async (e) => {
-              setVehicleImageFiles(e.target.files || null);
-              handleImagePreview(e.target.files);
-            },
-          }}
-          errors={errors}
-        />
-
-        <FileInputField
-          accept="image/*,application/pdf"
-          label={specSheetLabel}
-          name="specSheetPath"
-          disabled={isSubmitting}
-          register={{
-            ...register("specSheetPath"),
-            onChange: async (e) => {
-              setSpecSheetFile(e.target.files?.[0] || null);
-            },
-          }}
-          errors={errors}
-        />
-      </Grid>
-
-      {imagesPreview.length > 0 && (
-        <>
-          <Divider marginY="sm" color="primary" />
-
-          <Typography as="h2" variant="h5">
-            Image preview:
+          <Typography variant="h3" color="error" align="center">
+            <b>Note:</b> You must have a{" "}
+            <b>profile logo, address and description</b> to list your vehicle.
           </Typography>
 
-          <Flex gap="xxs" flexWrap="wrap" justifyContent="center">
-            {imagesPreview.map((src, index) => (
-              <Image
-                key={index}
-                src={src}
-                alt={`preview-${index}`}
-                width={80}
-                height={80}
-                style={{
-                  width: 80,
-                  height: 80,
-                  objectFit: "cover",
-                  borderRadius: 4,
-                }}
-              />
-            ))}
-          </Flex>
+          <Typography align="center" variant="h4">
+            Please update your profile in the{" "}
+            <Typography as="span" variant="h4" color="primaryDark">
+              <Link href="/dashboard">Profile</Link>
+            </Typography>{" "}
+            section.
+          </Typography>
+        </Flex>
+      ) : (
+        <>
+          <Typography as="h2" variant="h5">
+            Select your type of listing:
+          </Typography>
+
+          <Grid
+            gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
+            gap="sm"
+            width="100%"
+          >
+            <SelectField
+              label="Listing type"
+              name="listingCategory"
+              register={register}
+              errors={errors}
+            >
+              <option key="listingCategory" value={""}>
+                Type of listing
+              </option>
+              {LISTING_TYPES.map((type) => (
+                <option key={type} value={toSnakeCase(type)}>
+                  {type}
+                </option>
+              ))}
+            </SelectField>
+
+            <SelectField
+              label="Vehicle category"
+              name="vehicleCategory"
+              register={register}
+              errors={errors}
+            >
+              <option key="vehicleCategory" value={""}>
+                Vehicle category
+              </option>
+              {VEHICLE_CATEGORIES.map((type) => (
+                <option key={type} value={toSnakeCase(type)}>
+                  {type}
+                </option>
+              ))}
+            </SelectField>
+          </Grid>
+
+          <Divider marginY="md" color="grey" />
+
+          <Grid gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }} gap="sm">
+            <InputField
+              name="make"
+              placeholder="Make e.g Honda"
+              register={register}
+              errors={errors}
+            />
+
+            <InputField
+              name="model"
+              placeholder="Model e.g Fit"
+              register={register}
+              errors={errors}
+            />
+          </Grid>
+
+          <Grid
+            gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
+            gap="sm"
+            width="100%"
+          >
+            <SelectField name="location" register={register} errors={errors}>
+              <option key="location" value={""}>
+                Location
+              </option>
+              {LOCATIONS.map((location) => (
+                <option key={location} value={location}>
+                  {location}
+                </option>
+              ))}
+            </SelectField>
+
+            <InputField
+              name="price"
+              type="number"
+              placeholder={`Price ($) ${isRental ? "(Per day)" : "(Total)"}`}
+              register={register}
+              errors={errors}
+            />
+          </Grid>
+
+          <Grid
+            gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
+            gap="sm"
+            width="100%"
+          >
+            <SelectField name="year" register={register} errors={errors}>
+              <option key="year" value={""} color="grey">
+                Manufactured year
+              </option>
+              {YEARS.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </SelectField>
+
+            <SelectField name="condition" register={register} errors={errors}>
+              <option key="condition" value={""}>
+                Condition
+              </option>
+              {isUsedCar && (
+                <option
+                  key={CAR_CONDITIONS[1]}
+                  value={toSnakeCase(CAR_CONDITIONS[1])}
+                >
+                  {CAR_CONDITIONS[1]}
+                </option>
+              )}
+              {isNewCar && (
+                <option
+                  key={CAR_CONDITIONS[0]}
+                  value={toSnakeCase(CAR_CONDITIONS[0])}
+                >
+                  {CAR_CONDITIONS[0]}
+                </option>
+              )}
+              {!isUsedCar &&
+                !isNewCar &&
+                CAR_CONDITIONS.map((condition) => {
+                  return (
+                    <option key={condition} value={toSnakeCase(condition)}>
+                      {condition}
+                    </option>
+                  );
+                })}
+            </SelectField>
+          </Grid>
+
+          <Grid
+            gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
+            gap="sm"
+            width="100%"
+          >
+            <SelectField name="gearBox" register={register} errors={errors}>
+              <option key="gearBox" value={""}>
+                Gearbox
+              </option>
+              {GEARBOX_TYPES.map((type) => (
+                <option key={type} value={toSnakeCase(type)}>
+                  {type}
+                </option>
+              ))}
+            </SelectField>
+
+            <SelectField name="fuelType" register={register} errors={errors}>
+              <option key="fuel-type" value={""}>
+                Fuel Type
+              </option>
+              {FUEL_TYPES.map((type) => (
+                <option key={type} value={toSnakeCase(type)}>
+                  {type}
+                </option>
+              ))}
+            </SelectField>
+          </Grid>
+
+          <Grid
+            gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
+            gap="sm"
+            width="100%"
+          >
+            <InputField
+              name="mileage"
+              type="number"
+              placeholder="Mileage (km)"
+              register={register}
+              errors={errors}
+            />
+
+            <InputField
+              name="doors"
+              type="number"
+              placeholder="No. of doors"
+              register={register}
+              errors={errors}
+            />
+          </Grid>
+
+          <Grid
+            gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
+            gap="sm"
+            width="100%"
+          >
+            <InputField
+              name="seats"
+              type="number"
+              placeholder="No. of seats"
+              register={register}
+              errors={errors}
+            />
+          </Grid>
+
+          <TextareaField
+            label="Vehicle Description"
+            name="description"
+            maxLength={500}
+            placeholder="Write a brief description about your vehicle..."
+            register={register}
+            errors={errors}
+          />
+
+          <Grid
+            gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
+            gap="sm"
+            width="100%"
+          >
+            <FileInputField
+              accept="image/*"
+              multiple
+              label={imgLabel}
+              name="vehicleImages"
+              disabled={isSubmitting}
+              register={{
+                ...register("vehicleImages"),
+                onChange: async (e) => {
+                  setVehicleImageFiles(e.target.files || null);
+                  handleImagePreview(e.target.files);
+                },
+              }}
+              errors={errors}
+            />
+
+            <FileInputField
+              accept="image/*,application/pdf"
+              label={specSheetLabel}
+              name="specSheetPath"
+              disabled={isSubmitting}
+              register={{
+                ...register("specSheetPath"),
+                onChange: async (e) => {
+                  setSpecSheetFile(e.target.files?.[0] || null);
+                },
+              }}
+              errors={errors}
+            />
+          </Grid>
+
+          {imagesPreview.length > 0 && (
+            <>
+              <Divider marginY="sm" color="primary" />
+
+              <Typography as="h2" variant="h5">
+                Image preview:
+              </Typography>
+
+              <Flex gap="xxs" flexWrap="wrap" justifyContent="center">
+                {imagesPreview.map((src, index) => (
+                  <Image
+                    key={index}
+                    src={src}
+                    alt={`preview-${index}`}
+                    width={80}
+                    height={80}
+                    style={{
+                      width: 80,
+                      height: 80,
+                      objectFit: "cover",
+                      borderRadius: 4,
+                    }}
+                  />
+                ))}
+              </Flex>
+            </>
+          )}
+
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Uploading..." : "Upload new vehicle"}
+          </Button>
         </>
       )}
-
-      <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Uploading..." : "Upload new vehicle"}
-      </Button>
     </Form>
   );
 };

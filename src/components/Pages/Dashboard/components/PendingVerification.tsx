@@ -23,27 +23,43 @@ export const PendingVerification = () => {
           We are currently reviewing your account details. This may take up to
           24hrs. Please check back once notified via email to list your
           vehicles. In the meantime, you can{" "}
-          <Typography color="primary" hoverEffect="color" weight="bold">
+          <Typography
+            as="span"
+            color="primary"
+            hoverEffect="color"
+            weight="bold"
+          >
             <Link href="/dashboard/security">update your password</Link>
           </Typography>{" "}
-          or check out our{" "}
-          <Typography color="primary" hoverEffect="color" weight="bold">
+          or check out{" "}
+          <Typography
+            as="span"
+            color="primary"
+            hoverEffect="color"
+            weight="bold"
+          >
             <Link href="/dashboard/subscriptions/">subscription plans.</Link>
           </Typography>
         </Typography>
 
         <Box marginTop="xl">
           <Typography align="center">
-            If you have any questions, please contact our support team at{" "}
+            If you have any questions, please contact our support team at:
+          </Typography>
+
+          <Typography
+            color="primaryDark"
+            weight="bold"
+            hoverEffect="color"
+            align="center"
+          >
             <Link
               href={`${SOCIAL_MEDIA_URLS.email}?subject=Account%20Verification`}
               target="_blank"
               rel="noopener noreferrer"
               title="Email us for support"
             >
-              <Typography color="primaryDark" weight="bold" hoverEffect="color">
-                {SOCIAL_MEDIA_URLS.email.replace("mailto:", "")}
-              </Typography>
+              {SOCIAL_MEDIA_URLS.email.replace("mailto:", "")}
             </Link>
           </Typography>
         </Box>

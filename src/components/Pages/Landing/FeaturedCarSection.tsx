@@ -39,25 +39,34 @@ export const FeaturedCarSection = ({
             <Filter />
           </Box>
 
-          <Box paddingX="sm" overflow="hidden">
-            <CorouselViewport ref={emblaRef}>
-              <Flex gap="lg">
-                {featuredCarsWithDealerDetails?.map((car, index) => (
-                  <FeaturePreviewCard
-                    vehicleCategory="car"
-                    key={index}
-                    vehicle={car}
-                    isRental={false}
-                  />
-                ))}
-              </Flex>
-            </CorouselViewport>
-
-            <Flex justifyContent="center" gap="lg" paddingY="lg">
-              <PrevButton />
-              <NextButton />
+          {featuredCarsWithDealerDetails?.length === 0 ? (
+            <Flex direction="column" gap="sm" paddingX="sm" paddingY="lg">
+              <Typography variant="h4" align="center">
+                Contact us now to become a featured dealer and showcase your
+                cars here!
+              </Typography>
             </Flex>
-          </Box>
+          ) : (
+            <Box paddingX="sm" overflow="hidden">
+              <CorouselViewport ref={emblaRef}>
+                <Flex gap="lg">
+                  {featuredCarsWithDealerDetails?.map((car, index) => (
+                    <FeaturePreviewCard
+                      vehicleCategory="car"
+                      key={index}
+                      vehicle={car}
+                      isRental={false}
+                    />
+                  ))}
+                </Flex>
+              </CorouselViewport>
+
+              <Flex justifyContent="center" gap="lg" paddingY="lg">
+                <PrevButton />
+                <NextButton />
+              </Flex>
+            </Box>
+          )}
         </Box>
       </Container>
     </>

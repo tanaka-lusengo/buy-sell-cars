@@ -4,3 +4,7 @@ export * from "./errorHandlers";
 export * from "./generateData";
 export * from "./helpers";
 export { generateIcon } from "./generateIcon";
+export {
+  filterAndSortByDealers,
+  sortByDealershipName,
+} from "./filterAndSortByDealers";

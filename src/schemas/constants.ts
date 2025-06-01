@@ -20,7 +20,7 @@ export const signUpFormDefaultValues = {
   phone: "",
   categoryType: undefined,
   dealershipName: null,
-  location: null,
+  location: "",
   password: "",
   confirmPassword: "",
   description: "",

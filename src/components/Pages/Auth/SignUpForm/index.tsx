@@ -137,33 +137,31 @@ export const SignUpForm = () => {
             )}
           </Grid>
 
-          {categoryType === "dealership" && (
-            <>
-              <SelectField
-                label="Location"
-                name="location"
-                register={register}
-                errors={errors}
-              >
-                <option key="location" value={""}>
-                  Select location
+          <>
+            <SelectField
+              label="Location"
+              name="location"
+              register={register}
+              errors={errors}
+            >
+              <option key="location" value={""}>
+                Select location
+              </option>
+              {LOCATIONS.map((location) => (
+                <option key={location} value={location}>
+                  {location}
                 </option>
-                {LOCATIONS.map((location) => (
-                  <option key={location} value={location}>
-                    {location}
-                  </option>
-                ))}
-              </SelectField>
+              ))}
+            </SelectField>
 
-              <TextareaField
-                label="Description"
-                name="description"
-                placeholder="Describe your business in a few words..."
-                register={register}
-                errors={errors}
-              />
-            </>
-          )}
+            <TextareaField
+              label="Description"
+              name="description"
+              placeholder="Describe your business in a few words..."
+              register={register}
+              errors={errors}
+            />
+          </>
 
           <InputField
             label="Password"

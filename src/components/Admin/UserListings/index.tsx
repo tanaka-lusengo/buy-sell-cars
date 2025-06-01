@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { Grid, Box, Flex } from "@/styled-system/jsx";
 import { ResponsiveContainer, Typography } from "@/src/components/ui";
 import { ListingsForm } from "../../Pages/Dashboard/common.styled";
-import type { SubscriptionType, Profile } from "@/src/types";
+import type { Profile } from "@/src/types";
 import {
   formatToReadableString,
   handleClientError,
@@ -83,6 +83,7 @@ export const UserListings = ({
   };
 
   const handleStartEdit = (id: string) => {
+    console.log("Editing profile ID:", id);
     setEditingId(id);
     setCurrentProfileImage(
       profiles.find((profile) => profile.id === id)?.profile_logo_path || null
@@ -104,6 +105,8 @@ export const UserListings = ({
 
   const handleSave = async (formData: UpdateProfileAdminFormType) => {
     if (!editingId) return console.error("No profile ID provided for editing");
+
+    console.log("Form data before update:", formData);
 
     try {
       if (profileImageFile) {
@@ -133,6 +136,7 @@ export const UserListings = ({
       }
 
       const updatedProfile = {
+        id: editingId,
         is_verified: formData.isVerified === "true" ? true : false,
         first_name: formData.firstName,
         last_name: formData.lastName,
@@ -141,16 +145,16 @@ export const UserListings = ({
         email: formData.email,
         location: formData.location,
         description: formData.description,
-        subscription:
-          formData.subscription === "null"
-            ? null
-            : (formData.subscription as SubscriptionType[number]),
+        subscription: formData.subscription ?? "",
       };
 
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from("profiles")
-        .update(updatedProfile)
+        .upsert(updatedProfile)
         .eq("id", editingId);
+
+      if (data) console.log("Updated profile data:", data);
+      console.log("Updated profile error:", error);
 
       if (error) throw error;
 

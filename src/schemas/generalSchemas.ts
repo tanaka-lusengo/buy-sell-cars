@@ -21,8 +21,12 @@ export const updateProfileValidationSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   dealershipName: z.string().nullable(),
   location: z.string().nullable(),
-  address: z.string().nullable(),
-  description: z.string().nullable(),
+  address: z.string().min(5, {
+    message: "Address must be at least 5 characters",
+  }),
+  description: z.string().min(10, {
+    message: "Description must be at least 10 characters",
+  }),
   profileLogoPath: z.any().optional(),
   governmentIdPath: z.any().optional(),
 });

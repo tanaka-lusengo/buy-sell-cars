@@ -7,7 +7,13 @@ import { Box, HStack } from "@/styled-system/jsx";
 import { Typography } from "@/src/components/ui";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 
-export const DealerCard = ({ dealer }: { dealer: Profile }) => {
+export const DealerCard = ({
+  dealer,
+  isFeature,
+}: {
+  dealer: Profile;
+  isFeature?: boolean;
+}) => {
   const supabase = createClient();
 
   const { getPublicUrl } = useFileUploadHelpers(supabase);
@@ -15,9 +21,9 @@ export const DealerCard = ({ dealer }: { dealer: Profile }) => {
   return (
     <Link href={`/dealers/${dealer.id}/`}>
       <Box
-        border="1.5px solid"
-        borderColor="grey"
-        borderRadius="1rem"
+        border={isFeature ? "3.5px solid" : "2px solid"}
+        borderColor={isFeature ? "primary" : "grey"}
+        borderRadius="1.5rem"
         bg="white"
         boxShadow="0 4px 10px rgba(0, 0, 0, 0.1)"
         _hover={{
