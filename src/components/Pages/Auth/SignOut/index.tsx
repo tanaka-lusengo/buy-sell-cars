@@ -24,7 +24,7 @@ export const SignOut = ({
   return (
     <Flex justifyContent="flex-start" align="center" gap="md">
       {showIcon && <Box width="2rem">{generateIcon("right-from-bracket")}</Box>}
-      <Box onClick={handleLogout}>
+      <Box onClick={handleLogout} role="button" style={{ cursor: "pointer" }}>
         <Typography variant={variant} weight="bold" hoverEffect="color">
           Sign Out
         </Typography>
