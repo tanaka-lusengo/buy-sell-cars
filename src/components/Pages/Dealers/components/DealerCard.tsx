@@ -34,7 +34,11 @@ export const DealerCard = ({ dealer }: { dealer: Profile }) => {
           p="sm"
         >
           <Image
-            src={getPublicUrl("profile-logos", dealer.profile_logo_path ?? "")}
+            src={
+              dealer.profile_logo_path
+                ? getPublicUrl("profile-logos", dealer.profile_logo_path)
+                : "/images/default-user-icon.png"
+            }
             alt={`${dealer.dealership_name} logo`}
             fill
             objectFit="cover"

@@ -48,6 +48,9 @@ export const FeaturePreviewCard = ({
 
   const isUsedvehicle = vehicle.condition === "used";
 
+  const listingCategory =
+    vehicle.listing_category === "rental" ? "For Rent" : "For Sale";
+
   const slug =
     vehicleCategory === "earth_moving" ? "earth-moving" : vehicleCategory;
 
@@ -57,6 +60,7 @@ export const FeaturePreviewCard = ({
       borderRadius="1.2rem"
       boxShadow="0 4px 10px rgba(0, 0, 0, 0.1)"
       _hover={{
+        cursor: "pointer",
         boxShadow: "0 6px 12px rgba(0, 0, 0, 0.2)",
         transform: "scale(1.01)",
       }}
@@ -100,12 +104,19 @@ export const FeaturePreviewCard = ({
           >
             <Box>
               <Typography>{vehicle.year}</Typography>
-              <Typography weight="bold" variant="h3">
-                {vehicle.make}, {vehicle.model}
-              </Typography>
-              <Typography color="grey" weight="bold">
-                Mileage: {vehicleMileage} km
-              </Typography>
+
+              <Flex direction="column" gap="sm">
+                <Typography weight="bold" variant="h3">
+                  {vehicle.make}, {vehicle.model}
+                </Typography>
+
+                <Flex justifyContent="space-between" gap="sm">
+                  <Typography color="grey" weight="bold">
+                    Mileage: {vehicleMileage} km
+                  </Typography>
+                  <Typography weight="bold">{listingCategory}</Typography>
+                </Flex>
+              </Flex>
             </Box>
 
             <Divider color="grey" />
@@ -138,20 +149,25 @@ export const FeaturePreviewCard = ({
                   position="relative"
                   width="60px"
                   height="60px"
+                  border="1px solid"
+                  borderColor="greyLight"
                   borderRadius="1rem"
                   overflow="hidden"
                 >
                   <Image
-                    src={getPublicUrl(
-                      "profile-logos",
-                      "dealer" in vehicle && vehicle.dealer?.profile_logo_path
-                        ? vehicle.dealer.profile_logo_path
-                        : owner?.profile_logo_path || ""
-                    )}
+                    src={
+                      getPublicUrl(
+                        "profile-logos",
+                        ("dealer" in vehicle &&
+                        vehicle.dealer?.profile_logo_path
+                          ? vehicle.dealer.profile_logo_path
+                          : owner?.profile_logo_path) || ""
+                      ) || "/images/default-user-icon.png"
+                    }
                     alt={
                       "dealer" in vehicle && vehicle.dealer?.dealership_name
                         ? vehicle.dealer.dealership_name
-                        : owner?.dealership_name || ""
+                        : owner?.dealership_name || "profile logo"
                     }
                     fill
                     loading="lazy"

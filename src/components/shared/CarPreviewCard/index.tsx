@@ -108,14 +108,20 @@ export const CarPreviewCard = ({ car, isRental }: CarPreviewCardProps) => {
                   position="relative"
                   width="60px"
                   height="60px"
+                  border="1px solid"
+                  borderColor="greyLight"
                   borderRadius="1rem"
                   overflow="hidden"
                 >
                   <Image
-                    src={getPublicUrl(
-                      "profile-logos",
-                      car.dealer.profile_logo_path ?? ""
-                    )}
+                    src={
+                      car.dealer.profile_logo_path
+                        ? getPublicUrl(
+                            "profile-logos",
+                            car.dealer.profile_logo_path
+                          )
+                        : "/images/default-user-icon.png"
+                    }
                     alt={car.dealer.dealership_name ?? ""}
                     fill
                     loading="lazy"

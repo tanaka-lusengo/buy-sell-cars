@@ -19,6 +19,7 @@ export const FeaturedDealersCard = ({ dealer }: { dealer: Profile }) => {
       borderRadius="1rem"
       boxShadow="0 4px 10px rgba(0, 0, 0, 0.1)"
       _hover={{
+        cursor: "pointer",
         boxShadow: "0 6px 12px rgba(0, 0, 0, 0.2)",
         transform: "scale(1.01)",
       }}
@@ -34,11 +35,12 @@ export const FeaturedDealersCard = ({ dealer }: { dealer: Profile }) => {
             overflow="hidden"
           >
             <Image
-              src={getPublicUrl(
-                "profile-logos",
-                dealer.profile_logo_path ?? ""
-              )}
-              alt={dealer.dealership_name ?? ""}
+              src={
+                dealer.profile_logo_path
+                  ? getPublicUrl("profile-logos", dealer.profile_logo_path)
+                  : "/images/default-user-icon.png"
+              }
+              alt={dealer.dealership_name ?? "Dealer Logo"}
               fill
               objectFit="cover"
               loading="lazy"

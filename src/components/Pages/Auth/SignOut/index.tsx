@@ -3,11 +3,17 @@
 import { useRouter } from "next/navigation";
 
 import { signOut } from "@/src/server/actions/auth";
-import { ButtonAsLink } from "@/src/components/ui";
+import { Typography } from "@/src/components/ui";
 import { Box, Flex } from "@/styled-system/jsx";
 import { generateIcon } from "@/src/utils";
 
-export const SignOut = ({ showIcon = true }: { showIcon?: boolean }) => {
+export const SignOut = ({
+  showIcon = true,
+  variant = "h4",
+}: {
+  showIcon?: boolean;
+  variant?: "h4" | "body1";
+}) => {
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -18,9 +24,11 @@ export const SignOut = ({ showIcon = true }: { showIcon?: boolean }) => {
   return (
     <Flex justifyContent="flex-start" align="center" gap="md">
       {showIcon && <Box width="2rem">{generateIcon("right-from-bracket")}</Box>}
-      <ButtonAsLink hoverEffect="color" onClick={handleLogout}>
-        Sign Out
-      </ButtonAsLink>
+      <Box onClick={handleLogout} role="button" style={{ cursor: "pointer" }}>
+        <Typography variant={variant} weight="bold" hoverEffect="color">
+          Sign Out
+        </Typography>
+      </Box>
     </Flex>
   );
 };

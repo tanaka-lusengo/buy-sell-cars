@@ -574,7 +574,8 @@ export const getAllDealers = async () => {
     const { data, error } = await supabase
       .from("profiles")
       .select("*")
-      .eq("user_category", "dealership");
+      .eq("user_category", "dealership")
+      .neq("admin", true);
 
     if (error) {
       return { data: null, status: StatusCode.BAD_REQUEST, error };
@@ -597,7 +598,8 @@ export const getAllProfilesByUserCategory = async (
     const { data, error } = await supabase
       .from("profiles")
       .select("*")
-      .eq("user_category", userCategory);
+      .eq("user_category", userCategory)
+      .neq("admin", true);
 
     if (error) {
       return { data: null, status: StatusCode.BAD_REQUEST, error };
@@ -622,6 +624,7 @@ export const getProfileById = async (profileId: string) => {
       .from("profiles")
       .select("*")
       .eq("id", profileId)
+      .neq("admin", true)
       .single();
 
     if (error) {
@@ -631,33 +634,5 @@ export const getProfileById = async (profileId: string) => {
     return { data, status: StatusCode.SUCCESS, error: null };
   } catch (error) {
     return handleServerError(error, "getting profile (server)");
-  }
-};
-
-export const updateProfileVerificationStatus = async (
-  profileId: string,
-  isVerified: boolean
-) => {
-  // Init supabase client
-  const supabase = await createClient();
-
-  try {
-    // Update profile verification status
-    const { data, error } = await supabase
-      .from("profiles")
-      .update({ is_verified: isVerified })
-      .eq("id", profileId)
-      .select();
-
-    if (error) {
-      return { data: null, status: StatusCode.BAD_REQUEST, error };
-    }
-
-    return { data: data[0], status: StatusCode.SUCCESS, error: null };
-  } catch (error) {
-    return handleServerError(
-      error,
-      "updating profile verification status (server)"
-    );
   }
 };

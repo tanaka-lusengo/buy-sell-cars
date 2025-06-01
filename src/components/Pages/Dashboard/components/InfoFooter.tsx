@@ -29,7 +29,6 @@ export const InfoFooter = ({
         title="Email us for support"
       >
         <Typography
-          as="span"
           color="primaryDark"
           weight="bold"
           hoverEffect="color"

@@ -55,9 +55,13 @@ export const FeaturedDealersSection = ({
         <Box width="100%" overflow="hidden">
           <CorouselViewport ref={emblaRef}>
             <Flex paddingY="lg">
-              {dealers?.map((dealer, index) => (
-                <FeaturedDealersCard key={index} dealer={dealer} />
-              ))}
+              {dealers
+                ?.filter(
+                  (detail) => detail.profile_logo_path || detail.dealership_name
+                )
+                .map((dealer, index) => (
+                  <FeaturedDealersCard key={index} dealer={dealer} />
+                ))}
             </Flex>
           </CorouselViewport>
         </Box>

@@ -73,7 +73,12 @@ export const HamburgerMenu = ({
             display={{ base: "flex", xxl: "none" }}
             alignItems="flex-start"
           >
-            <Typography variant="h4" weight="bold" hoverEffect="color">
+            <Typography
+              as="span"
+              variant="h4"
+              weight="bold"
+              hoverEffect="color"
+            >
               <Link
                 href={user ? "/dashboard/add-listing" : "/sign-up"}
                 onClick={() => setIsOpen(false)}
@@ -81,7 +86,12 @@ export const HamburgerMenu = ({
                 Sell Your Vehicle
               </Link>
             </Typography>
-            <Typography variant="h4" weight="bold" hoverEffect="color">
+            <Typography
+              as="span"
+              variant="h4"
+              weight="bold"
+              hoverEffect="color"
+            >
               <Link
                 href={`${user ? "/dashboard" : "/sign-in"}`}
                 onClick={() => setIsOpen(false)}
@@ -89,16 +99,7 @@ export const HamburgerMenu = ({
                 {user ? "Account" : "Login"}
               </Link>
             </Typography>
-            {user && (
-              <Typography
-                as="div"
-                variant="h4"
-                weight="bold"
-                hoverEffect="color"
-              >
-                <SignOut showIcon={false} />
-              </Typography>
-            )}
+            {user && <SignOut showIcon={false} />}
           </VStack>
 
           <Divider width="100%" marginY="md" color="grey" />
@@ -107,6 +108,7 @@ export const HamburgerMenu = ({
             {subNavLinks.map((item) => (
               <li key={item.label}>
                 <Typography
+                  as="span"
                   variant="body2"
                   weight={
                     isMatchingPath(item.href, item.label) ? "bold" : "normal"

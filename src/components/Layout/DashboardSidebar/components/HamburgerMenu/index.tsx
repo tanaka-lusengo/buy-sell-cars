@@ -63,7 +63,7 @@ export const HamburgerMenu = ({ pathname }: { pathname: string }) => {
 
             <Divider width="15rem" marginY="sm" color="grey" />
 
-            <SignOut />
+            <SignOut variant="body1" />
           </NavList>
         </VStack>
       </NavDrawer>

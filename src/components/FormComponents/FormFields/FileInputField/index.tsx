@@ -1,5 +1,6 @@
 "use client";
 
+import { handleClientError } from "@/src/utils";
 import * as Styled from "../common.styled";
 import { Button } from "@/src/components/ui";
 import { useRef, useState } from "react";
@@ -36,9 +37,21 @@ export const FileInputField = <TFormValues extends FieldValues>({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    setFileCount(e.target.files?.length || 0);
-    setFileName(file?.name || null);
+    const count = e.target.files?.length || 0;
+    // If more than 10 files, show error and reset state
+    if (count > 10) {
+      handleClientError(
+        "uploading photos",
+        "You can only upload a maximum of 10 images."
+      );
+      setFileCount(0);
+      setFileName(null);
+      // Optionally, clear the input value
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
+    }
+    setFileCount(count);
+    setFileName(e.target.files?.[0]?.name || null);
   };
 
   const triggerFileInput = () => fileInputRef.current?.click();

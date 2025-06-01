@@ -12,7 +12,6 @@ export const NavLinksDashboard = ({ pathname }: { pathname: string }) => {
             <Flex justifyContent="flex-start" align="center" gap="md">
               <Box width="2rem">{item.icon}</Box>
               <Typography
-                as="span"
                 weight={pathname === item.href ? "bold" : "normal"}
                 color={pathname === item.href ? "primaryDark" : "text"}
                 hoverEffect="color"
