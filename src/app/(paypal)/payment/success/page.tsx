@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Box, Grid, Flex, VStack } from "@/styled-system/jsx";
-import { Typography, ButtonAsLink } from "@/src/components/ui";
+import { Typography, Button } from "@/src/components/ui";
 import { SuspenseLoader } from "@/src/components/shared";
 import { handleClientError, StatusCode } from "@/src/utils";
 import { logPaypalSubscription } from "@/src/server/actions/payment";
@@ -12,6 +12,8 @@ import { logPaypalSubscription } from "@/src/server/actions/payment";
 const SuccessPaymentPage = () => {
   const searchParams = useSearchParams();
   const subscriptionId = searchParams.get("subscription_id");
+
+  const { push } = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
   const [subscriptionPlanName, setSubscriptionPlanName] = useState("");
@@ -101,9 +103,9 @@ const SuccessPaymentPage = () => {
               </Typography>
             </Flex>
 
-            <ButtonAsLink href="/dashboard" onClick={() => {}} color="white">
+            <Button onClick={() => push("/dashboard")} color="white">
               Go to Dashboard
-            </ButtonAsLink>
+            </Button>
           </VStack>
         </Grid>
       )}

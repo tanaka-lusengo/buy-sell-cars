@@ -1,11 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Box, Flex, Grid, VStack } from "@/styled-system/jsx";
-import { ButtonAsLink, Typography } from "@/src/components/ui";
+import { Button, Typography } from "@/src/components/ui";
 import { InfoFooter } from "@/src/components/Pages/Dashboard/components";
 
 const PaymentCancelPage = () => {
+  const { push } = useRouter();
+
   return (
     <Box position="relative" height="100vh" overflow="hidden">
       <Image
@@ -47,13 +50,13 @@ const PaymentCancelPage = () => {
           </Flex>
 
           <Flex justifyContent="center" alignItems="center" gap="md">
-            <ButtonAsLink href="/" onClick={() => {}} color="white">
+            <Button onClick={() => push("/")} color="white">
               Go back to Home
-            </ButtonAsLink>
+            </Button>
             <Typography>Or</Typography>
-            <ButtonAsLink href="/dashboard" onClick={() => {}} color="white">
+            <Button onClick={() => push("/dashboard")} color="white">
               Try again
-            </ButtonAsLink>
+            </Button>
           </Flex>
 
           <InfoFooter color="white" />
