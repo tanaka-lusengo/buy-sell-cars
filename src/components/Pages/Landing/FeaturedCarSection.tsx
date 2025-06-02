@@ -43,7 +43,7 @@ export const FeaturedCarSection = ({
             <Flex direction="column" gap="sm" paddingX="sm" paddingY="lg">
               <Typography variant="h4" align="center">
                 Contact us now to become a featured dealer and showcase your
-                cars here!
+                vehicles here!
               </Typography>
             </Flex>
           ) : (
