@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Container, Box, Flex, Grid, Divider } from "@/styled-system/jsx";
 import { ResponsiveContainer, Typography } from "../../../ui";
 import { formatToReadableString, StatusCode } from "@/src/utils";
+import { EXTERNAL_URLS } from "@/src/constants/urls";
 import { VehicleCategoryType, VehicleWithImageAndDealer } from "@/src/types";
 import { PostgrestError } from "@supabase/supabase-js";
 import {
@@ -127,11 +128,18 @@ export const AllVehicles = ({
                 </Flex>
 
                 <FeatureVehicles
+                  isFeature
                   vehicleCategory={vehicleCategory}
                   isRental={isRental}
                   featuredCarsWithDealerDetails={
                     featruredVehiclesWithDealerDetails
                   }
+                />
+
+                <PaidSponsorFeature
+                  href={EXTERNAL_URLS.ROSSI_TYRES_URL}
+                  imgSrc="/images/sponsors/rossi-tyres-sm.jpg"
+                  imgAlt="Rossi Tyres Logistics"
                 />
 
                 <Divider color="grey" marginTop="md" maxWidth="100rem" />
@@ -158,7 +166,14 @@ export const AllVehicles = ({
           </ResponsiveContainer>
         )}
 
-        <PaidSponsorFeature />
+        {successStatus && vehicles.length > 0 && (
+          <PaidSponsorFeature
+            href={EXTERNAL_URLS.ROAD_BOYS_LOGISTICS_URL}
+            imgSrc="/images/sponsors/road-boys-logistics.jpg"
+            imgAlt="Road Boys Logistics"
+            showHeading
+          />
+        )}
       </Container>
     </>
   );

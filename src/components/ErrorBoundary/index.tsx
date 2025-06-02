@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ResponsiveContainer, Typography, Button, ButtonAsLink } from "../ui";
+import { ResponsiveContainer, Typography, Button } from "../ui";
 import { Box, Stack } from "@/styled-system/jsx";
 
 export interface ErrorBoundaryProps {
@@ -36,9 +36,7 @@ export const ErrorBoundary = ({ error, message }: ErrorBoundaryProps) => {
 
         <Button onClick={handleReset}>Try again!</Button>
         <Box display="flex" justifyContent="center">
-          <ButtonAsLink textDecoration="underline" onClick={handleGoBack}>
-            Go back
-          </ButtonAsLink>
+          <Button onClick={handleGoBack}>Go back</Button>
         </Box>
       </Stack>
     </ResponsiveContainer>

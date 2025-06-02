@@ -47,7 +47,7 @@ export const FeaturedCarSection = ({
               </Typography>
             </Flex>
           ) : (
-            <Box paddingX="sm" overflow="hidden">
+            <Box paddingTop="sm" paddingX="sm" overflow="hidden">
               <CorouselViewport ref={emblaRef}>
                 <Flex gap="lg">
                   {featuredCarsWithDealerDetails?.map((car, index) => (

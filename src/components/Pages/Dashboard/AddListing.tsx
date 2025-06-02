@@ -9,7 +9,7 @@ import {
   InputField,
   TextareaField,
 } from "@/src/components/FormComponents";
-import { Box, Divider, Flex, Grid } from "@/styled-system/jsx";
+import { Divider, Flex, Grid } from "@/styled-system/jsx";
 import { Form } from "./common.styled";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

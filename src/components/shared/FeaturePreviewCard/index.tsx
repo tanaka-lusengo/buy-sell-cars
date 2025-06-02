@@ -18,11 +18,12 @@ import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 
 type VehiclePreviewCardProps = {
   vehicleCategory: VehicleCategoryType[number];
+  vehicle: VehicleWithImageAndDealer | VehicleWithImage;
+  isRental: boolean;
   width?: string;
   height?: string;
-  vehicle: VehicleWithImageAndDealer | VehicleWithImage;
   owner?: Profile | null;
-  isRental: boolean;
+  isFeature?: boolean;
 };
 
 export const FeaturePreviewCard = ({
@@ -32,6 +33,7 @@ export const FeaturePreviewCard = ({
   vehicle,
   owner,
   isRental,
+  isFeature = false,
 }: VehiclePreviewCardProps) => {
   const supabase = createClient();
 
@@ -57,6 +59,8 @@ export const FeaturePreviewCard = ({
   return (
     <Box
       bg="white"
+      border={isFeature ? "3.5px solid" : "none"}
+      borderColor={isFeature ? "primary" : "grey"}
       borderRadius="1.2rem"
       boxShadow="0 4px 10px rgba(0, 0, 0, 0.1)"
       _hover={{
@@ -101,13 +105,24 @@ export const FeaturePreviewCard = ({
             direction="column"
             justifyContent="space-between"
             gap="sm"
-            width="100%"
+            width={{ base: "26rem", md: width }}
           >
             <Box>
               <Typography>{vehicle.year}</Typography>
 
               <Flex direction="column" gap="sm">
-                <Typography weight="bold" variant="h3">
+                <Typography
+                  weight="bold"
+                  variant="h3"
+                  title={`${vehicle.make}, ${vehicle.model}`}
+                  style={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "block",
+                    maxWidth: "100%",
+                  }}
+                >
                   {vehicle.make}, {vehicle.model}
                 </Typography>
 
