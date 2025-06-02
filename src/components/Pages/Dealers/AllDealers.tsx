@@ -8,6 +8,7 @@ import { PaidSponsorFeature } from "../../shared";
 import { filterAndSortByDealers } from "@/src/utils";
 import { SUBSCRIPTION_FEATURE_TYPES } from "@/src/constants/values";
 import { Filter, DealerCard } from "./components";
+import { EXTERNAL_URLS } from "@/src/constants/urls";
 
 type AllDealersProps = {
   dealers: Profile[];
@@ -21,6 +22,12 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
   const dealerNames = useMemo(
     () => dealers.map((dealer) => dealer.dealership_name ?? "") || [],
     [dealers]
+  );
+
+  const filteredFeaturedDealers = filterAndSortByDealers(
+    dealers,
+    SUBSCRIPTION_FEATURE_TYPES,
+    true
   );
 
   return (
@@ -81,26 +88,26 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
                 </Flex>
 
                 {/* Featured Dealers base on Subscription type */}
-                <Flex
-                  flexWrap="wrap"
-                  justifyContent="center"
-                  gap="md"
-                  paddingX="md"
-                >
-                  {filterAndSortByDealers(
-                    dealers,
-                    SUBSCRIPTION_FEATURE_TYPES,
-                    true
-                  ).map((dealer) => (
-                    <DealerCard
-                      key={dealer.id}
-                      dealer={dealer}
-                      isFeature={true}
-                    />
-                  ))}
-                </Flex>
+                {filteredFeaturedDealers.length > 0 && (
+                  <>
+                    <Flex
+                      flexWrap="wrap"
+                      justifyContent="center"
+                      gap="md"
+                      paddingX="md"
+                    >
+                      {filteredFeaturedDealers.map((dealer) => (
+                        <DealerCard
+                          key={dealer.id}
+                          dealer={dealer}
+                          isFeature={true}
+                        />
+                      ))}
+                    </Flex>
 
-                <Divider color="grey" marginY="md" maxWidth="100rem" />
+                    <Divider color="grey" marginY="md" maxWidth="100rem" />
+                  </>
+                )}
 
                 <Flex
                   flexWrap="wrap"
@@ -120,7 +127,24 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
           </ResponsiveContainer>
         )}
 
-        <PaidSponsorFeature />
+        <Box paddingY="lg">
+          <Typography variant="h3" align="center">
+            Our Sponsors
+          </Typography>
+
+          <Flex wrap="wrap" width="100%" justifyContent="center" paddingY="md">
+            <PaidSponsorFeature
+              href={EXTERNAL_URLS.ROSSI_TYRES_URL}
+              imgSrc="/images/sponsors/rossi-tyres-sm.jpg"
+              imgAlt="Rossi Tyres"
+            />
+            <PaidSponsorFeature
+              href={EXTERNAL_URLS.ROAD_BOYS_LOGISTICS_URL}
+              imgSrc="/images/sponsors/road-boys-logistics.jpg"
+              imgAlt="Road Boys Logistics"
+            />
+          </Flex>
+        </Box>
       </Container>
     </>
   );

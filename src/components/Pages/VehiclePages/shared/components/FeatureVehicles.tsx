@@ -13,12 +13,14 @@ type FeatureVehiclesProps = {
   vehicleCategory: VehicleCategoryType[number];
   isRental: boolean;
   featuredCarsWithDealerDetails: VehicleWithImageAndDealer[] | undefined;
+  isFeature?: boolean;
 };
 
 export const FeatureVehicles = ({
   vehicleCategory,
   isRental,
   featuredCarsWithDealerDetails,
+  isFeature = false,
 }: FeatureVehiclesProps) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
@@ -51,11 +53,12 @@ export const FeatureVehicles = ({
           </Typography>
         </Flex>
       ) : (
-        <Box paddingX="sm" overflow="hidden">
+        <Box paddingTop="sm" paddingX="sm" overflow="hidden">
           <CorouselViewport ref={emblaRef}>
             <Flex gap="lg">
               {featuredCarsWithDealerDetails?.map((car, index) => (
                 <FeaturePreviewCard
+                  isFeature={isFeature}
                   vehicleCategory="car"
                   key={index}
                   vehicle={car}

@@ -7,13 +7,12 @@ import { Box, HStack } from "@/styled-system/jsx";
 import { Typography } from "@/src/components/ui";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 
-export const DealerCard = ({
-  dealer,
-  isFeature,
-}: {
+type DealerCardProps = {
   dealer: Profile;
   isFeature?: boolean;
-}) => {
+};
+
+export const DealerCard = ({ dealer, isFeature }: DealerCardProps) => {
   const supabase = createClient();
 
   const { getPublicUrl } = useFileUploadHelpers(supabase);
