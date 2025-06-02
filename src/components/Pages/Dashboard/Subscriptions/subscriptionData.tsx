@@ -1,6 +1,11 @@
+import {
+  SubscriptionTypeValues,
+  SubscriptionPlanIds,
+} from "@/src/constants/values";
+
 export const starterShowcasePlan = {
-  name: "Starter Showcase",
-  planId: "P-780685339T092612HNA3VWYA",
+  name: SubscriptionTypeValues.StarterShowcase,
+  planId: SubscriptionPlanIds.StarterShowcase,
   price: 50,
   description: "Perfect entry point for new or smaller dealerships.",
   features: [
@@ -20,8 +25,8 @@ export const starterShowcasePlan = {
 };
 
 export const growthAcceleratorPlan = {
-  name: "Growth Accelerator",
-  planId: "P-98477851NX466604ENA3VYTY",
+  name: SubscriptionTypeValues.GrowthAccelerator,
+  planId: SubscriptionPlanIds.GrowthAccelerator,
   price: 225,
   description: "Ideal for growing dealerships looking to stand out.",
   features: [
@@ -41,8 +46,8 @@ export const growthAcceleratorPlan = {
 };
 
 export const dealershipDominatorPlan = {
-  name: "Dealership Dominator",
-  planId: "P-09P4770066006133BNA3WGJY",
+  name: SubscriptionTypeValues.DealershipDominator,
+  planId: SubscriptionPlanIds.DealershipDominator,
   price: 400,
   description: "Maximum visibility for high-volume dealerships.",
   features: [

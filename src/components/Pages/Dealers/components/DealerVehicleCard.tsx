@@ -37,6 +37,9 @@ export const DealerVehicleCard = ({
 
   const isUsedVehicle = vehicle.condition === "used";
 
+  const listingCategory =
+    vehicle.listing_category === "rental" ? "For Rent" : "For Sale";
+
   const slug =
     vehicle.vehicle_category === "earth_moving"
       ? "earth-moving"
@@ -86,16 +89,30 @@ export const DealerVehicleCard = ({
             direction="column"
             justifyContent="space-between"
             gap="sm"
-            width="100%"
+            width={{ base: "26rem", md: "28rem" }}
           >
             <Box>
               <Typography>{vehicle.year}</Typography>
-              <Typography weight="bold" variant="h3">
+              <Typography
+                weight="bold"
+                variant="h3"
+                title={`${vehicle.make}, ${vehicle.model}`}
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  display: "block",
+                  maxWidth: "100%",
+                }}
+              >
                 {vehicle.make}, {vehicle.model}
               </Typography>
-              <Typography color="grey" weight="bold">
-                Mileage: {vehicleMileage} km
-              </Typography>
+              <Flex justifyContent="space-between" gap="sm">
+                <Typography color="grey" weight="bold">
+                  Mileage: {vehicleMileage} km
+                </Typography>
+                <Typography weight="bold">{listingCategory}</Typography>
+              </Flex>
             </Box>
 
             <Divider color="grey" />

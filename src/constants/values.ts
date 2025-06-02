@@ -36,10 +36,17 @@ export const DEALER_LOGOS_TO_CONTAIN = [
   "Kenmac motors",
 ];
 
+// PayPal Subscription (Live) Values
 export enum SubscriptionTypeValues {
   StarterShowcase = "Starter Showcase",
   GrowthAccelerator = "Growth Accelerator",
   DealershipDominator = "Dealership Dominator",
+}
+
+export enum SubscriptionPlanIds {
+  StarterShowcase = "P-7CR55865728636303NA62GBQ",
+  GrowthAccelerator = "P-20M87694HT3500238NA62GXQ",
+  DealershipDominator = "P-2YN00444PF5235149NA62HHQ",
 }
 
 export const SUBSCRIPTION_TYPES = [
@@ -48,13 +55,28 @@ export const SUBSCRIPTION_TYPES = [
   SubscriptionTypeValues.DealershipDominator,
 ];
 
+export const SUBSCRIPTION_PLAN_MAPPING: Record<string, string> = {
+  "P-7CR55865728636303NA62GBQ": SubscriptionTypeValues.StarterShowcase,
+  "P-20M87694HT3500238NA62GXQ": SubscriptionTypeValues.GrowthAccelerator,
+  "P-2YN00444PF5235149NA62HHQ": SubscriptionTypeValues.DealershipDominator,
+};
+
+// To be used in the UI to display features based on subscription type
 export const SUBSCRIPTION_FEATURE_TYPES = [
-  "Growth Accelerator",
-  "Dealership Dominator",
+  SubscriptionTypeValues.GrowthAccelerator,
+  SubscriptionTypeValues.DealershipDominator,
 ];
 
-export const SUBSCRIPTION_PLAN_MAPPING: Record<string, string> = {
-  "P-780685339T092612HNA3VWYA": "Starter Showcase",
-  "P-98477851NX466604ENA3VYTY": "Growth Accelerator",
-  "P-09P4770066006133BNA3WGJY": "Dealership Dominator",
+// PayPal Subscription (Sandbox) Values
+
+export enum SandboxSubscriptionPlanIds {
+  StarterShowcase = "P-780685339T092612HNA3VWYA",
+  GrowthAccelerator = "P-98477851NX466604ENA3VYTY",
+  DealershipDominator = "P-09P47700660006133BNA3WGJY",
+}
+
+export const SANDBOX_SUBSCRIPTION_PLAN_MAPPING: Record<string, string> = {
+  "P-780685339T092612HNA3VWYA": SubscriptionTypeValues.StarterShowcase,
+  "P-98477851NX466604ENA3VYTY": SubscriptionTypeValues.GrowthAccelerator,
+  "P-09P47700660006133BNA3WGJY": SubscriptionTypeValues.DealershipDominator,
 };

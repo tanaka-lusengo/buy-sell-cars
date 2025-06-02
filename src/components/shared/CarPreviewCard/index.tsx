@@ -29,6 +29,9 @@ export const CarPreviewCard = ({ car, isRental }: CarPreviewCardProps) => {
 
   const isUsedCar = car.condition === "used";
 
+  const listingCategory =
+    car.listing_category === "rental" ? "For Rent" : "For Sale";
+
   return (
     <Box
       bg="white"
@@ -66,18 +69,32 @@ export const CarPreviewCard = ({ car, isRental }: CarPreviewCardProps) => {
           <Flex
             direction="column"
             justifyContent="space-between"
-            width="100%"
+            width={{ base: "26rem", md: "29rem" }}
             gap="sm"
             padding="sm"
           >
             <Box>
               <Typography>{car.year}</Typography>
-              <Typography weight="bold" variant="h3">
+              <Typography
+                weight="bold"
+                variant="h3"
+                title={`${car.make}, ${car.model}`}
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  display: "block",
+                  maxWidth: "100%",
+                }}
+              >
                 {car.make}, {car.model}
               </Typography>
-              <Typography color="grey" weight="bold">
-                Mileage: {carMileage} km
-              </Typography>
+              <Flex justifyContent="space-between" gap="sm">
+                <Typography color="grey" weight="bold">
+                  Mileage: {carMileage} km
+                </Typography>
+                <Typography weight="bold">{listingCategory}</Typography>
+              </Flex>
             </Box>
 
             <Divider color="grey" />
