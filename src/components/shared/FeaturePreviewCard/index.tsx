@@ -59,7 +59,7 @@ export const FeaturePreviewCard = ({
   return (
     <Box
       bg="white"
-      border={isFeature ? "3.5px solid" : ""}
+      border={isFeature ? "3.5px solid" : "none"}
       borderColor={isFeature ? "primary" : "grey"}
       borderRadius="1.2rem"
       boxShadow="0 4px 10px rgba(0, 0, 0, 0.1)"
