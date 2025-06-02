@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { type infer as ZodInfer } from "zod";
 import { Flex, Grid } from "@/styled-system/jsx";
 import { SelectField } from "@/src/components/FormComponents";
-import { Button, ButtonAsLink, Typography } from "@/src/components/ui";
+import { Button, Typography } from "@/src/components/ui";
 import { Form } from "./common.styled";
 import { filterValidationSchema } from "../schema";
 import {
@@ -56,9 +56,7 @@ export const Filter = ({
       >
         <Typography variant="h3">Filters</Typography>
 
-        <ButtonAsLink textDecoration="underline" onClick={reset}>
-          Clear fields
-        </ButtonAsLink>
+        <Button onClick={() => reset()}>Clear fields</Button>
       </Flex>
 
       <Grid gridTemplateColumns="1fr 1fr" gap="sm">

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { type infer as ZodInfer } from "zod";
 import { Container, Grid } from "@/styled-system/jsx";
 import { InputField, SelectField } from "@/src/components/FormComponents";
-import { Button, ButtonAsLink, Typography } from "@/src/components/ui";
+import { Button, Typography } from "@/src/components/ui";
 import { Form } from "./index.styled";
 import { generatePrices, generateYears, toSnakeCase } from "@/src/utils";
 import { CAR_CONDITIONS, FUEL_TYPES, LOCATIONS } from "@/src/constants/values";
@@ -140,9 +140,7 @@ export const Filter = () => {
       </Button>
 
       <Container marginTop="sm">
-        <ButtonAsLink textDecoration="underline" onClick={reset}>
-          Clear fields
-        </ButtonAsLink>
+        <Button onClick={() => reset()}>Clear fields</Button>
       </Container>
     </Form>
   );
