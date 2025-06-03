@@ -26,7 +26,7 @@ import {
 } from "@/src/server/actions/general";
 import { VehicleRow } from "./components";
 import { formatToReadableString } from "@/src/utils";
-import { SubscriptionTypeValues } from "@/src/constants/values";
+import { SubscriptionTypeNames } from "@/src/constants/values";
 
 const TABLE_HEADERS = [
   "Actions",
@@ -206,14 +206,14 @@ export const Listings = ({
   let maxVehicles = 0;
 
   if (profile?.user_category === "dealership") {
-    if (profile?.subscription === SubscriptionTypeValues.StarterShowcase) {
+    if (profile?.subscription === SubscriptionTypeNames.StarterShowcase) {
       maxVehicles = 25;
     } else if (
-      profile?.subscription === SubscriptionTypeValues.GrowthAccelerator
+      profile?.subscription === SubscriptionTypeNames.GrowthAccelerator
     ) {
       maxVehicles = 75;
     } else if (
-      profile?.subscription === SubscriptionTypeValues.DealershipDominator
+      profile?.subscription === SubscriptionTypeNames.DealershipDominator
     ) {
       maxVehicles = 100;
     }
