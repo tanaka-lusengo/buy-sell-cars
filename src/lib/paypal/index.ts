@@ -1,17 +1,17 @@
 import { type Profile } from "../../types";
 import {
   BASE_URL,
-  PAYPAL_CLIENT_ID_LIVE,
-  PAYPAL_CLIENT_SECRET_LIVE,
-  PAYPAL_API_URL_LIVE,
+  PAYPAL_CLIENT_ID,
+  PAYPAL_CLIENT_SECRET,
+  PAYPAL_API_URL,
 } from "@/src/constants/environments";
 
 export const getAccessToken = async () => {
   const credentials = Buffer.from(
-    `${PAYPAL_CLIENT_ID_LIVE}:${PAYPAL_CLIENT_SECRET_LIVE}`
+    `${PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`
   ).toString("base64");
 
-  const res = await fetch(`${PAYPAL_API_URL_LIVE}/v1/oauth2/token`, {
+  const res = await fetch(`${PAYPAL_API_URL}/v1/oauth2/token`, {
     method: "POST",
     headers: {
       Authorization: `Basic ${credentials}`,
@@ -31,7 +31,7 @@ export const getAccessToken = async () => {
 export const createSubscription = async (profile: Profile, planId: string) => {
   const accessToken = await getAccessToken();
 
-  const res = await fetch(`${PAYPAL_API_URL_LIVE}/v1/billing/subscriptions`, {
+  const res = await fetch(`${PAYPAL_API_URL}/v1/billing/subscriptions`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -62,7 +62,7 @@ export const retrieveSubscription = async (subscriptionId: string) => {
   const accessToken = await getAccessToken();
 
   const res = await fetch(
-    `${PAYPAL_API_URL_LIVE}/v1/billing/subscriptions/${subscriptionId}`,
+    `${PAYPAL_API_URL}/v1/billing/subscriptions/${subscriptionId}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -82,7 +82,7 @@ export const retrieveSubscription = async (subscriptionId: string) => {
 export const suspendSubscription = async (subscriptionId: string) => {
   const accessToken = await getAccessToken();
   const res = await fetch(
-    `${PAYPAL_API_URL_LIVE}/v1/billing/subscriptions/${subscriptionId}/suspend`,
+    `${PAYPAL_API_URL}/v1/billing/subscriptions/${subscriptionId}/suspend`,
     {
       method: "POST",
       headers: {
@@ -105,7 +105,7 @@ export const cancelSubscription = async (subscriptionId: string) => {
   const accessToken = await getAccessToken();
 
   const res = await fetch(
-    `${PAYPAL_API_URL_LIVE}/v1/billing/subscriptions/${subscriptionId}/cancel`,
+    `${PAYPAL_API_URL}/v1/billing/subscriptions/${subscriptionId}/cancel`,
     {
       method: "POST",
       headers: {
@@ -133,7 +133,7 @@ export const updateSubscription = async (
   const accessToken = await getAccessToken();
 
   const res = await fetch(
-    `${PAYPAL_API_URL_LIVE}/v1/billing/subscriptions/${subscriptionId}/revise`,
+    `${PAYPAL_API_URL}/v1/billing/subscriptions/${subscriptionId}/revise`,
     {
       method: "POST",
       headers: {
