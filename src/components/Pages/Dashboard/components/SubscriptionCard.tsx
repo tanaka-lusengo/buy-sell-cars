@@ -87,13 +87,16 @@ export const SubscriptionCard = ({
         boxShadow="lg"
         style={{ transition: "transform 0.2s ease-in-out" }}
         _hover={{ transform: "scale(1.01)" }}
-        height="fit-content"
       >
         <Typography align="center" variant="h3">
           {planName} —{" "}
           <Typography as="span" variant="h3" color="primaryDark">
             ${price}/month
           </Typography>
+        </Typography>
+
+        <Typography align="center" variant="body2">
+          (excl. VAT)
         </Typography>
 
         <Box marginY="md">

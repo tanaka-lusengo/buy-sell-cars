@@ -15,7 +15,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
     profile?.user_category === "individual" ||
     Boolean(profile?.subscription);
 
-  return !hasPermission ? (
+  return hasPermission ? (
     <DashboardSidebar>{children}</DashboardSidebar>
   ) : (
     <Subscriptions profile={profile} />
