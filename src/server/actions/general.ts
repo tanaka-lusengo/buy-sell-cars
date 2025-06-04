@@ -474,7 +474,14 @@ export const getAllVehiclesByVehicleCategory = async (
         return { ...vehicle, images };
       })
     );
-    return { data: vehicleWithImages, status: StatusCode.SUCCESS, error: null };
+
+    const shuffledVehicleWithImages = shuffleArray(vehicleWithImages);
+
+    return {
+      data: shuffledVehicleWithImages,
+      status: StatusCode.SUCCESS,
+      error: null,
+    };
   } catch (error) {
     return handleServerError(
       error,

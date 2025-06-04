@@ -60,7 +60,12 @@ export const DealerCard = ({ dealer, isFeature }: DealerCardProps) => {
           />
         </Box>
 
-        <Box borderBottomRadius="1rem" paddingY="md" paddingLeft="sm">
+        <Box
+          borderBottomRadius="1rem"
+          paddingY="md"
+          paddingLeft="sm"
+          width={{ base: "25rem", xl: "30rem" }}
+        >
           <Box marginBottom="sm">
             <Typography variant="h4" weight="bold">
               {dealer.dealership_name}

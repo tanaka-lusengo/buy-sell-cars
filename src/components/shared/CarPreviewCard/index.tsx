@@ -125,7 +125,7 @@ export const CarPreviewCard = ({ car, isRental }: CarPreviewCardProps) => {
                   position="relative"
                   width="60px"
                   height="60px"
-                  border="1px solid"
+                  border="1.5px solid"
                   borderColor="greyLight"
                   borderRadius="1rem"
                   overflow="hidden"
