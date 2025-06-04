@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { Flex } from "@/styled-system/jsx";
+import { BASE_URL } from "@/src/constants/environments";
 import { Typography } from "../ui";
 
 export type Props = {
@@ -40,7 +41,7 @@ export default async function OpengraphImage(
           <img
             width="64"
             height="58"
-            src="/logo/buy-sell-cars-logo.png"
+            src={`${BASE_URL || "https://buysellcars.co.zw"}/logo/buy-sell-cars-logo.png`}
             alt="Buy Sell Cars Logo"
             style={{ display: "block" }} // Ensures proper rendering
           />
