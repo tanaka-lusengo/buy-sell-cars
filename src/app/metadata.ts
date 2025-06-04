@@ -32,8 +32,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: `${BASE_URL}/logo/buy-sell-cars-logo.png`,
-        width: 1200,
-        height: 630,
+        width: 104,
+        height: 98,
         alt: "Buy Sell Cars - Zimbabwe",
       },
     ],
