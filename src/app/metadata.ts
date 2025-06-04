@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   generator: "Next.js",
   applicationName: "BuySellCars Zimbabwe",
   referrer: "origin-when-cross-origin",
-  keywords: ["BuySellCars", "Zimbabwe", "Cars", "Vehicles", "Marketplace"],
+  keywords: ["Buy", "Sell", "Cars", "Vehicles", "Zimbabwe", "Marketplace"],
   creator: "Tanaka Lusengo",
   robots: {
     follow: true,
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
         url: `${BASE_URL}/logo/buy-sell-cars-logo.png`,
         width: 1200,
         height: 630,
-        alt: "BuySellCars Zimbabwe",
+        alt: "Buy Sell Cars - Zimbabwe",
       },
     ],
   },
