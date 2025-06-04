@@ -1,7 +1,7 @@
 export const SOCIAL_MEDIA_URLS = {
-  phone_whatsapp: "https://wa.me/+263773607117",
-  phone_tel: "tel:+263773607117",
-  phone: "+263 77 360 7117",
+  phone_whatsapp: "https://wa.me/+263781674265",
+  phone_tel: "tel:+263781674265",
+  phone: "+263 78 167 4265",
   email: "mailto:sales@buysellcars.co.zw",
   facebook: "https://www.facebook.com/profile.php?id=61561619667231",
   instagram:
