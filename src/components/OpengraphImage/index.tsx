@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { Flex } from "@/styled-system/jsx";
+import { BASE_URL } from "@/src/constants/environments";
 import { Typography } from "../ui";
 
 export type Props = {
@@ -11,7 +12,7 @@ export default async function OpengraphImage(
 ): Promise<ImageResponse> {
   const { title } = {
     ...{
-      title: "BuySellCars Zimbabwe",
+      title: "Buy Sell Cars - Zimbabwe",
     },
     ...props,
   };
@@ -24,7 +25,6 @@ export default async function OpengraphImage(
         justifyContent="center"
         width="100%"
         height="100%"
-        backgroundColor="black"
         gap="md"
       >
         <Flex
@@ -32,20 +32,20 @@ export default async function OpengraphImage(
           alignItems="center"
           width="16rem"
           height="16rem"
-          border="1px solid"
+          border="1.5px solid"
           borderColor="primaryDark"
           borderRadius="24px"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            width="64"
-            height="58"
-            src="/logo/buy-sell-cars-logo.png"
+            width="94"
+            height="88"
+            src={`${BASE_URL || "https://buysellcars.co.zw"}/logo/buy-sell-cars-logo.png`}
             alt="Buy Sell Cars Logo"
-            style={{ display: "block" }} // Ensures proper rendering
+            style={{ display: "block" }}
           />
         </Flex>
-        <Typography weight="bold" variant="h4" color="white">
+        <Typography weight="bold" variant="h4">
           {title}
         </Typography>
       </Flex>
