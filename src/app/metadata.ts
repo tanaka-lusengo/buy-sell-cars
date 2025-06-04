@@ -17,19 +17,26 @@ export const metadata: Metadata = {
   applicationName: "BuySellCars Zimbabwe",
   referrer: "origin-when-cross-origin",
   keywords: ["BuySellCars", "Zimbabwe", "Cars", "Vehicles", "Marketplace"],
-  creator: "Tanaka Lusengo @ Lusengo.Studio",
-  // TODO: Set to true when app is ready for production
+  creator: "Tanaka Lusengo",
   robots: {
-    follow: false,
-    index: false,
+    follow: true,
+    index: true,
   },
   openGraph: {
     type: "website",
     locale: "en_GB",
-    url: new URL(BASE_URL),
+    url: `${BASE_URL}`,
     siteName: "BuySellCars Zimbabwe",
     title: "BuySellCars Zimbabwe",
     description: "Buy and sell vehicles in Zimbabwe.",
+    images: [
+      {
+        url: `${BASE_URL}/logo/buy-sell-cars-logo.png`,
+        width: 1200,
+        height: 630,
+        alt: "BuySellCars Zimbabwe",
+      },
+    ],
   },
   metadataBase: new URL(BASE_URL),
 };
