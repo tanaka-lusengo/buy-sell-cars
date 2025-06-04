@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { Flex } from "@/styled-system/jsx";
+import { css } from "@/styled-system/css";
 import { BASE_URL } from "@/src/constants/environments";
-import { Typography } from "../ui";
 
 export type Props = {
   title?: string;
@@ -45,9 +45,15 @@ export default async function OpengraphImage(
             style={{ display: "block" }}
           />
         </Flex>
-        <Typography weight="bold" variant="h4">
+        <h1
+          className={css({
+            fontSize: "2xl",
+            fontWeight: "bold",
+            textAlign: "center",
+          })}
+        >
           {title}
-        </Typography>
+        </h1>
       </Flex>
     ),
     {
