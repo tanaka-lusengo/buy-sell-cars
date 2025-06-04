@@ -10,25 +10,23 @@ export const AllCarsPage = async ({ params }: Params) => {
   const { slug } = await params;
 
   const isRental = slug === "rentals";
+  const listingCategory = isRental ? "rental" : "for_sale";
 
-  const [allFeatureCarsWithDealersResponse, vehicleResponse, dealersResponse] =
+  const [featuredResponse, vehiclesResponse, dealersResponse] =
     await Promise.all([
-      getAllFeaturedDealersAndVehiclesWithImages(
-        "car",
-        isRental ? "rental" : "for_sale"
-      ),
-      getAllVehiclesByVehicleCategory("car", isRental ? "rental" : "for_sale"),
+      getAllFeaturedDealersAndVehiclesWithImages("car", listingCategory),
+      getAllVehiclesByVehicleCategory("car", listingCategory),
       getAllDealers(),
     ]);
 
-  // get dealer by car owner_id
-  const vehiclesWithDealerDetails = vehicleResponse?.data?.map((car) => {
+  // get dealer by owner_id
+  const vehicles = vehiclesResponse?.data?.map((vehicle) => {
     const dealer = dealersResponse?.data?.find(
-      (dealer) => dealer.id === car.owner_id
+      (dealer) => dealer.id === vehicle.owner_id
     );
 
     return {
-      ...car,
+      ...vehicle,
       dealer: {
         dealership_name: dealer?.dealership_name,
         profile_logo_path: dealer?.profile_logo_path,
@@ -37,22 +35,22 @@ export const AllCarsPage = async ({ params }: Params) => {
     };
   });
 
-  const { error: carsError, status: carsStatus } = vehicleResponse;
-  const { error: dealerError, status: dealerStatus } = dealersResponse;
+  const { error: vehiclesError, status: vehiclesStatus } = vehiclesResponse;
+  const { error: dealersError, status: dealersStatus } = dealersResponse;
   const {
-    data: featuredCarsWithDealerDetails,
+    data: featuredVehicles,
     error: featureError,
     status: featureSatus,
-  } = allFeatureCarsWithDealersResponse;
+  } = featuredResponse;
 
-  const error = carsError || dealerError || featureError;
-  const status = carsStatus || dealerStatus || featureSatus;
+  const error = vehiclesError || dealersError || featureError;
+  const status = vehiclesStatus || dealersStatus || featureSatus;
 
   return (
     <AllVehicles
       vehicleCategory="car"
-      vehicles={vehiclesWithDealerDetails || []}
-      featruredVehiclesWithDealerDetails={featuredCarsWithDealerDetails || []}
+      vehicles={vehicles || []}
+      featruredVehicles={featuredVehicles || []}
       error={error}
       status={status}
       isRental={isRental}

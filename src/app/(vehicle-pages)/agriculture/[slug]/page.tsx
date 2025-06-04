@@ -1,66 +1,59 @@
 import { Params } from "@/src/types/next-types";
+import { AllVehicles } from "@/src/components/Pages/VehiclePages";
 import {
   getAllFeaturedDealersAndVehiclesWithImages,
   getAllVehiclesByVehicleCategory,
   getAllDealers,
 } from "@/src/server/actions/general";
-import { AllVehicles } from "@/src/components/Pages/VehiclePages";
 
-export const AgriculturePage = async ({ params }: Params) => {
+export const AllAgricultureEquipmentPage = async ({ params }: Params) => {
   const { slug } = await params;
 
   const isRental = slug === "rentals";
+  const listingCategory = isRental ? "rental" : "for_sale";
 
-  const [
-    allFeatureCarsWithDealersResponse,
-    featuredCarsResponse,
-    featuredDealersResponse,
-  ] = await Promise.all([
-    getAllFeaturedDealersAndVehiclesWithImages(
-      "agriculture",
-      isRental ? "rental" : "for_sale"
-    ),
-    getAllVehiclesByVehicleCategory(
-      "agriculture",
-      isRental ? "rental" : "for_sale"
-    ),
-    getAllDealers(),
-  ]);
+  const [featuredResponse, vehiclesResponse, dealersResponse] =
+    await Promise.all([
+      getAllFeaturedDealersAndVehiclesWithImages(
+        "agriculture",
+        listingCategory
+      ),
+      getAllVehiclesByVehicleCategory("agriculture", listingCategory),
+      getAllDealers(),
+    ]);
 
-  // get dealer by car owner_id
-  const featuredVehiclesWithDealerDetails = featuredCarsResponse?.data?.map(
-    (car) => {
-      const dealer = featuredDealersResponse?.data?.find(
-        (dealer) => dealer.id === car.owner_id
-      );
+  // get dealer by owner_id
+  const vehicles = vehiclesResponse?.data?.map((vehicle) => {
+    const dealer = dealersResponse?.data?.find(
+      (dealer) => dealer.id === vehicle.owner_id
+    );
 
-      return {
-        ...car,
-        dealer: {
-          dealership_name: dealer?.dealership_name,
-          profile_logo_path: dealer?.profile_logo_path,
-          subscription: dealer?.subscription,
-        },
-      };
-    }
-  );
+    return {
+      ...vehicle,
+      dealer: {
+        dealership_name: dealer?.dealership_name,
+        profile_logo_path: dealer?.profile_logo_path,
+        subscription: dealer?.subscription,
+      },
+    };
+  });
 
-  const { error: carsError, status: carsStatus } = featuredCarsResponse;
-  const { error: dealerError, status: dealerStatus } = featuredDealersResponse;
+  const { error: vehiclesError, status: vehiclesStatus } = vehiclesResponse;
+  const { error: dealersError, status: dealersStatus } = dealersResponse;
   const {
-    data: featuredCarsWithDealerDetails,
+    data: featuredVehicles,
     error: featureError,
     status: featureSatus,
-  } = allFeatureCarsWithDealersResponse;
+  } = featuredResponse;
 
-  const error = carsError || dealerError || featureError;
-  const status = carsStatus || dealerStatus || featureSatus;
+  const error = vehiclesError || dealersError || featureError;
+  const status = vehiclesStatus || dealersStatus || featureSatus;
 
   return (
     <AllVehicles
       vehicleCategory="agriculture"
-      vehicles={featuredVehiclesWithDealerDetails || []}
-      featruredVehiclesWithDealerDetails={featuredCarsWithDealerDetails || []}
+      vehicles={vehicles || []}
+      featruredVehicles={featuredVehicles || []}
       error={error}
       status={status}
       isRental={isRental}
@@ -68,4 +61,4 @@ export const AgriculturePage = async ({ params }: Params) => {
   );
 };
 
-export default AgriculturePage;
+export default AllAgricultureEquipmentPage;
