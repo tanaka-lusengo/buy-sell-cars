@@ -7,7 +7,7 @@ import { EXTERNAL_URLS } from "@/src/constants/urls";
 import { VehicleCategoryType, VehicleWithImageAndDealer } from "@/src/types";
 import { PostgrestError } from "@supabase/supabase-js";
 import {
-  FeaturePreviewCard,
+  PaginatedVehicleList,
   PaidSponsorFeature,
 } from "@/src/components/shared";
 import { FeatureVehicles } from "./components/FeatureVehicles";
@@ -16,7 +16,7 @@ import { Filter } from "./components/Filter";
 type AllVehiclesProps = {
   vehicleCategory: VehicleCategoryType[number];
   vehicles: VehicleWithImageAndDealer[];
-  featruredVehiclesWithDealerDetails: VehicleWithImageAndDealer[];
+  featruredVehicles: VehicleWithImageAndDealer[];
   error: string | PostgrestError | null;
   status: StatusCode;
   isRental: boolean;
@@ -25,7 +25,7 @@ type AllVehiclesProps = {
 export const AllVehicles = ({
   vehicleCategory,
   vehicles,
-  featruredVehiclesWithDealerDetails,
+  featruredVehicles,
   error,
   status,
   isRental,
@@ -145,9 +145,7 @@ export const AllVehicles = ({
                   isFeature
                   vehicleCategory={vehicleCategory}
                   isRental={isRental}
-                  featuredCarsWithDealerDetails={
-                    featruredVehiclesWithDealerDetails
-                  }
+                  featuredCarsWithDealerDetails={featruredVehicles}
                 />
 
                 <PaidSponsorFeature
@@ -158,23 +156,11 @@ export const AllVehicles = ({
 
                 <Divider color="grey" marginTop="md" maxWidth="100rem" />
 
-                <Flex
-                  flexWrap="wrap"
-                  justifyContent="center"
-                  gap="md"
-                  paddingX="md"
-                >
-                  {vehicles.map((vehicle) => (
-                    <FeaturePreviewCard
-                      key={vehicle.id}
-                      vehicleCategory={vehicleCategory}
-                      width="26rem"
-                      height="25rem"
-                      vehicle={vehicle}
-                      isRental={isRental}
-                    />
-                  ))}
-                </Flex>
+                <PaginatedVehicleList
+                  vehicles={vehicles}
+                  vehicleCategory={vehicleCategory}
+                  isRental={isRental}
+                />
               </Grid>
             </Box>
           </ResponsiveContainer>
