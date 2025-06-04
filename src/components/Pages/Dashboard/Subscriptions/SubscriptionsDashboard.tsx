@@ -2,7 +2,6 @@ import { Box, Flex } from "@/styled-system/jsx";
 import { ResponsiveContainer, Typography } from "@/src/components/ui";
 import { Profile } from "@/src/types";
 import { InfoFooter } from "../components";
-import { formatToReadableString } from "@/src/utils";
 
 export const SubscriptionsDashboard = ({ profile }: { profile: Profile }) => {
   if (!profile) {
@@ -20,7 +19,7 @@ export const SubscriptionsDashboard = ({ profile }: { profile: Profile }) => {
   } else if (subscription === null) {
     subscriptionPlan = "No Plan Selected";
   } else {
-    subscriptionPlan = formatToReadableString(subscription);
+    subscriptionPlan = subscription;
   }
 
   return (
@@ -38,6 +37,11 @@ export const SubscriptionsDashboard = ({ profile }: { profile: Profile }) => {
 
         <Typography as="p" variant="h4">
           Current Plan: <strong>{subscriptionPlan}</strong>
+        </Typography>
+
+        <Typography>
+          If you would like to consider upgrading your current Subscription
+          plan, please contact the BuySellCars Team on the details below:
         </Typography>
 
         <InfoFooter />
