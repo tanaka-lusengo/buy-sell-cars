@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useMemo } from "react";
 import { Container, Box, Flex, Grid, Divider } from "@/styled-system/jsx";
 import { ResponsiveContainer, Typography } from "../../../ui";
@@ -97,12 +98,25 @@ export const AllVehicles = ({
                 {isRental ? "to rent" : "for sale"} at the moment.
               </Typography>
               <Box maxWidth="70rem" marginX="auto">
-                <Typography variant="h4" align="center">
+                <Typography variant="h5" align="center">
                   We&#39;re working closely with new dealers and individuals to
                   feature new listings as we speak. Please come back later or
                   check out our other listings.
                 </Typography>
               </Box>
+
+              <Typography variant="h5" align="center">
+                <Typography
+                  as="span"
+                  weight="bold"
+                  variant="h5"
+                  color="primary"
+                  hoverEffect="color"
+                >
+                  <Link href="/sign-up">Subscribe now</Link>
+                </Typography>{" "}
+                to become a featured dealer and showcase your vehicles here!
+              </Typography>
             </Flex>
           </ResponsiveContainer>
         )}

@@ -23,7 +23,7 @@ export const InfoFooter = ({
         </i>
       </Typography>
       <Link
-        href={`${SOCIAL_MEDIA_URLS.email}?subject=Account%20Verification`}
+        href={`${SOCIAL_MEDIA_URLS.email}?subject=${encodeURIComponent("Account Inquiry")}`}
         target="_blank"
         rel="noopener noreferrer"
         title="Email us for support"

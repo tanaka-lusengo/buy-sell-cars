@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { useAuth } from "@/src/context/auth-context";
 import useEmblaCarousel from "embla-carousel-react";
 import { Typography } from "../../ui";
 import { Box, Container, Flex } from "@/styled-system/jsx";
@@ -22,6 +24,8 @@ export const FeaturedCarSection = ({
 
   const { PrevButton, NextButton } = usePrevNextCarouselFunctions(emblaApi);
 
+  const { profile } = useAuth();
+
   return (
     <>
       <Box paddingY="lg">
@@ -42,8 +46,20 @@ export const FeaturedCarSection = ({
           {featuredCarsWithDealerDetails?.length === 0 ? (
             <Flex direction="column" gap="sm" paddingX="sm" paddingY="lg">
               <Typography variant="h4" align="center">
-                Contact us now to become a featured dealer and showcase your
-                vehicles here!
+                <Typography
+                  as="span"
+                  weight="bold"
+                  variant="h4"
+                  color="primary"
+                  hoverEffect="color"
+                >
+                  <Link
+                    href={profile ? "/dashboard/subscriptions" : "/sign-up"}
+                  >
+                    Subscribe now
+                  </Link>
+                </Typography>{" "}
+                to become a featured dealer and showcase your vehicles here!
               </Typography>
             </Flex>
           ) : (
