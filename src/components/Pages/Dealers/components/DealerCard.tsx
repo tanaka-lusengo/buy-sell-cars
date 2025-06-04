@@ -74,7 +74,18 @@ export const DealerCard = ({ dealer, isFeature }: DealerCardProps) => {
               title="email envelope"
               style={{ width: "2rem" }}
             ></i>
-            <Typography>{dealer.email}</Typography>
+            <Typography
+              title={dealer.email}
+              style={{
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                display: "block",
+                maxWidth: "100%",
+              }}
+            >
+              {dealer.email}
+            </Typography>
           </HStack>
           <HStack>
             <i
