@@ -34,7 +34,7 @@ export const PaidSponsorFeature = ({
             marginX="auto"
             height="100%"
             justifyItems="center"
-            width={{ base: "100%", md: "45rem" }}
+            width={{ base: "100%", xl: "90rem" }}
             borderRadius="1.2rem"
             _hover={{
               boxShadow: "0 6px 12px rgba(0, 0, 0, 0.2)",

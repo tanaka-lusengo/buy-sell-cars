@@ -145,6 +145,8 @@ export const DealerVehicleCard = ({
                   position="relative"
                   width="60px"
                   height="60px"
+                  border="1.5px solid"
+                  borderColor="greyLight"
                   borderRadius="1rem"
                   overflow="hidden"
                 >

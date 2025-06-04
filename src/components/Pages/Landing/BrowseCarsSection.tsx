@@ -53,7 +53,7 @@ export const BrowseCarsSection = ({
             hoverEffect="color"
             align="center"
           >
-            <Link href="/cars/sales/">View all cars for sale</Link>
+            <Link href="/car/sales/">View all cars for sale</Link>
           </Typography>
         </Flex>
       </Container>
