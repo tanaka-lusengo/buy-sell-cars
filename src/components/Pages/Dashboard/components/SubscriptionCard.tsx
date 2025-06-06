@@ -43,7 +43,7 @@ export const SubscriptionCard = ({
       if (status !== StatusCode.SUCCESS || error || !data) {
         console.error("Subscription creation failed:", error);
         return handleClientError(
-          "subscrbing to subscription plan",
+          "subscribing to subscription plan",
           "Creation failed"
         );
       }
