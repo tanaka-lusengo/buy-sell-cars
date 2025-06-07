@@ -750,19 +750,33 @@ export const getAllFeaturedDealersAndVehiclesWithImages = async (
 };
 
 export const getAllProfilesByUserCategory = async (
-  userCategory: CategoryType[number]
+  userCategory: CategoryType[number],
+  isAdmin: boolean = false
 ) => {
   // Init supabase client
   const supabase = await createClient();
 
+  let response;
+
   try {
-    // fetch all profiles by user category
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("user_category", userCategory)
-      .neq("admin", true)
-      .order("dealership_name", { ascending: true });
+    if (isAdmin) {
+      // fetch all profiles by user category for admin
+      response = supabase
+        .from("profiles")
+        .select("*")
+        .eq("user_category", userCategory)
+        .order("dealership_name", { ascending: true });
+    } else {
+      // fetch all profiles by user category for non-admin
+      response = supabase
+        .from("profiles")
+        .select("*")
+        .eq("user_category", userCategory)
+        .neq("admin", true)
+        .order("dealership_name", { ascending: true });
+    }
+
+    const { data, error } = await response;
 
     if (error) {
       return { data: null, status: StatusCode.BAD_REQUEST, error };
