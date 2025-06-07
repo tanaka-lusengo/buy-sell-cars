@@ -11,8 +11,10 @@ export const metadata: Metadata = {
 const UserListingsPage = async ({ params }: ParamsWithUserCategory) => {
   const { user_category } = await params;
 
-  const { data, error, status } =
-    await getAllProfilesByUserCategory(user_category);
+  const { data, error, status } = await getAllProfilesByUserCategory(
+    user_category,
+    true
+  );
 
   return (
     <UserListings
