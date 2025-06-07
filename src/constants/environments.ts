@@ -25,3 +25,7 @@ export const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "";
 
 export const PAYPAL_CLIENT_SECRET =
   process.env.NEXT_PUBLIC_PAYPAL_CLIENT_SECRET || "";
+
+// PayPal Webhook ID
+export const PAYPAL_WEBHOOK_ID =
+  process.env.NEXT_PUBLIC_PAYPAL_WEBHOOK_ID || "";

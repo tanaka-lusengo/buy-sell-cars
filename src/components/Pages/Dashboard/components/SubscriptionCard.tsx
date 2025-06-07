@@ -41,9 +41,10 @@ export const SubscriptionCard = ({
       const { data, status, error } = await subscribeToPlan(profile, planId);
 
       if (status !== StatusCode.SUCCESS || error || !data) {
+        console.error("Subscription creation failed:", error);
         return handleClientError(
-          "subscrbing to subscription plan | creation failed",
-          error
+          "subscribing to subscription plan",
+          "Creation failed"
         );
       }
 
