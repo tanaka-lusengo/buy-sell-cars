@@ -1,5 +1,7 @@
 import "./globals.css";
 import { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { metadata } from "./metadata";
 import { PreloadResources } from "./preload-resources";
 import { Navbar, Footer } from "../components/Layout";
@@ -38,6 +40,10 @@ export default async function RootLayout({
       <PreloadResources />
 
       <body>
+        <Analytics />
+        <SpeedInsights />
+
+        {/* Global styles and fonts */}
         <AuthProvider initialUser={user} initialProfile={profile}>
           <Navbar />
           <main id="main-content">{children}</main>
