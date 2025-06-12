@@ -1,15 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 import { Box, Divider, Flex, HStack, VStack } from "@/styled-system/jsx";
 import { Typography } from "@/src/components/ui";
 import { Profile, VehicleWithImage } from "@/src/types";
 import { createClient } from "@/supabase/client";
 import { useFileUploadHelpers } from "@/src/hooks";
-import { formatPriceToDollars, formatMileage } from "@/src/utils";
+import { formatPriceToDollars, formatMileage, getPageName } from "@/src/utils";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 import Link from "next/link";
+import { useAuth } from "@/src/context/auth-context";
+import { logAdClick } from "@/src/server/actions/analytics";
 
 type DealerVehicleCardProps = {
   owner: Profile | null;
@@ -47,9 +50,28 @@ export const DealerVehicleCard = ({
 
   const categoryPath = isRental ? "rentals" : "sales";
 
+  const { profile } = useAuth();
+
+  const pathname = usePathname();
+
+  const pageName = getPageName(pathname);
+
+  const logAdClickData = {
+    vehicleId: vehicle.id,
+    vehicleOwnerId: owner?.id as string,
+    sourcePage: pageName,
+    viewerId: profile?.id,
+  };
+
+  const handleAdClick = async () => await logAdClick(logAdClickData);
+
   return (
     <Link href={`/${slug}/${categoryPath}/${vehicle.id}/`}>
       <Box
+        onClick={handleAdClick}
+        onKeyDown={handleAdClick}
+        tabIndex={0}
+        role="button"
         bg="white"
         borderRadius="1.2rem"
         boxShadow="0 4px 10px rgba(0, 0, 0, 0.1)"
@@ -77,8 +99,9 @@ export const DealerVehicleCard = ({
               alt={`${vehicle.id}: Vehicle: ${vehicle.make}`}
               fill
               loading="lazy"
-              objectFit="cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
               style={{
+                objectFit: "cover",
                 borderRadius: "8px",
               }}
             />
@@ -158,6 +181,7 @@ export const DealerVehicleCard = ({
                     alt={owner?.dealership_name ?? ""}
                     fill
                     loading="lazy"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     style={{
                       objectFit: DEALER_LOGOS_TO_CONTAIN.includes(
                         String(owner?.dealership_name)

@@ -42,8 +42,8 @@ export const FeaturedDealersCard = ({ dealer }: { dealer: Profile }) => {
               }
               alt={dealer.dealership_name ?? "Dealer Logo"}
               fill
-              objectFit="cover"
               loading="lazy"
+              sizes="(max-width: 600px) 100vw, 200px"
               style={{
                 objectFit: DEALER_LOGOS_TO_CONTAIN.includes(
                   String(dealer.dealership_name)

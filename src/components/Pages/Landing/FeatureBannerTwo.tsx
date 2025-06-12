@@ -27,11 +27,11 @@ export const FeatureBannerTwo = () => {
           <Image
             src="/images/sponsors/road-boys-logistics.jpg"
             alt="Road boys logistics Zimbabwe"
-            objectFit="cover"
             loading="lazy"
             height={1100}
             width={1000}
             style={{
+              objectFit: "cover",
               width: "100%",
               borderRadius: "1.2rem",
             }}

@@ -44,11 +44,11 @@ export const PaidSponsorFeature = ({
             <Image
               src={imgSrc}
               alt={imgAlt}
-              objectFit="cover"
               loading="lazy"
               height={1100}
               width={1000}
               style={{
+                objectFit: "cover",
                 width: "100%",
                 borderRadius: "1.2rem",
               }}

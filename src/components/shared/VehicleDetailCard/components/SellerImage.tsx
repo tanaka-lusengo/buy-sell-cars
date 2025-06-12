@@ -29,9 +29,9 @@ export const SellerImage = ({ owner, getPublicUrl }: SellerImageProps) => {
             src={getPublicUrl("profile-logos", owner?.profile_logo_path ?? "")}
             alt={`${owner?.dealership_name} logo`}
             fill
-            objectFit="cover"
-            objectPosition="center"
+            sizes="(max-width: 768px) 100vw, 50vw"
             style={{
+              objectPosition: "center",
               objectFit: DEALER_LOGOS_TO_CONTAIN.includes(
                 String(owner?.dealership_name)
               )

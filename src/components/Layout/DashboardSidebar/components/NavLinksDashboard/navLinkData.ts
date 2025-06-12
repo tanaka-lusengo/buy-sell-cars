@@ -12,12 +12,11 @@ export const navLinksDashboard = [
     icon: generateIcon("car-side"),
     label: "Your Listings",
   },
-  //   TODO: Uncomment when performance page is ready
-  // {
-  //   href: "/dashboard/performance/",
-  //   icon: generateIcon("chart-line"),
-  //   label: "Performance",
-  // },
+  {
+    href: "/dashboard/performance/",
+    icon: generateIcon("chart-line"),
+    label: "Performance",
+  },
   {
     href: "/dashboard/security/",
     icon: generateIcon("lock"),

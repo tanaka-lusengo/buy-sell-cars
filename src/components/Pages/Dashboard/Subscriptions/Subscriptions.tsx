@@ -28,6 +28,7 @@ export const Subscriptions = ({ profile }: { profile: Profile }) => {
         src="/images/car-headlight.png"
         alt="Red car headlight"
         fill
+        sizes="100vw"
         style={{
           objectFit: "cover",
           zIndex: -1,
