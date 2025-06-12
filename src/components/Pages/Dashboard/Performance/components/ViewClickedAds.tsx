@@ -7,24 +7,8 @@ import { Flex, Box } from "@/styled-system/jsx";
 import { Typography } from "@/src/components/ui";
 import { SelectField } from "@/src/components/FormComponents";
 import { handleClientError, StatusCode } from "@/src/utils";
-
-type TimeFrame = "7d" | "30d" | "90d" | "365d" | "all";
-
-type AdClick = {
-  make: string;
-  model: string;
-  year: number | null;
-  clickCount: number;
-  vehicleId: string;
-};
-
-const timeFrames: { label: string; value: TimeFrame }[] = [
-  { label: "Last 7 Days", value: "7d" },
-  { label: "Last 30 Days", value: "30d" },
-  { label: "Last 3 Months", value: "90d" },
-  { label: "1 Year Period", value: "365d" },
-  { label: "All Time views", value: "all" },
-];
+import { TimeFrame, AdClick } from "../types";
+import { timeFrames } from "../constants";
 
 export const ViewClickedAds = ({ profileId }: { profileId: string }) => {
   const [timeframe, setTimeframe] = useState<TimeFrame>("30d");
@@ -67,7 +51,6 @@ export const ViewClickedAds = ({ profileId }: { profileId: string }) => {
           register={null}
           errors={null}
           value={timeframe}
-          defaultValue={timeframe}
           onChange={(e) => setTimeframe(e.target.value as TimeFrame)}
         >
           {timeFrames.map(({ label, value }) => (

@@ -13,16 +13,10 @@ import { breakpointsNumber } from "@/src/styles";
 import { useWindowSize } from "@/src/hooks";
 import { Divider, Flex } from "@/styled-system/jsx";
 import { Typography } from "@/src/components/ui";
+import { AdClick } from "../types";
+import React from "react";
 
-type AdClickData = {
-  vehicleId: string;
-  make: string;
-  model: string;
-  year: number | null;
-  clickCount: number;
-};
-
-export const AdClicksBarChart = ({ data }: { data: AdClickData[] }) => {
+export const AdClicksBarChart = ({ data }: { data: AdClick[] }) => {
   const { width } = useWindowSize();
   const isMobile = (width ?? 0) < breakpointsNumber.md;
 
@@ -47,21 +41,15 @@ export const AdClicksBarChart = ({ data }: { data: AdClickData[] }) => {
 
         <Flex direction="column" gap="2">
           {chartData.map((item) => (
-            <>
-              <Flex
-                pt="xs"
-                key={item.name}
-                justify="space-between"
-                px="xs"
-                gap="md"
-              >
+            <React.Fragment key={item.name}>
+              <Flex pt="xs" justify="space-between" px="xs" gap="md">
                 <Typography>{item.name}</Typography>
                 <Typography weight="bold" color="primaryDark">
                   {item.clicks}
                 </Typography>
               </Flex>
               <Divider color="greyLight" pb="xs" />
-            </>
+            </React.Fragment>
           ))}
         </Flex>
       </Flex>
