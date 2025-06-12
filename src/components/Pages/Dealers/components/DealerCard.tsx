@@ -46,9 +46,9 @@ export const DealerCard = ({ dealer, isFeature }: DealerCardProps) => {
             }
             alt={`${dealer.dealership_name} logo`}
             fill
-            objectFit="cover"
-            objectPosition="center"
+            sizes="(max-width: 768px) 100vw, 50vw"
             style={{
+              objectPosition: "center",
               objectFit: DEALER_LOGOS_TO_CONTAIN.includes(
                 String(dealer.dealership_name)
               )

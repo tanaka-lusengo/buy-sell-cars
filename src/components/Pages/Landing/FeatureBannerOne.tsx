@@ -35,11 +35,11 @@ export const FeatureBannerOne = () => {
           <Image
             src={isMobile ? mobileImage : desktopImage}
             alt="Rossi Tyres Harrare Drive Zimbabwe"
-            objectFit="cover"
             loading="lazy"
             height={1100}
             width={1000}
             style={{
+              objectFit: "cover",
               width: "100%",
               borderRadius: "1.2rem",
             }}

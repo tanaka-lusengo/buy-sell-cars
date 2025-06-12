@@ -61,8 +61,13 @@ export const CarouselMainImage = ({
                   src={getPublicUrl("vehicle-images", src.image_path ?? "")}
                   alt={`Thumbnail ${index + 1}`}
                   fill
-                  objectFit="cover"
-                  objectPosition="center"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  style={{
+                    objectFit: "cover",
+                    objectPosition: "center",
+                    width: "100%",
+                    height: "100%",
+                  }}
                 />
                 <Box
                   position="absolute"
