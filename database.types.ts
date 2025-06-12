@@ -9,6 +9,38 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      profile_views: {
+        Row: {
+          id: string;
+          profile_owner_id: string | null;
+          source_page: string | null;
+          viewed_at: string | null;
+          viewer_id: string | null;
+        };
+        Insert: {
+          id?: string;
+          profile_owner_id?: string | null;
+          source_page?: string | null;
+          viewed_at?: string | null;
+          viewer_id?: string | null;
+        };
+        Update: {
+          id?: string;
+          profile_owner_id?: string | null;
+          source_page?: string | null;
+          viewed_at?: string | null;
+          viewer_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "profile_views_profile_owner_id_fkey";
+            columns: ["profile_owner_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       profiles: {
         Row: {
           address: string | null;
@@ -154,6 +186,84 @@ export type Database = {
             columns: ["profile_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      vehicle_ad_clicks: {
+        Row: {
+          clicked_at: string | null;
+          id: string;
+          source_page: string | null;
+          vehicle_id: string;
+          vehicle_owner_id: string | null;
+          viewer_id: string | null;
+        };
+        Insert: {
+          clicked_at?: string | null;
+          id?: string;
+          source_page?: string | null;
+          vehicle_id: string;
+          vehicle_owner_id?: string | null;
+          viewer_id?: string | null;
+        };
+        Update: {
+          clicked_at?: string | null;
+          id?: string;
+          source_page?: string | null;
+          vehicle_id?: string;
+          vehicle_owner_id?: string | null;
+          viewer_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "vehicle_ad_clicks_vehicle_id_fkey";
+            columns: ["vehicle_id"];
+            isOneToOne: false;
+            referencedRelation: "vehicles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "vehicle_ad_clicks_vehicle_owner_id_fkey";
+            columns: ["vehicle_owner_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      vehicle_favourites: {
+        Row: {
+          created_at: string | null;
+          id: string;
+          profile_id: string;
+          vehicle_id: string;
+        };
+        Insert: {
+          created_at?: string | null;
+          id?: string;
+          profile_id: string;
+          vehicle_id: string;
+        };
+        Update: {
+          created_at?: string | null;
+          id?: string;
+          profile_id?: string;
+          vehicle_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "vehicle_favourites_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "vehicle_favourites_vehicle_id_fkey";
+            columns: ["vehicle_id"];
+            isOneToOne: false;
+            referencedRelation: "vehicles";
             referencedColumns: ["id"];
           },
         ];
