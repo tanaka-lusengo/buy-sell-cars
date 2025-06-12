@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 import { Box, Divider, Flex, HStack, VStack } from "@/styled-system/jsx";
 import { Typography } from "../../ui";
@@ -13,8 +14,10 @@ import {
 } from "@/src/types";
 import { createClient } from "@/supabase/client";
 import { useFileUploadHelpers } from "@/src/hooks";
-import { formatPriceToDollars, formatMileage } from "@/src/utils";
+import { formatPriceToDollars, formatMileage, getPageName } from "@/src/utils";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
+import { logAdClick } from "@/src/server/actions/analytics";
+import { useAuth } from "@/src/context/auth-context";
 
 type VehiclePreviewCardProps = {
   vehicleCategory: VehicleCategoryType[number];
@@ -56,6 +59,23 @@ export const FeaturePreviewCard = ({
   const slug =
     vehicleCategory === "earth_moving" ? "earth-moving" : vehicleCategory;
 
+  const pathname = usePathname();
+
+  const { profile } = useAuth();
+
+  const pageName = getPageName(pathname);
+
+  const vehicleOwnerId = "dealer" in vehicle ? vehicle?.dealer?.id : owner?.id;
+
+  const logAdClickData = {
+    vehicleId: vehicle.id,
+    vehicleOwnerId: vehicleOwnerId as string,
+    sourcePage: pageName,
+    viewerId: profile?.id,
+  };
+
+  const handleAdClick = async () => await logAdClick(logAdClickData);
+
   return (
     <Box
       bg="white"
@@ -74,137 +94,148 @@ export const FeaturePreviewCard = ({
         href={`/${slug}/${isRental ? "rentals" : "sales"}/${vehicle.id}`}
         passHref
       >
-        <VStack alignItems="center" padding="sm">
-          <Box
-            display="flex"
-            justifyItems="center"
-            position="relative"
-            width={{ base: "26rem", md: width }}
-            height={{ base: "18rem", md: height }}
-            borderRadius="8px"
-            overflow="hidden"
-          >
-            <Image
-              src={getPublicUrl(
-                "vehicle-images",
-                vehicle.images[0]?.image_path ?? ""
-              )}
-              alt={`${vehicle.id}: vehicle: ${vehicle.make}`}
-              fill
-              loading="lazy"
-              objectFit="cover"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              style={{
-                borderRadius: "8px",
-              }}
-            />
-          </Box>
+        <Box
+          onClick={handleAdClick}
+          onKeyDown={handleAdClick}
+          tabIndex={0}
+          role="button"
+          p={0}
+          m={0}
+        >
+          <VStack alignItems="center" padding="sm">
+            <Box
+              display="flex"
+              justifyItems="center"
+              position="relative"
+              width={{ base: "26rem", md: width }}
+              height={{ base: "18rem", md: height }}
+              borderRadius="8px"
+              overflow="hidden"
+            >
+              <Image
+                src={getPublicUrl(
+                  "vehicle-images",
+                  vehicle.images[0]?.image_path ?? ""
+                )}
+                alt={`${vehicle.id}: vehicle: ${vehicle.make}`}
+                fill
+                loading="lazy"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                style={{
+                  objectFit: "cover",
+                  borderRadius: "8px",
+                }}
+              />
+            </Box>
 
-          <Flex
-            padding="sm"
-            direction="column"
-            justifyContent="space-between"
-            gap="sm"
-            width={{ base: "26rem", md: width }}
-          >
-            <Box>
-              <Typography>{vehicle.year}</Typography>
+            <Flex
+              padding="sm"
+              direction="column"
+              justifyContent="space-between"
+              gap="sm"
+              width={{ base: "26rem", md: width }}
+            >
+              <Box>
+                <Typography>{vehicle.year}</Typography>
 
-              <Flex direction="column" gap="sm">
-                <Typography
-                  weight="bold"
-                  variant="h3"
-                  title={`${vehicle.make}, ${vehicle.model}`}
-                  style={{
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    display: "block",
-                    maxWidth: "100%",
-                  }}
-                >
-                  {vehicle.make}, {vehicle.model}
+                <Flex direction="column" gap="sm">
+                  <Typography
+                    weight="bold"
+                    variant="h3"
+                    title={`${vehicle.make}, ${vehicle.model}`}
+                    style={{
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      display: "block",
+                      maxWidth: "100%",
+                    }}
+                  >
+                    {vehicle.make}, {vehicle.model}
+                  </Typography>
+
+                  <Flex justifyContent="space-between" gap="sm">
+                    <Typography color="grey" weight="bold">
+                      Mileage: {vehicleMileage} km
+                    </Typography>
+                    <Typography weight="bold">{listingCategory}</Typography>
+                  </Flex>
+                </Flex>
+              </Box>
+
+              <Divider color="grey" />
+
+              <Box>
+                <Typography variant="h3" weight="bold" color="primaryDark">
+                  {vehiclePrice}{" "}
+                  {isRental ? (
+                    <Typography as="span" variant="h4">
+                      / per day
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                </Typography>
+                <Typography>
+                  {isUsedvehicle ? "Pre-owned" : "Brand new"}
                 </Typography>
 
-                <Flex justifyContent="space-between" gap="sm">
-                  <Typography color="grey" weight="bold">
-                    Mileage: {vehicleMileage} km
-                  </Typography>
-                  <Typography weight="bold">{listingCategory}</Typography>
-                </Flex>
-              </Flex>
-            </Box>
-
-            <Divider color="grey" />
-
-            <Box>
-              <Typography variant="h3" weight="bold" color="primaryDark">
-                {vehiclePrice}{" "}
-                {isRental ? (
-                  <Typography as="span" variant="h4">
-                    / per day
-                  </Typography>
-                ) : (
-                  ""
-                )}
-              </Typography>
-              <Typography>
-                {isUsedvehicle ? "Pre-owned" : "Brand new"}
-              </Typography>
-
-              <HStack alignItems="end" justifyContent="space-between">
-                <HStack>
-                  <i
-                    className="fa-solid fa-location-dot"
-                    aria-hidden="true"
-                    title="location"
-                  ></i>
-                  <Typography>{vehicle.location}</Typography>
-                </HStack>
-                <Box
-                  position="relative"
-                  width="60px"
-                  height="60px"
-                  border="1.5px solid"
-                  borderColor="greyLight"
-                  borderRadius="1rem"
-                  overflow="hidden"
-                >
-                  <Image
-                    src={
-                      getPublicUrl(
-                        "profile-logos",
-                        ("dealer" in vehicle &&
-                        vehicle.dealer?.profile_logo_path
-                          ? vehicle.dealer.profile_logo_path
-                          : owner?.profile_logo_path) || ""
-                      ) || "/images/default-user-icon.png"
-                    }
-                    alt={
-                      "dealer" in vehicle && vehicle.dealer?.dealership_name
-                        ? vehicle.dealer.dealership_name
-                        : owner?.dealership_name || "profile logo"
-                    }
-                    fill
-                    loading="lazy"
-                    style={{
-                      objectFit: DEALER_LOGOS_TO_CONTAIN.includes(
-                        String(
-                          "dealer" in vehicle && vehicle.dealer?.dealership_name
-                            ? vehicle.dealer.dealership_name
-                            : owner?.dealership_name || ""
+                <HStack alignItems="end" justifyContent="space-between">
+                  <HStack>
+                    <i
+                      className="fa-solid fa-location-dot"
+                      aria-hidden="true"
+                      title="location"
+                    ></i>
+                    <Typography>{vehicle.location}</Typography>
+                  </HStack>
+                  <Box
+                    position="relative"
+                    width="60px"
+                    height="60px"
+                    border="1.5px solid"
+                    borderColor="greyLight"
+                    borderRadius="1rem"
+                    overflow="hidden"
+                  >
+                    <Image
+                      src={
+                        getPublicUrl(
+                          "profile-logos",
+                          ("dealer" in vehicle &&
+                          vehicle.dealer?.profile_logo_path
+                            ? vehicle.dealer.profile_logo_path
+                            : owner?.profile_logo_path) || ""
+                        ) || "/images/default-user-icon.png"
+                      }
+                      alt={
+                        "dealer" in vehicle && vehicle.dealer?.dealership_name
+                          ? vehicle.dealer.dealership_name
+                          : owner?.dealership_name || "profile logo"
+                      }
+                      fill
+                      loading="lazy"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      style={{
+                        objectFit: DEALER_LOGOS_TO_CONTAIN.includes(
+                          String(
+                            "dealer" in vehicle &&
+                              vehicle.dealer?.dealership_name
+                              ? vehicle.dealer.dealership_name
+                              : owner?.dealership_name || ""
+                          )
                         )
-                      )
-                        ? "contain"
-                        : "cover",
-                      borderRadius: "1rem",
-                    }}
-                  />
-                </Box>
-              </HStack>
-            </Box>
-          </Flex>
-        </VStack>
+                          ? "contain"
+                          : "cover",
+                        borderRadius: "1rem",
+                      }}
+                    />
+                  </Box>
+                </HStack>
+              </Box>
+            </Flex>
+          </VStack>
+        </Box>
       </Link>
     </Box>
   );

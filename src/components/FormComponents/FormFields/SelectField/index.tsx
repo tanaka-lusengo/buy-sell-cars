@@ -9,8 +9,8 @@ import * as Styled from "../common.styled";
 
 type SelectFieldProps<TFormValues extends FieldValues> = {
   name: string;
-  register: UseFormRegister<TFormValues>;
-  errors: FieldErrors<TFormValues>;
+  register: UseFormRegister<TFormValues> | null;
+  errors: FieldErrors<TFormValues> | null;
   label?: string;
 } & React.SelectHTMLAttributes<HTMLSelectElement>;
 
@@ -21,6 +21,9 @@ export const SelectField = <TFormValues extends FieldValues>({
   errors,
   register,
   children,
+  value,
+  onChange,
+  ...rest
 }: SelectFieldProps<TFormValues>) => {
   return (
     <Styled.InputContainer>
@@ -33,14 +36,17 @@ export const SelectField = <TFormValues extends FieldValues>({
       <Styled.SelectField
         key={name}
         defaultValue={defaultValue}
+        value={value}
+        onChange={onChange}
         {...(register && {
           ...register(name as Path<TFormValues>),
         })}
+        {...rest}
       >
         {children}
       </Styled.SelectField>
 
-      {errors[name] && (
+      {errors && errors[name] && (
         <Styled.ErrorText key={`${name}-error`} role="alert">
           {typeof errors[name]?.message === "string" && errors[name].message}
         </Styled.ErrorText>

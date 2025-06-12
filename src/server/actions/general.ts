@@ -719,6 +719,7 @@ export const getAllFeaturedDealersAndVehiclesWithImages = async (
                   ...vehicle,
                   images,
                   dealer: {
+                    id: dealer.id,
                     dealership_name: dealer.dealership_name,
                     profile_logo_path: dealer.profile_logo_path,
                     subscription: dealer.subscription,

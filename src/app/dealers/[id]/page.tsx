@@ -3,10 +3,15 @@ import {
   getAllVehiclesByOwnerId,
   getProfileById,
 } from "@/src/server/actions/general";
+import { fetchUserAndProfile } from "@/src/server/actions/auth";
+import { ViewerTracker } from "@/src/components/Analytics";
 import { DealerDetails } from "@/src/components/Pages/Dealers";
 
 const DealerDetailPage = async ({ params }: ParamsWithId) => {
   const { id } = await params;
+
+  // Fetch the viewer's user data
+  const { user } = await fetchUserAndProfile();
 
   // Fetch all vehicle details using the provided ID
   const {
@@ -31,12 +36,15 @@ const DealerDetailPage = async ({ params }: ParamsWithId) => {
   const { data: profileData, error: profileError } = await getProfileById(id);
 
   return (
-    <DealerDetails
-      vehicles={vehicleData}
-      owner={profileData}
-      error={error || profileError}
-      status={status}
-    />
+    <>
+      <ViewerTracker viewerId={user?.id} profileOwnerId={id} />
+      <DealerDetails
+        vehicles={vehicleData}
+        owner={profileData}
+        error={error || profileError}
+        status={status}
+      />
+    </>
   );
 };
 

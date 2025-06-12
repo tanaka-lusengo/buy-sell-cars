@@ -105,3 +105,37 @@ export function formatPhoneNumberToZimCountryCode(
   // If the number starts with anything else, prepend '263'
   return "263" + digits;
 }
+
+/**
+ * Returns "homepage" if the pathname is "/", otherwise returns the original pathname.
+ *
+ * @param pathname - The current pathname string.
+ * @returns "homepage" if pathname is "/", else the original pathname.
+ */
+export const getPageName = (pathname: string): string => {
+  // If the pathname is just "/", return "homepage"
+  if (pathname === "/") {
+    return "homepage";
+  }
+
+  return pathname;
+};
+
+export const getStartDate = (range: string) => {
+  const now = new Date();
+  switch (range) {
+    case "day":
+      now.setDate(now.getDate() - 1);
+      break;
+    case "month":
+      now.setMonth(now.getMonth() - 1);
+      break;
+    case "quarter":
+      now.setMonth(now.getMonth() - 3);
+      break;
+    case "year":
+      now.setFullYear(now.getFullYear() - 1);
+      break;
+  }
+  return now.toISOString();
+};

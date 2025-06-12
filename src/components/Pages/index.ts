@@ -17,4 +17,5 @@ export {
   Security,
   Subscriptions,
   SubscriptionsDashboard,
+  Performance,
 } from "./Dashboard";

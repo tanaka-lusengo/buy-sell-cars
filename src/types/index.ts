@@ -87,6 +87,7 @@ export type VehicleWithImage = Vehicle & {
 
 export type VehicleWithImageAndDealer = VehicleWithImage & {
   dealer: {
+    id: string | null | undefined;
     dealership_name: string | null | undefined;
     profile_logo_path: string | null | undefined;
     subscription: string | null | undefined;
