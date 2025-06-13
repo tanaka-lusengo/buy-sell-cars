@@ -19,7 +19,7 @@ export const DashboardSidebar = ({
     <>
       {/* Container */}
       <Box paddingY="xs" paddingX="md" backgroundColor="greyLight">
-        <Typography as="h1" variant="h4" align="center">
+        <Typography variant="h4" align="center">
           Account Dashboard
         </Typography>
       </Box>

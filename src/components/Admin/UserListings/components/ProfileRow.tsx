@@ -76,7 +76,7 @@ export const ProfileRow = ({
       )}
 
       <Grid
-        gridTemplateColumns="0.5fr repeat(5, 1fr) 2fr 1fr 2fr 1fr repeat(2, 1.5fr) repeat(2, 1fr)"
+        gridTemplateColumns="0.5fr repeat(3, 1fr) 2fr repeat(5, 1fr) repeat(2, 1.5fr) repeat(2, 1fr)"
         alignItems="center"
         gap="sm"
         paddingX="md"
@@ -150,11 +150,11 @@ export const ProfileRow = ({
 
         {[
           "isVerified",
+          "email",
           "firstName",
           "lastName",
           "dealershipName",
           "phone",
-          "email",
           "location",
           "description",
           "subscription",
@@ -174,6 +174,12 @@ export const ProfileRow = ({
           }
 
           const value = profile[newFieldName as keyof Profile];
+
+          const isEmailField = field === "email";
+
+          const displayValue = isEmailField
+            ? String(value)
+            : formatToReadableString(value ?? "");
 
           if (editingId === profileId) {
             return (
@@ -199,8 +205,9 @@ export const ProfileRow = ({
                 textOverflow="ellipsis"
                 overflow="hidden"
                 whiteSpace="nowrap"
+                title={displayValue}
               >
-                {formatToReadableString(value ?? "")}
+                {displayValue}
               </Box>
             );
           }

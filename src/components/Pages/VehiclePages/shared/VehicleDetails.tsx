@@ -63,7 +63,7 @@ export const VehicleDetails = ({
         {!successStatus && Boolean(error) && (
           <ResponsiveContainer backgroundColor="greyLight">
             <Flex direction="column" paddingY="md">
-              <Typography as="h2" variant="h3" color="error">
+              <Typography variant="h3" color="error">
                 Error fetching vehicle
               </Typography>
 

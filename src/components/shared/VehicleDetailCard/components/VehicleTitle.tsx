@@ -32,7 +32,7 @@ export const VehicleTitle = ({
       <Typography variant="h3" color="primaryDark">
         {vehiclePrice}{" "}
         {isRental ? (
-          <Typography as="span" variant="h4">
+          <Typography as="span" style={{ fontSize: "inherit" }}>
             / per day
           </Typography>
         ) : (

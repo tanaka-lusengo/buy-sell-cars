@@ -40,6 +40,7 @@ export default async function RootLayout({
       <PreloadResources />
 
       <body>
+        {/* Vercel Analytics and Speed Insights for monitoring app usage and performance */}
         <Analytics />
         <SpeedInsights />
 

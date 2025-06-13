@@ -70,9 +70,7 @@ export const Footer = () => {
         </Link>
 
         <Box mb="lg">
-          <Typography as="h5" variant="h3">
-            Buy Sell Cars
-          </Typography>
+          <Typography variant="h3">Buy Sell Cars</Typography>
           <Typography variant="body2">Your trusted car marketplace</Typography>
         </Box>
 
@@ -82,9 +80,7 @@ export const Footer = () => {
         >
           {/* Block 1 */}
           <Flex direction="column" mb="lg">
-            <Typography as="h5" variant="h3">
-              Find Your Vehicle
-            </Typography>
+            <Typography variant="h3">Find Your Vehicle</Typography>
 
             <FooterLink href="/cars/sales/">Car sales</FooterLink>
             <FooterLink href="/trucks/sales/">Truck sales</FooterLink>
@@ -99,9 +95,7 @@ export const Footer = () => {
 
           {/* Bock 2 */}
           <Flex direction="column" mb="lg">
-            <Typography as="h5" variant="h3">
-              Sell Your Vehicle
-            </Typography>
+            <Typography variant="h3">Sell Your Vehicle</Typography>
 
             <FooterLink href={user ? "/dashboard/add-listing" : "/sign-up"}>
               Post your car ad
@@ -115,9 +109,7 @@ export const Footer = () => {
 
           {/* Block 3 */}
           <Flex direction="column" mb="lg">
-            <Typography as="h5" variant="h3">
-              Contact Us
-            </Typography>
+            <Typography variant="h3">Contact Us</Typography>
             <Link
               href={SOCIAL_MEDIA_URLS.phone_whatsapp}
               target="_blank"
@@ -198,9 +190,7 @@ export const Footer = () => {
 
           {/* Block 4 */}
           <Flex direction="column" mb="lg">
-            <Typography as="h5" variant="h3">
-              Follow Us
-            </Typography>
+            <Typography variant="h3">Follow Us</Typography>
 
             <HStack paddingY="md">
               <SocialMediaLink

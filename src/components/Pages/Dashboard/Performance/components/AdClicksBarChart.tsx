@@ -29,12 +29,26 @@ export const AdClicksBarChart = ({ data }: { data: AdClick[] }) => {
 
   const totalClicks = chartData.reduce((sum, item) => sum + item.clicks, 0);
 
+  if (chartData.length === 0) {
+    return (
+      <Flex direction="column" alignItems="center" gap="md">
+        <Typography variant="h4">No Ad Clicks Data Available</Typography>
+        <Typography>Come back later to check!</Typography>
+      </Flex>
+    );
+  }
+
   if (isMobile) {
     return (
       <Flex direction="column" alignItems="center" gap="md">
         <Typography variant="h4">
           Total Ad Clicks:{" "}
-          <Typography as="span" variant="h3" weight="bold" color="primaryDark">
+          <Typography
+            as="span"
+            weight="bold"
+            color="primaryDark"
+            style={{ fontSize: "inherit" }}
+          >
             {totalClicks}
           </Typography>
         </Typography>

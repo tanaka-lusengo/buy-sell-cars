@@ -40,9 +40,7 @@ export const MyProfileViewsCard = ({ profileId }: { profileId: string }) => {
       borderRadius="1.2rem"
       md={{ maxWidth: "fit-content" }}
     >
-      <Typography as="h1" variant="h3">
-        Profile Views
-      </Typography>
+      <Typography variant="h3">Profile Views</Typography>
 
       <Box maxWidth="150px">
         <SelectField

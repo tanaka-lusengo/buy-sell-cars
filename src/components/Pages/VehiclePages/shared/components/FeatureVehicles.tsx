@@ -55,9 +55,9 @@ export const FeatureVehicles = ({
             <Typography
               as="span"
               weight="bold"
-              variant="h4"
               color="primary"
               hoverEffect="color"
+              style={{ fontSize: "inherit" }}
             >
               <Link href={profile ? "/dashboard/subscriptions" : "/sign-up"}>
                 Subscribe now

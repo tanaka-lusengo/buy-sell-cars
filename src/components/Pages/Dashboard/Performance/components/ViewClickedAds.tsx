@@ -41,9 +41,7 @@ export const ViewClickedAds = ({ profileId }: { profileId: string }) => {
       padding="md"
       borderRadius="1.2rem"
     >
-      <Typography as="h1" variant="h3">
-        Vehicle Ad Clicks
-      </Typography>
+      <Typography variant="h3">Vehicle Ad Clicks</Typography>
 
       <Box maxWidth="150px">
         <SelectField

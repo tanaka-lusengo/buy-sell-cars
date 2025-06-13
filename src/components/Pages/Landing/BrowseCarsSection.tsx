@@ -22,9 +22,7 @@ export const BrowseCarsSection = ({
   return (
     <>
       <ResponsiveContainer paddingY="lg">
-        <Typography as="h3" variant="h2">
-          Browse more cars for sale
-        </Typography>
+        <Typography variant="h2">Browse more cars for sale</Typography>
       </ResponsiveContainer>
 
       <Container bg="greyLight" paddingY="lg" paddingX="md">

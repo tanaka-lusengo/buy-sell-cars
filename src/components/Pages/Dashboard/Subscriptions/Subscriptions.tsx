@@ -46,7 +46,7 @@ export const Subscriptions = ({ profile }: { profile: Profile }) => {
           zIndex={1}
         >
           <Box marginBottom="xl">
-            <Typography as="h1" variant="h2" align="center" color="white">
+            <Typography variant="h2" align="center" color="white">
               Select a subscription plan
             </Typography>
 

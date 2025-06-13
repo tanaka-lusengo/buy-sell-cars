@@ -73,12 +73,7 @@ export const HamburgerMenu = ({
             display={{ base: "flex", xxl: "none" }}
             alignItems="flex-start"
           >
-            <Typography
-              as="span"
-              variant="h4"
-              weight="bold"
-              hoverEffect="color"
-            >
+            <Typography variant="h4" weight="bold" hoverEffect="color">
               <Link
                 href={user ? "/dashboard/add-listing" : "/sign-up"}
                 onClick={() => setIsOpen(false)}
@@ -86,12 +81,7 @@ export const HamburgerMenu = ({
                 Sell Your Vehicle
               </Link>
             </Typography>
-            <Typography
-              as="span"
-              variant="h4"
-              weight="bold"
-              hoverEffect="color"
-            >
+            <Typography variant="h4" weight="bold" hoverEffect="color">
               <Link
                 href={`${user ? "/dashboard" : "/sign-in"}`}
                 onClick={() => setIsOpen(false)}
@@ -109,7 +99,7 @@ export const HamburgerMenu = ({
               <li key={item.label}>
                 <Typography
                   as="span"
-                  variant="body2"
+                  style={{ fontSize: "1.6rem" }}
                   weight={
                     isMatchingPath(item.href, item.label) ? "bold" : "normal"
                   }
@@ -131,7 +121,12 @@ export const HamburgerMenu = ({
           <NavList>
             {navLinks.map((item) => (
               <li key={item.label}>
-                <Typography color="primary" hoverEffect="color" weight="bold">
+                <Typography
+                  as="span"
+                  color="primary"
+                  hoverEffect="color"
+                  weight="bold"
+                >
                   <Link href={item.href} onClick={() => setIsOpen(false)}>
                     {item.label}
                   </Link>

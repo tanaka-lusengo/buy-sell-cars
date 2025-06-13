@@ -43,7 +43,7 @@ export const DealerDetails = ({
         {!successStatus && Boolean(error) && (
           <ResponsiveContainer backgroundColor="greyLight">
             <Flex direction="column" paddingY="md" gap="sm">
-              <Typography as="h2" variant="h3" color="error">
+              <Typography variant="h3" color="error">
                 Error fetching dealer and/or vehicles
               </Typography>
 
@@ -67,7 +67,7 @@ export const DealerDetails = ({
               <Typography variant="h4" align="center">
                 Please come back later or check out our other listings.
               </Typography>
-              <Typography variant="h4" as="span" color="primary">
+              <Typography variant="h4" color="primary">
                 <Link href="/dealers">View all Dealers</Link>
               </Typography>
             </Flex>

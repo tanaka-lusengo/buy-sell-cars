@@ -204,9 +204,7 @@ export const VehicleListings = ({
   return (
     <Box padding="lg">
       <Flex direction="column" gap="sm" paddingBottom="lg">
-        <Typography as="h1" variant="h2">
-          Vehicle Listings
-        </Typography>
+        <Typography variant="h2">Vehicle Listings</Typography>
 
         <Typography>
           Manage your customer&#39;s vehicle listings. You can edit, delete, and
@@ -217,7 +215,7 @@ export const VehicleListings = ({
       {status !== StatusCode.SUCCESS && error && (
         <ResponsiveContainer>
           <Flex direction="column" paddingY="md" gap="sm">
-            <Typography as="h2" variant="h3" color="error">
+            <Typography variant="h3" color="error">
               Error fetching vehicles
             </Typography>
 
