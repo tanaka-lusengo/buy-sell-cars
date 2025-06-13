@@ -29,6 +29,15 @@ export const AdClicksBarChart = ({ data }: { data: AdClick[] }) => {
 
   const totalClicks = chartData.reduce((sum, item) => sum + item.clicks, 0);
 
+  if (chartData.length === 0) {
+    return (
+      <Flex direction="column" alignItems="center" gap="md">
+        <Typography variant="h4">No Ad Clicks Data Available</Typography>
+        <Typography>Come back later to check!</Typography>
+      </Flex>
+    );
+  }
+
   if (isMobile) {
     return (
       <Flex direction="column" alignItems="center" gap="md">

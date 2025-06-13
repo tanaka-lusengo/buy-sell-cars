@@ -19,7 +19,7 @@ const PerformancePage = async () => {
   const isVerified = Boolean(profile.is_verified);
 
   return isVerified ? (
-    <Performance profileId={profile.id} />
+    <Performance profile={profile} />
   ) : (
     <PendingVerification />
   );
