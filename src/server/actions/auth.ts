@@ -16,7 +16,7 @@ import {
   Profile,
 } from "@/src/types";
 import { handleServerError, logErrorMessage, StatusCode } from "@/src/utils";
-import { createClient } from "@/supabase/server";
+import { createClient, createClientServiceRole } from "@/supabase/server";
 
 export const subscribe = async (formData: SubscribeFormType) => {
   try {
@@ -269,5 +269,98 @@ export const updateUser = async (userData: Partial<Tables<"profiles">>) => {
     return { status: StatusCode.SUCCESS, error: null };
   } catch (error) {
     return handleServerError(error, "updating user (server)");
+  }
+};
+
+/**
+ * Deletes the authenticated user's profile from the database and signs them out.
+ * @returns An object indicating the status and any error encountered.
+ */
+export const deleteProfile = async () => {
+  try {
+    // Init supabase client
+    const supabase = await createClientServiceRole();
+
+    // Get the currently authenticated user
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    // If no user is authenticated, return an error
+    if (userError || !user) {
+      return {
+        status: StatusCode.BAD_REQUEST,
+        error: "User not authenticated",
+      };
+    }
+
+    // Delete the user's profile from the 'profiles' table
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .delete()
+      .eq("id", user.id);
+
+    if (profileError) {
+      return { status: StatusCode.BAD_REQUEST, error: profileError };
+    }
+
+    const { error: authError } = await supabase.auth.admin.deleteUser(user.id);
+
+    if (authError) {
+      return { status: StatusCode.BAD_REQUEST, error: authError };
+    }
+
+    // Sign the user out after deleting their profile
+    await supabase.auth.signOut();
+
+    // Revalidate the homepage layout
+    revalidatePath("/", "layout");
+
+    return { status: StatusCode.SUCCESS, error: null };
+  } catch (error) {
+    return handleServerError(error, "deleting profile (server)");
+  }
+};
+
+/**
+ * Deletes a user and their profile by user ID. Intended for admin use.
+ * Requires Supabase service role privileges for auth.admin.deleteUser.
+ * @param userId - The ID of the user to delete.
+ * @returns An object indicating the status and any error encountered.
+ */
+export const adminDeleteUser = async (userId: string) => {
+  try {
+    // Init supabase client
+    const supabase = await createClientServiceRole();
+
+    // Delete the user's profile from the 'profiles' table
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .delete()
+      .eq("id", userId);
+
+    if (profileError) {
+      // Return error if profile deletion fails
+      return { status: StatusCode.BAD_REQUEST, error: profileError };
+    }
+
+    // Delete the user from Supabase Auth
+    // Note: This requires service role privileges
+    const { error: authError } = await supabase.auth.admin.deleteUser(userId);
+
+    if (authError) {
+      // Return error if auth deletion fails
+      return { status: StatusCode.BAD_REQUEST, error: authError };
+    }
+
+    // Optionally, revalidate any relevant paths if needed
+    revalidatePath("/", "layout");
+
+    // Return success status
+    return { status: StatusCode.SUCCESS, error: null };
+  } catch (error) {
+    // Handle unexpected errors
+    return handleServerError(error, "admin deleting user (server)");
   }
 };
