@@ -39,7 +39,7 @@ const PaymentCancelPage = () => {
             width="100%"
             gap="md"
           >
-            <Typography as="h1" variant="h2" align="center" color="white">
+            <Typography variant="h2" align="center" color="white">
               Payment Cancelled
             </Typography>
 

@@ -20,7 +20,7 @@ export const Performance = ({ profile }: { profile: Profile }) => {
       <Flex paddingY="lg" direction="column" gap="md">
         {isIndividual ? (
           <Flex direction="column" gap="md" padding="md">
-            <Typography as="h1" variant="h3">
+            <Typography variant="h3">
               Sorry, you don&#39;t have access to Performance metrics at this
               time.
             </Typography>

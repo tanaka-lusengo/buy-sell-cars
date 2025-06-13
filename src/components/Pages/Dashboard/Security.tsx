@@ -44,9 +44,7 @@ export const Security = () => {
   return (
     <Box padding="lg">
       <Box>
-        <Typography as="h1" variant="h2">
-          Security Settings
-        </Typography>
+        <Typography variant="h2">Security Settings</Typography>
       </Box>
 
       <SecurityForm

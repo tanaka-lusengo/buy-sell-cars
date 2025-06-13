@@ -142,7 +142,7 @@ export const Account = ({ profile }: { profile: Profile | null }) => {
       )}
     >
       <Box marginBottom="md">
-        <Typography as="h1" variant="h3">
+        <Typography variant="h3">
           Welcome:{" "}
           {isDealership ? profile.dealership_name : profile?.first_name || ""}
         </Typography>

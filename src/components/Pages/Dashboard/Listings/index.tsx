@@ -223,9 +223,7 @@ export const Listings = ({
 
   return (
     <Box padding="lg">
-      <Typography as="h1" variant="h2">
-        Your Listings: {vehicles.length}
-      </Typography>
+      <Typography variant="h2">Your Listings: {vehicles.length}</Typography>
 
       <Typography>
         Manage your vehicle listings, edit details, and update your images.{" "}
@@ -247,7 +245,7 @@ export const Listings = ({
       {status !== StatusCode.SUCCESS && error && (
         <ResponsiveContainer>
           <Flex direction="column" paddingY="md" gap="sm">
-            <Typography as="h2" variant="h3" color="error">
+            <Typography variant="h3" color="error">
               Error fetching vehicles
             </Typography>
 

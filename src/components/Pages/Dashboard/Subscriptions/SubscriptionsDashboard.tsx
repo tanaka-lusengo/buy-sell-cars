@@ -26,16 +26,14 @@ export const SubscriptionsDashboard = ({ profile }: { profile: Profile }) => {
     <ResponsiveContainer>
       <Flex direction="column" padding="lg" gap="md">
         <Box>
-          <Typography as="h1" variant="h2">
-            Subscription
-          </Typography>
+          <Typography variant="h2">Subscription</Typography>
 
           <Typography>
             Manage your subscription plans and billing information here.
           </Typography>
         </Box>
 
-        <Typography as="p" variant="h4">
+        <Typography variant="h4">
           Current Plan: <strong>{subscriptionPlan}</strong>
         </Typography>
 

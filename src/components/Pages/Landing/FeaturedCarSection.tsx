@@ -29,7 +29,7 @@ export const FeaturedCarSection = ({
   return (
     <>
       <Box paddingY="lg">
-        <Typography as="h3" variant="h2" align="center">
+        <Typography variant="h2" align="center">
           Featured cars for sale
         </Typography>
       </Box>
@@ -49,9 +49,9 @@ export const FeaturedCarSection = ({
                 <Typography
                   as="span"
                   weight="bold"
-                  variant="h4"
                   color="primary"
                   hoverEffect="color"
+                  style={{ fontSize: "inherit" }}
                 >
                   <Link
                     href={profile ? "/dashboard/subscriptions" : "/sign-up"}

@@ -91,7 +91,11 @@ export const SubscriptionCard = ({
       >
         <Typography align="center" variant="h3">
           {planName} —{" "}
-          <Typography as="span" variant="h3" color="primaryDark">
+          <Typography
+            as="span"
+            color="primaryDark"
+            style={{ fontSize: "inherit" }}
+          >
             ${price}/month
           </Typography>
         </Typography>

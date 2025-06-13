@@ -140,8 +140,8 @@ export const FeaturePreviewCard = ({
 
                 <Flex direction="column" gap="sm">
                   <Typography
-                    weight="bold"
                     variant="h3"
+                    weight="bold"
                     title={`${vehicle.make}, ${vehicle.model}`}
                     style={{
                       whiteSpace: "nowrap",
@@ -169,7 +169,7 @@ export const FeaturePreviewCard = ({
                 <Typography variant="h3" weight="bold" color="primaryDark">
                   {vehiclePrice}{" "}
                   {isRental ? (
-                    <Typography as="span" variant="h4">
+                    <Typography as="span" style={{ fontSize: "inherit" }}>
                       / per day
                     </Typography>
                   ) : (

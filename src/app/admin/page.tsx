@@ -13,9 +13,7 @@ const Adminpage = async () => {
   return (
     <ResponsiveContainer>
       <Flex direction="column" padding="lg" maxWidth="600px" gap="md">
-        <Typography as="h1" variant="h2">
-          Admin Dashboard
-        </Typography>
+        <Typography variant="h2">Admin Dashboard</Typography>
         <Typography>
           Welcome <b>{profile.first_name}</b> to the admin dashboard. Here you
           can manage users and perform administrative tasks.

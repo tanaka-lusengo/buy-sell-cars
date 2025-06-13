@@ -40,9 +40,7 @@ export const FeaturedDealersSection = ({
       maxWidth={{ sm: "pageSm", md: "pageMd", lg: "pageLg", xl: "pageXl" }}
     >
       <Box paddingY="md">
-        <Typography as="h4" variant="h2">
-          Browse by dealers
-        </Typography>
+        <Typography variant="h2">Browse by dealers</Typography>
       </Box>
 
       <Flex

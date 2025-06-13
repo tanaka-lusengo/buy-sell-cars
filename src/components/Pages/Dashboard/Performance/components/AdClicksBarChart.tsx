@@ -43,7 +43,12 @@ export const AdClicksBarChart = ({ data }: { data: AdClick[] }) => {
       <Flex direction="column" alignItems="center" gap="md">
         <Typography variant="h4">
           Total Ad Clicks:{" "}
-          <Typography as="span" variant="h3" weight="bold" color="primaryDark">
+          <Typography
+            as="span"
+            weight="bold"
+            color="primaryDark"
+            style={{ fontSize: "inherit" }}
+          >
             {totalClicks}
           </Typography>
         </Typography>

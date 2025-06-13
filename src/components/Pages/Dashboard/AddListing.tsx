@@ -247,9 +247,7 @@ export const AddListing = ({ profile }: { profile: Profile }) => {
         async (formData: AddVehicleFormType) => await uploadListing(formData)
       )}
     >
-      <Typography as="h1" variant="h2">
-        List your vehicle details
-      </Typography>
+      <Typography variant="h2">List your vehicle details</Typography>
 
       {restrictAccess ? (
         <Flex
@@ -266,17 +264,26 @@ export const AddListing = ({ profile }: { profile: Profile }) => {
 
           <Typography align="center" variant="h4">
             Please update your profile in the{" "}
-            <Typography as="span" variant="h4" color="primaryDark">
-              <Link href="/dashboard">Profile</Link>
+            <Typography
+              as="span"
+              color="primaryDark"
+              style={{ fontSize: "inherit" }}
+            >
+              <Link
+                style={{
+                  fontSize: "inherit",
+                }}
+                href="/dashboard"
+              >
+                Profile
+              </Link>
             </Typography>{" "}
             section.
           </Typography>
         </Flex>
       ) : (
         <>
-          <Typography as="h2" variant="h5">
-            Select your type of listing:
-          </Typography>
+          <Typography variant="h5">Select your type of listing:</Typography>
 
           <Grid
             gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
@@ -520,9 +527,7 @@ export const AddListing = ({ profile }: { profile: Profile }) => {
             <>
               <Divider marginY="sm" color="primary" />
 
-              <Typography as="h2" variant="h5">
-                Image preview:
-              </Typography>
+              <Typography variant="h5">Image preview:</Typography>
 
               <Flex gap="xxs" flexWrap="wrap" justifyContent="center">
                 {imagesPreview.map((src, index) => (

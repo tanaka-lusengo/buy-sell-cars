@@ -144,7 +144,7 @@ export const DealerVehicleCard = ({
               <Typography variant="h3" weight="bold" color="primaryDark">
                 {vehiclePrice}{" "}
                 {isRental ? (
-                  <Typography as="span" variant="h4">
+                  <Typography as="span" style={{ fontSize: "inherit" }}>
                     / per day
                   </Typography>
                 ) : (

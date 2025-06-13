@@ -17,7 +17,7 @@ export const AdminDashboardSidebar = ({
     <>
       {/* Container */}
       <Box paddingY="xs" paddingX="md" backgroundColor="primaryLight">
-        <Typography as="h1" variant="h4" align="center">
+        <Typography variant="h4" align="center">
           Admin Dashboard
         </Typography>
       </Box>

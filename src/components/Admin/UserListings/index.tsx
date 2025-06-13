@@ -170,7 +170,7 @@ export const UserListings = ({
   return (
     <Box padding="lg">
       <Flex direction="column" gap="sm" paddingBottom="lg">
-        <Typography as="h1" variant="h2">
+        <Typography variant="h2">
           Client listings: {formatToReadableString(userCategory)}
         </Typography>
 
@@ -183,7 +183,7 @@ export const UserListings = ({
       {status !== StatusCode.SUCCESS && error && (
         <ResponsiveContainer>
           <Flex direction="column" paddingY="md" gap="sm">
-            <Typography as="h2" variant="h3" color="error">
+            <Typography variant="h3" color="error">
               Error fetching profiles
             </Typography>
 
