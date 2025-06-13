@@ -21,7 +21,9 @@ export const NavLinksDashboard = ({ pathname }: { pathname: string }) => {
             </Flex>
           </Link>
         ) : (
-          <Typography weight="bold">{item.label}</Typography>
+          <Typography key={item.href} weight="bold">
+            {item.label}
+          </Typography>
         );
       })}
     </>

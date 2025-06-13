@@ -19,7 +19,7 @@ import { useFileUploadHelpers } from "@/src/hooks";
 import { updateProfileAdminValidationSchema } from "@/src/schemas";
 import { CategoryType, UpdateProfileAdminFormType } from "@/src/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { deleteVehicle } from "@/src/server/actions/general";
+import { adminDeleteUser } from "@/src/server/actions/auth";
 import { ProfileRow } from "./components";
 
 const TABLE_HEADERS = [
@@ -27,11 +27,11 @@ const TABLE_HEADERS = [
   "Actions",
   "Logo",
   "Is Verified?",
+  "Email",
   "First Name",
   "Last Name",
   "Dealership Name",
   "Phone",
-  "Email",
   "Location",
   "Description",
   "Subscription Type",
@@ -83,7 +83,6 @@ export const UserListings = ({
   };
 
   const handleStartEdit = (id: string) => {
-    console.log("Editing profile ID:", id);
     setEditingId(id);
     setCurrentProfileImage(
       profiles.find((profile) => profile.id === id)?.profile_logo_path || null
@@ -97,16 +96,16 @@ export const UserListings = ({
 
   const handleDeleteClick = async (profileId: string) => {
     if (!confirm("Are you sure you want to delete this profile?")) return;
-    const { error, status } = await deleteVehicle(profileId);
+    const { error, status } = await adminDeleteUser(profileId);
+
     if (status !== StatusCode.SUCCESS || error)
       return handleClientError("deleting profile listing", error);
+
     toastNotifySuccess("Profile deleted successfully!");
   };
 
   const handleSave = async (formData: UpdateProfileAdminFormType) => {
     if (!editingId) return console.error("No profile ID provided for editing");
-
-    console.log("Form data before update:", formData);
 
     try {
       if (profileImageFile) {
@@ -148,15 +147,16 @@ export const UserListings = ({
         subscription: formData.subscription ?? "",
       };
 
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("profiles")
         .upsert(updatedProfile)
         .eq("id", editingId);
 
-      if (data) console.log("Updated profile data:", data);
-      console.log("Updated profile error:", error);
-
-      if (error) throw error;
+      if (error) {
+        handleClientError("updating profile", error);
+        setEditingId(null);
+        return;
+      }
 
       setEditingId(null);
 
@@ -216,7 +216,7 @@ export const UserListings = ({
           <table>
             {/* Table Header */}
             <Grid
-              gridTemplateColumns="0.5fr repeat(5, 1fr) 2fr 1fr 2fr 1fr repeat(2, 1.5fr) repeat(2, 1fr)"
+              gridTemplateColumns="0.5fr repeat(3, 1fr) 2fr repeat(5, 1fr) repeat(2, 1.5fr) repeat(2, 1fr)"
               gap="sm"
               paddingX="md"
               paddingY="sm"
