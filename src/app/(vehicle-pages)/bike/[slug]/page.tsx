@@ -25,11 +25,17 @@ export const AllBikesPage = async ({ params }: Params) => {
       (dealer) => dealer.id === vehicle.owner_id
     );
 
+    const hasDealershipName =
+      typeof dealer?.dealership_name === "string" &&
+      dealer.dealership_name.trim().length > 0;
+
     return {
       ...vehicle,
       dealer: {
         id: dealer?.id,
-        dealership_name: dealer?.dealership_name,
+        dealership_name: hasDealershipName
+          ? dealer?.dealership_name
+          : `${dealer?.first_name} ${dealer?.last_name}`,
         profile_logo_path: dealer?.profile_logo_path,
         subscription: dealer?.subscription,
       },

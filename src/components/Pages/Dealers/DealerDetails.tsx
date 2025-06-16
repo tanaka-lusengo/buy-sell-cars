@@ -31,11 +31,19 @@ export const DealerDetails = ({
 
   const { getPublicUrl } = useFileUploadHelpers(supabase);
 
+  const hasDealershipName =
+    typeof owner?.dealership_name === "string" &&
+    owner.dealership_name.trim().length > 0;
+
+  const sellerName = hasDealershipName
+    ? owner.dealership_name
+    : `${owner?.first_name ?? ""} ${owner?.last_name ?? ""}`.trim();
+
   return (
     <>
       <ResponsiveContainer>
         <Box paddingY="md">
-          <Typography variant="h2">Browse: {owner?.dealership_name}</Typography>
+          <Typography variant="h2">Browse: {sellerName}</Typography>
         </Box>
       </ResponsiveContainer>
 

@@ -60,12 +60,13 @@ export const Footer = () => {
         <Link href="/">
           <Image
             src="/logo/buy-sell-cars-logo.png"
+            alt="Buy Sell Cars logo"
             width={65}
             height={65}
             priority
             sizes="100vw"
             style={{ height: "auto", padding: "0.1rem 0" }}
-            alt="Buy Sell Cars logo"
+            quality={70}
           />
         </Link>
 

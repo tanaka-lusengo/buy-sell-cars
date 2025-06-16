@@ -543,6 +543,7 @@ export const AddListing = ({ profile }: { profile: Profile }) => {
                       objectFit: "cover",
                       borderRadius: 4,
                     }}
+                    quality={70}
                   />
                 ))}
               </Flex>

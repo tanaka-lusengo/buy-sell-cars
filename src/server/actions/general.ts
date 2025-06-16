@@ -643,7 +643,6 @@ export const getAllDealers = async () => {
     const { data, error } = await supabase
       .from("profiles")
       .select("*")
-      .eq("user_category", "dealership")
       .neq("admin", true)
       .not("profile_logo_path", "is", null)
       .order("dealership_name", { ascending: true });

@@ -52,6 +52,7 @@ export const PaidSponsorFeature = ({
                 width: "100%",
                 borderRadius: "1.2rem",
               }}
+              quality={70}
             />
           </Flex>
         </Link>

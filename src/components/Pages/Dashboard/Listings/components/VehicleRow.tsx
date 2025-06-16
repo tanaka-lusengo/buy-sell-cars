@@ -69,6 +69,7 @@ export const VehicleRow = ({
                     objectFit: "cover",
                     borderRadius: 4,
                   }}
+                  quality={70}
                 />
               ))}
             </Flex>
@@ -138,6 +139,7 @@ export const VehicleRow = ({
                     width: "5rem",
                     height: "5rem",
                   }}
+                  quality={70}
                 />
                 {vehicle.images.length > 1 && (
                   <Typography as="span" weight="bold">

@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
+import defaultUserIcon from "@/public/images/default-user-icon.png";
 import { Box, Divider, Flex, HStack, VStack } from "@/styled-system/jsx";
 import { Typography } from "../../ui";
 import { VehicleWithImageAndDealer } from "@/src/types";
@@ -90,6 +91,7 @@ export const CarPreviewCard = ({ car, isRental }: CarPreviewCardProps) => {
                   objectFit: "cover",
                   borderRadius: "8px",
                 }}
+                quality={70}
               />
             </Box>
 
@@ -164,9 +166,10 @@ export const CarPreviewCard = ({ car, isRental }: CarPreviewCardProps) => {
                               "profile-logos",
                               car.dealer.profile_logo_path
                             )
-                          : "/images/default-user-icon.png"
+                          : defaultUserIcon
                       }
                       alt={car.dealer.dealership_name ?? ""}
+                      title={car.dealer.dealership_name ?? ""}
                       fill
                       loading="lazy"
                       sizes="(max-width: 600px) 60px, 60px"
@@ -178,6 +181,7 @@ export const CarPreviewCard = ({ car, isRental }: CarPreviewCardProps) => {
                           : "cover",
                         borderRadius: "1rem",
                       }}
+                      quality={70}
                     />
                   </Box>
                 </HStack>

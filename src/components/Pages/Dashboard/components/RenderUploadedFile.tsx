@@ -31,6 +31,7 @@ export const RenderUploadedFile = ({
           ? "contain"
           : "cover",
       }}
+      quality={70}
     />
   ) : (
     <Flex

@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
+import defaultUserIcon from "@/public/images/default-user-icon.png";
 import { Box, Divider, Flex, HStack, VStack } from "@/styled-system/jsx";
 import { Typography } from "../../ui";
 import {
@@ -76,6 +77,22 @@ export const FeaturePreviewCard = ({
 
   const handleAdClick = async () => await logAdClick(logAdClickData);
 
+  const getProfileLogoPath = (
+    vehicle: VehicleWithImageAndDealer | VehicleWithImage,
+    owner?: Profile | null
+  ): string | StaticImageData => {
+    // If the vehicle has a dealer and the dealer has a profile logo, use it
+    if ("dealer" in vehicle && vehicle.dealer?.profile_logo_path) {
+      return getPublicUrl("profile-logos", vehicle.dealer.profile_logo_path);
+    }
+    // Otherwise, use the owner's profile logo if available
+    if (owner?.profile_logo_path) {
+      return getPublicUrl("profile-logos", owner.profile_logo_path);
+    }
+    // If neither exists, return the default user icon
+    return defaultUserIcon;
+  };
+
   return (
     <Box
       bg="white"
@@ -125,6 +142,7 @@ export const FeaturePreviewCard = ({
                   objectFit: "cover",
                   borderRadius: "8px",
                 }}
+                quality={70}
               />
             </Box>
 
@@ -199,15 +217,7 @@ export const FeaturePreviewCard = ({
                     overflow="hidden"
                   >
                     <Image
-                      src={
-                        getPublicUrl(
-                          "profile-logos",
-                          ("dealer" in vehicle &&
-                          vehicle.dealer?.profile_logo_path
-                            ? vehicle.dealer.profile_logo_path
-                            : owner?.profile_logo_path) || ""
-                        ) || "/images/default-user-icon.png"
-                      }
+                      src={getProfileLogoPath(vehicle, owner)}
                       alt={
                         "dealer" in vehicle && vehicle.dealer?.dealership_name
                           ? vehicle.dealer.dealership_name
@@ -229,6 +239,7 @@ export const FeaturePreviewCard = ({
                           : "cover",
                         borderRadius: "1rem",
                       }}
+                      quality={70}
                     />
                   </Box>
                 </HStack>
