@@ -19,7 +19,7 @@ const eslintConfig = [
     "plugin:jsx-a11y/recommended",
     "plugin:prettier/recommended",
     "next/core-web-vitals",
-    "next/typescript"
+    "next/typescript",
   ),
   {
     rules: {
