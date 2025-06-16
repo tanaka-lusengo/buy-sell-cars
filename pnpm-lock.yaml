@@ -160,6 +160,8 @@ importers:
         specifier: ^5.2.0
         version: 5.2.0(eslint@9.29.0)
 
+  packages/shared: {}
+
 packages:
 
   '@babel/helper-string-parser@7.27.1':
