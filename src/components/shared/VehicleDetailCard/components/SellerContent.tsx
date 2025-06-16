@@ -27,9 +27,13 @@ export const SellerContent = ({ vehicle, owner }: SellerContentProps) => {
   const listingCategory =
     vehicle?.listing_category === "rental" ? "rent" : "sale";
 
+  const hasDealershipName =
+    typeof owner?.dealership_name === "string" &&
+    owner.dealership_name.trim().length > 0;
+
   const whatsappMessage =
     owner && vehicle
-      ? `Hello ${owner.first_name},\n\nI'm interested in ${owner.dealership_name} and your vehicle ${vehicle.make} ${vehicle.model} for ${listingCategory} found on Buy Sell Cars!\n\n Vehicle: ${vehicleUrl}\n\nWhat are next steps?`
+      ? `Hello ${owner.first_name},\n\nI'm interested in ${hasDealershipName ? `${owner.dealership_name} and` : ""} your vehicle ${vehicle.make} ${vehicle.model} for ${listingCategory} found on Buy Sell Cars!\n\n Vehicle: ${vehicleUrl}\n\nWhat are next steps?`
       : `Hello,\n\nI'm interested in your vehicle I saw on Buy Sell Cars!\n\nWhat are next steps?`;
 
   return (

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Typography } from "@/src/components/ui";
 import { FileInputField } from "@/src/components/FormComponents";
+import defaultUserIcon from "@/public/images/default-user-icon.png";
 import {
   Profile,
   StorageBucket,
@@ -16,7 +17,7 @@ import { EditableInput } from "./EditableInput";
 
 type ProfileRowProps = {
   count: number;
-  imagePreview: string[];
+  imagePreview: string;
   profileId: string;
   profile: Profile;
   editingId: string | null;
@@ -49,27 +50,25 @@ export const ProfileRow = ({
 }: ProfileRowProps) => {
   return (
     <Box>
-      {editingId === profileId && imagePreview.length > 0 && (
+      {editingId === profileId && imagePreview && (
         <>
           <Flex direction="column" gap="sm" marginY="md" paddingX="lg">
             <Typography weight="bold">Preview:</Typography>
 
             <Flex gap="xxs" flexWrap="wrap">
-              {imagePreview.map((src, index) => (
-                <Image
-                  key={index}
-                  src={src}
-                  alt={`preview-${index}`}
-                  width={80}
-                  height={80}
-                  style={{
-                    width: 80,
-                    height: 80,
-                    objectFit: "cover",
-                    borderRadius: 4,
-                  }}
-                />
-              ))}
+              <Image
+                src={imagePreview}
+                alt="Profile Image Preview"
+                width={80}
+                height={80}
+                style={{
+                  width: 80,
+                  height: 80,
+                  objectFit: "cover",
+                  borderRadius: 4,
+                }}
+                quality={70}
+              />
             </Flex>
           </Flex>
         </>
@@ -113,8 +112,9 @@ export const ProfileRow = ({
               register={{
                 ...register("profileLogoPath"),
                 onChange: async (e) => {
-                  setProfileImageFile(e.target.files || null);
-                  handleImagePreview(e.target.files);
+                  const file = e.target.files?.[0] || null;
+                  setProfileImageFile(file);
+                  handleImagePreview(file);
                 },
               }}
               errors={errors}
@@ -126,7 +126,11 @@ export const ProfileRow = ({
               <Flex gap="sm" key={`actions-${profile.id}`} alignItems="center">
                 <Image
                   key={`image-${profile.id}`}
-                  src={getPublicUrl("profile-logos", profile.profile_logo_path)}
+                  src={
+                    profile.profile_logo_path
+                      ? getPublicUrl("profile-logos", profile.profile_logo_path)
+                      : defaultUserIcon
+                  }
                   alt={`${profile.first_name} ${profile.last_name} profile image`}
                   width={50}
                   height={50}
@@ -142,6 +146,7 @@ export const ProfileRow = ({
                     width: "5rem",
                     height: "5rem",
                   }}
+                  quality={70}
                 />
               </Flex>
             )}
@@ -186,7 +191,7 @@ export const ProfileRow = ({
               <EditableInput
                 key={`${profileId}-${field}`}
                 name={field}
-                value={String(value)}
+                value={value ?? ""}
                 register={register}
                 errors={errors}
               />

@@ -70,16 +70,20 @@ export const UserListings = ({
 
   const [currentProfileImage, setCurrentProfileImage] =
     useState<Profile["profile_logo_path"]>(null);
-  const [imagePreview, setImagePreview] = useState<string[]>([]);
+  const [imagePreview, setImagePreview] = useState<string>("");
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
 
   useEffect(() => {
-    return () => imagePreview.forEach(URL.revokeObjectURL);
+    return () => {
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
   }, [imagePreview]);
 
   const handleImagePreview = (file: File | null) => {
     if (!file) return;
-    setImagePreview([URL.createObjectURL(file)]);
+    setImagePreview(URL.createObjectURL(file));
   };
 
   const handleStartEdit = (id: string) => {
@@ -91,7 +95,7 @@ export const UserListings = ({
 
   const handleCancelEdit = () => {
     setEditingId(null);
-    setImagePreview([]);
+    setImagePreview("");
   };
 
   const handleDeleteClick = async (profileId: string) => {
