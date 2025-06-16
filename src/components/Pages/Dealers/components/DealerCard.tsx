@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import defaultUserIcon from "@/public/images/default-user-icon.png";
 import { Profile } from "@/src/types";
 import { useFileUploadHelpers } from "@/src/hooks";
 import { createClient } from "@/supabase/client";
@@ -42,7 +43,7 @@ export const DealerCard = ({ dealer, isFeature }: DealerCardProps) => {
             src={
               dealer.profile_logo_path
                 ? getPublicUrl("profile-logos", dealer.profile_logo_path)
-                : "/images/default-user-icon.png"
+                : defaultUserIcon
             }
             alt={`${dealer.dealership_name} logo`}
             fill
@@ -57,6 +58,7 @@ export const DealerCard = ({ dealer, isFeature }: DealerCardProps) => {
               borderTopLeftRadius: "1rem",
               borderTopRightRadius: "1rem",
             }}
+            quality={70}
           />
         </Box>
 

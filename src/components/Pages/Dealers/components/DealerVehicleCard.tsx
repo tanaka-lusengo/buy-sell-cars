@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
+import defaultUserIcon from "@/public/images/default-user-icon.png";
 import { Box, Divider, Flex, HStack, VStack } from "@/styled-system/jsx";
 import { Typography } from "@/src/components/ui";
 import { Profile, VehicleWithImage } from "@/src/types";
@@ -104,6 +105,7 @@ export const DealerVehicleCard = ({
                 objectFit: "cover",
                 borderRadius: "8px",
               }}
+              quality={70}
             />
           </Box>
 
@@ -174,11 +176,13 @@ export const DealerVehicleCard = ({
                   overflow="hidden"
                 >
                   <Image
-                    src={getPublicUrl(
-                      "profile-logos",
-                      owner?.profile_logo_path ?? ""
-                    )}
-                    alt={owner?.dealership_name ?? ""}
+                    src={
+                      owner?.profile_logo_path
+                        ? getPublicUrl("profile-logos", owner.profile_logo_path)
+                        : defaultUserIcon
+                    }
+                    alt={owner?.dealership_name ?? "Dealership logo"}
+                    title={owner?.dealership_name ?? "Dealership logo"}
                     fill
                     loading="lazy"
                     sizes="(max-width: 768px) 100vw, 50vw"
@@ -190,6 +194,7 @@ export const DealerVehicleCard = ({
                         : "cover",
                       borderRadius: "1rem",
                     }}
+                    quality={70}
                   />
                 </Box>
               </HStack>

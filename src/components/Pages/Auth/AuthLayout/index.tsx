@@ -13,6 +13,7 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           zIndex: -1,
         }}
         priority
+        quality={70}
       />
 
       {/* Foreground layout */}

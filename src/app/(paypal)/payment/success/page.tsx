@@ -62,6 +62,7 @@ const SuccessPaymentPage = () => {
           zIndex: -1,
         }}
         priority
+        quality={70}
       />
 
       {isLoading ? (

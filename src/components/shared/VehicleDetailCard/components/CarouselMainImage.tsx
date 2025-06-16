@@ -59,7 +59,8 @@ export const CarouselMainImage = ({
               >
                 <Image
                   src={getPublicUrl("vehicle-images", src.image_path ?? "")}
-                  alt={`Thumbnail ${index + 1}`}
+                  alt={`Main image ${index + 1}`}
+                  title={`Image ${index + 1}`}
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   style={{
@@ -68,6 +69,7 @@ export const CarouselMainImage = ({
                     width: "100%",
                     height: "100%",
                   }}
+                  quality={70}
                 />
                 <Box
                   position="absolute"
@@ -133,6 +135,7 @@ export const CarouselMainImage = ({
               height={600}
               style={{ objectFit: "contain" }}
               onClick={handleCloseModal}
+              quality={70}
             />
             {/* Close button in the corner */}
             <Box

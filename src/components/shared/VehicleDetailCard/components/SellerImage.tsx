@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import defaultUserIcon from "@/public/images/default-user-icon.png";
 import { Profile, StorageBucket } from "@/src/types";
 import { Box, VStack } from "@/styled-system/jsx";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
@@ -11,6 +12,14 @@ type SellerImageProps = {
 };
 
 export const SellerImage = ({ owner, getPublicUrl }: SellerImageProps) => {
+  const hasDealershipName =
+    typeof owner?.dealership_name === "string" &&
+    owner.dealership_name.trim().length > 0;
+
+  const sellerName = hasDealershipName
+    ? owner.dealership_name
+    : `${owner?.first_name ?? ""} ${owner?.last_name ?? ""}`.trim();
+
   return (
     <Link href={`/dealers/${owner?.id}`}>
       <VStack
@@ -26,7 +35,11 @@ export const SellerImage = ({ owner, getPublicUrl }: SellerImageProps) => {
           borderRadius="8px"
         >
           <Image
-            src={getPublicUrl("profile-logos", owner?.profile_logo_path ?? "")}
+            src={
+              owner?.profile_logo_path
+                ? getPublicUrl("profile-logos", owner.profile_logo_path)
+                : defaultUserIcon
+            }
             alt={`${owner?.dealership_name} logo`}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
@@ -38,9 +51,10 @@ export const SellerImage = ({ owner, getPublicUrl }: SellerImageProps) => {
                 ? "contain"
                 : "cover",
             }}
+            quality={70}
           />
         </Box>
-        <Typography variant="h4">{owner?.dealership_name}</Typography>
+        <Typography variant="h4">{sellerName}</Typography>
       </VStack>
     </Link>
   );

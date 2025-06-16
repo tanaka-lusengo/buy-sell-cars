@@ -28,6 +28,7 @@ export const HeroBanner = () => {
           width: "100%",
           height: "100%",
         }}
+        quality={70}
       />
       <Box
         position="absolute"
@@ -89,6 +90,7 @@ export const HeroBanner = () => {
                       width={24}
                       height={24}
                       style={{ height: "auto" }}
+                      unoptimized
                     />
                     <Typography color="white">{fact}</Typography>
                   </HStack>

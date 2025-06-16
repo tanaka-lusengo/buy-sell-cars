@@ -20,6 +20,7 @@ const PaymentCancelPage = () => {
           zIndex: -1,
         }}
         priority
+        quality={70}
       />
 
       <Grid gridTemplateColumns={{ base: "1fr", sm: "100%" }} height="100%">
