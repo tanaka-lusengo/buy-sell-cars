@@ -19,12 +19,12 @@ export const HeroBanner = () => {
       <Image
         src="/images/hero.jpg"
         alt="Hero Image"
-        objectFit="cover"
         fill
         priority
         sizes="100vw"
         style={{
           position: "absolute",
+          objectFit: "cover",
           width: "100%",
           height: "100%",
         }}

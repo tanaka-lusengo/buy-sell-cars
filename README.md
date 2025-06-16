@@ -1,6 +1,8 @@
-# BuySellCars Zimbabwe 🇿🇼
+# BuySellCars Mono Repo
 
-A modern rebuild of [BuySellCars.co.zw](https://buysellcars.co.zw/), a platform for buying and selling vehicles in Zimbabwe.
+A modern rebuild of the Buy Sell Cars application, a platform for buying and selling vehicles.
+
+With instances in [Zimbabwe](https://buysellcars.co.zw/) & South Africa (WIP)
 
 ## Tech Stack 💻
 
@@ -21,7 +23,7 @@ A modern rebuild of [BuySellCars.co.zw](https://buysellcars.co.zw/), a platform 
 - Node.js 18+
 - pnpm
 - Supabase project
-- PayPal Developer account
+- Paystack account
 
 ### Running the app
 
@@ -30,5 +32,14 @@ A modern rebuild of [BuySellCars.co.zw](https://buysellcars.co.zw/), a platform 
 
 ```bash
 pnpm install
+cd apps/buy-sell-cars-zimbabwe
+pnpm dev
+```
+
+or
+
+```bash
+pnpm install
+cd apps/buy-sell-cars-south-africa
 pnpm dev
 ```
