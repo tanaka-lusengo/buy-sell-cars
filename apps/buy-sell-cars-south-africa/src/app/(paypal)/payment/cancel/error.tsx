@@ -7,7 +7,7 @@ const Error = ({ error }: ErrorBoundaryProps) => (
   <ErrorBoundary
     error={error}
     message={
-      "Hmmm, looks like an error occurred while signing up. Please try again."
+      "An error occurred while canceling your payment. Please try again or contact support if the issue persists."
     }
   />
 );
