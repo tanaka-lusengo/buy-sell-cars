@@ -1,13 +1,15 @@
 {
- "name": "eslint-config-custom",
+  "name": "eslint-config-custom",
   "version": "1.0.0",
   "type": "module",
+  "main": "eslint.config.mjs",
   "description": "",
   "scripts": {},
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@eslint/eslintrc": "^3",
     "@typescript-eslint/eslint-plugin": "^8.30.1",
     "@typescript-eslint/parser": "^8.30.1",
     "eslint": "^9",
@@ -19,4 +21,3 @@
     "eslint-plugin-react-hooks": "^5.2.0"
   }
 }
-
