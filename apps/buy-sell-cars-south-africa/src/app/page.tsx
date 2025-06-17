@@ -1,7 +1,7 @@
 import {
   HeroBanner,
-  FeatureBannerOne,
-  FeatureBannerTwo,
+  // FeatureBannerOne,
+  // FeatureBannerTwo,
   FeaturedCarSection,
   BrowseCarsSection,
   InfoSection,
@@ -65,10 +65,10 @@ export const Home = async () => {
       <BrowseCarsSection
         allCarsForSaleWithDealerDetails={allCarsForSaleWithDealerDetails}
       />
-      <FeatureBannerOne />
+      {/* <FeatureBannerOne /> */}
       <InfoSection />
       <FeaturedDealersSection featuredDealers={allDealersResponse} />
-      <FeatureBannerTwo />
+      {/* <FeatureBannerTwo /> */}
       <SocialMediaSection />
       <SubscribeModal />
     </>

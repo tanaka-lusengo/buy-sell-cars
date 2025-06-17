@@ -1,5 +1,6 @@
-import { Typography } from "@/src/components/ui";
 import Image from "next/image";
+import { Typography } from "@/src/components/ui";
+import heroImageBanner from "@/public/images/hero-banner.jpg";
 import { Box, Container, Flex, HStack } from "@/styled-system/jsx";
 import { ResponsiveContainer } from "@/src/components/ui";
 
@@ -17,7 +18,7 @@ export const HeroBanner = () => {
       position="relative"
     >
       <Image
-        src="/images/hero.jpg"
+        src={heroImageBanner}
         alt="Hero Image"
         fill
         priority
@@ -36,7 +37,7 @@ export const HeroBanner = () => {
         left="0"
         width="100%"
         height="100%"
-        backgroundGradient="linear-gradient(rgba(30, 39, 55, 0.65), rgba(30, 39, 55, 0.65))"
+        backgroundGradient="linear-gradient(rgba(30, 39, 55, 0.35), rgba(30, 39, 55, 0.35))"
         zIndex={5}
       />
       <Container
@@ -70,7 +71,7 @@ export const HeroBanner = () => {
                 weight="bold"
                 color="primary"
               >
-                Zimbabwe&#39;s Premier Vehicle Marketplace
+                South Africa&#39;s Premier Vehicle Marketplace
               </Typography>
               <Typography
                 variant="h2"

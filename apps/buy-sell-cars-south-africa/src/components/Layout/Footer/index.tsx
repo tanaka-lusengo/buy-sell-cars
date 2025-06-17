@@ -71,8 +71,10 @@ export const Footer = () => {
         </Link>
 
         <Box mb="lg">
-          <Typography variant="h3">Buy Sell Cars</Typography>
-          <Typography variant="body2">Your trusted car marketplace</Typography>
+          <Typography variant="h3">Buy Sell Cars SA</Typography>
+          <Typography variant="body2">
+            Your trusted car marketplace in South Africa
+          </Typography>
         </Box>
 
         <Grid
@@ -185,7 +187,7 @@ export const Footer = () => {
                 title="location"
                 style={{ width: "2rem" }}
               ></i>
-              <Typography variant="body2">Harare Zimbabwe</Typography>
+              <Typography variant="body2">South Africa</Typography>
             </HStack>
           </Flex>
 

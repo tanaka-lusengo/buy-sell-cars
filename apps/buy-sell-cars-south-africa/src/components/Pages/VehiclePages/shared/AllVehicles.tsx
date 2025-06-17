@@ -3,12 +3,12 @@ import { useMemo } from "react";
 import { Container, Box, Flex, Grid, Divider } from "@/styled-system/jsx";
 import { ResponsiveContainer, Typography } from "../../../ui";
 import { formatToReadableString, StatusCode } from "@/src/utils";
-import { EXTERNAL_URLS } from "@/src/constants/urls";
+// import { EXTERNAL_URLS } from "@/src/constants/urls";
 import { VehicleCategoryType, VehicleWithImageAndDealer } from "@/src/types";
 import { PostgrestError } from "@supabase/supabase-js";
 import {
   PaginatedVehicleList,
-  PaidSponsorFeature,
+  // PaidSponsorFeature,
 } from "@/src/components/shared";
 import { FeatureVehicles } from "./components/FeatureVehicles";
 import { Filter } from "./components/Filter";
@@ -77,11 +77,12 @@ export const AllVehicles = ({
           <ResponsiveContainer backgroundColor="greyLight">
             <Flex direction="column" paddingY="md" gap="sm">
               <Typography variant="h3" color="error">
-                Error fetching bikes
+                Error fetching {category()}
               </Typography>
 
               <Typography color="error">
-                Please try again a later time
+                Please try again a later time or contact support if the issue
+                persists.
               </Typography>
               {error === typeof "string" && (
                 <Typography color="error">{error}</Typography>
@@ -148,11 +149,11 @@ export const AllVehicles = ({
                   featuredCarsWithDealerDetails={featruredVehicles}
                 />
 
-                <PaidSponsorFeature
+                {/* <PaidSponsorFeature
                   href={EXTERNAL_URLS.ROSSI_TYRES_URL}
                   imgSrc="/images/sponsors/rossi-tyres-sm.jpg"
                   imgAlt="Rossi Tyres Logistics"
-                />
+                /> */}
 
                 <Divider color="grey" marginTop="md" maxWidth="100rem" />
 
@@ -166,14 +167,14 @@ export const AllVehicles = ({
           </ResponsiveContainer>
         )}
 
-        {successStatus && vehicles.length > 0 && (
+        {/* {successStatus && vehicles.length > 0 && (
           <PaidSponsorFeature
             href={EXTERNAL_URLS.ROAD_BOYS_LOGISTICS_URL}
             imgSrc="/images/sponsors/road-boys-logistics.jpg"
             imgAlt="Road Boys Logistics"
             showHeading
           />
-        )}
+        )} */}
       </Container>
     </>
   );

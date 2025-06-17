@@ -4,11 +4,12 @@ import { ResponsiveContainer, Typography } from "../../ui";
 import { StatusCode } from "@/src/utils";
 import { Profile } from "@/src/types";
 import { PostgrestError } from "@supabase/supabase-js";
-import { PaidSponsorFeature } from "../../shared";
+// import { PaidSponsorFeature } from "../../shared";
 import { filterAndSortByDealers } from "@/src/utils";
 import { SUBSCRIPTION_FEATURE_TYPES } from "@/src/constants/values";
 import { Filter, DealerCard } from "./components";
-import { EXTERNAL_URLS } from "@/src/constants/urls";
+import Link from "next/link";
+// import { EXTERNAL_URLS } from "@/src/constants/urls";
 
 type AllDealersProps = {
   dealers: Profile[];
@@ -58,11 +59,28 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
 
         {successStatus && dealers?.length === 0 && (
           <ResponsiveContainer backgroundColor="greyLight">
-            <Box paddingY="lg">
+            <Flex direction="column" gap="sm" paddingY="lg">
               <Typography variant="h4" align="center">
-                No dealers found
+                We currently don&#39;t have any sellers available for you to
+                browse.
               </Typography>
-            </Box>
+              <Typography variant="h4" align="center">
+                Please check back later or contact us if you are a dealer and
+                would like to be listed.
+              </Typography>
+              <Typography variant="h4" align="center">
+                <Typography
+                  as="span"
+                  weight="bold"
+                  color="primary"
+                  hoverEffect="color"
+                  style={{ fontSize: "inherit" }}
+                >
+                  <Link href="/sign-up">Subscribe now</Link>
+                </Typography>{" "}
+                to become a featured dealer and showcase your business here!
+              </Typography>
+            </Flex>
           </ResponsiveContainer>
         )}
 
@@ -127,7 +145,7 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
           </ResponsiveContainer>
         )}
 
-        <Box paddingY="lg">
+        {/* <Box paddingY="lg">
           <Typography variant="h3" align="center">
             Our Sponsors
           </Typography>
@@ -144,7 +162,7 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
               imgAlt="Road Boys Logistics"
             />
           </Flex>
-        </Box>
+        </Box> */}
       </Container>
     </>
   );

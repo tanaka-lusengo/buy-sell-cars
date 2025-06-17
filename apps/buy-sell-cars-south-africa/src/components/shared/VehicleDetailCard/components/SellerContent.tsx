@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { Typography } from "@/src/components/ui";
 import { Profile, VehicleWithImage } from "@/src/types";
-import { formatPhoneNumberToZimCountryCode } from "@/src/utils";
+import { formatPhoneNumberToSaCountryCode } from "@/src/utils";
 import { HStack, VStack } from "@/styled-system/jsx";
 import { BASE_URL } from "@/src/constants/environments";
 
@@ -20,7 +20,7 @@ export const SellerContent = ({ vehicle, owner }: SellerContentProps) => {
   const vehicleUrl = `${BASE_URL}${pathname}`;
 
   const formatedNumber = useMemo(
-    () => formatPhoneNumberToZimCountryCode(owner?.phone),
+    () => formatPhoneNumberToSaCountryCode(owner?.phone),
     [owner?.phone]
   );
 
@@ -118,7 +118,7 @@ export const SellerContent = ({ vehicle, owner }: SellerContentProps) => {
           title="location"
         ></i>
         <Typography>
-          {owner?.address} {vehicle?.location} Zimbabwe
+          {owner?.address} {vehicle?.location} South Africa
         </Typography>
       </HStack>
     </VStack>

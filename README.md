@@ -8,7 +8,7 @@ With instances in [Zimbabwe](https://buysellcars.co.zw/) & South Africa (WIP)
 
 - **Turbopack**
 - **pnpm**
-- **Backend / Auth / Database:** Supabase
+- **Backend / Auth / Database:** [Supabase](https://supabase.com/)
 - **Payments:** [Paystack](https://paystack.com/)
 - **Styling:** Panda CSS
 - **Typescript**

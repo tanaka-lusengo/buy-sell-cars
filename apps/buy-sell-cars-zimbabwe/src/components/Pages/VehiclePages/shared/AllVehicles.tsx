@@ -77,11 +77,12 @@ export const AllVehicles = ({
           <ResponsiveContainer backgroundColor="greyLight">
             <Flex direction="column" paddingY="md" gap="sm">
               <Typography variant="h3" color="error">
-                Error fetching bikes
+                Error fetching {category()}
               </Typography>
 
               <Typography color="error">
-                Please try again a later time
+                Please try again a later time or contact support if the issue
+                persists.
               </Typography>
               {error === typeof "string" && (
                 <Typography color="error">{error}</Typography>

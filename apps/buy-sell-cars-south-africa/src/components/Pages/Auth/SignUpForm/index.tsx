@@ -98,7 +98,7 @@ export const SignUpForm = () => {
               label="Phone number"
               name="phone"
               type="tel"
-              placeholder="+263..."
+              placeholder="+27..."
               register={register}
               errors={errors}
             />
