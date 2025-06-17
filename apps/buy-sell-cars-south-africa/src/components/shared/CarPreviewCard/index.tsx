@@ -12,7 +12,7 @@ import { createClient } from "@/supabase/client";
 import { useAuth } from "@/src/context/auth-context";
 import { logAdClick } from "@/src/server/actions/analytics";
 import { useFileUploadHelpers } from "@/src/hooks";
-import { formatPriceToDollars, formatMileage, getPageName } from "@/src/utils";
+import { formatPriceToRands, formatMileage, getPageName } from "@/src/utils";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 
 type CarPreviewCardProps = {
@@ -25,7 +25,7 @@ export const CarPreviewCard = ({ car, isRental }: CarPreviewCardProps) => {
 
   const { getPublicUrl } = useFileUploadHelpers(supabase);
 
-  const carPrice = useMemo(() => formatPriceToDollars(car.price), [car.price]);
+  const carPrice = useMemo(() => formatPriceToRands(car.price), [car.price]);
   const carMileage = useMemo(
     () => formatMileage(car.mileage || 0),
     [car.mileage]

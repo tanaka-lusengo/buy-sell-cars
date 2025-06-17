@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 
-export const formatPriceToDollars = (price: number): string => {
+export const formatPriceToRands = (price: number): string => {
   // Create a formatter for South African Rand currency using en-ZA locale
   const formatter = new Intl.NumberFormat("en-ZA", {
     style: "currency",

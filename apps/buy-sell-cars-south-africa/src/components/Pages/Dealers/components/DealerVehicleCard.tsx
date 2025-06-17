@@ -9,7 +9,7 @@ import { Typography } from "@/src/components/ui";
 import { Profile, VehicleWithImage } from "@/src/types";
 import { createClient } from "@/supabase/client";
 import { useFileUploadHelpers } from "@/src/hooks";
-import { formatPriceToDollars, formatMileage, getPageName } from "@/src/utils";
+import { formatPriceToRands, formatMileage, getPageName } from "@/src/utils";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 import Link from "next/link";
 import { useAuth } from "@/src/context/auth-context";
@@ -31,7 +31,7 @@ export const DealerVehicleCard = ({
   const { getPublicUrl } = useFileUploadHelpers(supabase);
 
   const vehiclePrice = useMemo(
-    () => formatPriceToDollars(vehicle.price),
+    () => formatPriceToRands(vehicle.price),
     [vehicle.price]
   );
   const vehicleMileage = useMemo(

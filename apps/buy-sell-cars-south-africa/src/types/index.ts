@@ -17,7 +17,6 @@ const {
   condition_type,
   fuel_type,
   gear_box_type,
-  subscription_type,
   vehicle_category_type,
   listing_category_type,
 } = Constants.public.Enums;
@@ -30,8 +29,6 @@ export type ConditionType = typeof condition_type;
 export type FuelType = typeof fuel_type;
 
 export type GearBoxType = typeof gear_box_type;
-
-export type SubscriptionType = typeof subscription_type;
 
 export type VehicleCategoryType = typeof vehicle_category_type;
 
@@ -67,15 +64,16 @@ export type Vehicle = Tables<"vehicles">;
 
 export type VehicleImage = Tables<"vehicle_images">;
 
-export type Subscription = Tables<"subscriptions">;
-
 // Server Actions Types
 export type AddVehicleDataType = Omit<
   Vehicle,
   "id" | "created_at" | "updated_at" | "is_feature"
 >;
 
-export type AddVehicleImageDataType = Omit<VehicleImage, "id" | "created_at">;
+export type AddVehicleImageDataType = Omit<
+  VehicleImage,
+  "id" | "created_at" | "updated_at"
+>;
 
 export type EditVehicleDataType = Partial<
   Omit<Vehicle, "id" | "created_at" | "updated_at">
@@ -93,11 +91,6 @@ export type VehicleWithImageAndDealer = VehicleWithImage & {
     subscription: string | null | undefined;
   };
 };
-
-export type LogSubscription = Omit<
-  Subscription,
-  "id" | "created_at" | "updated_at" | "cancel_time"
->;
 
 // Storage Bucket Types
 export type StorageBucket =

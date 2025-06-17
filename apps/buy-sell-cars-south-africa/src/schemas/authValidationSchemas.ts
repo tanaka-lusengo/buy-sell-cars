@@ -25,7 +25,7 @@ export const signUpValidationSchema = z
       message: "Enter a valid phone number",
     }),
     categoryType: z
-      .enum(["individual", "dealership"] satisfies CategoryType, {
+      .enum(["individual", "dealership", "guest"] satisfies CategoryType, {
         errorMap: () => ({ message: "Category is required" }),
       })
       .optional(),

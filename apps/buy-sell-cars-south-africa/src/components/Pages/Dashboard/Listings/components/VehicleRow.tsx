@@ -7,7 +7,7 @@ import {
   VehicleWithImage,
 } from "@/src/types";
 import {
-  formatPriceToDollars,
+  formatPriceToRands,
   formatMileage,
   formatToReadableString,
 } from "@/src/utils";
@@ -199,7 +199,7 @@ export const VehicleRow = ({
             let displayValue: string;
 
             if (field === "price") {
-              displayValue = formatPriceToDollars(value as number);
+              displayValue = formatPriceToRands(value as number);
             } else if (field === "mileage") {
               displayValue = formatMileage(value as number);
             } else {

@@ -70,19 +70,10 @@ export const AddListing = ({ profile }: { profile: Profile }) => {
   const [showLoader, setShowLoader] = useState(false);
 
   const listingCategory = watch("listingCategory");
-  const vehicleCategory = watch("vehicleCategory");
 
   const isRental = useMemo(
     () => listingCategory === "rental",
     [listingCategory]
-  );
-  const isUsedCar = useMemo(
-    () => vehicleCategory === "used_car",
-    [vehicleCategory]
-  );
-  const isNewCar = useMemo(
-    () => vehicleCategory === "new_car",
-    [vehicleCategory]
   );
 
   // Cleanup previews to avoid memory leaks
@@ -386,31 +377,13 @@ export const AddListing = ({ profile }: { profile: Profile }) => {
               <option key="condition" value={""}>
                 Condition
               </option>
-              {isUsedCar && (
-                <option
-                  key={CAR_CONDITIONS[1]}
-                  value={toSnakeCase(CAR_CONDITIONS[1])}
-                >
-                  {CAR_CONDITIONS[1]}
-                </option>
-              )}
-              {isNewCar && (
-                <option
-                  key={CAR_CONDITIONS[0]}
-                  value={toSnakeCase(CAR_CONDITIONS[0])}
-                >
-                  {CAR_CONDITIONS[0]}
-                </option>
-              )}
-              {!isUsedCar &&
-                !isNewCar &&
-                CAR_CONDITIONS.map((condition) => {
-                  return (
-                    <option key={condition} value={toSnakeCase(condition)}>
-                      {condition}
-                    </option>
-                  );
-                })}
+              {CAR_CONDITIONS.map((condition) => {
+                return (
+                  <option key={condition} value={toSnakeCase(condition)}>
+                    {condition}
+                  </option>
+                );
+              })}
             </SelectField>
           </Grid>
 
