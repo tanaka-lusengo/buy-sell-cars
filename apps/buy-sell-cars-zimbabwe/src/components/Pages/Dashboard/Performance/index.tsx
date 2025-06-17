@@ -28,12 +28,14 @@ export const Performance = ({ profile }: { profile: Profile }) => {
             <Typography>
               To gain access to Performance metrics you must subscribe to either
               our <b>&#39;Growth Accelerator&#39;</b> or{" "}
-              <b>&#39;Dealership Dominator&#39;</b> Packages
+              <b>&#39;Dealership Dominator&#39;</b> Packages.
             </Typography>
 
-            <Button onClick={() => push("/dashboard/subscriptions/select")}>
-              Upgrade Now
-            </Button>
+            <Flex justify="center">
+              <Button onClick={() => push("/dashboard/subscriptions/select")}>
+                Upgrade Now
+              </Button>
+            </Flex>
 
             <InfoFooter />
           </Flex>

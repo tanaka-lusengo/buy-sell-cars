@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Typography, Button } from "@/src/components/ui";
 import { subscribeToPlan } from "@/src/server/actions/payment";
 import { Profile } from "@/src/types";
-import { handleClientError, StatusCode } from "@/src/utils";
+import { handleClientError, StatusCode, formatPriceToRands } from "@/src/utils";
 import { Box, Flex } from "@/styled-system/jsx";
 
 type Link = {
@@ -96,7 +96,7 @@ export const SubscriptionCard = ({
             color="primaryDark"
             style={{ fontSize: "inherit" }}
           >
-            ${price}/month
+            {formatPriceToRands(price)}/month
           </Typography>
         </Typography>
 

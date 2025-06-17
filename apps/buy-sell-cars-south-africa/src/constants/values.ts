@@ -18,23 +18,18 @@ export const VEHICLE_CATEGORIES = [
 export const LISTING_TYPES = ["Rental", "For Sale"];
 
 export const LOCATIONS = [
-  "Bulawayo",
-  "Gweru",
-  "Marondera",
-  "Masvingo",
-  "Mutare",
-  "Msasa",
-  "Ruwa",
-  "Harare",
+  "Eastern Cape",
+  "Western Cape",
+  "Free State",
+  "Gauteng",
+  "KwaZulu-Natal",
+  "Limpopo",
+  "Mpumalanga",
+  "North West Province",
+  "Northern Cape",
 ];
 
-export const DEALER_LOGOS_TO_CONTAIN = [
-  "Welly Motors",
-  "August Auto Zimbabwe",
-  "Willy's Auto Group",
-  "JP Motors",
-  "Kenmac motors",
-];
+export const DEALER_LOGOS_TO_CONTAIN = ["temp"];
 
 // PayPal Subscription (Live) Values
 export enum SubscriptionTypeNames {

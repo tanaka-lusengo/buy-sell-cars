@@ -15,7 +15,7 @@ import {
 } from "@/src/types";
 import { createClient } from "@/supabase/client";
 import { useFileUploadHelpers } from "@/src/hooks";
-import { formatPriceToDollars, formatMileage, getPageName } from "@/src/utils";
+import { formatPriceToRands, formatMileage, getPageName } from "@/src/utils";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 import { logAdClick } from "@/src/server/actions/analytics";
 import { useAuth } from "@/src/context/auth-context";
@@ -44,7 +44,7 @@ export const FeaturePreviewCard = ({
   const { getPublicUrl } = useFileUploadHelpers(supabase);
 
   const vehiclePrice = useMemo(
-    () => formatPriceToDollars(vehicle.price || 0),
+    () => formatPriceToRands(vehicle.price || 0),
     [vehicle.price]
   );
   const vehicleMileage = useMemo(

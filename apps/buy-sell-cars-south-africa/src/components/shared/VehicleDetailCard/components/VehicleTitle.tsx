@@ -1,6 +1,6 @@
 import { Typography } from "@/src/components/ui";
 import { VehicleWithImage } from "@/src/types";
-import { formatPriceToDollars } from "@/src/utils";
+import { formatPriceToRands } from "@/src/utils";
 import { Flex } from "@/styled-system/jsx";
 import { useMemo } from "react";
 
@@ -14,7 +14,7 @@ export const VehicleTitle = ({
   flexDirection = "column",
 }: VehicleTitleProps) => {
   const vehiclePrice = useMemo(
-    () => formatPriceToDollars(vehicle.price),
+    () => formatPriceToRands(vehicle.price),
     [vehicle.price]
   );
 

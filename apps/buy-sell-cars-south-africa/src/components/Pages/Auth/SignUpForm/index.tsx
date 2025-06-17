@@ -139,7 +139,7 @@ export const SignUpForm = () => {
 
           <>
             <SelectField
-              label="Location"
+              label="Province"
               name="location"
               register={register}
               errors={errors}
