@@ -6,7 +6,7 @@ A modern rebuild of [BuySellCars.co.zw](https://buysellcars.co.zw/), a platform 
 
 - **Turbopack**
 - **pnpm**
-- **Backend / Auth / Database:** Supabase
+- **Backend / Auth / Database:** [Supabase](https://supabase.com/)
 - **Payments:** [Paystack](https://paystack.com/)
 - **Styling:** Panda CSS
 - **Typescript**
