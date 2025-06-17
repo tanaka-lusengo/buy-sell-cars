@@ -1,10 +1,9 @@
 "use client";
 
 import { Flex } from "@/styled-system/jsx";
-import { useRouter } from "next/navigation";
 import { ViewClickedAds } from "./components/ViewClickedAds";
 import { MyProfileViewsCard } from "./components/ViewProfileViews";
-import { Button, ResponsiveContainer, Typography } from "@/src/components/ui";
+import { ResponsiveContainer, Typography } from "@/src/components/ui";
 import { type Profile } from "@/src/types";
 import { InfoFooter } from "../components";
 
@@ -12,8 +11,6 @@ export const Performance = ({ profile }: { profile: Profile }) => {
   const { id, user_category } = profile;
 
   const isIndividual = user_category === "individual";
-
-  const { push } = useRouter();
 
   return (
     <ResponsiveContainer>

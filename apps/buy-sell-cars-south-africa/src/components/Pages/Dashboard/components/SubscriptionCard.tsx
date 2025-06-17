@@ -3,7 +3,7 @@
 import { JSX, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Typography, Button } from "@/src/components/ui";
-import { subscribeToPlan } from "@/src/server/actions/payment";
+// import { subscribeToPlan } from "@/src/server/actions/payment";
 import { Profile } from "@/src/types";
 import { handleClientError, StatusCode, formatPriceToRands } from "@/src/utils";
 import { Box, Flex } from "@/styled-system/jsx";
@@ -38,6 +38,7 @@ export const SubscriptionCard = ({
     setIsLoading(true);
 
     try {
+      // @ts-expect-error: TODO: Uncomment when the server action is implemented
       const { data, status, error } = await subscribeToPlan(profile, planId);
 
       if (status !== StatusCode.SUCCESS || error || !data) {

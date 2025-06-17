@@ -70,7 +70,10 @@ export type AddVehicleDataType = Omit<
   "id" | "created_at" | "updated_at" | "is_feature"
 >;
 
-export type AddVehicleImageDataType = Omit<VehicleImage, "id" | "created_at">;
+export type AddVehicleImageDataType = Omit<
+  VehicleImage,
+  "id" | "created_at" | "updated_at"
+>;
 
 export type EditVehicleDataType = Partial<
   Omit<Vehicle, "id" | "created_at" | "updated_at">

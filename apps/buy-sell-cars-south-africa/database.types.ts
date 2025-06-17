@@ -12,26 +12,26 @@ export type Database = {
       profile_views: {
         Row: {
           id: string;
-          profile_id: string;
+          profile_owner_id: string;
           viewed_at: string | null;
           viewer_id: string | null;
         };
         Insert: {
           id?: string;
-          profile_id: string;
+          profile_owner_id: string;
           viewed_at?: string | null;
           viewer_id?: string | null;
         };
         Update: {
           id?: string;
-          profile_id?: string;
+          profile_owner_id?: string;
           viewed_at?: string | null;
           viewer_id?: string | null;
         };
         Relationships: [
           {
-            foreignKeyName: "profile_views_profile_id_fkey";
-            columns: ["profile_id"];
+            foreignKeyName: "profile_views_profile_owner_id_fkey";
+            columns: ["profile_owner_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
             referencedColumns: ["id"];

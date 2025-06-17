@@ -53,7 +53,7 @@ export const updateProfileAdminValidationSchema = z.object({
 
 export const addVehicleValidationSchema = z.object({
   listingCategory: z.enum(
-    ["rental", "for_sale"] satisfies ListingCategoryType,
+    ["for_sale", "rental"] satisfies ListingCategoryType,
     {
       errorMap: () => ({ message: "Listing type is required" }),
     }
@@ -97,16 +97,12 @@ export const addVehicleValidationSchema = z.object({
   }),
   vehicleCategory: z.enum(
     [
-      "car_rental",
-      "new_car",
-      "used_car",
       "boat",
-      "motorcycle",
+      "bike",
+      "car",
       "truck",
       "agriculture",
       "earth_moving",
-      "car",
-      "bike",
     ] satisfies VehicleCategoryType,
     {
       errorMap: () => ({ message: "Vehicle category is required" }),
@@ -131,7 +127,7 @@ export const addVehicleValidationSchema = z.object({
 export const editVehicleValidationSchema = z.object({
   isActive: z.string().optional(),
   listingCategory: z
-    .enum(["rental", "for_sale"] satisfies ListingCategoryType, {
+    .enum(["for_sale", "rental"] satisfies ListingCategoryType, {
       errorMap: () => ({ message: "Listing type is required" }),
     })
     .optional(),
@@ -192,16 +188,12 @@ export const editVehicleValidationSchema = z.object({
   vehicleCategory: z
     .enum(
       [
-        "car_rental",
-        "new_car",
-        "used_car",
         "boat",
-        "motorcycle",
+        "bike",
+        "car",
         "truck",
         "agriculture",
         "earth_moving",
-        "car",
-        "bike",
       ] satisfies VehicleCategoryType,
       {
         errorMap: () => ({ message: "Vehicle category is required" }),
