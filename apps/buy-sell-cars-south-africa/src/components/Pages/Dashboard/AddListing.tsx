@@ -351,7 +351,8 @@ export const AddListing = ({ profile }: { profile: Profile }) => {
             <InputField
               name="price"
               type="number"
-              placeholder={`Price ($) ${isRental ? "(Per day)" : "(Total)"}`}
+              decimalNumbers
+              placeholder={`Price (R) ${isRental ? "(Per day)" : "(Total)"}`}
               register={register}
               errors={errors}
             />

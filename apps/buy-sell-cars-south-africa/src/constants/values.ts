@@ -33,6 +33,7 @@ export const DEALER_LOGOS_TO_CONTAIN = ["temp"];
 
 // PayPal Subscription (Live) Values
 export enum SubscriptionTypeNames {
+  DealershipFreeTrialPeriod = "Dealership Free Trial Period",
   StarterShowcase = "Starter Showcase",
   GrowthAccelerator = "Growth Accelerator",
   DealershipDominator = "Dealership Dominator",

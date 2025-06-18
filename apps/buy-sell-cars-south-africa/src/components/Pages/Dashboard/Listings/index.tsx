@@ -206,7 +206,10 @@ export const Listings = ({
   let maxVehicles = 0;
 
   if (profile?.user_category === "dealership") {
-    if (profile?.subscription === SubscriptionTypeNames.StarterShowcase) {
+    if (
+      profile?.subscription === SubscriptionTypeNames.StarterShowcase ||
+      profile?.subscription === SubscriptionTypeNames.DealershipFreeTrialPeriod
+    ) {
       maxVehicles = 25;
     } else if (
       profile?.subscription === SubscriptionTypeNames.GrowthAccelerator

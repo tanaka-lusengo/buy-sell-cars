@@ -202,7 +202,7 @@ export const SignUpForm = () => {
       ) : (
         <Stack alignItems="center" marginTop="md" gap="md">
           <Typography variant="h4" align="center">
-            Check your email for a confirmation link.
+            Now sign in to your account to get started.
           </Typography>
 
           <Link href="/sign-in">

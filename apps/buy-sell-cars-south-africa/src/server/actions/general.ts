@@ -45,16 +45,15 @@ export const addVehicle = async ({ profile, formData }: AddVehicleProps) => {
       return { data: null, status: StatusCode.BAD_REQUEST, error: countError };
     }
 
-    console.log(
-      `Current vehicle count for profile ${profile.dealership_name}:`,
-      count
-    );
-
     // 2. Determine max allowed vehicles based on user category and subscription
     let maxVehicles = 0;
 
     if (profile?.user_category === "dealership") {
-      if (profile?.subscription === SubscriptionTypeNames.StarterShowcase) {
+      if (
+        profile?.subscription === SubscriptionTypeNames.StarterShowcase ||
+        profile?.subscription ===
+          SubscriptionTypeNames.DealershipFreeTrialPeriod
+      ) {
         maxVehicles = 25;
       } else if (
         profile?.subscription === SubscriptionTypeNames.GrowthAccelerator
