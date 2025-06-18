@@ -14,6 +14,7 @@ type InputFieldProps<TFormValues extends FieldValues> = {
   label?: string;
   type?: string;
   defaultValue?: string | number;
+  decimalNumbers?: boolean;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 export const InputField = <TFormValues extends FieldValues>({
@@ -24,6 +25,7 @@ export const InputField = <TFormValues extends FieldValues>({
   errors,
   register,
   defaultValue,
+  decimalNumbers = false,
   ...rest
 }: InputFieldProps<TFormValues>) => {
   return (
@@ -37,7 +39,7 @@ export const InputField = <TFormValues extends FieldValues>({
       <Styled.InputField
         key={name}
         type={type}
-        step={type === "number" ? "0.01" : undefined}
+        step={type === "number" ? (decimalNumbers ? "0.01" : "1") : undefined}
         placeholder={placeholder}
         defaultValue={defaultValue}
         {...register(name as Path<TFormValues>)}

@@ -360,6 +360,7 @@ export const AddListing = ({ profile }: { profile: Profile }) => {
             <InputField
               name="price"
               type="number"
+              decimalNumbers
               placeholder={`Price ($) ${isRental ? "(Per day)" : "(Total)"}`}
               register={register}
               errors={errors}
