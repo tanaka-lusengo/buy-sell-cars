@@ -91,6 +91,10 @@ export const signUp = async (formData: SignUpFormType) => {
       dealership_name: parsedData.dealershipName || null,
       location: parsedData.location || null,
       description: parsedData.description || null,
+      subscription:
+        parsedData.categoryType === "dealership"
+          ? "Dealership Free Trial Period"
+          : null,
     };
 
     // Sign up with Supabase Auth and pass user data to the profiles table
