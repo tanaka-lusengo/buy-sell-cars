@@ -70,7 +70,7 @@ export const addVehicleValidationSchema = z.object({
   price: z
     .string()
     .transform((val) => Number(val))
-    .refine((val) => val >= 1, { message: "Price be greater than R1" })
+    .refine((val) => val >= 1, { message: "Price must be greater than R1" })
     .transform((val) => String(val)),
   mileage: z
     .string()
