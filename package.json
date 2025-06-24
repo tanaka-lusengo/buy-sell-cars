@@ -23,7 +23,7 @@
     "clean-next": "rm -rf .next */.next */*/.next",
     "clean-turbo": "rm -rf .turbo */.turbo */*/.turbo",
     "dev": "turbo run dev --parallel",
-    "format": "prettier . --write \"**/*.{js,jsx,ts,tsx,md}\"",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
     "lint": "turbo run lint",
     "lint:packages": "syncpack lint --dependency-types prod,dev",
     "lint:packages:fix": "syncpack fix",
