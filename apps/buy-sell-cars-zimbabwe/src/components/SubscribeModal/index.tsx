@@ -1,16 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Box, Flex, VStack } from "@/styled-system/jsx";
-import { Button, Typography } from "@/src/components/ui";
-import { InputField } from "../FormComponents";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubscribeFormType } from "@/src/types";
-import { subscribeValidationSchema } from "@/src/schemas";
-import { handleClientError, StatusCode, toastNotifySuccess } from "@/src/utils";
-import { subscribe, hasAlreadySubscribed } from "@/src/server/actions/auth";
+import { useForm } from "react-hook-form";
+import { InputField } from "~bsc-shared/components";
+import { Button, Typography } from "~bsc-shared/ui";
+import {
+  handleClientError,
+  StatusCode,
+  toastNotifySuccess,
+} from "~bsc-shared/utils";
 import { useAuth } from "@/src/context/auth-context";
+import { subscribeValidationSchema } from "@/src/schemas";
+import { subscribe, hasAlreadySubscribed } from "@/src/server/actions/auth";
+import { SubscribeFormType } from "@/src/types";
+import { Box, Flex, VStack } from "@/styled-system/jsx";
 
 export const SubscribeModal = () => {
   const { profile } = useAuth();

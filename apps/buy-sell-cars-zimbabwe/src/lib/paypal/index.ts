@@ -1,10 +1,10 @@
-import { type Profile } from "../../types";
 import {
   BASE_URL,
   PAYPAL_CLIENT_ID,
   PAYPAL_CLIENT_SECRET,
   PAYPAL_API_URL,
 } from "@/src/constants/environments";
+import { type Profile } from "../../types";
 
 export const getAccessToken = async () => {
   const credentials = Buffer.from(

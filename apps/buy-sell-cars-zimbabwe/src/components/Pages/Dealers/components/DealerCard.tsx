@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Typography } from "~bsc-shared/ui";
 import defaultUserIcon from "@/public/images/default-user-icon.png";
-import { Profile } from "@/src/types";
-import { useFileUploadHelpers } from "@/src/hooks";
-import { createClient } from "@/supabase/client";
-import { Box, HStack } from "@/styled-system/jsx";
-import { Typography } from "@/src/components/ui";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
+import { useFileUploadHelpers } from "@/src/hooks";
+import { Profile } from "@/src/types";
+import { Box, HStack } from "@/styled-system/jsx";
+import { createClient } from "@/supabase/client";
 
 type DealerCardProps = {
   dealer: Profile;

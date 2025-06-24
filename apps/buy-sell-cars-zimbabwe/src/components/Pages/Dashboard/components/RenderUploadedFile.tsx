@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { Flex } from "@/styled-system/jsx";
-import { Typography } from "@/src/components/ui";
+import { Typography } from "~bsc-shared/ui";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
+import { Flex } from "@/styled-system/jsx";
 
 type RenderUploadedFileProps = {
   filePath: string | null;

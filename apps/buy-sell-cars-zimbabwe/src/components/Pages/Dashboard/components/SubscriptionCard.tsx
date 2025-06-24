@@ -2,10 +2,10 @@
 
 import { JSX, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Typography, Button } from "@/src/components/ui";
+import { Typography, Button } from "~bsc-shared/ui";
+import { handleClientError, StatusCode } from "~bsc-shared/utils";
 import { subscribeToPlan } from "@/src/server/actions/payment";
 import { Profile } from "@/src/types";
-import { handleClientError, StatusCode } from "@/src/utils";
 import { Box, Flex } from "@/styled-system/jsx";
 
 type Link = {

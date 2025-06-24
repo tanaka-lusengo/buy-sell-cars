@@ -1,10 +1,10 @@
-import { Container, Box, Flex } from "@/styled-system/jsx";
-import { ResponsiveContainer, Typography } from "../../../ui";
-import { VehicleDetailCard } from "@/src/components/shared";
-import { generateIcon, StatusCode } from "@/src/utils";
-import { Profile, VehicleCategoryType, VehicleWithImage } from "@/src/types";
 import { PostgrestError } from "@supabase/supabase-js";
 import Link from "next/link";
+import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
+import { generateIcon, StatusCode } from "~bsc-shared/utils";
+import { VehicleDetailCard } from "@/src/components/shared";
+import { Profile, VehicleCategoryType, VehicleWithImage } from "@/src/types";
+import { Container, Box, Flex } from "@/styled-system/jsx";
 
 type VehicleDetailsProps = {
   vehicleCategory: VehicleCategoryType[number];

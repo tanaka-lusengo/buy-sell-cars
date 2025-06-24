@@ -1,11 +1,11 @@
-import { ParamsWithId } from "@/src/types/next-types";
+import { ParamsWithId } from "~bsc-shared/types/next-types";
+import { ViewerTracker } from "@/src/components/Analytics";
+import { DealerDetails } from "@/src/components/Pages/Dealers";
+import { fetchUserAndProfile } from "@/src/server/actions/auth";
 import {
   getAllVehiclesByOwnerId,
   getProfileById,
 } from "@/src/server/actions/general";
-import { fetchUserAndProfile } from "@/src/server/actions/auth";
-import { ViewerTracker } from "@/src/components/Analytics";
-import { DealerDetails } from "@/src/components/Pages/Dealers";
 
 const DealerDetailPage = async ({ params }: ParamsWithId) => {
   const { id } = await params;

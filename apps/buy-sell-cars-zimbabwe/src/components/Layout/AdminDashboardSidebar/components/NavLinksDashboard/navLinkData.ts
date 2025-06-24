@@ -1,4 +1,4 @@
-import { generateIcon } from "@/src/utils";
+import { generateIcon } from "~bsc-shared/utils";
 
 export const navLinksDashboard = [
   {

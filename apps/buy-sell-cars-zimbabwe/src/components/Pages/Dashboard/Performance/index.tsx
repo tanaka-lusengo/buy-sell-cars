@@ -1,12 +1,12 @@
 "use client";
 
-import { Flex } from "@/styled-system/jsx";
 import { useRouter } from "next/navigation";
+import { Button, ResponsiveContainer, Typography } from "~bsc-shared/ui";
+import { type Profile } from "@/src/types";
+import { Flex } from "@/styled-system/jsx";
+import { InfoFooter } from "../components";
 import { ViewClickedAds } from "./components/ViewClickedAds";
 import { MyProfileViewsCard } from "./components/ViewProfileViews";
-import { Button, ResponsiveContainer, Typography } from "@/src/components/ui";
-import { type Profile } from "@/src/types";
-import { InfoFooter } from "../components";
 
 export const Performance = ({ profile }: { profile: Profile }) => {
   const { id, user_category } = profile;

@@ -1,12 +1,12 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import { Typography } from "~bsc-shared/ui";
 import defaultUserIcon from "@/public/images/default-user-icon.png";
+import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 import { useFileUploadHelpers } from "@/src/hooks";
 import { Profile } from "@/src/types";
-import { createClient } from "@/supabase/client";
-import { Typography } from "@/src/components/ui";
 import { VStack, Box } from "@/styled-system/jsx";
-import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
+import { createClient } from "@/supabase/client";
 
 export const FeaturedDealersCard = ({ dealer }: { dealer: Profile }) => {
   const supabase = createClient();

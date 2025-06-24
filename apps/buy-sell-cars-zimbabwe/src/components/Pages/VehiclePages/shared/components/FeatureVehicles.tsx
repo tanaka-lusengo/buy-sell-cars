@@ -1,15 +1,15 @@
 "use client";
 
-import Link from "next/link";
-import { useAuth } from "@/src/context/auth-context";
-import { Typography } from "@/src/components/ui";
-import { FeaturePreviewCard } from "@/src/components/shared";
-import { usePrevNextCarouselFunctions } from "@/src/hooks";
-import { Box, Flex } from "@/styled-system/jsx";
 import useEmblaCarousel from "embla-carousel-react";
-import { formatToReadableString } from "@/src/utils";
-import { CorouselViewport } from "../../../Landing/common.styled";
+import Link from "next/link";
+import { usePrevNextCarouselFunctions } from "~bsc-shared/hooks";
+import { Typography } from "~bsc-shared/ui";
+import { formatToReadableString } from "~bsc-shared/utils";
+import { FeaturePreviewCard } from "@/src/components/shared";
+import { useAuth } from "@/src/context/auth-context";
 import { VehicleCategoryType, VehicleWithImageAndDealer } from "@/src/types";
+import { Box, Flex } from "@/styled-system/jsx";
+import { CorouselViewport } from "../../../Landing/common.styled";
 
 type FeatureVehiclesProps = {
   vehicleCategory: VehicleCategoryType[number];

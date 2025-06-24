@@ -1,14 +1,14 @@
 "use client";
 
-import Link from "next/link";
-import { Typography } from "../../ui";
-import { Box, Flex } from "@/styled-system/jsx";
-import { Profile } from "@/src/types";
-import { StatusCode } from "@/src/utils";
 import { PostgrestError } from "@supabase/supabase-js";
-import { CorouselViewport } from "./common.styled";
-import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
+import useEmblaCarousel from "embla-carousel-react";
+import Link from "next/link";
+import { Typography } from "~bsc-shared/ui";
+import { StatusCode } from "~bsc-shared/utils";
+import { Profile } from "@/src/types";
+import { Box, Flex } from "@/styled-system/jsx";
+import { CorouselViewport } from "./common.styled";
 import { FeaturedDealersCard } from "./components";
 
 type FeaturedDealersSectionProps = {

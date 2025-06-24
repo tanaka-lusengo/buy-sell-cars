@@ -1,8 +1,8 @@
-import { Typography } from "@/src/components/ui";
+import { useMemo } from "react";
+import { Typography } from "~bsc-shared/ui";
 import { VehicleWithImage } from "@/src/types";
 import { formatPriceToDollars } from "@/src/utils";
 import { Flex } from "@/styled-system/jsx";
-import { useMemo } from "react";
 
 type VehicleTitleProps = {
   vehicle: VehicleWithImage;

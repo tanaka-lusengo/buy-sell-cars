@@ -1,6 +1,6 @@
-import { Typography } from "@/src/components/ui";
+import { Typography } from "~bsc-shared/ui";
+import { formatMileage, capitaliseFirstChar } from "~bsc-shared/utils";
 import { VehicleWithImage } from "@/src/types";
-import { formatMileage, capitaliseFirstChar } from "@/src/utils";
 import { Flex, HStack, Box, Grid } from "@/styled-system/jsx";
 
 export const OverviewContent = ({ vehicle }: { vehicle: VehicleWithImage }) => {

@@ -1,8 +1,8 @@
 import { type Metadata } from "next";
-import { AddListing } from "@/src/components/Pages/Dashboard";
-import { fetchUserAndProfile } from "@/src/server/actions/auth";
 import { redirect } from "next/navigation";
+import { AddListing } from "@/src/components/Pages/Dashboard";
 import { PendingVerification } from "@/src/components/Pages/Dashboard/components";
+import { fetchUserAndProfile } from "@/src/server/actions/auth";
 
 export const metadata: Metadata = {
   title: "Add Listing",

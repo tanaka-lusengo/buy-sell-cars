@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Box, Flex, Grid, VStack } from "@/styled-system/jsx";
-import { Button, Typography } from "@/src/components/ui";
+import { Button, Typography } from "~bsc-shared/ui";
 import { InfoFooter } from "@/src/components/Pages/Dashboard/components";
+import { Box, Flex, Grid, VStack } from "@/styled-system/jsx";
 
 const PaymentCancelPage = () => {
   const { push } = useRouter();

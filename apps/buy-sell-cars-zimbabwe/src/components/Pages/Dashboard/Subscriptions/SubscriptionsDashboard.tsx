@@ -1,6 +1,6 @@
-import { Box, Flex } from "@/styled-system/jsx";
-import { ResponsiveContainer, Typography } from "@/src/components/ui";
+import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { Profile } from "@/src/types";
+import { Box, Flex } from "@/styled-system/jsx";
 import { InfoFooter } from "../components";
 
 export const SubscriptionsDashboard = ({ profile }: { profile: Profile }) => {

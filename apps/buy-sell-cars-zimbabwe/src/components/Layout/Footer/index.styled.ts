@@ -1,5 +1,5 @@
-import { styled } from "@/styled-system/jsx";
 import Link from "next/link";
+import { styled } from "@/styled-system/jsx";
 
 export const FooterContainer = styled("footer", {
   base: {

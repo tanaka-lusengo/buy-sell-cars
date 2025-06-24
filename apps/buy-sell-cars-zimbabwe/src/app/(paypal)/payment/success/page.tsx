@@ -1,13 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Box, Grid, Flex, VStack } from "@/styled-system/jsx";
-import { Typography, Button } from "@/src/components/ui";
+import { Typography, Button } from "~bsc-shared/ui";
+import { handleClientError, StatusCode } from "~bsc-shared/utils";
 import { SuspenseLoader } from "@/src/components/shared";
-import { handleClientError, StatusCode } from "@/src/utils";
 import { logPaypalSubscription } from "@/src/server/actions/payment";
+import { Box, Grid, Flex, VStack } from "@/styled-system/jsx";
 
 const SuccessPaymentPage = () => {
   const searchParams = useSearchParams();

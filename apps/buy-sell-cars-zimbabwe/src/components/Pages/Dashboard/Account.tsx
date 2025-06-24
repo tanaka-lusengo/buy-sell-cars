@@ -1,29 +1,29 @@
 "use client";
 
 import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { Profile, UpdateProfileFormType } from "@/src/types";
-import { Button, Typography } from "../../ui";
+import { useForm } from "react-hook-form";
 import {
   FileInputField,
   InputField,
   SelectField,
   TextareaField,
-} from "../../FormComponents";
-import { createClient } from "@/supabase/client";
-import { Box, Grid } from "@/styled-system/jsx";
-import { Form } from "./common.styled";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { handleClientError, toastNotifySuccess } from "@/src/utils";
+} from "~bsc-shared/components";
+import { Button, Typography } from "~bsc-shared/ui";
+import { handleClientError, toastNotifySuccess } from "~bsc-shared/utils";
+import { LOCATIONS } from "@/src/constants/values";
+import { useFileUploadHelpers } from "@/src/hooks";
 import {
   updateProfileFormDefaultValues,
   updateProfileValidationSchema,
 } from "@/src/schemas";
+import { Profile, UpdateProfileFormType } from "@/src/types";
+import { Box, Grid } from "@/styled-system/jsx";
+import { createClient } from "@/supabase/client";
+import { Form } from "./common.styled";
 import { RenderUploadedFile } from "./components/RenderUploadedFile";
-import { useFileUploadHelpers } from "@/src/hooks";
 import { getLabelText } from "./utils/getLabelText";
-import { LOCATIONS } from "@/src/constants/values";
 
 export const Account = ({ profile }: { profile: Profile | null }) => {
   const supabase = createClient();

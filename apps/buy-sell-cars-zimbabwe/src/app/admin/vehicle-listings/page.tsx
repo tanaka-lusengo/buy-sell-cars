@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
-import { getAllVehicles } from "@/src/server/actions/general";
 import { VehicleListings } from "@/src/components/Admin";
+import { getAllVehicles } from "@/src/server/actions/general";
 
 export const metadata: Metadata = {
   title: "Admin | Vehicle Management",

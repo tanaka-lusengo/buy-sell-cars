@@ -1,21 +1,21 @@
 "use client";
 
 import { useMemo } from "react";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { type infer as ZodInfer } from "zod";
-import { Flex, Grid } from "@/styled-system/jsx";
-import { SelectField } from "@/src/components/FormComponents";
-import { Button, Typography } from "@/src/components/ui";
-import { Form } from "./common.styled";
-import { filterValidationSchema } from "../schema";
+import { SelectField } from "~bsc-shared/components";
 import {
   CAR_CONDITIONS,
   FUEL_TYPES,
   GEARBOX_TYPES,
-  LOCATIONS,
-} from "@/src/constants/values";
-import { generatePrices, toSnakeCase } from "@/src/utils";
+} from "~bsc-shared/constants";
+import { Button, Typography } from "~bsc-shared/ui";
+import { generatePrices, toSnakeCase } from "~bsc-shared/utils";
+import { LOCATIONS } from "@/src/constants/values";
+import { Flex, Grid } from "@/styled-system/jsx";
+import { filterValidationSchema } from "../schema";
+import { Form } from "./common.styled";
 
 type FilterForm = ZodInfer<typeof filterValidationSchema>;
 
