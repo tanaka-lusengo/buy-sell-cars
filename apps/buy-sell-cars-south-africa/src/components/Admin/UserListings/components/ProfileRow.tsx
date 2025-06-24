@@ -1,18 +1,17 @@
 import Image from "next/image";
-import { Typography } from "@/src/components/ui";
-import { FileInputField } from "@/src/components/FormComponents";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { FileInputField } from "~bsc-shared/components/FormComponents";
+import { Typography } from "~bsc-shared/ui";
+import { formatToReadableString, formatDate } from "~bsc-shared/utils";
 import defaultUserIcon from "@/public/images/default-user-icon.png";
+import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 import {
   Profile,
   StorageBucket,
   UpdateProfileAdminFormType,
 } from "@/src/types";
-import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
-import { formatToReadableString } from "@/src/utils";
 import { Flex, Divider, Box, Grid } from "@/styled-system/jsx";
-import { formatDate } from "@/src/utils";
 import { ActionButtons } from "./ActionButtons";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { EditableInput } from "./EditableInput";
 
 type ProfileRowProps = {

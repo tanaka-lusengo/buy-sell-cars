@@ -1,14 +1,15 @@
 import { useMemo } from "react";
-import { Container, Box, Grid, Flex, Divider } from "@/styled-system/jsx";
-import { ResponsiveContainer, Typography } from "../../ui";
-import { StatusCode } from "@/src/utils";
-import { Profile } from "@/src/types";
 import { PostgrestError } from "@supabase/supabase-js";
+import Link from "next/link";
+import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
+import { StatusCode } from "~bsc-shared/utils";
+import { SUBSCRIPTION_FEATURE_TYPES } from "@/src/constants/values";
+import { Profile } from "@/src/types";
 // import { PaidSponsorFeature } from "../../shared";
 import { filterAndSortByDealers } from "@/src/utils";
-import { SUBSCRIPTION_FEATURE_TYPES } from "@/src/constants/values";
+import { Container, Box, Grid, Flex, Divider } from "@/styled-system/jsx";
 import { Filter, DealerCard } from "./components";
-import Link from "next/link";
+
 // import { EXTERNAL_URLS } from "@/src/constants/urls";
 
 type AllDealersProps = {

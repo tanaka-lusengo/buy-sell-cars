@@ -1,32 +1,32 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Grid, Box, Flex } from "@/styled-system/jsx";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PostgrestError } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { Button, ResponsiveContainer, Typography } from "@/src/components/ui";
-import { ListingsForm } from "../common.styled";
-import { Profile, type VehicleWithImage } from "@/src/types";
+import { useForm } from "react-hook-form";
+import { Button, ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import {
   handleClientError,
   StatusCode,
   toastNotifySuccess,
   toastNotifyInfo,
-} from "@/src/utils";
-import { PostgrestError } from "@supabase/supabase-js";
-import { createClient } from "@/supabase/client";
+  formatToReadableString,
+} from "~bsc-shared/utils";
+import { SubscriptionTypeNames } from "@/src/constants/values";
 import { useFileUploadHelpers } from "@/src/hooks";
-import { useForm } from "react-hook-form";
 import { editVehicleValidationSchema } from "@/src/schemas";
-import { EditVehicleFormType } from "@/src/types";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   updateVehicle,
   deleteVehicle,
   addVehicleImagePaths,
 } from "@/src/server/actions/general";
+import { Profile, type VehicleWithImage } from "@/src/types";
+import { EditVehicleFormType } from "@/src/types";
+import { Grid, Box, Flex } from "@/styled-system/jsx";
+import { createClient } from "@/supabase/client";
+import { ListingsForm } from "../common.styled";
 import { VehicleRow } from "./components";
-import { formatToReadableString } from "@/src/utils";
-import { SubscriptionTypeNames } from "@/src/constants/values";
 
 const TABLE_HEADERS = [
   "Actions",

@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Typography } from "~bsc-shared/ui";
 import defaultUserIcon from "@/public/images/default-user-icon.png";
+import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 import { Profile, StorageBucket } from "@/src/types";
 import { Box, VStack } from "@/styled-system/jsx";
-import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
-import { Typography } from "@/src/components/ui";
 
 type SellerImageProps = {
   owner: Profile | null;

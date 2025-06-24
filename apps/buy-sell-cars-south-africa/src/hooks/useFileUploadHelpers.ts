@@ -1,6 +1,6 @@
-import { v4 as uuidv4 } from "uuid";
 import imageCompression from "browser-image-compression";
-import { handleClientError } from "@/src/utils";
+import { v4 as uuidv4 } from "uuid";
+import { handleClientError } from "~bsc-shared/utils";
 import { createClient } from "@/supabase/client";
 import { StorageBucket } from "../types";
 

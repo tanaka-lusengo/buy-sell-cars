@@ -1,9 +1,9 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Flex, Box, Divider } from "@/styled-system/jsx";
+import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { SignOut } from "@/src/components/Pages";
-import { ResponsiveContainer, Typography } from "@/src/components/ui";
+import { Flex, Box, Divider } from "@/styled-system/jsx";
 import { HamburgerMenu, NavLinksDashboard } from "./components";
 
 export const DashboardSidebar = ({

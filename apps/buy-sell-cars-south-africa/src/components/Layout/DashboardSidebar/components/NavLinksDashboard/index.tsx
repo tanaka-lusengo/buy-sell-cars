@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Typography } from "@/src/components/ui";
+import { Typography } from "~bsc-shared/ui";
 import { Box, Flex } from "@/styled-system/jsx";
 import { navLinksDashboard } from "./navLinkData";
 

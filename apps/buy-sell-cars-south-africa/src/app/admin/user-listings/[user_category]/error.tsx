@@ -1,7 +1,7 @@
 "use client";
 
-import { ErrorBoundary } from "@/src/components/ErrorBoundary";
-import { type ErrorBoundaryProps } from "@/src/components/ErrorBoundary";
+import { ErrorBoundary } from "~bsc-shared/components/ErrorBoundary";
+import { type ErrorBoundaryProps } from "~bsc-shared/components/ErrorBoundary";
 
 const Error = ({ error }: ErrorBoundaryProps) => (
   <ErrorBoundary

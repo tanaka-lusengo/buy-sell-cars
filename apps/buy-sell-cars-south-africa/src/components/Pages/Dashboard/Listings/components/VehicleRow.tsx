@@ -1,21 +1,21 @@
 import Image from "next/image";
-import { Typography } from "@/src/components/ui";
-import { FileInputField } from "@/src/components/FormComponents";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { FileInputField } from "~bsc-shared/components/FormComponents";
+import { Typography } from "~bsc-shared/ui";
+import {
+  formatMileage,
+  formatToReadableString,
+  formatDate,
+} from "~bsc-shared/utils";
 import {
   EditVehicleFormType,
   StorageBucket,
   VehicleWithImage,
 } from "@/src/types";
-import {
-  formatPriceToRands,
-  formatMileage,
-  formatToReadableString,
-} from "@/src/utils";
+import { formatPriceToRands } from "@/src/utils";
 import { Flex, Divider, Box, Grid } from "@/styled-system/jsx";
-import { formatDate } from "@/src/utils";
 import { ActionButtons } from "./ActionButtons";
 import { EditableInput } from "./EditableInput";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
 
 type VehicleRowProps = {
   imagesPreview: string[];

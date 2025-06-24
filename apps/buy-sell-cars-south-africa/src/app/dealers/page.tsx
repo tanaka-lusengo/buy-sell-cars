@@ -10,6 +10,10 @@ export const metadata: Metadata = {
 const DealersPage = async () => {
   const { data, error, status } = await getAllDealers();
 
+  if (error) {
+    console.error("Error fetching dealers:", error);
+  }
+
   return <AllDealers dealers={data || []} error={error} status={status} />;
 };
 

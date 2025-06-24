@@ -1,15 +1,15 @@
-import Link from "next/link";
 import { useMemo } from "react";
-import { Container, Box, Flex, Grid, Divider } from "@/styled-system/jsx";
-import { ResponsiveContainer, Typography } from "../../../ui";
-import { formatToReadableString, StatusCode } from "@/src/utils";
-// import { EXTERNAL_URLS } from "@/src/constants/urls";
-import { VehicleCategoryType, VehicleWithImageAndDealer } from "@/src/types";
 import { PostgrestError } from "@supabase/supabase-js";
+import Link from "next/link";
+import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
+import { formatToReadableString, StatusCode } from "~bsc-shared/utils";
 import {
   PaginatedVehicleList,
   // PaidSponsorFeature,
 } from "@/src/components/shared";
+// import { EXTERNAL_URLS } from "@/src/constants/urls";
+import { VehicleCategoryType, VehicleWithImageAndDealer } from "@/src/types";
+import { Container, Box, Flex, Grid, Divider } from "@/styled-system/jsx";
 import { FeatureVehicles } from "./components/FeatureVehicles";
 import { Filter } from "./components/Filter";
 

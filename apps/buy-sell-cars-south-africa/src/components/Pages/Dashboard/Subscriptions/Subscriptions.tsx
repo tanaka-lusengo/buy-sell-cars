@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect } from "react";
-import { Box, Flex, Grid, VStack } from "@/styled-system/jsx";
-import { Typography } from "@/src/components/ui";
+import Image from "next/image";
+import { Typography } from "~bsc-shared/ui";
 import { Profile } from "@/src/types";
+import { Box, Flex, Grid, VStack } from "@/styled-system/jsx";
 import { InfoFooter, SubscriptionCard } from "../components";
 import {
   starterShowcasePlan,

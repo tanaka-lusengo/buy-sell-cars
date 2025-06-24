@@ -1,19 +1,19 @@
+import { UseFormRegister, FieldErrors } from "react-hook-form";
 import {
   SelectField,
   TextareaField,
   InputField,
-} from "@/src/components/FormComponents";
+} from "~bsc-shared/components/FormComponents";
 import {
   CAR_CONDITIONS,
   FUEL_TYPES,
   GEARBOX_TYPES,
   VEHICLE_CATEGORIES,
   LISTING_TYPES,
-  LOCATIONS,
-} from "@/src/constants/values";
+} from "~bsc-shared/constants";
+import { toSnakeCase, formatToReadableString } from "~bsc-shared/utils";
+import { LOCATIONS } from "@/src/constants/values";
 import { EditVehicleFormType } from "@/src/types";
-import { toSnakeCase, formatToReadableString } from "@/src/utils";
-import { UseFormRegister, FieldErrors } from "react-hook-form";
 
 const SELECT_OPTIONS: Record<string, string[]> = {
   isActive: ["true", "false"],

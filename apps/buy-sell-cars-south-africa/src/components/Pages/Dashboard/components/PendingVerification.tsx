@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Typography } from "@/src/components/ui";
-import { ResponsiveContainer } from "@/src/components/ui";
+import { Typography, ResponsiveContainer } from "~bsc-shared/ui";
 import { SOCIAL_MEDIA_URLS } from "@/src/constants/urls";
 import { Box, Flex } from "@/styled-system/jsx";
 

@@ -1,7 +1,7 @@
-import { ResponsiveContainer, Typography } from "@/src/components/ui";
+import { redirect } from "next/navigation";
+import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { fetchUserAndProfile } from "@/src/server/actions/auth";
 import { Flex } from "@/styled-system/jsx";
-import { redirect } from "next/navigation";
 
 const Adminpage = async () => {
   const { profile } = await fetchUserAndProfile();

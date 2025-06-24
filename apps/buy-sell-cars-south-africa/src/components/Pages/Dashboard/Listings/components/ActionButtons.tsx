@@ -1,7 +1,7 @@
-import { Button } from "@/src/components/ui";
+import { BeatLoader } from "react-spinners";
+import { Button } from "~bsc-shared/ui";
 import { tokens } from "@/src/styles";
 import { Flex } from "@/styled-system/jsx";
-import { BeatLoader } from "react-spinners";
 
 type ActionButtonsProps = {
   vehicleId: string;

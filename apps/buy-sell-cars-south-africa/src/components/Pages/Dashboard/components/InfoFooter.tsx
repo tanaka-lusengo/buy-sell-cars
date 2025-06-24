@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Flex } from "@/styled-system/jsx";
-import { Typography } from "@/src/components/ui";
+import { Typography } from "~bsc-shared/ui";
 import { SOCIAL_MEDIA_URLS } from "@/src/constants/urls";
+import { Flex } from "@/styled-system/jsx";
 
 export const InfoFooter = ({
   color = "text",

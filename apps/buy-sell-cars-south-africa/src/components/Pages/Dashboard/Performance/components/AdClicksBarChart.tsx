@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import {
   BarChart,
   Bar,
@@ -9,12 +10,11 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
+import { useWindowSize } from "~bsc-shared/hooks";
+import { Typography } from "~bsc-shared/ui";
 import { breakpointsNumber } from "@/src/styles";
-import { useWindowSize } from "@/src/hooks";
 import { Divider, Flex } from "@/styled-system/jsx";
-import { Typography } from "@/src/components/ui";
 import { AdClick } from "../types";
-import React from "react";
 
 export const AdClicksBarChart = ({ data }: { data: AdClick[] }) => {
   const { width } = useWindowSize();

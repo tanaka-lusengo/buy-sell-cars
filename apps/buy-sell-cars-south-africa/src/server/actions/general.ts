@@ -1,6 +1,15 @@
 "use server";
 
-import { createClient } from "@/supabase/server";
+import { revalidatePath } from "next/cache";
+import { handleServerError, StatusCode, shuffleArray } from "~bsc-shared/utils";
+import {
+  SUBSCRIPTION_FEATURE_TYPES,
+  SubscriptionTypeNames,
+} from "@/src/constants/values";
+import {
+  addVehicleValidationSchema,
+  editVehicleValidationSchema,
+} from "@/src/schemas";
 import {
   AddVehicleFormType,
   AddVehicleDataType,
@@ -13,16 +22,7 @@ import {
   VehicleCategoryType,
   VehicleWithImageAndDealer,
 } from "@/src/types";
-import { handleServerError, StatusCode, shuffleArray } from "@/src/utils";
-import {
-  addVehicleValidationSchema,
-  editVehicleValidationSchema,
-} from "@/src/schemas";
-import { revalidatePath } from "next/cache";
-import {
-  SUBSCRIPTION_FEATURE_TYPES,
-  SubscriptionTypeNames,
-} from "@/src/constants/values";
+import { createClient } from "@/supabase/server";
 
 type AddVehicleProps = {
   profile: Profile;
@@ -643,7 +643,7 @@ export const getAllDealers = async () => {
       .from("profiles")
       .select("*")
       .neq("admin", true)
-      .not("profile_logo_path", "is", null)
+      .neq("user_category", "individual")
       .order("dealership_name", { ascending: true });
 
     if (error) {

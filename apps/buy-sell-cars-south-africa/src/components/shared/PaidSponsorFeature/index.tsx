@@ -1,7 +1,7 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { Box, Flex } from "@/styled-system/jsx";
-import { ResponsiveContainer, Typography } from "@/src/components/ui";
 
 type PaidSponsorFeatureProps = {
   href: string;
