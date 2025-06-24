@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
-import { getAllProfilesByUserCategory } from "@/src/server/actions/general";
 import { UserListings } from "@/src/components/Admin";
+import { getAllProfilesByUserCategory } from "@/src/server/actions/general";
 import { ParamsWithUserCategory } from "@/src/types/next-types";
 
 export const metadata: Metadata = {

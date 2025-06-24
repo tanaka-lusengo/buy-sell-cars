@@ -1,16 +1,16 @@
-import { Container, Box, Flex, Grid } from "@/styled-system/jsx";
-import { ResponsiveContainer, Typography } from "@/src/components/ui";
-import { StatusCode } from "@/src/utils";
-import { Profile, VehicleWithImage } from "@/src/types";
 import { PostgrestError } from "@supabase/supabase-js";
+import Link from "next/link";
+import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
+import { StatusCode } from "~bsc-shared/utils";
+import { useFileUploadHelpers } from "@/src/hooks";
+import { Profile, VehicleWithImage } from "@/src/types";
+import { Container, Box, Flex, Grid } from "@/styled-system/jsx";
+import { createClient } from "@/supabase/client";
 import {
   SellerImage,
   SellerContent,
 } from "../../shared/VehicleDetailCard/components";
-import { createClient } from "@/supabase/client";
-import { useFileUploadHelpers } from "@/src/hooks";
 import { DealerVehicleCard } from "./components";
-import Link from "next/link";
 
 type DealerDetailsProps = {
   vehicles: VehicleWithImage[] | null;

@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Box, Flex } from "@/styled-system/jsx";
-import { createClient } from "@/supabase/client";
+import useEmblaCarousel from "embla-carousel-react";
+import { Typography } from "~bsc-shared/ui";
 import { useFileUploadHelpers } from "@/src/hooks";
 import { Profile, VehicleCategoryType, VehicleWithImage } from "@/src/types";
-import useEmblaCarousel from "embla-carousel-react";
+import { Box, Flex } from "@/styled-system/jsx";
+import { createClient } from "@/supabase/client";
+import { FeaturePreviewCard } from "../FeaturePreviewCard";
 import {
   CarouselThumbnails,
   CarouselMainImage,
@@ -15,8 +17,6 @@ import {
   SellerImage,
   SellerContent,
 } from "./components";
-import { FeaturePreviewCard } from "../FeaturePreviewCard";
-import { Typography } from "../../ui";
 
 type VehicleDetailCardProps = {
   vehicleCategory: VehicleCategoryType[number];

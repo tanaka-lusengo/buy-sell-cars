@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { Box, Flex } from "@/styled-system/jsx";
 import { EmblaViewportRefType } from "embla-carousel-react";
+import Image from "next/image";
 import { StorageBucket, VehicleWithImage } from "@/src/types";
+import { Box, Flex } from "@/styled-system/jsx";
 
 type CarouselThumbnailProps = {
   emblaThumbsRef: EmblaViewportRefType;

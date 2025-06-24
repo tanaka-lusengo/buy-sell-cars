@@ -1,7 +1,7 @@
-import { redirect } from "next/navigation";
 import { type Metadata } from "next";
-import { fetchUserAndProfile } from "@/src/server/actions/auth";
+import { redirect } from "next/navigation";
 import { Subscriptions } from "@/src/components/Pages";
+import { fetchUserAndProfile } from "@/src/server/actions/auth";
 
 export const metadata: Metadata = {
   title: "Subscriptions select | Your Account",

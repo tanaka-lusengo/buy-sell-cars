@@ -1,16 +1,16 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Divider, VStack } from "@/styled-system/jsx";
-import { Typography } from "@/src/components/ui";
-import { NavDrawer, NavList, SubNavList, Overlay } from "./index.styled";
-import { Bar, BarWrapper, Button } from "./index.styled";
-import { useAuth } from "@/src/context/auth-context";
-import { SignOut } from "@/src/components/Pages";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Typography } from "~bsc-shared/ui";
+import { SignOut } from "@/src/components/Pages";
+import { useAuth } from "@/src/context/auth-context";
+import { Divider, VStack } from "@/styled-system/jsx";
 import { navLinksMap } from "../../constants";
 import { stripTrailingSlash } from "../../utils/helpers";
+import { NavDrawer, NavList, SubNavList, Overlay } from "./index.styled";
+import { Bar, BarWrapper, Button } from "./index.styled";
 
 type HanburgerMenuProps = {
   navLinks: { label: string; href: string }[];

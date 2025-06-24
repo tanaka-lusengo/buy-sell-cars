@@ -3,14 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Divider, Flex, HStack, Stack } from "@/styled-system/jsx";
-import { Typography, ResponsiveContainer } from "@/src/components/ui";
-import { Header, Nav, NavList, SubNavList } from "./index.styled";
-import { HamburgerMenu } from "./components/HamburgerMenu";
+import { Typography, ResponsiveContainer } from "~bsc-shared/ui";
+import { generateIcon } from "~bsc-shared/utils";
 import { useAuth } from "@/src/context/auth-context";
+import { Divider, Flex, HStack, Stack } from "@/styled-system/jsx";
+import { HamburgerMenu } from "./components/HamburgerMenu";
 import { navLinksMap } from "./constants";
+import { Header, Nav, NavList, SubNavList } from "./index.styled";
 import { stripTrailingSlash } from "./utils/helpers";
-import { generateIcon } from "@/src/utils";
 
 type BasePath = keyof typeof navLinksMap;
 

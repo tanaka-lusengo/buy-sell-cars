@@ -1,10 +1,10 @@
-import { Params } from "@/src/types/next-types";
 import { AllVehicles } from "@/src/components/Pages/VehiclePages";
 import {
   getAllFeaturedDealersAndVehiclesWithImages,
   getAllVehiclesByVehicleCategory,
   getAllDealers,
 } from "@/src/server/actions/general";
+import { Params } from "@/src/types/next-types";
 
 export const AllAgricultureEquipmentPage = async ({ params }: Params) => {
   const { slug } = await params;

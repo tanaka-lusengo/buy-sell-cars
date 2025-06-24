@@ -1,24 +1,25 @@
 "use client";
 
-import Link from "next/link";
-import Image, { StaticImageData } from "next/image";
-import { usePathname } from "next/navigation";
 import { useMemo } from "react";
+import Image, { StaticImageData } from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Typography } from "~bsc-shared/ui";
+import { formatMileage, getPageName } from "~bsc-shared/utils";
 import defaultUserIcon from "@/public/images/default-user-icon.png";
-import { Box, Divider, Flex, HStack, VStack } from "@/styled-system/jsx";
-import { Typography } from "../../ui";
+import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
+import { useAuth } from "@/src/context/auth-context";
+import { useFileUploadHelpers } from "@/src/hooks";
+import { logAdClick } from "@/src/server/actions/analytics";
 import {
   Profile,
   VehicleCategoryType,
   VehicleWithImage,
   VehicleWithImageAndDealer,
 } from "@/src/types";
+import { formatPriceToRands } from "@/src/utils";
+import { Box, Divider, Flex, HStack, VStack } from "@/styled-system/jsx";
 import { createClient } from "@/supabase/client";
-import { useFileUploadHelpers } from "@/src/hooks";
-import { formatPriceToRands, formatMileage, getPageName } from "@/src/utils";
-import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
-import { logAdClick } from "@/src/server/actions/analytics";
-import { useAuth } from "@/src/context/auth-context";
 
 type VehiclePreviewCardProps = {
   vehicleCategory: VehicleCategoryType[number];

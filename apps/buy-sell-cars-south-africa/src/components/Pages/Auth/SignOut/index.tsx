@@ -1,11 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
+import { Typography } from "~bsc-shared/ui";
+import { generateIcon } from "~bsc-shared/utils";
 import { signOut } from "@/src/server/actions/auth";
-import { Typography } from "@/src/components/ui";
 import { Box, Flex } from "@/styled-system/jsx";
-import { generateIcon } from "@/src/utils";
 
 export const SignOut = ({
   showIcon = true,

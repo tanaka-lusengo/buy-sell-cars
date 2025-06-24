@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Typography } from "~bsc-shared/ui";
 import { SignOut } from "@/src/components/Pages";
-import { NavLinksDashboard } from "../NavLinksDashboard";
 import { Divider, VStack } from "@/styled-system/jsx";
-import { Typography } from "@/src/components/ui";
+import { NavLinksDashboard } from "../NavLinksDashboard";
 import {
   NavDrawer,
   NavList,

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { StatusCode, getPageName } from "@/src/utils";
+import { StatusCode, getPageName } from "~bsc-shared/utils";
 import { logProfileView } from "@/src/server/actions/analytics";
 
 type ViewerTrackerProps = {

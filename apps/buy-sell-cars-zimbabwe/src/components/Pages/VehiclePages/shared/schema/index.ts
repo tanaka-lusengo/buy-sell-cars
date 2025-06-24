@@ -1,5 +1,5 @@
-import { GearBoxType, ConditionType, FuelType } from "@/src/types";
 import * as z from "zod";
+import { GearBoxType, ConditionType, FuelType } from "@/src/types";
 
 export const filterValidationSchema = z.object({
   make: z.string().optional(),

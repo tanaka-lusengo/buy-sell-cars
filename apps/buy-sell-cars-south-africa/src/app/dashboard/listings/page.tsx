@@ -1,9 +1,9 @@
-import { redirect } from "next/navigation";
 import { type Metadata } from "next";
-import { fetchUserAndProfile } from "@/src/server/actions/auth";
-import { getAllVehiclesByOwnerId } from "@/src/server/actions/general";
+import { redirect } from "next/navigation";
 import { Listings } from "@/src/components/Pages";
 import { PendingVerification } from "@/src/components/Pages/Dashboard/components";
+import { fetchUserAndProfile } from "@/src/server/actions/auth";
+import { getAllVehiclesByOwnerId } from "@/src/server/actions/general";
 
 export const metadata: Metadata = {
   title: "Listings | Your Vehicles",

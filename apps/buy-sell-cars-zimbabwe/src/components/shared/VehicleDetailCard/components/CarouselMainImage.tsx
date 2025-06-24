@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { SetStateAction, useState } from "react";
-import { Flex, HStack, Box } from "@/styled-system/jsx";
 import { EmblaViewportRefType } from "embla-carousel-react";
-import { Typography } from "../../../ui";
+import Image from "next/image";
+import { Typography } from "~bsc-shared/ui";
 import { StorageBucket, VehicleWithImage } from "@/src/types";
+import { Flex, HStack, Box } from "@/styled-system/jsx";
 
 type CarouselMainImageProps = {
   emblaMainRef: EmblaViewportRefType;

@@ -1,7 +1,6 @@
-import { Typography } from "@/src/components/ui";
 import Image from "next/image";
+import { Typography, ResponsiveContainer } from "~bsc-shared/ui";
 import { Box, Container, Flex, HStack } from "@/styled-system/jsx";
-import { ResponsiveContainer } from "@/src/components/ui";
 
 const factList = [
   "Launching a new era of digital automotive trading",

@@ -1,3 +1,4 @@
+import { StatusCode } from "~bsc-shared/utils";
 import {
   HeroBanner,
   FeatureBannerOne,
@@ -14,7 +15,6 @@ import {
   getAllCarsByListingCategory,
   getAllDealers,
 } from "../server/actions/general";
-import { StatusCode } from "../utils";
 
 export const Home = async () => {
   const [

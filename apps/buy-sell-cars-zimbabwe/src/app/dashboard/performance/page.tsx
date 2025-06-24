@@ -1,8 +1,8 @@
 import { type Metadata } from "next";
-import { Performance } from "@/src/components/Pages";
-import { fetchUserAndProfile } from "@/src/server/actions/auth";
 import { redirect } from "next/navigation";
+import { Performance } from "@/src/components/Pages";
 import { PendingVerification } from "@/src/components/Pages/Dashboard/components";
+import { fetchUserAndProfile } from "@/src/server/actions/auth";
 
 export const metadata: Metadata = {
   title: "Dashboard | Performance",

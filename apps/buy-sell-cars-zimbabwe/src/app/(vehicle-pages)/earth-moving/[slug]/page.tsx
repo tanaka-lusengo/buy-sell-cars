@@ -1,4 +1,4 @@
-import { Params } from "@/src/types/next-types";
+import { Params } from "~bsc-shared/types/next-types";
 import { AllVehicles } from "@/src/components/Pages/VehiclePages";
 import {
   getAllFeaturedDealersAndVehiclesWithImages,

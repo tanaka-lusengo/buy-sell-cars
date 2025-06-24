@@ -1,14 +1,14 @@
 "use client";
 
-import Link from "next/link";
-import { useAuth } from "@/src/context/auth-context";
 import useEmblaCarousel from "embla-carousel-react";
-import { Typography } from "../../ui";
+import Link from "next/link";
+import { usePrevNextCarouselFunctions } from "~bsc-shared/hooks";
+import { Typography } from "~bsc-shared/ui";
+import { FeaturePreviewCard } from "@/src/components/shared";
+import { useAuth } from "@/src/context/auth-context";
+import { VehicleWithImageAndDealer } from "@/src/types";
 import { Box, Container, Flex } from "@/styled-system/jsx";
 import { CorouselViewport } from "./common.styled";
-import { usePrevNextCarouselFunctions } from "@/src/hooks/usePrevNextCarouselFunctions";
-import { VehicleWithImageAndDealer } from "@/src/types";
-import { FeaturePreviewCard } from "@/src/components/shared";
 import { Filter } from "./components";
 
 export const FeaturedCarSection = ({

@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { ResponsiveContainer, Typography } from "../../ui";
-import { Container, Flex } from "@/styled-system/jsx";
-import { VehicleWithImageAndDealer } from "@/src/types";
+import { useWindowSize } from "~bsc-shared/hooks";
+import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { FeaturePreviewCard } from "@/src/components/shared";
 import { breakpointsNumber } from "@/src/styles";
-import { useWindowSize } from "@/src/hooks";
+import { VehicleWithImageAndDealer } from "@/src/types";
+import { Container, Flex } from "@/styled-system/jsx";
 
 export const BrowseCarsSection = ({
   allCarsForSaleWithDealerDetails,

@@ -1,7 +1,7 @@
-import { VStack, HStack } from "@/styled-system/jsx";
-import { ResponsiveContainer, Typography } from "../../ui";
-import { SOCIAL_MEDIA_URLS } from "@/src/constants/urls";
+import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { SocialMediaLink } from "@/src/components/shared";
+import { SOCIAL_MEDIA_URLS } from "@/src/constants/urls";
+import { VStack, HStack } from "@/styled-system/jsx";
 
 export const SocialMediaSection = () => {
   return (

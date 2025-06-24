@@ -1,5 +1,3 @@
-import { format } from "date-fns";
-
 export const formatPriceToRands = (price: number): string => {
   // Create a formatter for South African Rand currency using en-ZA locale
   const formatter = new Intl.NumberFormat("en-ZA", {
@@ -16,11 +14,6 @@ export const formatPriceToRands = (price: number): string => {
     .join("");
 };
 
-// Utility function to format mileage with commas
-export const formatMileage = (mileage: number): string => {
-  return new Intl.NumberFormat("en-US").format(mileage);
-};
-
 /**
  * Validates a South African phone number.
  * The phone number must start with +27 and be followed by 9 digits.
@@ -35,47 +28,6 @@ export const isValidSouthAfricaPhoneNumber = (phoneNumber: string): boolean => {
   // Test the phone number against the regex
   return southAfricaPhoneRegex.test(phoneNumber);
 };
-
-/**
- * Capitalizes the first character of a string.
- * @param str - The string to capitalize.
- * @returns The string with the first character capitalized.
- */
-export const capitaliseFirstChar = (str: string): string => {
-  if (!str) return "";
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
-
-/**
- * Converts a string to snake_case format.
- * Example: 'Car rental' -> 'car_rental'
- *
- * @param input - The string to be converted.
- * @returns The snake_case version of the input string.
- */
-export const toSnakeCase = (input: string): string => {
-  // Convert the string to lowercase and replace spaces with underscores
-  return input.toLowerCase().replace(/\s+/g, "_");
-};
-
-// Fisher-Yates Shuffle
-export const shuffleArray = <T>(array: T[]): T[] => {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-};
-
-export const formatDate = (timestamp: string): string => {
-  const date = new Date(timestamp);
-  return format(date, "dd/MM/yyyy");
-};
-
-export const formatToReadableString = (
-  value: string | number | boolean
-): string => capitaliseFirstChar(String(value).replace(/_/g, " "));
 
 /**
  * Formats a phone number to ensure it includes South Africa's country code (27)
@@ -105,37 +57,3 @@ export function formatPhoneNumberToSaCountryCode(
   // If the number starts with anything else, prepend '27'
   return "27" + digits;
 }
-
-/**
- * Returns "homepage" if the pathname is "/", otherwise returns the original pathname.
- *
- * @param pathname - The current pathname string.
- * @returns "homepage" if pathname is "/", else the original pathname.
- */
-export const getPageName = (pathname: string): string => {
-  // If the pathname is just "/", return "homepage"
-  if (pathname === "/") {
-    return "homepage";
-  }
-
-  return pathname;
-};
-
-export const getStartDate = (range: string) => {
-  const now = new Date();
-  switch (range) {
-    case "day":
-      now.setDate(now.getDate() - 1);
-      break;
-    case "month":
-      now.setMonth(now.getMonth() - 1);
-      break;
-    case "quarter":
-      now.setMonth(now.getMonth() - 3);
-      break;
-    case "year":
-      now.setFullYear(now.getFullYear() - 1);
-      break;
-  }
-  return now.toISOString();
-};

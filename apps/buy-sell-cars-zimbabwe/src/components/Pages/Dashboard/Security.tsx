@@ -1,20 +1,20 @@
 "use client";
 
-import { Box } from "@/styled-system/jsx";
-import { Button, Typography } from "../../ui";
-import { SecurityForm } from "./common.styled";
-import { InputField } from "../../FormComponents";
-import { updatePasswordValidationSchema } from "@/src/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { UpdatePasswordFormType } from "@/src/types";
-import { updatePassword } from "@/src/server/actions/auth";
+import { InputField } from "~bsc-shared/components";
+import { Button, Typography } from "~bsc-shared/ui";
 import {
   generateIcon,
   handleClientError,
   StatusCode,
   toastNotifySuccess,
-} from "@/src/utils";
+} from "~bsc-shared/utils";
+import { updatePasswordValidationSchema } from "@/src/schemas";
+import { updatePassword } from "@/src/server/actions/auth";
+import { UpdatePasswordFormType } from "@/src/types";
+import { Box } from "@/styled-system/jsx";
+import { SecurityForm } from "./common.styled";
 
 export const Security = () => {
   const {

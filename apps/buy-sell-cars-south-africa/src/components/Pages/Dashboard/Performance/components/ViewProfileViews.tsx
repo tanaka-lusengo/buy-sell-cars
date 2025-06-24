@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { handleClientError, StatusCode } from "@/src/utils";
+import { SelectField } from "~bsc-shared/components/FormComponents";
+import { Typography } from "~bsc-shared/ui";
+import { handleClientError, StatusCode } from "~bsc-shared/utils";
 import { getMyProfileViewCount } from "@/src/server/actions/analytics";
 import { Box, Flex } from "@/styled-system/jsx";
-import { Typography } from "@/src/components/ui";
-import { SelectField } from "@/src/components/FormComponents";
-import { TimeFrame } from "../types";
 import { timeFrames } from "../constants";
+import { TimeFrame } from "../types";
 
 export const MyProfileViewsCard = ({ profileId }: { profileId: string }) => {
   const [timeframe, setTimeframe] = useState<TimeFrame>("30d");

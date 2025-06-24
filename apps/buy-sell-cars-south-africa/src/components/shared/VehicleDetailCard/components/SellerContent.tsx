@@ -1,13 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Typography } from "@/src/components/ui";
+import { Typography } from "~bsc-shared/ui";
+import { BASE_URL } from "@/src/constants/environments";
 import { Profile, VehicleWithImage } from "@/src/types";
 import { formatPhoneNumberToSaCountryCode } from "@/src/utils";
 import { HStack, VStack } from "@/styled-system/jsx";
-import { BASE_URL } from "@/src/constants/environments";
 
 type SellerContentProps = {
   vehicle?: VehicleWithImage;

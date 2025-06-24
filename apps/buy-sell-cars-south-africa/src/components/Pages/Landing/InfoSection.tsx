@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Button, ResponsiveContainer, Typography } from "@/src/components/ui";
-import { Grid, HStack, VStack, Divider, Container } from "@/styled-system/jsx";
+import { Button, ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { useAuth } from "@/src/context/auth-context";
+import { Grid, HStack, VStack, Divider, Container } from "@/styled-system/jsx";
 
 const factListLeft = [
   "Instant Exposure to Quality Buyers",

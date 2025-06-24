@@ -1,22 +1,26 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
-import { FooterContainer, FooterContent, FooterLink } from "./index.styled";
-import { Typography, Button } from "../../ui";
-import { Box, Flex, Grid, HStack } from "@/styled-system/jsx";
-import { SOCIAL_MEDIA_URLS } from "@/src/constants/urls";
-import { InputField } from "@/src/components/FormComponents";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { subscribeValidationSchema } from "@/src/schemas";
-import { SubscribeFormType } from "@/src/types";
-import { subscribe } from "@/src/server/actions/auth";
-import { handleClientError, StatusCode, toastNotifySuccess } from "@/src/utils";
-import { SocialMediaLink } from "../../shared";
-import { useAuth } from "@/src/context/auth-context";
+import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { InputField } from "~bsc-shared/components/FormComponents";
+import { Typography, Button } from "~bsc-shared/ui";
+import {
+  handleClientError,
+  StatusCode,
+  toastNotifySuccess,
+} from "~bsc-shared/utils";
+import { SOCIAL_MEDIA_URLS } from "@/src/constants/urls";
+import { useAuth } from "@/src/context/auth-context";
+import { subscribeValidationSchema } from "@/src/schemas";
+import { subscribe } from "@/src/server/actions/auth";
+import { SubscribeFormType } from "@/src/types";
+import { Box, Flex, Grid, HStack } from "@/styled-system/jsx";
+import { SocialMediaLink } from "../../shared";
+import { FooterContainer, FooterContent, FooterLink } from "./index.styled";
 
 export const Footer = () => {
   const [isSuccess, setIsSuccess] = useState(false);

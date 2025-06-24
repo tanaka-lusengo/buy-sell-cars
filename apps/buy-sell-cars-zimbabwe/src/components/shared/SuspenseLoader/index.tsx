@@ -1,7 +1,7 @@
 import { BeatLoader } from "react-spinners";
+import { Typography } from "~bsc-shared/ui";
 import { tokens } from "@/src/styles/theme";
 import { Flex } from "@/styled-system/jsx";
-import { Typography } from "../../ui";
 
 export const SuspenseLoader = ({ label }: { label?: string }) => (
   <Flex justifyContent="center" alignItems="center" height="100vh" gap="md">

@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AdClicksBarChart } from "./AdClicksBarChart";
+import { SelectField } from "~bsc-shared/components/FormComponents";
+import { Typography } from "~bsc-shared/ui";
+import { handleClientError, StatusCode } from "~bsc-shared/utils";
 import { getAdClicksByVehicleWithInfo } from "@/src/server/actions/analytics";
 import { Flex, Box } from "@/styled-system/jsx";
-import { Typography } from "@/src/components/ui";
-import { SelectField } from "@/src/components/FormComponents";
-import { handleClientError, StatusCode } from "@/src/utils";
-import { TimeFrame, AdClick } from "../types";
 import { timeFrames } from "../constants";
+import { TimeFrame, AdClick } from "../types";
+import { AdClicksBarChart } from "./AdClicksBarChart";
 
 export const ViewClickedAds = ({ profileId }: { profileId: string }) => {
   const [timeframe, setTimeframe] = useState<TimeFrame>("30d");

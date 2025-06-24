@@ -1,6 +1,6 @@
 "use server";
 
-import { handleServerError, StatusCode } from "@/src/utils";
+import { handleServerError, StatusCode } from "~bsc-shared/utils";
 import { createClient } from "@/supabase/server";
 
 type LogProfileViewParams = {

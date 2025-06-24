@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Typography } from "@/src/components/ui";
+import { Typography } from "~bsc-shared/ui";
 import { VStack } from "@/styled-system/jsx";
 
 type SocialMediaLinkProps = {

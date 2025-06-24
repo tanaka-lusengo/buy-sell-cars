@@ -1,49 +1,49 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AddVehicleFormType, Profile } from "@/src/types";
-import { Button, Typography } from "@/src/components/ui";
+import { useForm } from "react-hook-form";
 import {
   FileInputField,
   InputField,
   TextareaField,
-} from "@/src/components/FormComponents";
-import { Divider, Flex, Grid } from "@/styled-system/jsx";
-import { Form } from "./common.styled";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+} from "~bsc-shared/components";
+import { SelectField } from "~bsc-shared/components";
+import {
+  CAR_CONDITIONS,
+  FUEL_TYPES,
+  GEARBOX_TYPES,
+  LISTING_TYPES,
+  VEHICLE_CATEGORIES,
+} from "~bsc-shared/constants";
+import { Button, Typography } from "~bsc-shared/ui";
 import {
   handleClientError,
   toastNotifySuccess,
   generateYears,
   toSnakeCase,
   StatusCode,
-} from "@/src/utils";
-import {
-  CAR_CONDITIONS,
-  FUEL_TYPES,
-  GEARBOX_TYPES,
-  LISTING_TYPES,
-  LOCATIONS,
-  VEHICLE_CATEGORIES,
-} from "@/src/constants/values";
+} from "~bsc-shared/utils";
+import { LOCATIONS } from "@/src/constants/values";
+import { useFileUploadHelpers } from "@/src/hooks";
 import {
   addVehicleValidationSchema,
   addVehicleFormDefaultValues,
 } from "@/src/schemas";
-import { SelectField } from "@/src/components/FormComponents";
-import { SuspenseLoader } from "../../shared";
-import { getLabelText } from "./utils/getLabelText";
 import {
   addVehicle,
   updateVehicleWithSpecSheet,
   addVehicleImagePaths,
 } from "@/src/server/actions/general";
-import { useFileUploadHelpers } from "@/src/hooks";
+import { AddVehicleFormType, Profile } from "@/src/types";
+import { Divider, Flex, Grid } from "@/styled-system/jsx";
 import { createClient } from "@/supabase/client";
-import Image from "next/image";
-import Link from "next/link";
+import { SuspenseLoader } from "../../shared";
+import { Form } from "./common.styled";
+import { getLabelText } from "./utils/getLabelText";
 
 export const AddListing = ({ profile }: { profile: Profile }) => {
   const {

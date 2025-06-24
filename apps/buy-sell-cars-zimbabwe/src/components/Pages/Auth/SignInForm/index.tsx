@@ -1,17 +1,20 @@
 "use client";
 
-import Link from "next/link";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-
-import { Typography, Button } from "@/src/components/ui";
-import { HStack, Divider, Flex } from "@/styled-system/jsx";
-import { InputField } from "@/src/components/FormComponents";
+import { useForm } from "react-hook-form";
+import { InputField } from "~bsc-shared/components";
+import { Typography, Button } from "~bsc-shared/ui";
+import {
+  handleClientError,
+  StatusCode,
+  toastNotifySuccess,
+} from "~bsc-shared/utils";
 import { signInValidationSchema, signInFormDefaultValues } from "@/src/schemas";
 import { signIn } from "@/src/server/actions/auth";
 import { type SignInFormType } from "@/src/types";
-import { handleClientError, StatusCode, toastNotifySuccess } from "@/src/utils";
+import { HStack, Divider, Flex } from "@/styled-system/jsx";
 import { Form } from "./index.styled";
 
 export const SignInForm = () => {

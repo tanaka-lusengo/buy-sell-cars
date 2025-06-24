@@ -1,12 +1,8 @@
-import {
-  SelectField,
-  TextareaField,
-  InputField,
-} from "@/src/components/FormComponents";
+import { UseFormRegister, FieldErrors } from "react-hook-form";
+import { SelectField, TextareaField, InputField } from "~bsc-shared/components";
+import { toSnakeCase, formatToReadableString } from "~bsc-shared/utils";
 import { SUBSCRIPTION_TYPES, LOCATIONS } from "@/src/constants/values";
 import { UpdateProfileAdminFormType } from "@/src/types";
-import { toSnakeCase, formatToReadableString } from "@/src/utils";
-import { UseFormRegister, FieldErrors } from "react-hook-form";
 
 const SELECT_OPTIONS: Record<string, string[]> = {
   isVerified: ["true", "false"],

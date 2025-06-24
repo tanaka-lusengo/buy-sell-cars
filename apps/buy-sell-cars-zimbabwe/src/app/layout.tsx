@@ -1,12 +1,12 @@
-import "./globals.css";
 import { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/next";
+import Toaster from "~bsc-shared/utils/reactHotToast/Toaster";
+import { AuthProvider } from "@/src/context/auth-context";
+import { createClient } from "@/supabase/server";
+import { Navbar, Footer } from "../components/Layout";
+import "./globals.css";
 import { metadata } from "./metadata";
 import { PreloadResources } from "./preload-resources";
-import { Navbar, Footer } from "../components/Layout";
-import { AuthProvider } from "@/src/context/auth-context";
-import Toaster from "@/src/utils/reactHotToast/Toaster";
-import { createClient } from "@/supabase/server";
 
 // Base metadata for the app
 export { metadata };

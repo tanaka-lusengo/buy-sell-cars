@@ -1,6 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import {
+  handleServerError,
+  logErrorMessage,
+  StatusCode,
+} from "~bsc-shared/utils";
 import { Tables } from "@/database.types";
 import {
   signUpValidationSchema,
@@ -15,7 +20,6 @@ import {
   UpdatePasswordFormType,
   Profile,
 } from "@/src/types";
-import { handleServerError, logErrorMessage, StatusCode } from "@/src/utils";
 import { createClient, createClientServiceRole } from "@/supabase/server";
 
 export const subscribe = async (formData: SubscribeFormType) => {

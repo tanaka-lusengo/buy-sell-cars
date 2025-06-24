@@ -1,10 +1,10 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Box, Flex } from "@/styled-system/jsx";
-import { Typography } from "../../ui";
+import { Typography } from "~bsc-shared/ui";
 import { FeaturePreviewCard } from "@/src/components/shared";
 import { VehicleCategoryType, VehicleWithImageAndDealer } from "@/src/types";
+import { Box, Flex } from "@/styled-system/jsx";
 import { PrevButton, NextButton } from "./ButtonComponents";
 
 type PaginatedVehicleListProps = {

@@ -1,0 +1,11 @@
+{
+  "name": "prettier-config-custom",
+  "version": "1.0.0",
+  "main": "prettier.config.mjs",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2"
+  }
+}

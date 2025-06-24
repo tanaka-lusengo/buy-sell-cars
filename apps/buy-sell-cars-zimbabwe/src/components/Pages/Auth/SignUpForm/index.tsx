@@ -1,27 +1,24 @@
 "use client";
 
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Typography, Button } from "@/src/components/ui";
-import { Stack, Grid, HStack, Divider } from "@/styled-system/jsx";
-import {
-  InputField,
-  SelectField,
-  TextareaField,
-} from "@/src/components/FormComponents";
-import { signUpValidationSchema, signUpFormDefaultValues } from "@/src/schemas";
-import { signUp } from "@/src/server/actions/auth";
-import { type SignUpFormType } from "@/src/types";
+import { InputField, SelectField, TextareaField } from "~bsc-shared/components";
+import { USER_CATEGORYS } from "~bsc-shared/constants/values";
+import { Typography, Button } from "~bsc-shared/ui";
 import {
   handleClientError,
   StatusCode,
   toastNotifySuccess,
   toSnakeCase,
-} from "@/src/utils";
-import { USER_CATEGORYS, LOCATIONS } from "@/src/constants/values";
+} from "~bsc-shared/utils";
+import { LOCATIONS } from "@/src/constants/values";
+import { signUpValidationSchema, signUpFormDefaultValues } from "@/src/schemas";
+import { signUp } from "@/src/server/actions/auth";
+import { type SignUpFormType } from "@/src/types";
+import { Stack, Grid, HStack, Divider } from "@/styled-system/jsx";
 import { Form } from "./index.styled";
-import { useState } from "react";
 
 export const SignUpForm = () => {
   const [showSuccess, setShowSuccess] = useState(false);

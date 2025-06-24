@@ -1,4 +1,4 @@
-import { SuspenseLoader } from "@/src/components/shared";
+import { SuspenseLoader } from "~bsc-shared/components";
 
 const LoadingPage = () => <SuspenseLoader />;
 

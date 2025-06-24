@@ -1,10 +1,10 @@
-import { ParamsWithId } from "@/src/types/next-types";
+import { ParamsWithId } from "~bsc-shared/types/next-types";
+import { VehicleDetails } from "@/src/components/Pages/VehiclePages";
 import {
   getVehicleById,
   getProfileById,
   getAllVehiclesByOwnerId,
 } from "@/src/server/actions/general";
-import { VehicleDetails } from "@/src/components/Pages/VehiclePages";
 
 const CarDetailPage = async ({ params }: ParamsWithId) => {
   const { id } = await params;

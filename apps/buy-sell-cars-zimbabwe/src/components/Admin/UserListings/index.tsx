@@ -1,25 +1,25 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { PostgrestError } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PostgrestError } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { Grid, Box, Flex } from "@/styled-system/jsx";
-import { ResponsiveContainer, Typography } from "@/src/components/ui";
-import { ListingsForm } from "../../Pages/Dashboard/common.styled";
-import type { Profile } from "@/src/types";
+import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import {
   formatToReadableString,
   handleClientError,
   StatusCode,
   toastNotifySuccess,
-} from "@/src/utils";
-import { createClient } from "@/supabase/client";
+} from "~bsc-shared/utils";
 import { useFileUploadHelpers } from "@/src/hooks";
 import { updateProfileAdminValidationSchema } from "@/src/schemas";
-import { CategoryType, UpdateProfileAdminFormType } from "@/src/types";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { adminDeleteUser } from "@/src/server/actions/auth";
+import type { Profile } from "@/src/types";
+import { CategoryType, UpdateProfileAdminFormType } from "@/src/types";
+import { Grid, Box, Flex } from "@/styled-system/jsx";
+import { createClient } from "@/supabase/client";
+import { ListingsForm } from "../../Pages/Dashboard/common.styled";
 import { ProfileRow } from "./components";
 
 const TABLE_HEADERS = [

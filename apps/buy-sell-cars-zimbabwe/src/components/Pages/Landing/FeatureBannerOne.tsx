@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
-import { breakpointsNumber } from "@/src/styles";
-import { useWindowSize } from "@/src/hooks";
-import { Box, Flex } from "@/styled-system/jsx";
+import Link from "next/link";
+import { useWindowSize } from "~bsc-shared/hooks";
 import { EXTERNAL_URLS } from "@/src/constants/urls";
+import { breakpointsNumber } from "@/src/styles";
+import { Box, Flex } from "@/styled-system/jsx";
 
 export const FeatureBannerOne = () => {
   const { width } = useWindowSize();
