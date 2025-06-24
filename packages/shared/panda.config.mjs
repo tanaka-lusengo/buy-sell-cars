@@ -1,5 +1,5 @@
 import { defineConfig } from "@pandacss/dev";
-import { globalCss, tokens, textStyles, breakpoints } from "@/src/styles";
+import { globalCss, tokens, textStyles, breakpoints } from "./styles";
 
 export default defineConfig({
   preflight: true,
@@ -7,9 +7,6 @@ export default defineConfig({
     "./src/app/**/*.{js,jsx,ts,tsx}",
     "./src/components/**/*.{js,jsx,ts,tsx}",
     "./src/styles/**/*.{js,jsx,ts,tsx}",
-    "../../packages/shared/ui/**/*.{js,jsx,ts,tsx}",
-    "../../packages/shared/components/**/*.{js,jsx,ts,tsx}",
-    "../../packages/shared/styles/**/*.{js,jsx,ts,tsx}",
   ],
   exclude: [],
   globalCss,

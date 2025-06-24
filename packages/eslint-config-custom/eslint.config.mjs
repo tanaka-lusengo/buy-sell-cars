@@ -11,6 +11,9 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  {
+    ignores: ["**/node_modules/**", "**/dist/**", "**/styled-system/**"],
+  },
   ...compat.extends(
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -19,7 +22,7 @@ const eslintConfig = [
     "plugin:jsx-a11y/recommended",
     "plugin:prettier/recommended",
     "next/core-web-vitals",
-    "next/typescript",
+    "next/typescript"
   ),
   {
     rules: {
