@@ -13,18 +13,21 @@ export type Database = {
         Row: {
           id: string;
           profile_owner_id: string;
+          source_page: string | null;
           viewed_at: string | null;
           viewer_id: string | null;
         };
         Insert: {
           id?: string;
           profile_owner_id: string;
+          source_page?: string | null;
           viewed_at?: string | null;
           viewer_id?: string | null;
         };
         Update: {
           id?: string;
           profile_owner_id?: string;
+          source_page?: string | null;
           viewed_at?: string | null;
           viewer_id?: string | null;
         };
@@ -32,13 +35,6 @@ export type Database = {
           {
             foreignKeyName: "profile_views_profile_owner_id_fkey";
             columns: ["profile_owner_id"];
-            isOneToOne: false;
-            referencedRelation: "profiles";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "profile_views_viewer_id_fkey";
-            columns: ["viewer_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
             referencedColumns: ["id"];
@@ -141,23 +137,85 @@ export type Database = {
         };
         Relationships: [];
       };
+      subscriptions: {
+        Row: {
+          cancel_time: string | null;
+          created_at: string | null;
+          customer_code: string | null;
+          email: string | null;
+          id: string;
+          plan_code: string | null;
+          profile_id: string;
+          raw_response: Json | null;
+          start_time: string | null;
+          status: string | null;
+          subscription_code: string | null;
+          subscription_name: string | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          cancel_time?: string | null;
+          created_at?: string | null;
+          customer_code?: string | null;
+          email?: string | null;
+          id?: string;
+          plan_code?: string | null;
+          profile_id: string;
+          raw_response?: Json | null;
+          start_time?: string | null;
+          status?: string | null;
+          subscription_code?: string | null;
+          subscription_name?: string | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          cancel_time?: string | null;
+          created_at?: string | null;
+          customer_code?: string | null;
+          email?: string | null;
+          id?: string;
+          plan_code?: string | null;
+          profile_id?: string;
+          raw_response?: Json | null;
+          start_time?: string | null;
+          status?: string | null;
+          subscription_code?: string | null;
+          subscription_name?: string | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       vehicle_ad_clicks: {
         Row: {
           clicked_at: string | null;
           id: string;
+          source_page: string | null;
           vehicle_id: string;
+          vehicle_owner_id: string | null;
           viewer_id: string | null;
         };
         Insert: {
           clicked_at?: string | null;
           id?: string;
+          source_page?: string | null;
           vehicle_id: string;
+          vehicle_owner_id?: string | null;
           viewer_id?: string | null;
         };
         Update: {
           clicked_at?: string | null;
           id?: string;
+          source_page?: string | null;
           vehicle_id?: string;
+          vehicle_owner_id?: string | null;
           viewer_id?: string | null;
         };
         Relationships: [
@@ -169,8 +227,8 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "vehicle_ad_clicks_viewer_id_fkey";
-            columns: ["viewer_id"];
+            foreignKeyName: "vehicle_ad_clicks_vehicle_owner_id_fkey";
+            columns: ["vehicle_owner_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
             referencedColumns: ["id"];
