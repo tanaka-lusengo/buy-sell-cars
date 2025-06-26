@@ -63,8 +63,7 @@ export const Subscriptions = ({ profile }: { profile: Profile }) => {
             gap="md"
           >
             <SubscriptionCard
-              profile={profile}
-              planId={starterShowcasePlan.planId}
+              planLink={starterShowcasePlan.planLink}
               planName={starterShowcasePlan.name}
               price={starterShowcasePlan.price}
               description={starterShowcasePlan.description}
@@ -76,8 +75,7 @@ export const Subscriptions = ({ profile }: { profile: Profile }) => {
             />
 
             <SubscriptionCard
-              profile={profile}
-              planId={growthAcceleratorPlan.planId}
+              planLink={growthAcceleratorPlan.planLink}
               planName={growthAcceleratorPlan.name}
               price={growthAcceleratorPlan.price}
               description={growthAcceleratorPlan.description}
@@ -89,8 +87,7 @@ export const Subscriptions = ({ profile }: { profile: Profile }) => {
             />
 
             <SubscriptionCard
-              profile={profile}
-              planId={dealershipDominatorPlan.planId}
+              planLink={dealershipDominatorPlan.planLink}
               planName={dealershipDominatorPlan.name}
               price={dealershipDominatorPlan.price}
               description={dealershipDominatorPlan.description}

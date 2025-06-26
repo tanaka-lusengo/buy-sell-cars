@@ -13,7 +13,7 @@ import {
   toastNotifyInfo,
   formatToReadableString,
 } from "~bsc-shared/utils";
-import { SubscriptionTypeNames } from "@/src/constants/values";
+import { SubscriptionTypeNames } from "@/src/constants/subscription";
 import { useFileUploadHelpers } from "@/src/hooks";
 import { editVehicleValidationSchema } from "@/src/schemas";
 import {

@@ -1,26 +1,74 @@
-import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
-import { Profile } from "@/src/types";
+"use client";
+
+import { useState } from "react";
+import { ResponsiveContainer, Typography, Button } from "~bsc-shared/ui";
+import {
+  capitaliseFirstChar,
+  formatDate,
+  handleClientError,
+  logErrorMessage,
+} from "~bsc-shared/utils";
+import { managePaystackSubscription } from "@/src/server/actions/payment";
+import { Profile, Subscription } from "@/src/types";
 import { Box, Flex } from "@/styled-system/jsx";
 import { InfoFooter } from "../components";
 
-export const SubscriptionsDashboard = ({ profile }: { profile: Profile }) => {
+type SubscriptionsDashboardProps = {
+  profile: Profile;
+  subscription: Subscription | null;
+};
+
+export const SubscriptionsDashboard = ({
+  profile,
+  subscription,
+}: SubscriptionsDashboardProps) => {
   if (!profile) {
     return null;
   }
 
-  const { user_category, subscription } = profile;
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { user_category } = profile;
 
   const isIndividual = user_category === "individual";
+  const subscriptionPlanName =
+    subscription?.subscription_name || "No Plan Selected";
 
-  let subscriptionPlan: string;
+  const subscriptionPlan = isIndividual
+    ? "Individual Plan (Free)"
+    : subscriptionPlanName;
 
-  if (isIndividual) {
-    subscriptionPlan = "Individual Plan";
-  } else if (subscription === null) {
-    subscriptionPlan = "No Plan Selected";
-  } else {
-    subscriptionPlan = subscription;
-  }
+  const handleManageSubscription = async () => {
+    if (!subscription?.subscription_code) {
+      console.error(
+        "No subscription code available for managing subscription."
+      );
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const { data, status, error } = await managePaystackSubscription(
+        subscription.subscription_code
+      );
+
+      if (!data || error || status !== 200) {
+        console.error("Failed to manage subscription:", error);
+        return;
+      }
+
+      window.open(data.link, "_blank", "noopener,noreferrer");
+    } catch (error) {
+      logErrorMessage(error, "subscribing to plan");
+      handleClientError(
+        "An unexpected error occurred while subscribing to the plan",
+        "Please try again later or contact support if the issue persists."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <ResponsiveContainer>
@@ -33,14 +81,34 @@ export const SubscriptionsDashboard = ({ profile }: { profile: Profile }) => {
           </Typography>
         </Box>
 
-        <Typography variant="h4">
-          Current Plan: <strong>{subscriptionPlan}</strong>
-        </Typography>
+        <Flex direction="column" gap="sm" paddingY="sm">
+          <Typography variant="h4">
+            Current Plan:{" "}
+            <Typography
+              as="span"
+              color="primary"
+              weight="bold"
+              style={{ fontSize: "inherit" }}
+            >
+              {subscriptionPlan}
+            </Typography>
+          </Typography>
 
-        <Typography>
-          If you would like to consider upgrading your current Subscription
-          plan, please contact the BuySellCars Team on the details below:
-        </Typography>
+          <Typography>
+            Subscription start:{" "}
+            <strong>{formatDate(subscription?.start_time ?? "")}</strong>
+          </Typography>
+          <Typography>
+            Status:{" "}
+            <strong>{capitaliseFirstChar(subscription?.status ?? "")}</strong>
+          </Typography>
+        </Flex>
+
+        <Flex gap="md">
+          <Button type="button" onClick={handleManageSubscription}>
+            {isLoading ? "Processing..." : "Manage Subscription"}
+          </Button>
+        </Flex>
 
         <InfoFooter />
       </Flex>
