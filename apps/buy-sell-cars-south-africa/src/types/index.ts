@@ -74,7 +74,7 @@ export type LogSubscriptionType = Omit<
 
 export type LogSubscriptionWebhookType = Omit<
   Subscription,
-  "id" | "created_at" | "updated_at" | "profile_id"
+  "id" | "created_at" | "start_time"
 >;
 
 export type AddVehicleDataType = Omit<

@@ -29,10 +29,11 @@ export const SubscriptionsDashboard = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const { user_category } = profile;
+  const { subscription_name, start_time, next_payment_date, status } =
+    subscription || {};
 
   const isIndividual = user_category === "individual";
-  const subscriptionPlanName =
-    subscription?.subscription_name || "No Plan Selected";
+  const subscriptionPlanName = subscription_name || "No Plan Selected";
 
   const subscriptionPlan = isIndividual
     ? "Individual Plan (Free)"
@@ -70,6 +71,24 @@ export const SubscriptionsDashboard = ({
     }
   };
 
+  const renderButtonState = () => {
+    if (isIndividual) {
+      return (
+        <Typography>
+          <i>Individual users do not have a subscription plan.</i>
+        </Typography>
+      );
+    } else if (subscription) {
+      return (
+        <Button type="button" onClick={handleManageSubscription}>
+          {isLoading ? "Processing..." : "Manage Subscription"}
+        </Button>
+      );
+    } else {
+      return null;
+    }
+  };
+
   return (
     <ResponsiveContainer>
       <Flex direction="column" padding="lg" gap="md">
@@ -94,21 +113,29 @@ export const SubscriptionsDashboard = ({
             </Typography>
           </Typography>
 
-          <Typography>
-            Subscription start:{" "}
-            <strong>{formatDate(subscription?.start_time ?? "")}</strong>
-          </Typography>
-          <Typography>
-            Status:{" "}
-            <strong>{capitaliseFirstChar(subscription?.status ?? "")}</strong>
-          </Typography>
+          {subscription && !isIndividual && (
+            <>
+              <Typography>
+                Subscription start:{" "}
+                <strong>{start_time ? formatDate(start_time) : "TBC"}</strong>
+              </Typography>
+              <Typography>
+                Next payment date:{" "}
+                <strong>
+                  {next_payment_date ? formatDate(next_payment_date) : "TBC"}
+                </strong>
+              </Typography>
+              <Typography>
+                Status:{" "}
+                <strong>
+                  {status ? capitaliseFirstChar(status) : "Pending Start"}
+                </strong>
+              </Typography>
+            </>
+          )}
         </Flex>
 
-        <Flex gap="md">
-          <Button type="button" onClick={handleManageSubscription}>
-            {isLoading ? "Processing..." : "Manage Subscription"}
-          </Button>
-        </Flex>
+        <Flex gap="md">{renderButtonState()}</Flex>
 
         <InfoFooter />
       </Flex>

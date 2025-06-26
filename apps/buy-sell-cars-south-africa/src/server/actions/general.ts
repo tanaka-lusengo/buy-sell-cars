@@ -1,11 +1,16 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { handleServerError, StatusCode, shuffleArray } from "~bsc-shared/utils";
+import {
+  handleServerError,
+  logErrorMessage,
+  StatusCode,
+  shuffleArray,
+} from "~bsc-shared/utils";
 import {
   SUBSCRIPTION_FEATURE_TYPES,
   SubscriptionTypeNames,
-} from "@/src/constants/values";
+} from "@/src/constants/subscription";
 import {
   addVehicleValidationSchema,
   editVehicleValidationSchema,
@@ -42,7 +47,12 @@ export const addVehicle = async ({ profile, formData }: AddVehicleProps) => {
 
     if (countError) {
       // Return error if unable to count vehicles
-      return { data: null, status: StatusCode.BAD_REQUEST, error: countError };
+      logErrorMessage(countError, "counting vehicles (server)");
+      return {
+        data: null,
+        status: StatusCode.BAD_REQUEST,
+        error: "Failed to count vehicles.",
+      };
     }
 
     // 2. Determine max allowed vehicles based on user category and subscription

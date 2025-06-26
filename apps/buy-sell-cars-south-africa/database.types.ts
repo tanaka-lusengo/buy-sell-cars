@@ -144,6 +144,7 @@ export type Database = {
           customer_code: string | null;
           email: string | null;
           id: string;
+          next_payment_date: string | null;
           plan_code: string | null;
           profile_id: string;
           raw_response: Json | null;
@@ -159,6 +160,7 @@ export type Database = {
           customer_code?: string | null;
           email?: string | null;
           id?: string;
+          next_payment_date?: string | null;
           plan_code?: string | null;
           profile_id: string;
           raw_response?: Json | null;
@@ -174,6 +176,7 @@ export type Database = {
           customer_code?: string | null;
           email?: string | null;
           id?: string;
+          next_payment_date?: string | null;
           plan_code?: string | null;
           profile_id?: string;
           raw_response?: Json | null;

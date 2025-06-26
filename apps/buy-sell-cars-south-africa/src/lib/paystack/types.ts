@@ -85,44 +85,6 @@ export type PaystackVerificationResponse = {
   };
 };
 
-// export type PaystackSubscriptionResponse = {
-//   status: boolean;
-//   message: string;
-//   data: {
-//     customer: number;
-//     plan: number;
-//     integration: number;
-//     domain: string;
-//     start: number;
-//     status: string;
-//     quantity: number;
-//     amount: number;
-//     authorization: {
-//       authorization_code: string;
-//       bin: string;
-//       last4: string;
-//       exp_month: string;
-//       exp_year: string;
-//       channel: string;
-//       card_type: string;
-//       bank: string;
-//       country_code: string;
-//       brand: string;
-//       reusable: boolean;
-//       signature: string;
-//       account_name: string | null;
-//     };
-//     invoice_limit: number;
-//     subscription_code: string;
-//     email_token: string;
-//     id: number;
-//     createdAt: string;
-//     updatedAt: string;
-//     cron_expression: string;
-//     next_payment_date: string;
-//   };
-// };
-
 export type PaystackSubscriptionResponse = {
   status: true;
   message: string;

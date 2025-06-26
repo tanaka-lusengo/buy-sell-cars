@@ -114,6 +114,7 @@ export const verifyAndLogSubscription = async (
       subscription_name: subscriptionPlanName,
       email: subscription.customer.email,
       subscription_code: paystackSubscriptionResponse.subscription_code,
+      next_payment_date: paystackSubscriptionResponse.next_payment_date,
       customer_code: subscription.customer.customer_code,
       plan_code: subscription.plan_object.plan_code,
       status: "active",

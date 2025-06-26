@@ -5,6 +5,11 @@ import type {
   PaystackManageSubscriptionResponse,
 } from "./types";
 
+const PAYSTACK_SECRET_KEY =
+  process.env.NODE_ENV === "production"
+    ? process.env.PAYSTACK_SECRET_KEY_LIVE
+    : process.env.PAYSTACK_SECRET_KEY_TEST;
+
 /**
  * Verifies a Paystack subscription transaction using the provided reference.
  *
@@ -24,7 +29,7 @@ export const verifySubscription = async (reference: string) => {
     `https://api.paystack.co/transaction/verify/${reference}`,
     {
       headers: {
-        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY_TEST}`,
+        Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
         "Content-Type": "application/json",
       },
     }
@@ -39,8 +44,6 @@ export const verifySubscription = async (reference: string) => {
       error: "Verification failed",
     };
   }
-
-  console.log("Paystack verification result:", result.data);
 
   return {
     data: result.data as PaystackVerificationResponse["data"],
@@ -82,7 +85,7 @@ export const getPaystackSubscription = async (
       const res = await fetch(url, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY_TEST}`,
+          Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
           "Content-Type": "application/json",
         },
       });
@@ -157,7 +160,7 @@ export const manageSubscription = async (subscriptionCode: string) => {
     `https://api.paystack.co/subscription/${subscriptionCode}/manage/link`,
     {
       headers: {
-        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY_TEST}`,
+        Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
         "Content-Type": "application/json",
       },
     }
