@@ -152,7 +152,7 @@ export const manageSubscription = async (subscriptionCode: string) => {
     return {
       data: null,
       status: StatusCode.BAD_REQUEST,
-      error: "Plan code is required for managing subscription",
+      error: "Subscription code is required for managing subscription",
     };
   }
 
