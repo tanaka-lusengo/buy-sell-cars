@@ -19,3 +19,4 @@ export {
   SubscriptionsDashboard,
   Performance,
 } from "./Dashboard";
+export { BuySellCarsFAQs } from "./FAQs/BuySellCarsFAQs";
