@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { ResponsiveContainer, Typography, Button } from "~bsc-shared/ui";
 import {
   capitaliseFirstChar,
   formatDate,
   handleClientError,
   logErrorMessage,
+  StatusCode,
 } from "~bsc-shared/utils";
 import { managePaystackSubscription } from "@/src/server/actions/payment";
 import { Profile, Subscription } from "@/src/types";
@@ -22,6 +24,8 @@ export const SubscriptionsDashboard = ({
   profile,
   subscription,
 }: SubscriptionsDashboardProps) => {
+  const { push } = useRouter();
+
   const [isLoading, setIsLoading] = useState(false);
 
   if (!profile) {
@@ -135,7 +139,13 @@ export const SubscriptionsDashboard = ({
           )}
         </Flex>
 
-        <Flex gap="md">{renderButtonState()}</Flex>
+        <Flex gap="md">
+          {renderButtonState()}
+
+          <Button onClick={() => push("/dashboard/subscriptions/view")}>
+            See Available Plans
+          </Button>
+        </Flex>
 
         <InfoFooter />
       </Flex>

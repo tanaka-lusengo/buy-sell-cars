@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { DashboardSidebar } from "@/src/components/Layout";
-import { Subscriptions } from "@/src/components/Pages";
+import { SubscriptionsList } from "@/src/components/Pages";
 import { fetchUserAndProfile } from "@/src/server/actions/auth";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
@@ -18,7 +18,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   return hasPermission ? (
     <DashboardSidebar>{children}</DashboardSidebar>
   ) : (
-    <Subscriptions profile={profile} />
+    <SubscriptionsList profile={profile} />
   );
 };
 export default DashboardLayout;

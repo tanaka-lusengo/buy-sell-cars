@@ -15,7 +15,7 @@ export {
   AddListing,
   Listings,
   Security,
-  Subscriptions,
+  SubscriptionsList,
   SubscriptionsDashboard,
   Performance,
 } from "./Dashboard";

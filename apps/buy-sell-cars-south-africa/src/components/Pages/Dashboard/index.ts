@@ -3,4 +3,4 @@ export { AddListing } from "./AddListing";
 export { Listings } from "./Listings";
 export { Security } from "./Security";
 export { Performance } from "./Performance";
-export { Subscriptions, SubscriptionsDashboard } from "./Subscriptions";
+export { SubscriptionsList, SubscriptionsDashboard } from "./Subscriptions";
