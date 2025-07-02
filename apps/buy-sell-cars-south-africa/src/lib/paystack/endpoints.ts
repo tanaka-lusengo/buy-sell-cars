@@ -113,9 +113,9 @@ export const getPaystackSubscription = async (
       const meta = result.meta || {};
       const total = meta.total || 0;
       const currentPage = meta.page || 1;
-      const per_page = meta.per_page || perPage;
+      const perPageValue = meta.perPage || perPage;
 
-      const totalPages = total > 0 ? Math.ceil(total / per_page) : 1;
+      const totalPages = total > 0 ? Math.ceil(total / perPageValue) : 1;
 
       if (currentPage >= totalPages || page >= MAX_PAGES) {
         break;
