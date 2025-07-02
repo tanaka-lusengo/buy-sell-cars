@@ -22,11 +22,11 @@ export const SubscriptionsDashboard = ({
   profile,
   subscription,
 }: SubscriptionsDashboardProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   if (!profile) {
     return null;
   }
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const { user_category } = profile;
   const { subscription_name, start_time, next_payment_date, status } =

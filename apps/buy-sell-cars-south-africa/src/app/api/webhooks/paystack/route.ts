@@ -104,9 +104,9 @@ export async function POST(req: NextRequest) {
           updated_at: new Date().toISOString(),
           subscription_name: plan.name,
           plan_code: plan.plan_code,
-          subscription_code: subscription_code,
+          subscription_code,
           email: customer.email,
-          status: status,
+          status,
           next_payment_date,
           cancel_time:
             eventType === "subscription.not_renew"
