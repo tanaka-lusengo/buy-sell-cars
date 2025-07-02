@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Button, ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { type Profile } from "@/src/types";
 import { Flex } from "@/styled-system/jsx";
@@ -12,8 +11,6 @@ export const Performance = ({ profile }: { profile: Profile }) => {
   const { id, user_category } = profile;
 
   const isIndividual = user_category === "individual";
-
-  const { push } = useRouter();
 
   return (
     <ResponsiveContainer>
@@ -30,12 +27,6 @@ export const Performance = ({ profile }: { profile: Profile }) => {
               our <b>&#39;Growth Accelerator&#39;</b> or{" "}
               <b>&#39;Dealership Dominator&#39;</b> Packages.
             </Typography>
-
-            <Flex justify="center">
-              <Button onClick={() => push("/dashboard/subscriptions/select")}>
-                Upgrade Now
-              </Button>
-            </Flex>
 
             <InfoFooter />
           </Flex>

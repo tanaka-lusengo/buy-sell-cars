@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
 import { redirect } from "next/navigation";
-import { Subscriptions } from "@/src/components/Pages";
+import { SubscriptionsList } from "@/src/components/Pages";
 import { fetchUserAndProfile } from "@/src/server/actions/auth";
 
 export const metadata: Metadata = {
@@ -8,23 +8,14 @@ export const metadata: Metadata = {
   description: "Manage your subscriptions and billing information",
 };
 
-const SubscriptionSelectPage = async () => {
+const SubscriptionViewPage = async () => {
   const { profile } = await fetchUserAndProfile();
 
   if (!profile) {
     redirect("/sign-in");
   }
 
-  const hasPermission =
-    profile?.admin ||
-    profile?.user_category === "individual" ||
-    Boolean(profile?.subscription);
-
-  if (!hasPermission) {
-    redirect("/dashboard/subscriptions");
-  }
-
-  return <Subscriptions profile={profile} />;
+  return <SubscriptionsList profile={profile} />;
 };
 
-export default SubscriptionSelectPage;
+export default SubscriptionViewPage;

@@ -7,6 +7,7 @@ import { formatPriceToRands } from "@/src/utils";
 import { Box, Flex } from "@/styled-system/jsx";
 
 type SubscriptionCardProps = {
+  isIndividual: boolean;
   planLink: string;
   planName: string;
   price: number;
@@ -15,6 +16,7 @@ type SubscriptionCardProps = {
 };
 
 export const SubscriptionCard = ({
+  isIndividual,
   planLink,
   planName,
   price,
@@ -27,7 +29,13 @@ export const SubscriptionCard = ({
     setIsLoading(true);
 
     try {
-      window.open(planLink, "_blank", "noopener,noreferrer");
+      const userConfirmed = confirm(
+        `You are about to subscribe to the ${planName} plan for ${formatPriceToRands(price)}/month. Do you want to proceed?`
+      );
+
+      if (userConfirmed) {
+        window.open(planLink, "_blank", "noopener,noreferrer");
+      }
     } catch (error) {
       logErrorMessage(error, "subscribing to plan");
       handleClientError(
@@ -90,11 +98,30 @@ export const SubscriptionCard = ({
           </Flex>
         </Typography>
 
-        <Box marginX="auto" marginY="md" textAlign="center">
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? "Redirecting..." : "Get Started"}
-          </Button>
-        </Box>
+        {!isIndividual && (
+          <Box marginX="auto" marginY="md" textAlign="center">
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "Redirecting..." : "Get Started"}
+            </Button>
+          </Box>
+        )}
+
+        {!isIndividual && (
+          <Typography align="center" variant="body2">
+            <i>
+              Note: If you are already subscribed to a plan, make sure to cancel
+              your existing subscription first.
+            </i>
+          </Typography>
+        )}
+
+        {isIndividual && (
+          <Typography align="center" variant="body2">
+            <i>
+              Note: Individual users do not have access to subscription plans.
+            </i>
+          </Typography>
+        )}
       </Box>
     </form>
   );

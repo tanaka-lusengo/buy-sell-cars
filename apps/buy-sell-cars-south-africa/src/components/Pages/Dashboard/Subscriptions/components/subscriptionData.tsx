@@ -63,8 +63,5 @@ export const dealershipDominatorPlan = {
     <>
       <b>CTR Links</b> to your website (if applicable)
     </>,
-    <>
-      <b>1 Custom Video</b> (on request)
-    </>,
   ],
 };
