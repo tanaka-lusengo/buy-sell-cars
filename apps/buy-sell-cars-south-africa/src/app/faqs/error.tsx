@@ -7,7 +7,7 @@ const Error = ({ error }: ErrorBoundaryProps) => (
   <ErrorBoundary
     error={error}
     message={
-      "Hmmm, looks like an error occurred while signing in. Please try again."
+      "Hmmm, looks like an error occurred while loading FAQs. Please try again later."
     }
   />
 );
