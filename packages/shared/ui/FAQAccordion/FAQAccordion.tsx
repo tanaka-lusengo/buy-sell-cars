@@ -8,7 +8,7 @@ import { Typography } from "../Typography/Typography";
 
 type FAQAccordionProps = {
   title: string;
-  content: React.ReactElement;
+  content: React.ReactNode;
 };
 
 export const FAQAccordion = ({ title, content }: FAQAccordionProps) => {
