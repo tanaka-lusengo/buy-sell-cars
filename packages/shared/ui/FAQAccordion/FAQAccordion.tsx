@@ -68,7 +68,7 @@ export const FAQAccordion = ({ title, content }: FAQAccordionProps) => {
         maxHeight={isOpen ? "1500px" : "0"}
         opacity={isOpen ? 1 : 0}
       >
-        <Box paddingY="md" paddingX="lg" borderTopColor="secondary">
+        <Box paddingY="md" paddingX="lg" borderTopColor="secondary" borderTopWidth="1px">
           <Flex direction="column" gap="md" minHeight="fit-content">
             {content}
           </Flex>
