@@ -7,7 +7,6 @@
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.4",
     "@vercel/analytics": "^1.5.0",
-    "~bsc-shared": "workspace:*",
     "browser-image-compression": "^2.0.2",
     "date-fns": "^4.1.0",
     "embla-carousel-auto-scroll": "^8.6.0",
@@ -19,7 +18,8 @@
     "react-spinners": "^0.17.0",
     "recharts": "^2.15.3",
     "uuid": "^11.1.0",
-    "zod": "^3.24.3"
+    "zod": "^3.24.3",
+    "~bsc-shared": "workspace:*"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -44,6 +44,8 @@
     "clean-modules": "rm -rf node_modules */node_modules */*/node_modules",
     "clean-next": "rm -rf .next */.next */*/.next",
     "dev": "next dev",
+    "dev:ngrok": "ngrok http --url=master-stallion-usefully.ngrok-free.app 3000",
+    "generate-supabase-types": "npx supabase gen types typescript --project-id zimjojrladsbpeowrzgx --schema public > database.types.ts",
     "format": "prettier . --write",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
