@@ -54,7 +54,7 @@ export const SubscriptionsDashboard = ({
         subscription.subscription_code
       );
 
-      if (!data || error || status !== 200) {
+      if (!data || error || status !== StatusCode.SUCCESS) {
         console.error("Failed to manage subscription:", error);
         return;
       }
