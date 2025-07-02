@@ -1,31 +1,32 @@
 export enum SubscriptionTypeNames {
   DealershipFreeTrialPeriod = "Dealership Free Trial Period",
-  StarterShowcase = "Starter Showcase",
-  GrowthAccelerator = "Growth Accelerator",
-  DealershipDominator = "Dealership Dominator",
+  StarterShowcase = "Starter Showcase (South Africa)",
+  GrowthAccelerator = "Growth Accelerator (South Africa)",
+  DealershipDominator = "Dealership Dominator (South Africa)",
 }
 
-export enum SubscriptionPlanIds {
-  StarterShowcase = "P-6HD57828RX391013YNA7T4KQ",
-  GrowthAccelerator = "P-3JB48780AW339253RNA7UBZI",
-  DealershipDominator = "P-43D63817BB044991ANA7UCDY",
+// TODO: Update to live links when ready
+export enum SubscriptionPlanLinks {
+  StarterShowcase = "https://paystack.shop/pay/buy-sell-cars-sa-starter-showcase",
+  GrowthAccelerator = "https://paystack.shop/pay/buy-sell-cars-sa-growth-accelerator",
+  DealershipDominator = "https://paystack.shop/pay/buy-sell-cars-sa-dealership-dominator",
 }
 
 export const SUBSCRIPTIONS = {
   StarterShowcase: {
     name: SubscriptionTypeNames.StarterShowcase,
-    planId: SubscriptionPlanIds.StarterShowcase,
-    price: 50,
+    planLink: SubscriptionPlanLinks.StarterShowcase,
+    price: 890,
   },
   GrowthAccelerator: {
     name: SubscriptionTypeNames.GrowthAccelerator,
-    planId: SubscriptionPlanIds.GrowthAccelerator,
-    price: 225,
+    planLink: SubscriptionPlanLinks.GrowthAccelerator,
+    price: 3995,
   },
   DealershipDominator: {
     name: SubscriptionTypeNames.DealershipDominator,
-    planId: SubscriptionPlanIds.DealershipDominator,
-    price: 400,
+    planLink: SubscriptionPlanLinks.DealershipDominator,
+    price: 7105,
   },
 };
 
@@ -34,12 +35,6 @@ export const SUBSCRIPTION_TYPES = [
   SubscriptionTypeNames.GrowthAccelerator,
   SubscriptionTypeNames.DealershipDominator,
 ];
-
-export const SUBSCRIPTION_PLAN_MAPPING: Record<string, string> = {
-  "P-6HD57828RX391013YNA7T4KQ": SubscriptionTypeNames.StarterShowcase,
-  "P-3JB48780AW339253RNA7UBZI": SubscriptionTypeNames.GrowthAccelerator,
-  "P-43D63817BB044991ANA7UCDY": SubscriptionTypeNames.DealershipDominator,
-};
 
 // To be used in the UI to display features based on subscription type
 export const SUBSCRIPTION_FEATURE_TYPES = [

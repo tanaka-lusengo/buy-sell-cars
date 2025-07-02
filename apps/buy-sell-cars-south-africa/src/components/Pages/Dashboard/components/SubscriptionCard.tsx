@@ -1,23 +1,13 @@
 "use client";
 
 import { JSX, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Typography, Button } from "~bsc-shared/ui";
-import { handleClientError, StatusCode } from "~bsc-shared/utils";
-// import { subscribeToPlan } from "@/src/server/actions/payment";
-import { Profile } from "@/src/types";
+import { handleClientError, logErrorMessage } from "~bsc-shared/utils";
 import { formatPriceToRands } from "@/src/utils";
 import { Box, Flex } from "@/styled-system/jsx";
 
-type Link = {
-  href: string;
-  rel: string;
-  method: string;
-};
-
 type SubscriptionCardProps = {
-  profile: Profile;
-  planId: string;
+  planLink: string;
   planName: string;
   price: number;
   description: string;
@@ -25,48 +15,24 @@ type SubscriptionCardProps = {
 };
 
 export const SubscriptionCard = ({
-  profile,
-  planId,
+  planLink,
   planName,
   price,
   description,
   features,
 }: SubscriptionCardProps) => {
-  const { push } = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubscribe = async () => {
     setIsLoading(true);
 
     try {
-      // @ts-expect-error: TODO: Uncomment when the server action is implemented
-      const { data, status, error } = await subscribeToPlan(profile, planId);
-
-      if (status !== StatusCode.SUCCESS || error || !data) {
-        console.error("Subscription creation failed:", error);
-        return handleClientError(
-          "subscribing to subscription plan",
-          "Creation failed"
-        );
-      }
-
-      const approveLink = data.links.find(
-        (link: Link) => link.rel === "approve"
-      );
-
-      if (!approveLink) {
-        handleClientError(
-          "No approval link found in subscription response",
-          null
-        );
-        return;
-      }
-
-      push(approveLink.href);
+      window.open(planLink, "_blank", "noopener,noreferrer");
     } catch (error) {
+      logErrorMessage(error, "subscribing to plan");
       handleClientError(
         "An unexpected error occurred while subscribing to the plan",
-        error
+        "Please try again later or contact support if the issue persists."
       );
     } finally {
       setIsLoading(false);
@@ -100,10 +66,6 @@ export const SubscriptionCard = ({
           >
             {formatPriceToRands(price)}/month
           </Typography>
-        </Typography>
-
-        <Typography align="center" variant="body2">
-          (excl. VAT)
         </Typography>
 
         <Box marginY="md">

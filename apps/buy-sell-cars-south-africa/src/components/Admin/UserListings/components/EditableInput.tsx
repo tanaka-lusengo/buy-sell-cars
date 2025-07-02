@@ -5,7 +5,8 @@ import {
   InputField,
 } from "~bsc-shared/components/FormComponents";
 import { toSnakeCase, formatToReadableString } from "~bsc-shared/utils";
-import { SUBSCRIPTION_TYPES, LOCATIONS } from "@/src/constants/values";
+import { SUBSCRIPTION_TYPES } from "@/src/constants/subscription";
+import { LOCATIONS } from "@/src/constants/values";
 import { UpdateProfileAdminFormType } from "@/src/types";
 
 const SELECT_OPTIONS: Record<string, string[]> = {

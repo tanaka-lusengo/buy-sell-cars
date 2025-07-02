@@ -3,7 +3,7 @@ import { PostgrestError } from "@supabase/supabase-js";
 import Link from "next/link";
 import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { StatusCode } from "~bsc-shared/utils";
-import { SUBSCRIPTION_FEATURE_TYPES } from "@/src/constants/values";
+import { SUBSCRIPTION_FEATURE_TYPES } from "@/src/constants/subscription";
 import { Profile } from "@/src/types";
 // import { PaidSponsorFeature } from "../../shared";
 import { filterAndSortByDealers } from "@/src/utils";

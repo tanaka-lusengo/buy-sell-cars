@@ -64,7 +64,19 @@ export type Vehicle = Tables<"vehicles">;
 
 export type VehicleImage = Tables<"vehicle_images">;
 
+export type Subscription = Tables<"subscriptions">;
+
 // Server Actions Types
+export type LogSubscriptionType = Omit<
+  Subscription,
+  "id" | "created_at" | "updated_at"
+>;
+
+export type LogSubscriptionWebhookType = Omit<
+  Subscription,
+  "id" | "created_at" | "start_time"
+>;
+
 export type AddVehicleDataType = Omit<
   Vehicle,
   "id" | "created_at" | "updated_at" | "is_feature"
