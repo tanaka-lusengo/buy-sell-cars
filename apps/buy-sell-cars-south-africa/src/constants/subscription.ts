@@ -5,11 +5,10 @@ export enum SubscriptionTypeNames {
   DealershipDominator = "Dealership Dominator (South Africa)",
 }
 
-// TODO: Update to live links when ready
 export enum SubscriptionPlanLinks {
-  StarterShowcase = "https://paystack.shop/pay/buy-sell-cars-sa-starter-showcase",
-  GrowthAccelerator = "https://paystack.shop/pay/buy-sell-cars-sa-growth-accelerator",
-  DealershipDominator = "https://paystack.shop/pay/buy-sell-cars-sa-dealership-dominator",
+  StarterShowcase = "https://paystack.shop/pay/buy-sell-cars-sa-starter-showcase-plan",
+  GrowthAccelerator = "https://paystack.shop/pay/buy-sell-cars-sa-growth-accelerator-plan",
+  DealershipDominator = "https://paystack.shop/pay/buy-sell-cars-sa-dealership-dominator-plan",
 }
 
 export const SUBSCRIPTIONS = {
