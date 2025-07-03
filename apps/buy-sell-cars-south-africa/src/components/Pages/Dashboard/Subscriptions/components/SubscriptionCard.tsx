@@ -3,11 +3,13 @@
 import { JSX, useState } from "react";
 import { Typography, Button } from "~bsc-shared/ui";
 import { handleClientError, logErrorMessage } from "~bsc-shared/utils";
+import { Profile, Subscription } from "@/src/types";
 import { formatPriceToRands } from "@/src/utils";
-import { Box, Flex } from "@/styled-system/jsx";
+import { Box, Container, Flex } from "@/styled-system/jsx";
 
 type SubscriptionCardProps = {
-  isIndividual: boolean;
+  profile: Profile;
+  subscription: Subscription | null;
   planLink: string;
   planName: string;
   price: number;
@@ -16,7 +18,8 @@ type SubscriptionCardProps = {
 };
 
 export const SubscriptionCard = ({
-  isIndividual,
+  profile,
+  subscription,
   planLink,
   planName,
   price,
@@ -24,6 +27,20 @@ export const SubscriptionCard = ({
   features,
 }: SubscriptionCardProps) => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const isIndividual = profile.user_category === "individual";
+
+  // I need to check if they are already subscribed to a plan and if so, display a message to cancel the existing subscription first
+  const isSubscribed = subscription && subscription.status === "active";
+  const noSubscription = !subscription;
+
+  // Show submit button if:
+  // 1. they are a dealership (not individual)
+  // 2. They don't have a subscription
+  // 3. If they do have a subscription and the status is not "active"
+  const shouldShowSubmitButton =
+    !isIndividual &&
+    (noSubscription || (subscription && subscription.status !== "active"));
 
   const handleSubscribe = async () => {
     setIsLoading(true);
@@ -66,7 +83,7 @@ export const SubscriptionCard = ({
         _hover={{ transform: "scale(1.01)" }}
       >
         <Typography align="center" variant="h3">
-          {planName} —{" "}
+          {planName} <br />
           <Typography
             as="span"
             color="primaryDark"
@@ -98,30 +115,35 @@ export const SubscriptionCard = ({
           </Flex>
         </Typography>
 
-        {!isIndividual && (
-          <Box marginX="auto" marginY="md" textAlign="center">
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Redirecting..." : "Get Started"}
-            </Button>
-          </Box>
-        )}
+        <Container marginY="md">
+          <Flex direction="column" gap="sm">
+            {shouldShowSubmitButton && (
+              <Box marginX="auto" textAlign="center">
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading ? "Redirecting..." : "Get Started"}
+                </Button>
+              </Box>
+            )}
 
-        {!isIndividual && (
-          <Typography align="center" variant="body2">
-            <i>
-              Note: If you are already subscribed to a plan, make sure to cancel
-              your existing subscription first.
-            </i>
-          </Typography>
-        )}
+            {!isIndividual && (
+              <Typography align="center" variant="body2">
+                <i>
+                  Note: If you are already subscribed to a plan,{" "}
+                  <b>make sure to cancel</b> your existing subscription first.
+                </i>
+              </Typography>
+            )}
 
-        {isIndividual && (
-          <Typography align="center" variant="body2">
-            <i>
-              Note: Individual users do not have access to subscription plans.
-            </i>
-          </Typography>
-        )}
+            {isIndividual && (
+              <Typography align="center" variant="body2">
+                <i>
+                  Note: Individual users do not have access to subscription
+                  plans.
+                </i>
+              </Typography>
+            )}
+          </Flex>
+        </Container>
       </Box>
     </form>
   );

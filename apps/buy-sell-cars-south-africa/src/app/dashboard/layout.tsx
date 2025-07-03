@@ -1,7 +1,10 @@
 import { redirect } from "next/navigation";
 import { DashboardSidebar } from "@/src/components/Layout";
 import { SubscriptionsList } from "@/src/components/Pages";
-import { fetchUserAndProfile } from "@/src/server/actions/auth";
+import {
+  fetchUserAndProfile,
+  hasSubscription,
+} from "@/src/server/actions/auth";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const { profile } = await fetchUserAndProfile();
@@ -10,10 +13,10 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
     redirect("/sign-in");
   }
 
+  const hasActiveSub = await hasSubscription(profile.id);
+
   const hasPermission =
-    profile?.admin ||
-    profile?.user_category === "individual" ||
-    Boolean(profile?.subscription);
+    profile?.admin || profile?.user_category === "individual" || hasActiveSub;
 
   return hasPermission ? (
     <DashboardSidebar>{children}</DashboardSidebar>

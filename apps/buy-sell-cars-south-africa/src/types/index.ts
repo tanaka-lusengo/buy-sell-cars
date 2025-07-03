@@ -60,6 +60,10 @@ export type UpdateProfileAdminFormType = ZodInfer<
 // Database Tables Types
 export type Profile = Tables<"profiles">;
 
+export type ProfileWithSubscription = Profile & {
+  subscriptions: Subscription | null;
+};
+
 export type Vehicle = Tables<"vehicles">;
 
 export type VehicleImage = Tables<"vehicle_images">;

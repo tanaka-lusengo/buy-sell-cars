@@ -6,8 +6,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Typography, Button } from "~bsc-shared/ui";
 import { handleClientError, StatusCode } from "~bsc-shared/utils";
 import { SuspenseLoader } from "@/src/components/shared";
-import { useAuth } from "@/src/context/auth-context";
-import { verifyAndLogSubscription } from "@/src/server/actions/payment";
+import { verifySubscriptionReference } from "@/src/server/actions/payment";
 import { Box, Grid, Flex, VStack } from "@/styled-system/jsx";
 
 const SuccessPaymentPage = () => {
@@ -16,36 +15,34 @@ const SuccessPaymentPage = () => {
 
   const { push } = useRouter();
 
-  const { profile } = useAuth();
-
   const [isLoading, setIsLoading] = useState(true);
   const [subscriptionPlanName, setSubscriptionPlanName] = useState("");
 
   useEffect(() => {
     const handlePaymentSuccess = async () => {
-      if (!reference || !profile) {
-        console.error("Reference or profile is missing");
+      if (!reference) {
+        console.error("Reference is missing");
+        handleClientError("Reference is missing", "No reference provided");
         return;
       }
 
       try {
-        const { data, status, error } = await verifyAndLogSubscription(
-          reference,
-          profile
-        );
+        const { data, status, error } =
+          await verifySubscriptionReference(reference);
 
         if (status !== StatusCode.SUCCESS || error || !data) {
           return handleClientError(
-            "logging Paystack subscription - failed",
+            "verifying Paystack subscription - failed",
             error
           );
         }
 
         // Set the subscription plan name based on the retrieved data
-        setSubscriptionPlanName(data || "");
+        // The webhook will handle the actual logging to the database
+        setSubscriptionPlanName(data.plan_name || "");
       } catch (error) {
         handleClientError(
-          "An unexpected error occurred while logging subscription",
+          "An unexpected error occurred while verifying subscription",
           error
         );
       } finally {
@@ -54,7 +51,7 @@ const SuccessPaymentPage = () => {
     };
 
     handlePaymentSuccess();
-  }, [reference, profile]);
+  }, [reference]);
 
   return (
     <Box position="relative" height="100vh" overflow="hidden">

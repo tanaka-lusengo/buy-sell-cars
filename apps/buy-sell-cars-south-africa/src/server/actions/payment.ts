@@ -10,7 +10,6 @@ import {
   manageSubscription,
   getPaystackSubscription,
 } from "@/src/lib/paystack/endpoints";
-import type { Profile, LogSubscriptionType } from "@/src/types";
 import { createClient } from "@/supabase/server";
 
 export const getPaystackSubscriptionPlan = async (
@@ -50,34 +49,20 @@ export const getPaystackSubscriptionPlan = async (
   }
 };
 
-export const verifyAndLogSubscription = async (
-  reference: string,
-  profile: Profile
-) => {
-  if (!reference || !profile) {
+export const verifySubscriptionReference = async (reference: string) => {
+  if (!reference) {
     return {
       data: null,
       status: StatusCode.BAD_REQUEST,
-      error: "Reference ID is required to log subscription",
+      error: "Reference ID is required for verification",
     };
   }
 
   try {
-    // Init supabase client
-    const supabase = await createClient();
+    const { data, status, error } = await verifySubscription(reference);
 
-    const {
-      data: subscription,
-      status: subscriptionStatus,
-      error: subscriptionError,
-    } = await verifySubscription(reference);
-
-    if (
-      !subscription ||
-      subscriptionStatus !== StatusCode.SUCCESS ||
-      subscriptionError
-    ) {
-      logErrorMessage(subscriptionError, "verifying subscription (server)");
+    if (!data || error || status !== StatusCode.SUCCESS) {
+      logErrorMessage(error, "verifying subscription reference (server)");
       return {
         data: null,
         status: StatusCode.BAD_REQUEST,
@@ -85,112 +70,22 @@ export const verifyAndLogSubscription = async (
       };
     }
 
-    const {
-      data: paystackSubscriptionResponse,
-      status,
-      error,
-    } = await getPaystackSubscriptionPlan(
-      subscription.customer.customer_code,
-      subscription.plan_object.plan_code
-    );
-
-    if (
-      !paystackSubscriptionResponse ||
-      status !== StatusCode.SUCCESS ||
-      error
-    ) {
-      logErrorMessage(error, "fetching paystack subscription plan (server)");
-      return {
-        data: null,
-        status: StatusCode.BAD_REQUEST,
-        error: "Failed to fetch subscription plan",
-      };
-    }
-
-    const subscriptionPlanName = subscription.plan_object.name;
-
-    const logSubscriptionData: LogSubscriptionType = {
-      profile_id: profile.id,
-      subscription_name: subscriptionPlanName,
-      email: subscription.customer.email,
-      subscription_code: paystackSubscriptionResponse.subscription_code,
-      next_payment_date: paystackSubscriptionResponse.next_payment_date,
-      customer_code: subscription.customer.customer_code,
-      plan_code: subscription.plan_object.plan_code,
-      status: "active",
-      start_time: subscription.paid_at,
-      cancel_time: null,
-      raw_response: JSON.stringify(subscription),
-    };
-
-    // --- Prevent duplicate logging ---
-    // Check if a subscription with the same reference or customer_code already exists
-    const { data: existingSubscription, error: fetchError } = await supabase
-      .from("subscriptions")
-      .select("*")
-      .eq("profile_id", profile.id)
-      .eq("plan_code", subscription.plan_object.plan_code)
-      .eq("customer_code", subscription.customer.customer_code)
-      .maybeSingle(); // Use maybeSingle to allow null if not found
-
-    if (fetchError) {
-      logErrorMessage(fetchError, "checking existing subscription (server)");
-      return {
-        data: null,
-        status: StatusCode.BAD_REQUEST,
-        error: "Error checking existing subscription",
-      };
-    }
-
-    if (existingSubscription) {
-      // If a matching subscription exists, do not log again
-      return {
-        data: subscriptionPlanName,
-        status: StatusCode.SUCCESS,
-        error: null,
-      };
-    }
-    // --- End duplicate check ---
-
-    // Log subscription to the database
-    const { error: logSubscriptionError } = await supabase
-      .from("subscriptions")
-      .insert(logSubscriptionData);
-
-    if (logSubscriptionError) {
-      logErrorMessage(logSubscriptionError, "logging subscription (server)");
-      return {
-        data: null,
-        status: StatusCode.BAD_REQUEST,
-        error: "Failed to log subscription",
-      };
-    }
-
-    // Also log to the profiles table
-    const { error: profileError } = await supabase
-      .from("profiles")
-      .update({ subscription: subscriptionPlanName })
-      .eq("id", profile.id);
-
-    if (profileError) {
-      logErrorMessage(
-        profileError,
-        "updating profile with subscription (server)"
-      );
-      return {
-        data: null,
-        status: StatusCode.BAD_REQUEST,
-        error: "Failed to update profile with subscription",
-      };
-    }
-
+    // Just return the verification data - webhook will handle logging
     return {
-      data: subscriptionPlanName,
+      data: {
+        subscription_reference: reference,
+        customer_email: data.customer.email,
+        plan_name: data.plan_object.name,
+        status: data.status,
+      },
       status: StatusCode.SUCCESS,
       error: null,
     };
   } catch (error) {
-    return handleServerError(error, "logging subscription (server)");
+    return handleServerError(
+      error,
+      "verifying subscription reference (server)"
+    );
   }
 };
 
@@ -259,5 +154,91 @@ export const managePaystackSubscription = async (subscriptionCode: string) => {
     };
   } catch (error) {
     return handleServerError(error, "managing subscription (server)");
+  }
+};
+
+export const syncPartialSubscriptions = async () => {
+  try {
+    const supabase = await createClient();
+
+    // Find subscriptions that are missing subscription_code
+    const { data: partialSubscriptions, error: fetchError } = await supabase
+      .from("subscriptions")
+      .select("*")
+      .is("subscription_code", null)
+      .eq("status", "active");
+
+    if (fetchError) {
+      logErrorMessage(fetchError, "fetching partial subscriptions (server)");
+      return {
+        data: null,
+        status: StatusCode.BAD_REQUEST,
+        error: "Failed to fetch partial subscriptions",
+      };
+    }
+
+    if (!partialSubscriptions || partialSubscriptions.length === 0) {
+      return {
+        data: { synced: 0, message: "No partial subscriptions found" },
+        status: StatusCode.SUCCESS,
+        error: null,
+      };
+    }
+
+    let syncedCount = 0;
+    const errors = [];
+
+    for (const subscription of partialSubscriptions) {
+      try {
+        const {
+          data: paystackSub,
+          status,
+          error,
+        } = await getPaystackSubscription(
+          subscription.customer_code!,
+          subscription.plan_code!
+        );
+
+        if (paystackSub && status === StatusCode.SUCCESS && !error) {
+          const { error: updateError } = await supabase
+            .from("subscriptions")
+            .update({
+              subscription_code: paystackSub.subscription_code,
+              subscription_name: subscription.subscription_name?.replace(
+                " (Pending Sync)",
+                ""
+              ),
+              updated_at: new Date().toISOString(),
+            })
+            .eq("id", subscription.id);
+
+          if (!updateError) {
+            syncedCount++;
+          } else {
+            errors.push(
+              `Failed to update subscription ${subscription.id}: ${updateError.message}`
+            );
+          }
+        } else {
+          errors.push(
+            `Failed to fetch subscription for ${subscription.email}: ${error}`
+          );
+        }
+      } catch (error) {
+        errors.push(`Error syncing subscription ${subscription.id}: ${error}`);
+      }
+    }
+
+    return {
+      data: {
+        synced: syncedCount,
+        total: partialSubscriptions.length,
+        errors: errors.length > 0 ? errors : null,
+      },
+      status: StatusCode.SUCCESS,
+      error: null,
+    };
+  } catch (error) {
+    return handleServerError(error, "syncing partial subscriptions (server)");
   }
 };
