@@ -1,2 +1,2 @@
-export { Subscriptions } from "./Subscriptions";
+export { SubscriptionsList } from "./SubscriptionsList";
 export { SubscriptionsDashboard } from "./SubscriptionsDashboard";

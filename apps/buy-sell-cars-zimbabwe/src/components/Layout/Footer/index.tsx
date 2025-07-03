@@ -182,6 +182,23 @@ export const Footer = () => {
               </HStack>
             </Link>
 
+            <Link href="/faqs">
+              <HStack
+                _hover={{
+                  color: "primary",
+                  transition: "0.3s ease-in-out",
+                }}
+              >
+                <i
+                  className="fa-solid fa-question"
+                  aria-hidden="true"
+                  title="FAQs"
+                  style={{ width: "2rem" }}
+                ></i>
+                <Typography variant="body2">FAQs</Typography>
+              </HStack>
+            </Link>
+
             <HStack>
               <i
                 className="fa-solid fa-location-dot"

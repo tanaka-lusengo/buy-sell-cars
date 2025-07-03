@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { StatusCode } from "~bsc-shared/utils";
 import { SUBSCRIPTION_FEATURE_TYPES } from "@/src/constants/subscription";
-import { Profile } from "@/src/types";
+import { ProfileWithSubscription } from "@/src/types";
 // import { PaidSponsorFeature } from "../../shared";
 import { filterAndSortByDealers } from "@/src/utils";
 import { Container, Box, Grid, Flex, Divider } from "@/styled-system/jsx";
@@ -13,7 +13,7 @@ import { Filter, DealerCard } from "./components";
 // import { EXTERNAL_URLS } from "@/src/constants/urls";
 
 type AllDealersProps = {
-  dealers: Profile[];
+  dealers: ProfileWithSubscription[];
   error: string | PostgrestError | null;
   status: StatusCode;
 };

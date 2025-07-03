@@ -1,4 +1,4 @@
-import { Profile } from "@/src/types";
+import { Profile, ProfileWithSubscription } from "@/src/types";
 
 /**
  * Filters dealers by excluding those with subscription types in the excludedTypes array,
@@ -8,16 +8,17 @@ import { Profile } from "@/src/types";
  * @returns Filtered and alphabetically sorted array of dealers
  */
 export const filterAndSortByDealers = (
-  dealers: Profile[],
+  dealers: ProfileWithSubscription[],
   subscriptionTypes: string[],
   isFeatured: boolean = false
-): Profile[] => {
+): ProfileWithSubscription[] => {
   return dealers
-    .filter((dealer) =>
-      isFeatured
-        ? subscriptionTypes.includes(dealer.subscription || "")
-        : !subscriptionTypes.includes(dealer.subscription || "")
-    )
+    .filter((dealer) => {
+      const subscriptionName = dealer.subscriptions?.subscription_name || "";
+      return isFeatured
+        ? subscriptionTypes.includes(subscriptionName)
+        : !subscriptionTypes.includes(subscriptionName);
+    })
     .sort((a, b) => {
       const nameA = (a.dealership_name || "").toLowerCase();
       const nameB = (b.dealership_name || "").toLowerCase();

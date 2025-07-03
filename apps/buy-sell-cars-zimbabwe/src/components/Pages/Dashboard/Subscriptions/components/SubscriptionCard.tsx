@@ -4,7 +4,7 @@ import { JSX, useState } from "react";
 import { Typography, Button } from "~bsc-shared/ui";
 import { handleClientError, logErrorMessage } from "~bsc-shared/utils";
 import { Profile, Subscription } from "@/src/types";
-import { formatPriceToRands } from "@/src/utils";
+import { formatPriceToDollars } from "@/src/utils";
 import { Box, Container, Flex } from "@/styled-system/jsx";
 
 type SubscriptionCardProps = {
@@ -45,7 +45,7 @@ export const SubscriptionCard = ({
 
     try {
       const userConfirmed = confirm(
-        `You are about to subscribe to the ${planName} plan for ${formatPriceToRands(price)}/month. Do you want to proceed?`
+        `You are about to subscribe to the ${planName} plan for ${formatPriceToDollars(price)}/month. Do you want to proceed?`
       );
 
       if (userConfirmed) {
@@ -87,7 +87,7 @@ export const SubscriptionCard = ({
             color="primaryDark"
             style={{ fontSize: "inherit" }}
           >
-            {formatPriceToRands(price)}/month
+            {formatPriceToDollars(price)}/month
           </Typography>
         </Typography>
 

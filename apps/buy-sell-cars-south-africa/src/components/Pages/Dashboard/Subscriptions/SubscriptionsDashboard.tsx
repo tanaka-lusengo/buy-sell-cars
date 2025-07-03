@@ -33,9 +33,10 @@ export const SubscriptionsDashboard = ({
   }
 
   const { user_category } = profile;
-  const { subscription_name, start_time, next_payment_date, status } =
+  const { subscription_name, start_time, status, cancel_time } =
     subscription || {};
 
+  const isCancelled = cancel_time !== null;
   const isIndividual = user_category === "individual";
   const subscriptionPlanName = subscription_name || "No Plan Selected";
 
@@ -119,16 +120,17 @@ export const SubscriptionsDashboard = ({
 
           {subscription && !isIndividual && (
             <>
-              <Typography>
-                Subscription start:{" "}
-                <strong>{start_time ? formatDate(start_time) : "TBC"}</strong>
-              </Typography>
-              <Typography>
-                Next payment date:{" "}
-                <strong>
-                  {next_payment_date ? formatDate(next_payment_date) : "TBC"}
-                </strong>
-              </Typography>
+              {isCancelled ? (
+                <Typography>
+                  Cancelled at:{" "}
+                  <strong>{cancel_time ? formatDate(cancel_time) : ""}</strong>
+                </Typography>
+              ) : (
+                <Typography>
+                  Subscription start:{" "}
+                  <strong>{start_time ? formatDate(start_time) : "TBC"}</strong>
+                </Typography>
+              )}
               <Typography>
                 Status:{" "}
                 <strong>

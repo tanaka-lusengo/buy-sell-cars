@@ -1,31 +1,30 @@
 export enum SubscriptionTypeNames {
-  DealershipFreeTrialPeriod = "Dealership Free Trial Period",
-  StarterShowcase = "Starter Showcase (South Africa)",
-  GrowthAccelerator = "Growth Accelerator (South Africa)",
-  DealershipDominator = "Dealership Dominator (South Africa)",
+  StarterShowcase = "Starter Showcase (Zimbabwe)",
+  GrowthAccelerator = "Growth Accelerator (Zimbabwe)",
+  DealershipDominator = "Dealership Dominator (Zimbabwe)",
 }
 
 export enum SubscriptionPlanLinks {
-  StarterShowcase = "https://paystack.shop/pay/buy-sell-cars-sa-starter-showcase-live",
-  GrowthAccelerator = "https://paystack.shop/pay/buy-sell-cars-sa-growth-accelerator-live",
-  DealershipDominator = "https://paystack.shop/pay/buy-sell-cars-sa-dealership-dominator-live",
+  StarterShowcase = "https://paystack.shop/pay/buy-sell-cars-zw-starter-showcase-live",
+  GrowthAccelerator = "https://paystack.shop/pay/buy-sell-cars-zw-growth-accelerator-live",
+  DealershipDominator = "https://paystack.shop/pay/buy-sell-cars-zw-dealership-dominator-live",
 }
 
 export const SUBSCRIPTIONS = {
   StarterShowcase: {
     name: SubscriptionTypeNames.StarterShowcase,
     planLink: SubscriptionPlanLinks.StarterShowcase,
-    price: 890,
+    price: 50,
   },
   GrowthAccelerator: {
     name: SubscriptionTypeNames.GrowthAccelerator,
     planLink: SubscriptionPlanLinks.GrowthAccelerator,
-    price: 3995,
+    price: 225,
   },
   DealershipDominator: {
     name: SubscriptionTypeNames.DealershipDominator,
     planLink: SubscriptionPlanLinks.DealershipDominator,
-    price: 7105,
+    price: 400,
   },
 };
 

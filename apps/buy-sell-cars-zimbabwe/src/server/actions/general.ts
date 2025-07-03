@@ -5,7 +5,7 @@ import { handleServerError, StatusCode, shuffleArray } from "~bsc-shared/utils";
 import {
   SUBSCRIPTION_FEATURE_TYPES,
   SubscriptionTypeNames,
-} from "@/src/constants/values";
+} from "@/src/constants/subscription";
 import {
   addVehicleValidationSchema,
   editVehicleValidationSchema,
@@ -45,18 +45,35 @@ export const addVehicle = async ({ profile, formData }: AddVehicleProps) => {
       return { data: null, status: StatusCode.BAD_REQUEST, error: countError };
     }
 
+    const { data: profileSubData, error: profileSubError } =
+      await getProfileSubscriptionDetails(profile.id);
+
+    if (profileSubError) {
+      console.error(
+        "[addVehicle] Error fetching profile subscription details:",
+        profileSubError
+      );
+      return {
+        data: null,
+        status: StatusCode.BAD_REQUEST,
+        error: profileSubError,
+      };
+    }
+
+    const profileSubscription = profileSubData?.subscription_name;
+
     // 2. Determine max allowed vehicles based on user category and subscription
     let maxVehicles = 0;
 
     if (profile?.user_category === "dealership") {
-      if (profile?.subscription === SubscriptionTypeNames.StarterShowcase) {
+      if (profileSubscription === SubscriptionTypeNames.StarterShowcase) {
         maxVehicles = 25;
       } else if (
-        profile?.subscription === SubscriptionTypeNames.GrowthAccelerator
+        profileSubscription === SubscriptionTypeNames.GrowthAccelerator
       ) {
         maxVehicles = 75;
       } else if (
-        profile?.subscription === SubscriptionTypeNames.DealershipDominator
+        profileSubscription === SubscriptionTypeNames.DealershipDominator
       ) {
         maxVehicles = 100;
       }
@@ -251,7 +268,37 @@ export const deleteVehicle = async (vehicleId: string) => {
       };
     }
 
-    // 6. Delete the vehicle record itself
+    // 6. Delete vehicle favourites records
+    const { error: deleteFavouritesError } = await supabase
+      .from("vehicle_favourites")
+      .delete()
+      .eq("vehicle_id", vehicleId);
+
+    if (deleteFavouritesError) {
+      // Return error if unable to delete favourites records
+      return {
+        data: null,
+        status: StatusCode.BAD_REQUEST,
+        error: deleteFavouritesError,
+      };
+    }
+
+    // 7. Delete vehicle ad clicks records
+    const { error: deleteAdClicksError } = await supabase
+      .from("vehicle_ad_clicks")
+      .delete()
+      .eq("vehicle_id", vehicleId);
+
+    if (deleteAdClicksError) {
+      // Return error if unable to delete ad clicks records
+      return {
+        data: null,
+        status: StatusCode.BAD_REQUEST,
+        error: deleteAdClicksError,
+      };
+    }
+
+    // 8. Delete the vehicle record itself
     const { error: deleteVehicleError } = await supabase
       .from("vehicles")
       .delete()
@@ -266,7 +313,7 @@ export const deleteVehicle = async (vehicleId: string) => {
       };
     }
 
-    // 7. Revalidate the path to update the UI
+    // 9. Revalidate the path to update the UI
     revalidatePath("/dashboard/listings/", "page");
 
     // Return success response
@@ -634,10 +681,15 @@ export const getAllDealers = async () => {
   const supabase = await createClient();
 
   try {
-    // fetch all dealers
+    // fetch all dealers with their subscription details
     const { data, error } = await supabase
       .from("profiles")
-      .select("*")
+      .select(
+        `
+        *,
+        subscriptions(*)
+      `
+      )
       .neq("admin", true)
       .neq("user_category", "individual")
       .order("dealership_name", { ascending: true });
@@ -646,7 +698,30 @@ export const getAllDealers = async () => {
       return { data: null, status: StatusCode.BAD_REQUEST, error };
     }
 
-    return { data, status: StatusCode.SUCCESS, error: null };
+    // For dealers without subscriptions, we'll add the subscription details using getProfileSubscriptionDetails
+    const dealersWithSubscriptions = await Promise.all(
+      data?.map(async (dealer) => {
+        if (!dealer.subscriptions) {
+          // If no subscription found in the join, try to get it separately
+          const { data: subscriptionData, error: subscriptionError } =
+            await getProfileSubscriptionDetails(dealer.id);
+
+          if (!subscriptionError && subscriptionData) {
+            return {
+              ...dealer,
+              subscriptions: subscriptionData,
+            };
+          }
+        }
+        return dealer;
+      }) || []
+    );
+
+    return {
+      data: dealersWithSubscriptions,
+      status: StatusCode.SUCCESS,
+      error: null,
+    };
   } catch (error) {
     return handleServerError(error, "getting dealers (server)");
   }
@@ -659,12 +734,19 @@ export const getAllFeaturedDealersAndVehiclesWithImages = async (
   // Init supabase client
   const supabase = await createClient();
   try {
-    // fetch all featured dealers
+    // fetch all featured dealers by joining profiles with subscriptions
     const { data: dealers, error: dealersError } = await supabase
       .from("profiles")
-      .select("*")
+      .select(
+        `
+        *,
+        subscriptions!inner(
+          subscription_name
+        )
+      `
+      )
       .eq("user_category", "dealership")
-      .in("subscription", SUBSCRIPTION_FEATURE_TYPES)
+      .in("subscriptions.subscription_name", SUBSCRIPTION_FEATURE_TYPES)
       .neq("admin", true)
       .not("profile_logo_path", "is", null);
 
@@ -716,7 +798,7 @@ export const getAllFeaturedDealersAndVehiclesWithImages = async (
                     id: dealer.id,
                     dealership_name: dealer.dealership_name,
                     profile_logo_path: dealer.profile_logo_path,
-                    subscription: dealer.subscription,
+                    subscription: dealer.subscriptions.subscription_name,
                   },
                 };
               })
@@ -729,7 +811,7 @@ export const getAllFeaturedDealersAndVehiclesWithImages = async (
 
     // Shuffle the dealers to randomize the order
     const shuffledDealers = shuffleArray(vehiclesWithDealer);
-    // Limit to 6 featured dealers
+    // Limit to 6 featuredDealers
     const featuredDealers = shuffledDealers.slice(0, 6);
     return {
       data: featuredDealers,
@@ -806,5 +888,41 @@ export const getProfileById = async (profileId: string) => {
     return { data, status: StatusCode.SUCCESS, error: null };
   } catch (error) {
     return handleServerError(error, "getting profile (server)");
+  }
+};
+
+export const getProfileSubscriptionDetails = async (profileId: string) => {
+  // Init supabase client
+  const supabase = await createClient();
+
+  try {
+    // fetch profile with all subscription details
+    const { data, error } = await supabase
+      .from("profiles")
+      .select(
+        `
+        id,
+        subscriptions!inner(
+          *
+        )
+      `
+      )
+      .eq("id", profileId)
+      .single();
+
+    if (error) {
+      return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+
+    return {
+      data: data.subscriptions,
+      status: StatusCode.SUCCESS,
+      error: null,
+    };
+  } catch (error) {
+    return handleServerError(
+      error,
+      "getting profile subscription details (server)"
+    );
   }
 };

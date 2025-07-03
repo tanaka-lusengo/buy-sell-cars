@@ -1,125 +1,244 @@
 "use server";
 
-import { handleServerError, StatusCode } from "~bsc-shared/utils";
-import { SUBSCRIPTION_PLAN_MAPPING } from "@/src/constants/values";
 import {
-  createSubscription,
-  retrieveSubscription,
-} from "@/src/lib/paypal/index";
-import type {
-  SubscribeToSubscriptionResponse,
-  SubscriptionResponse,
-} from "@/src/lib/paypal/types";
-import type { Profile, LogSubscription } from "@/src/types";
+  StatusCode,
+  handleServerError,
+  logErrorMessage,
+} from "~bsc-shared/utils";
+import {
+  verifySubscription,
+  manageSubscription,
+  getPaystackSubscription,
+} from "@/src/lib/paystack/endpoints";
 import { createClient } from "@/supabase/server";
 
-export const subscribeToPlan = async (profile: Profile, planId: string) => {
+export const getPaystackSubscriptionPlan = async (
+  customerPlan: string,
+  planCode: string
+) => {
+  if (!customerPlan || !planCode) {
+    return {
+      data: null,
+      status: StatusCode.BAD_REQUEST,
+      error: "Customer plan and plan code are required",
+    };
+  }
+
   try {
-    if (!planId) {
+    const { data, status, error } = await getPaystackSubscription(
+      customerPlan,
+      planCode
+    );
+
+    if (!data || error || status !== StatusCode.SUCCESS) {
+      logErrorMessage(error, "fetching paystack subscription (server)");
       return {
         data: null,
         status: StatusCode.BAD_REQUEST,
-        error: "Plan ID is required to create a subscription",
+        error: "Failed to fetch subscription",
       };
     }
 
-    if (!profile) {
-      return {
-        data: null,
-        status: StatusCode.UNAUTHORIZED,
-        error: "User profile is required to create a subscription",
-      };
-    }
-
-    // Attempt to create a subscription using PayPal integration
-    const subscription: SubscribeToSubscriptionResponse =
-      await createSubscription(profile, planId);
-
-    // Return success response with subscription data
     return {
+      data,
       status: StatusCode.SUCCESS,
-      data: subscription,
       error: null,
     };
   } catch (error) {
-    return handleServerError(error, "creating subscription (server)");
+    return handleServerError(error, "fetching paystack subscription (server)");
   }
 };
 
-export const logPaypalSubscription = async (subscription_id: string) => {
+export const verifySubscriptionReference = async (reference: string) => {
+  if (!reference) {
+    return {
+      data: null,
+      status: StatusCode.BAD_REQUEST,
+      error: "Reference ID is required for verification",
+    };
+  }
+
   try {
-    if (!subscription_id) {
+    const { data, status, error } = await verifySubscription(reference);
+
+    if (!data || error || status !== StatusCode.SUCCESS) {
+      logErrorMessage(error, "verifying subscription reference (server)");
       return {
         data: null,
         status: StatusCode.BAD_REQUEST,
-        error: "Subscription ID is required to log subscription",
+        error: "Failed to verify subscription",
       };
     }
 
-    // Init supabase client
-    const supabase = await createClient();
-
-    const subscription: SubscriptionResponse =
-      await retrieveSubscription(subscription_id);
-
-    if (!subscription) {
-      throw new Error("Failed to retrieve subscription from PayPal");
-    }
-
-    // Get current user
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) throw new Error("User not authenticated");
-
-    const subscriptionPlanName =
-      SUBSCRIPTION_PLAN_MAPPING[subscription.plan_id] ?? null;
-
-    const logSubscriptionData: LogSubscription = {
-      profile_id: user.id,
-      subscription_id,
-      plan_id: subscription.plan_id,
-      plan_name: subscriptionPlanName,
-      status: subscription.status,
-      email: subscription.subscriber?.email_address ?? null,
-      start_time: subscription.start_time ?? null,
-      raw_response: subscription,
-    };
-
-    // Upsert subscription log
-    const { error: logSubscriptionError } = await supabase
-      .from("subscriptions")
-      .upsert(logSubscriptionData);
-
-    if (logSubscriptionError) {
-      return {
-        data: null,
-        status: StatusCode.INTERNAL_SERVER_ERROR,
-        error: logSubscriptionError,
-      };
-    }
-
-    // Also log to the profiles table
-    const { error: profileError } = await supabase
-      .from("profiles")
-      .update({ subscription: subscriptionPlanName })
-      .eq("id", user.id);
-
-    if (profileError) {
-      return {
-        data: null,
-        status: StatusCode.INTERNAL_SERVER_ERROR,
-        error: profileError,
-      };
-    }
-
+    // Just return the verification data - webhook will handle logging
     return {
-      data: subscriptionPlanName,
+      data: {
+        subscription_reference: reference,
+        customer_email: data.customer.email,
+        plan_name: data.plan_object.name,
+        status: data.status,
+      },
       status: StatusCode.SUCCESS,
       error: null,
     };
   } catch (error) {
-    return handleServerError(error, "logging subscription (server)");
+    return handleServerError(
+      error,
+      "verifying subscription reference (server)"
+    );
+  }
+};
+
+export const getSubscription = async (profileId: string) => {
+  if (!profileId) {
+    return {
+      data: null,
+      status: StatusCode.BAD_REQUEST,
+      error: "Customer profile Id is required",
+    };
+  }
+
+  try {
+    const supabase = await createClient();
+
+    const { data, error } = await supabase
+      .from("subscriptions")
+      .select("*")
+      .eq("profile_id", profileId)
+      .single();
+
+    if (error) {
+      logErrorMessage(error, "fetching subscription (server)");
+      return {
+        data: null,
+        status: StatusCode.BAD_REQUEST,
+        error: "Failed to fetch subscription",
+      };
+    }
+
+    return {
+      data,
+      status: StatusCode.SUCCESS,
+      error: null,
+    };
+  } catch (error) {
+    return handleServerError(error, "fetching subscription (server)");
+  }
+};
+
+export const managePaystackSubscription = async (subscriptionCode: string) => {
+  if (!subscriptionCode) {
+    return {
+      data: null,
+      status: StatusCode.BAD_REQUEST,
+      error: "Subscription code is required for managing subscription",
+    };
+  }
+
+  try {
+    const { data, status, error } = await manageSubscription(subscriptionCode);
+
+    if (!data || error || status !== StatusCode.SUCCESS) {
+      logErrorMessage(error, "managing subscription (server)");
+      return {
+        data: null,
+        status: StatusCode.BAD_REQUEST,
+        error: "Failed to manage subscription",
+      };
+    }
+
+    return {
+      data,
+      status: StatusCode.SUCCESS,
+      error: null,
+    };
+  } catch (error) {
+    return handleServerError(error, "managing subscription (server)");
+  }
+};
+
+export const syncPartialSubscriptions = async () => {
+  try {
+    const supabase = await createClient();
+
+    // Find subscriptions that are missing subscription_code
+    const { data: partialSubscriptions, error: fetchError } = await supabase
+      .from("subscriptions")
+      .select("*")
+      .is("subscription_code", null)
+      .eq("status", "active");
+
+    if (fetchError) {
+      logErrorMessage(fetchError, "fetching partial subscriptions (server)");
+      return {
+        data: null,
+        status: StatusCode.BAD_REQUEST,
+        error: "Failed to fetch partial subscriptions",
+      };
+    }
+
+    if (!partialSubscriptions || partialSubscriptions.length === 0) {
+      return {
+        data: { synced: 0, message: "No partial subscriptions found" },
+        status: StatusCode.SUCCESS,
+        error: null,
+      };
+    }
+
+    let syncedCount = 0;
+    const errors = [];
+
+    for (const subscription of partialSubscriptions) {
+      try {
+        const {
+          data: paystackSub,
+          status,
+          error,
+        } = await getPaystackSubscription(
+          subscription.customer_code!,
+          subscription.plan_code!
+        );
+
+        if (paystackSub && status === StatusCode.SUCCESS && !error) {
+          const { error: updateError } = await supabase
+            .from("subscriptions")
+            .update({
+              subscription_code: paystackSub.subscription_code,
+              subscription_name: subscription.subscription_name?.replace(
+                " (Pending Sync)",
+                ""
+              ),
+              updated_at: new Date().toISOString(),
+            })
+            .eq("id", subscription.id);
+
+          if (!updateError) {
+            syncedCount++;
+          } else {
+            errors.push(
+              `Failed to update subscription ${subscription.id}: ${updateError.message}`
+            );
+          }
+        } else {
+          errors.push(
+            `Failed to fetch subscription for ${subscription.email}: ${error}`
+          );
+        }
+      } catch (error) {
+        errors.push(`Error syncing subscription ${subscription.id}: ${error}`);
+      }
+    }
+
+    return {
+      data: {
+        synced: syncedCount,
+        total: partialSubscriptions.length,
+        errors: errors.length > 0 ? errors : null,
+      },
+      status: StatusCode.SUCCESS,
+      error: null,
+    };
+  } catch (error) {
+    return handleServerError(error, "syncing partial subscriptions (server)");
   }
 };

@@ -13,7 +13,7 @@ import {
   toastNotifyInfo,
   formatToReadableString,
 } from "~bsc-shared/utils";
-import { SubscriptionTypeNames } from "@/src/constants/values";
+import { SubscriptionTypeNames } from "@/src/constants/subscription";
 import { useFileUploadHelpers } from "@/src/hooks";
 import { editVehicleValidationSchema } from "@/src/schemas";
 import {
@@ -52,6 +52,7 @@ const TABLE_HEADERS = [
 
 type ListingsProps = {
   profile: Profile;
+  profileSubscription: string | null | undefined;
   vehicles: VehicleWithImage[];
   error: string | PostgrestError | null;
   status: StatusCode;
@@ -59,6 +60,7 @@ type ListingsProps = {
 
 export const Listings = ({
   profile,
+  profileSubscription,
   vehicles,
   error,
   status,
@@ -206,14 +208,14 @@ export const Listings = ({
   let maxVehicles = 0;
 
   if (profile?.user_category === "dealership") {
-    if (profile?.subscription === SubscriptionTypeNames.StarterShowcase) {
+    if (profileSubscription === SubscriptionTypeNames.StarterShowcase) {
       maxVehicles = 25;
     } else if (
-      profile?.subscription === SubscriptionTypeNames.GrowthAccelerator
+      profileSubscription === SubscriptionTypeNames.GrowthAccelerator
     ) {
       maxVehicles = 75;
     } else if (
-      profile?.subscription === SubscriptionTypeNames.DealershipDominator
+      profileSubscription === SubscriptionTypeNames.DealershipDominator
     ) {
       maxVehicles = 100;
     }
@@ -230,7 +232,7 @@ export const Listings = ({
         <br /> On your current plan:{" "}
         <b>
           {profile?.user_category === "dealership"
-            ? formatToReadableString(profile?.subscription || "")
+            ? formatToReadableString(profileSubscription || "")
             : "Individual"}
         </b>
         , you can have up to <b>{maxVehicles}</b> active listings.

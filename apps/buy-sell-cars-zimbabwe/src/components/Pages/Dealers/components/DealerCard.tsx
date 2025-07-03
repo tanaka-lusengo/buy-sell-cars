@@ -4,12 +4,12 @@ import { Typography } from "~bsc-shared/ui";
 import defaultUserIcon from "@/public/images/default-user-icon.png";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 import { useFileUploadHelpers } from "@/src/hooks";
-import { Profile } from "@/src/types";
+import { ProfileWithSubscription } from "@/src/types";
 import { Box, HStack } from "@/styled-system/jsx";
 import { createClient } from "@/supabase/client";
 
 type DealerCardProps = {
-  dealer: Profile;
+  dealer: ProfileWithSubscription;
   isFeature?: boolean;
 };
 

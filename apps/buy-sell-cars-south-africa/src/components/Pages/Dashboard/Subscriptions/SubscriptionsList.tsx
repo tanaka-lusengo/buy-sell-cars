@@ -4,16 +4,25 @@ import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Typography } from "~bsc-shared/ui";
-import { Profile } from "@/src/types";
+import { Profile, Subscription } from "@/src/types";
 import { Box, Flex, Grid, VStack } from "@/styled-system/jsx";
-import { InfoFooter, SubscriptionCard } from "../components";
+import { InfoFooter } from "../components";
+import { SubscriptionCard } from "./components";
 import {
   starterShowcasePlan,
   growthAcceleratorPlan,
   dealershipDominatorPlan,
 } from "./components/subscriptionData";
 
-export const SubscriptionsList = ({ profile }: { profile: Profile }) => {
+type SubscriptionsListProps = {
+  profile: Profile;
+  subscription: Subscription | null;
+};
+
+export const SubscriptionsList = ({
+  profile,
+  subscription,
+}: SubscriptionsListProps) => {
   useEffect(() => {
     // Scroll to top on initial load
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -22,8 +31,6 @@ export const SubscriptionsList = ({ profile }: { profile: Profile }) => {
   if (!profile) {
     return null;
   }
-
-  const isIndividual = profile.user_category === "individual";
 
   return (
     <Box position="relative" height="100vh" overflow="hidden">
@@ -80,7 +87,8 @@ export const SubscriptionsList = ({ profile }: { profile: Profile }) => {
             gap="md"
           >
             <SubscriptionCard
-              isIndividual={isIndividual}
+              profile={profile}
+              subscription={subscription}
               planLink={starterShowcasePlan.planLink}
               planName={starterShowcasePlan.name}
               price={starterShowcasePlan.price}
@@ -93,7 +101,8 @@ export const SubscriptionsList = ({ profile }: { profile: Profile }) => {
             />
 
             <SubscriptionCard
-              isIndividual={isIndividual}
+              profile={profile}
+              subscription={subscription}
               planLink={growthAcceleratorPlan.planLink}
               planName={growthAcceleratorPlan.name}
               price={growthAcceleratorPlan.price}
@@ -106,7 +115,8 @@ export const SubscriptionsList = ({ profile }: { profile: Profile }) => {
             />
 
             <SubscriptionCard
-              isIndividual={isIndividual}
+              profile={profile}
+              subscription={subscription}
               planLink={dealershipDominatorPlan.planLink}
               planName={dealershipDominatorPlan.name}
               price={dealershipDominatorPlan.price}

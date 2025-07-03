@@ -95,10 +95,6 @@ export const signUp = async (formData: SignUpFormType) => {
       dealership_name: parsedData.dealershipName || null,
       location: parsedData.location || null,
       description: parsedData.description || null,
-      subscription:
-        parsedData.categoryType === "dealership"
-          ? "Dealership Free Trial Period"
-          : null,
     };
 
     // Sign up with Supabase Auth and pass user data to the profiles table
@@ -174,6 +170,51 @@ export const signOut = async () => {
     return { status: StatusCode.SUCCESS, error: null };
   } catch (error) {
     return handleServerError(error, "signing out (server)");
+  }
+};
+
+/**
+ * Checks if a user has an active subscription in the subscriptions table
+ * @param profileId - The ID of the profile to check for active subscriptions
+ * @returns Boolean indicating if the user has an active subscription
+ */
+export const hasActiveSubscription = async (profileId: string) => {
+  try {
+    const supabase = await createClient();
+
+    const { data: subscriptionData } = await supabase
+      .from("subscriptions")
+      .select("*")
+      .eq("profile_id", profileId)
+      .eq("status", "active")
+      .single();
+
+    return !!subscriptionData;
+  } catch (error) {
+    console.error("Error checking subscription:", error);
+    return false;
+  }
+};
+
+/**
+ * Checks if a user has an active subscription in the subscriptions table
+ * @param profileId - The ID of the profile to check for active subscriptions
+ * @returns Boolean indicating if the user has an active subscription
+ */
+export const hasSubscription = async (profileId: string) => {
+  try {
+    const supabase = await createClient();
+
+    const { data: subscriptionData } = await supabase
+      .from("subscriptions")
+      .select("*")
+      .eq("profile_id", profileId)
+      .single();
+
+    return !!subscriptionData;
+  } catch (error) {
+    console.error("Error checking subscription:", error);
+    return false;
   }
 };
 

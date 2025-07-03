@@ -23,7 +23,7 @@ export const BuySellCarsFAQs = () => {
 
       <Flex direction="column" gap="sm" paddingBottom="xxl" alignItems="center">
         <Typography align="center" variant="h4">
-          Can&lsquo;t find the answer you&lsquo;re looking for?
+          Can&#39;t find the answer you&#39;re looking for?
         </Typography>
         <Typography align="center">
           For account help, general enquiries, please feel free to reach out

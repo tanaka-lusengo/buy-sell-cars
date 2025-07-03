@@ -14,6 +14,7 @@ import {
   getAllFeaturedDealersAndVehiclesWithImages,
   getAllCarsByListingCategory,
   getAllDealers,
+  getProfileSubscriptionDetails,
 } from "../server/actions/general";
 
 export const Home = async () => {
@@ -28,23 +29,28 @@ export const Home = async () => {
   ]);
 
   // Get dealer by car owner_id
-  const allCarsForSaleWithDealerDetails = allCarsForSaleResponse?.data?.map(
-    (car) => {
-      const dealer = allDealersResponse?.data?.find(
-        (dealer) => dealer.id === car.owner_id
-      );
+  const allCarsForSaleWithDealerDetails = allCarsForSaleResponse?.data
+    ? await Promise.all(
+        allCarsForSaleResponse.data.map(async (car) => {
+          const dealer = allDealersResponse?.data?.find(
+            (dealer) => dealer.id === car.owner_id
+          );
 
-      return {
-        ...car,
-        dealer: {
-          id: dealer?.id,
-          dealership_name: dealer?.dealership_name,
-          profile_logo_path: dealer?.profile_logo_path,
-          subscription: dealer?.subscription,
-        },
-      };
-    }
-  );
+          const { data: dealerSubDetails } =
+            await getProfileSubscriptionDetails(dealer?.id || "");
+
+          return {
+            ...car,
+            dealer: {
+              id: dealer?.id,
+              dealership_name: dealer?.dealership_name,
+              profile_logo_path: dealer?.profile_logo_path,
+              subscription: dealerSubDetails?.subscription_name || null,
+            },
+          };
+        })
+      )
+    : undefined;
 
   const {
     data: featuredCarsWithDealerDetails,
