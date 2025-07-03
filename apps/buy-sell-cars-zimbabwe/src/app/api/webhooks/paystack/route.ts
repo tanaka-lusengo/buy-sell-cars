@@ -1,10 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { StatusCode, logErrorMessage } from "~bsc-shared/utils";
-import {
-  verifySubscription,
-  getPaystackSubscription,
-} from "@/src/lib/paystack/endpoints";
+import { getPaystackSubscription } from "@/src/lib/paystack/endpoints";
 import { LogSubscriptionType } from "@/src/types";
 import { createClientServiceRole } from "@/supabase/server";
 
@@ -124,6 +122,113 @@ export async function POST(req: NextRequest) {
   }
 }
 
+// Helper function to handle subscription cancellation/disable
+async function handleSubscriptionCancelDisable(
+  supabase: any,
+  subscriptionData: any,
+  eventType: string,
+  requestId: string
+) {
+  console.log(`[${requestId}] Processing ${eventType} event`);
+
+  if (
+    !subscriptionData ||
+    !subscriptionData.customer ||
+    !subscriptionData.plan
+  ) {
+    console.error(
+      `[${requestId}] Missing required subscription data for ${eventType} event`
+    );
+    throw new Error(`Invalid payload structure for ${eventType}`);
+  }
+
+  const { subscription_code, customer, plan, status } = subscriptionData;
+
+  // Find the profile using customer email
+  const { data: profiles, error: profileError } = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("email", customer.email)
+    .limit(1);
+
+  if (profileError || !profiles || profiles.length === 0) {
+    console.error(
+      `[${requestId}] Profile not found for email: ${customer.email}`,
+      profileError
+    );
+    throw new Error(`Profile not found for customer email: ${customer.email}`);
+  }
+
+  const profile = profiles[0];
+
+  // Update the existing subscription status
+  const updateData = {
+    status,
+    updated_at: new Date().toISOString(),
+    subscription_name:
+      eventType === "subscription.not_renew"
+        ? `${plan.name} - Cancelled`
+        : `${plan.name} - Disabled`,
+    cancel_time:
+      eventType === "subscription.not_renew" ? new Date().toISOString() : null,
+    raw_response: JSON.stringify(subscriptionData),
+  };
+
+  const { data, error: updateError } = await supabase
+    .from("subscriptions")
+    .update(updateData)
+    .eq("subscription_code", subscription_code)
+    .eq("profile_id", profile.id)
+    .select();
+
+  if (updateError) {
+    logErrorMessage(
+      updateError,
+      `updating subscription for ${eventType} (webhook) [${requestId}]`
+    );
+    throw new Error(`Failed to update subscription for ${eventType}`);
+  }
+
+  if (!data || data.length === 0) {
+    console.warn(
+      `[${requestId}] No subscription found to update for code: ${subscription_code}`
+    );
+    // Optionally create a new record if subscription doesn't exist
+    const logSubscriptionData: LogSubscriptionType = {
+      profile_id: profile.id,
+      subscription_name: updateData.subscription_name,
+      email: customer.email,
+      subscription_code,
+      customer_code: customer.customer_code,
+      plan_code: plan.plan_code,
+      status,
+      start_time: null, // Unknown start time for existing subscription
+      cancel_time: updateData.cancel_time,
+      raw_response: JSON.stringify(subscriptionData),
+    };
+
+    const { error: insertError } = await supabase
+      .from("subscriptions")
+      .insert(logSubscriptionData);
+
+    if (insertError) {
+      logErrorMessage(
+        insertError,
+        `creating subscription record for ${eventType} (webhook) [${requestId}]`
+      );
+      throw new Error(`Failed to create subscription record for ${eventType}`);
+    }
+
+    console.log(
+      `[${requestId}] Created new subscription record for ${eventType}: ${subscription_code}`
+    );
+  } else {
+    console.log(
+      `[${requestId}] Successfully updated subscription for ${eventType}: ${subscription_code}`
+    );
+  }
+}
+
 // Helper function to handle subscription charges from charge.success events
 async function handleSubscriptionCharge(
   supabase: any,
@@ -141,7 +246,7 @@ async function handleSubscriptionCharge(
     throw new Error("Invalid payload structure for subscription charge");
   }
 
-  const { customer, plan, paid_at, reference } = chargeData;
+  const { customer, plan, paid_at } = chargeData;
 
   // Find the profile using customer email
   const { data: profiles, error: profileError } = await supabase
@@ -400,112 +505,5 @@ async function createPartialSubscriptionRecord(
         `[${requestId}] Created partial subscription record for: ${customer.email}`
       );
     }
-  }
-}
-
-// Helper function to handle subscription cancellation/disable
-async function handleSubscriptionCancelDisable(
-  supabase: any,
-  subscriptionData: any,
-  eventType: string,
-  requestId: string
-) {
-  console.log(`[${requestId}] Processing ${eventType} event`);
-
-  if (
-    !subscriptionData ||
-    !subscriptionData.customer ||
-    !subscriptionData.plan
-  ) {
-    console.error(
-      `[${requestId}] Missing required subscription data for ${eventType} event`
-    );
-    throw new Error(`Invalid payload structure for ${eventType}`);
-  }
-
-  const { subscription_code, customer, plan, status } = subscriptionData;
-
-  // Find the profile using customer email
-  const { data: profiles, error: profileError } = await supabase
-    .from("profiles")
-    .select("id")
-    .eq("email", customer.email)
-    .limit(1);
-
-  if (profileError || !profiles || profiles.length === 0) {
-    console.error(
-      `[${requestId}] Profile not found for email: ${customer.email}`,
-      profileError
-    );
-    throw new Error(`Profile not found for customer email: ${customer.email}`);
-  }
-
-  const profile = profiles[0];
-
-  // Update the existing subscription status
-  const updateData = {
-    status: status,
-    updated_at: new Date().toISOString(),
-    subscription_name:
-      eventType === "subscription.not_renew"
-        ? `${plan.name} - Cancelled`
-        : `${plan.name} - Disabled`,
-    cancel_time:
-      eventType === "subscription.not_renew" ? new Date().toISOString() : null,
-    raw_response: JSON.stringify(subscriptionData),
-  };
-
-  const { data, error: updateError } = await supabase
-    .from("subscriptions")
-    .update(updateData)
-    .eq("subscription_code", subscription_code)
-    .eq("profile_id", profile.id)
-    .select();
-
-  if (updateError) {
-    logErrorMessage(
-      updateError,
-      `updating subscription for ${eventType} (webhook) [${requestId}]`
-    );
-    throw new Error(`Failed to update subscription for ${eventType}`);
-  }
-
-  if (!data || data.length === 0) {
-    console.warn(
-      `[${requestId}] No subscription found to update for code: ${subscription_code}`
-    );
-    // Optionally create a new record if subscription doesn't exist
-    const logSubscriptionData: LogSubscriptionType = {
-      profile_id: profile.id,
-      subscription_name: updateData.subscription_name,
-      email: customer.email,
-      subscription_code: subscription_code,
-      customer_code: customer.customer_code,
-      plan_code: plan.plan_code,
-      status: status,
-      start_time: null, // Unknown start time for existing subscription
-      cancel_time: updateData.cancel_time,
-      raw_response: JSON.stringify(subscriptionData),
-    };
-
-    const { error: insertError } = await supabase
-      .from("subscriptions")
-      .insert(logSubscriptionData);
-
-    if (insertError) {
-      logErrorMessage(
-        insertError,
-        `creating subscription record for ${eventType} (webhook) [${requestId}]`
-      );
-      throw new Error(`Failed to create subscription record for ${eventType}`);
-    }
-
-    console.log(
-      `[${requestId}] Created new subscription record for ${eventType}: ${subscription_code}`
-    );
-  } else {
-    console.log(
-      `[${requestId}] Successfully updated subscription for ${eventType}: ${subscription_code}`
-    );
   }
 }

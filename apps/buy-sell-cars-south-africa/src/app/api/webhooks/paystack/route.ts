@@ -1,10 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { StatusCode, logErrorMessage } from "~bsc-shared/utils";
-import {
-  verifySubscription,
-  getPaystackSubscription,
-} from "@/src/lib/paystack/endpoints";
+import { getPaystackSubscription } from "@/src/lib/paystack/endpoints";
 import { LogSubscriptionType } from "@/src/types";
 import { createClientServiceRole } from "@/supabase/server";
 
@@ -124,153 +122,6 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// Helper function to handle subscription creation
-async function handleSubscriptionCreate(
-  supabase: any,
-  subscriptionData: any,
-  requestId: string
-) {
-  console.log(`[${requestId}] Processing subscription.create event`);
-
-  if (
-    !subscriptionData ||
-    !subscriptionData.customer ||
-    !subscriptionData.plan
-  ) {
-    console.error(
-      `[${requestId}] Missing required subscription data for create event`
-    );
-    throw new Error("Invalid payload structure for subscription create");
-  }
-
-  const { subscription_code, customer, plan, status } = subscriptionData;
-
-  // Find the profile using customer email
-  const { data: profiles, error: profileError } = await supabase
-    .from("profiles")
-    .select("id")
-    .eq("email", customer.email)
-    .limit(1);
-
-  if (profileError || !profiles || profiles.length === 0) {
-    console.error(
-      `[${requestId}] Profile not found for email: ${customer.email}`,
-      profileError
-    );
-    throw new Error(`Profile not found for customer email: ${customer.email}`);
-  }
-
-  const profile = profiles[0];
-
-  // Verify the subscription with Paystack to get full details
-  console.log(`[${requestId}] Verifying subscription with Paystack...`);
-
-  try {
-    // Get the Paystack subscription details
-    const {
-      data: paystackSubscriptionResponse,
-      status: paystackStatus,
-      error: paystackError,
-    } = await getPaystackSubscription(customer.customer_code, plan.plan_code);
-
-    if (
-      !paystackSubscriptionResponse ||
-      paystackStatus !== StatusCode.SUCCESS ||
-      paystackError
-    ) {
-      logErrorMessage(
-        paystackError,
-        `fetching paystack subscription plan (webhook) [${requestId}]`
-      );
-      throw new Error("Failed to fetch subscription plan from Paystack");
-    }
-
-    const logSubscriptionData: LogSubscriptionType = {
-      profile_id: profile.id,
-      subscription_name: plan.name,
-      email: customer.email,
-      subscription_code: subscription_code,
-      customer_code: customer.customer_code,
-      plan_code: plan.plan_code,
-      status: status || "active",
-      start_time: new Date().toISOString(),
-      cancel_time: null,
-      raw_response: JSON.stringify(subscriptionData),
-    };
-
-    // Check if subscription already exists for this user and plan
-    const { data: existingSubscription, error: fetchError } = await supabase
-      .from("subscriptions")
-      .select("*")
-      .eq("profile_id", profile.id)
-      .eq("plan_code", plan.plan_code)
-      .eq("customer_code", customer.customer_code)
-      .maybeSingle();
-
-    if (fetchError) {
-      logErrorMessage(
-        fetchError,
-        `checking existing subscription (webhook) [${requestId}]`
-      );
-      throw new Error("Error checking existing subscription");
-    }
-
-    if (existingSubscription) {
-      // Update existing subscription instead of creating a new one
-      console.log(
-        `[${requestId}] Updating existing subscription for customer: ${customer.email}`
-      );
-
-      const { error: updateError } = await supabase
-        .from("subscriptions")
-        .update({
-          ...logSubscriptionData,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", existingSubscription.id);
-
-      if (updateError) {
-        logErrorMessage(
-          updateError,
-          `updating subscription (webhook) [${requestId}]`
-        );
-        throw new Error("Failed to update subscription");
-      }
-
-      console.log(
-        `[${requestId}] Successfully updated subscription: ${subscription_code}`
-      );
-    } else {
-      // Create new subscription
-      console.log(
-        `[${requestId}] Creating new subscription for customer: ${customer.email}`
-      );
-
-      const { error: insertError } = await supabase
-        .from("subscriptions")
-        .insert(logSubscriptionData);
-
-      if (insertError) {
-        logErrorMessage(
-          insertError,
-          `creating subscription (webhook) [${requestId}]`
-        );
-        throw new Error("Failed to create subscription");
-      }
-
-      console.log(
-        `[${requestId}] Successfully created subscription: ${subscription_code}`
-      );
-    }
-  } catch (error) {
-    console.error(
-      `[${requestId}] Error in subscription create handler:`,
-      error
-    );
-    throw error;
-  }
-}
-
 // Helper function to handle subscription cancellation/disable
 async function handleSubscriptionCancelDisable(
   supabase: any,
@@ -312,7 +163,7 @@ async function handleSubscriptionCancelDisable(
 
   // Update the existing subscription status
   const updateData = {
-    status: status,
+    status,
     updated_at: new Date().toISOString(),
     subscription_name:
       eventType === "subscription.not_renew"
@@ -347,10 +198,10 @@ async function handleSubscriptionCancelDisable(
       profile_id: profile.id,
       subscription_name: updateData.subscription_name,
       email: customer.email,
-      subscription_code: subscription_code,
+      subscription_code,
       customer_code: customer.customer_code,
       plan_code: plan.plan_code,
-      status: status,
+      status,
       start_time: null, // Unknown start time for existing subscription
       cancel_time: updateData.cancel_time,
       raw_response: JSON.stringify(subscriptionData),

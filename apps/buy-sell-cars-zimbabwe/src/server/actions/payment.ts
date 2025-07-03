@@ -10,7 +10,6 @@ import {
   manageSubscription,
   getPaystackSubscription,
 } from "@/src/lib/paystack/endpoints";
-import type { Profile, LogSubscriptionType } from "@/src/types";
 import { createClient } from "@/supabase/server";
 
 export const getPaystackSubscriptionPlan = async (

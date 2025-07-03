@@ -30,8 +30,6 @@ export const SubscriptionCard = ({
 
   const isIndividual = profile.user_category === "individual";
 
-  // I need to check if they are already subscribed to a plan and if so, display a message to cancel the existing subscription first
-  const isSubscribed = subscription && subscription.status === "active";
   const noSubscription = !subscription;
 
   // Show submit button if:
