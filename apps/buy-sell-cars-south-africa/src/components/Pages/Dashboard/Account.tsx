@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { SuspenseLoader } from "~bsc-shared/components";
 import {
   FileInputField,
   InputField,
@@ -29,6 +30,8 @@ export const Account = ({ profile }: { profile: Profile | null }) => {
   const supabase = createClient();
   const router = useRouter();
 
+  const [loading, setLoading] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [idFile, setIdFile] = useState<File | null>(null);
   const [imagesPreview, setImagesPreview] = useState<string>("");
@@ -56,8 +59,10 @@ export const Account = ({ profile }: { profile: Profile | null }) => {
     useFileUploadHelpers(supabase);
 
   const updateProfile = async (formData: UpdateProfileFormType) => {
+    if (!profile) return;
+
     try {
-      if (!profile) return;
+      setLoading(true);
 
       const newProfileLogoPath = imageFile
         ? await compressAndUploadFile({
@@ -117,6 +122,8 @@ export const Account = ({ profile }: { profile: Profile | null }) => {
       router.refresh();
     } catch (error) {
       handleClientError("Error updating profile", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -134,6 +141,21 @@ export const Account = ({ profile }: { profile: Profile | null }) => {
     "Government ID",
     "Government ID"
   );
+
+  useEffect(() => {
+    // If loading is true, show the loader
+    if (loading) {
+      setShowLoader(true);
+      // Scroll to top when loading starts
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      setShowLoader(false);
+    }
+  }, [loading]);
+
+  if (showLoader) {
+    return <SuspenseLoader label="Updating profile..." />;
+  }
 
   return (
     <Form

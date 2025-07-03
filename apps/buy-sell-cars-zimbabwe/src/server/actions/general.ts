@@ -268,7 +268,37 @@ export const deleteVehicle = async (vehicleId: string) => {
       };
     }
 
-    // 6. Delete the vehicle record itself
+    // 6. Delete vehicle favourites records
+    const { error: deleteFavouritesError } = await supabase
+      .from("vehicle_favourites")
+      .delete()
+      .eq("vehicle_id", vehicleId);
+
+    if (deleteFavouritesError) {
+      // Return error if unable to delete favourites records
+      return {
+        data: null,
+        status: StatusCode.BAD_REQUEST,
+        error: deleteFavouritesError,
+      };
+    }
+
+    // 7. Delete vehicle ad clicks records
+    const { error: deleteAdClicksError } = await supabase
+      .from("vehicle_ad_clicks")
+      .delete()
+      .eq("vehicle_id", vehicleId);
+
+    if (deleteAdClicksError) {
+      // Return error if unable to delete ad clicks records
+      return {
+        data: null,
+        status: StatusCode.BAD_REQUEST,
+        error: deleteAdClicksError,
+      };
+    }
+
+    // 8. Delete the vehicle record itself
     const { error: deleteVehicleError } = await supabase
       .from("vehicles")
       .delete()
@@ -283,7 +313,7 @@ export const deleteVehicle = async (vehicleId: string) => {
       };
     }
 
-    // 7. Revalidate the path to update the UI
+    // 9. Revalidate the path to update the UI
     revalidatePath("/dashboard/listings/", "page");
 
     // Return success response
