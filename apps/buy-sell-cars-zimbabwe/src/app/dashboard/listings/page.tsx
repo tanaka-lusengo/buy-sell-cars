@@ -3,7 +3,10 @@ import { redirect } from "next/navigation";
 import { Listings } from "@/src/components/Pages";
 import { PendingVerification } from "@/src/components/Pages/Dashboard/components";
 import { fetchUserAndProfile } from "@/src/server/actions/auth";
-import { getAllVehiclesByOwnerId } from "@/src/server/actions/general";
+import {
+  getAllVehiclesByOwnerId,
+  getProfileSubscriptionDetails,
+} from "@/src/server/actions/general";
 
 export const metadata: Metadata = {
   title: "Listings | Your Vehicles",
@@ -19,14 +22,23 @@ const ListingsPage = async () => {
 
   const { data, error, status } = await getAllVehiclesByOwnerId(profile.id);
 
+  const {
+    data: profileSubData,
+    status: profileSubStatus,
+    error: profileSubError,
+  } = await getProfileSubscriptionDetails(profile.id);
+
+  const profileSubscription = profileSubData?.subscription_name;
+
   const isVerified = Boolean(profile.is_verified);
 
   return isVerified ? (
     <Listings
       profile={profile}
+      profileSubscription={profileSubscription}
       vehicles={data || []}
-      error={error}
-      status={status}
+      error={error || profileSubError}
+      status={status || profileSubStatus}
     />
   ) : (
     <PendingVerification />

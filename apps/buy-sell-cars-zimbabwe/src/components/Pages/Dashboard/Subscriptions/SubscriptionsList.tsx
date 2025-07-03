@@ -2,17 +2,27 @@
 
 import { useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Typography } from "~bsc-shared/ui";
-import { Profile } from "@/src/types";
+import { Profile, Subscription } from "@/src/types";
 import { Box, Flex, Grid, VStack } from "@/styled-system/jsx";
-import { InfoFooter, SubscriptionCard } from "../components";
+import { InfoFooter } from "../components";
+import { SubscriptionCard } from "./components";
 import {
   starterShowcasePlan,
   growthAcceleratorPlan,
   dealershipDominatorPlan,
-} from "./subscriptionData";
+} from "./components/subscriptionData";
 
-export const Subscriptions = ({ profile }: { profile: Profile }) => {
+type SubscriptionsListProps = {
+  profile: Profile;
+  subscription: Subscription | null;
+};
+
+export const SubscriptionsList = ({
+  profile,
+  subscription,
+}: SubscriptionsListProps) => {
   useEffect(() => {
     // Scroll to top on initial load
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -46,7 +56,7 @@ export const Subscriptions = ({ profile }: { profile: Profile }) => {
           paddingX="md"
           zIndex={1}
         >
-          <Box marginBottom="xl">
+          <Flex direction="column" marginBottom="lg">
             <Typography variant="h2" align="center" color="white">
               Select a subscription plan
             </Typography>
@@ -54,7 +64,21 @@ export const Subscriptions = ({ profile }: { profile: Profile }) => {
             <Typography align="center" color="white">
               Choose a plan that best fits your needs to access your dashboard.
             </Typography>
-          </Box>
+
+            <Typography
+              as="span"
+              weight="bold"
+              color="primary"
+              hoverEffect="color"
+              style={{ fontSize: "inherit" }}
+            >
+              By subscribing, you agree to our{" "}
+              <Link href="/faqs" target="_blank">
+                Payment, Refund & Cancellation Policy
+              </Link>{" "}
+              .
+            </Typography>
+          </Flex>
 
           <Flex
             height="fit-content"
@@ -64,7 +88,8 @@ export const Subscriptions = ({ profile }: { profile: Profile }) => {
           >
             <SubscriptionCard
               profile={profile}
-              planId={starterShowcasePlan.planId}
+              subscription={subscription}
+              planLink={starterShowcasePlan.planLink}
               planName={starterShowcasePlan.name}
               price={starterShowcasePlan.price}
               description={starterShowcasePlan.description}
@@ -77,7 +102,8 @@ export const Subscriptions = ({ profile }: { profile: Profile }) => {
 
             <SubscriptionCard
               profile={profile}
-              planId={growthAcceleratorPlan.planId}
+              subscription={subscription}
+              planLink={growthAcceleratorPlan.planLink}
               planName={growthAcceleratorPlan.name}
               price={growthAcceleratorPlan.price}
               description={growthAcceleratorPlan.description}
@@ -90,7 +116,8 @@ export const Subscriptions = ({ profile }: { profile: Profile }) => {
 
             <SubscriptionCard
               profile={profile}
-              planId={dealershipDominatorPlan.planId}
+              subscription={subscription}
+              planLink={dealershipDominatorPlan.planLink}
               planName={dealershipDominatorPlan.name}
               price={dealershipDominatorPlan.price}
               description={dealershipDominatorPlan.description}

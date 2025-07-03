@@ -44,6 +44,8 @@
     "clean-modules": "rm -rf node_modules */node_modules */*/node_modules",
     "clean-next": "rm -rf .next */.next */*/.next",
     "dev": "next dev",
+    "dev:ngrok": "ngrok http --url=master-stallion-usefully.ngrok-free.app 3000",
+    "generate-supabase-types": "npx supabase gen types typescript --project-id kncplsarhhhuhfftpuod --schema public > database.types.ts",
     "format": "prettier . --write",
     "lint": "next lint",
     "lint:fix": "next lint --fix",

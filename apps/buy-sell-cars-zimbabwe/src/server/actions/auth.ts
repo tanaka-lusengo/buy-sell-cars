@@ -174,6 +174,51 @@ export const signOut = async () => {
 };
 
 /**
+ * Checks if a user has an active subscription in the subscriptions table
+ * @param profileId - The ID of the profile to check for active subscriptions
+ * @returns Boolean indicating if the user has an active subscription
+ */
+export const hasActiveSubscription = async (profileId: string) => {
+  try {
+    const supabase = await createClient();
+
+    const { data: subscriptionData } = await supabase
+      .from("subscriptions")
+      .select("*")
+      .eq("profile_id", profileId)
+      .eq("status", "active")
+      .single();
+
+    return !!subscriptionData;
+  } catch (error) {
+    console.error("Error checking subscription:", error);
+    return false;
+  }
+};
+
+/**
+ * Checks if a user has an active subscription in the subscriptions table
+ * @param profileId - The ID of the profile to check for active subscriptions
+ * @returns Boolean indicating if the user has an active subscription
+ */
+export const hasSubscription = async (profileId: string) => {
+  try {
+    const supabase = await createClient();
+
+    const { data: subscriptionData } = await supabase
+      .from("subscriptions")
+      .select("*")
+      .eq("profile_id", profileId)
+      .single();
+
+    return !!subscriptionData;
+  } catch (error) {
+    console.error("Error checking subscription:", error);
+    return false;
+  }
+};
+
+/**
  * Fetches the authenticated user and their profile from Supabase.
  * @returns An object containing the user and their profile.
  */

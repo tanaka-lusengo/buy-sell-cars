@@ -1,8 +1,8 @@
-import { SUBSCRIPTIONS } from "@/src/constants/values";
+import { SUBSCRIPTIONS } from "@/src/constants/subscription";
 
 export const starterShowcasePlan = {
   name: SUBSCRIPTIONS.StarterShowcase.name,
-  planId: SUBSCRIPTIONS.StarterShowcase.planId,
+  planLink: SUBSCRIPTIONS.StarterShowcase.planLink,
   price: SUBSCRIPTIONS.StarterShowcase.price,
   description: "Perfect entry point for new or smaller dealerships.",
   features: [
@@ -23,7 +23,7 @@ export const starterShowcasePlan = {
 
 export const growthAcceleratorPlan = {
   name: SUBSCRIPTIONS.GrowthAccelerator.name,
-  planId: SUBSCRIPTIONS.GrowthAccelerator.planId,
+  planLink: SUBSCRIPTIONS.GrowthAccelerator.planLink,
   price: SUBSCRIPTIONS.GrowthAccelerator.price,
   description: "Ideal for growing dealerships looking to stand out.",
   features: [
@@ -44,7 +44,7 @@ export const growthAcceleratorPlan = {
 
 export const dealershipDominatorPlan = {
   name: SUBSCRIPTIONS.DealershipDominator.name,
-  planId: SUBSCRIPTIONS.DealershipDominator.planId,
+  planLink: SUBSCRIPTIONS.DealershipDominator.planLink,
   price: SUBSCRIPTIONS.DealershipDominator.price,
   description: "Maximum visibility for high-volume dealerships.",
   features: [
@@ -62,9 +62,6 @@ export const dealershipDominatorPlan = {
     </>,
     <>
       <b>CTR Links</b> to your website (if applicable)
-    </>,
-    <>
-      <b>1 Custom Video</b> (on request)
     </>,
   ],
 };

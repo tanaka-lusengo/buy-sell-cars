@@ -6,12 +6,12 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Typography, Button } from "~bsc-shared/ui";
 import { handleClientError, StatusCode } from "~bsc-shared/utils";
 import { SuspenseLoader } from "@/src/components/shared";
-import { logPaypalSubscription } from "@/src/server/actions/payment";
+import { verifySubscriptionReference } from "@/src/server/actions/payment";
 import { Box, Grid, Flex, VStack } from "@/styled-system/jsx";
 
 const SuccessPaymentPage = () => {
   const searchParams = useSearchParams();
-  const subscriptionId = searchParams.get("subscription_id");
+  const reference = searchParams.get("reference");
 
   const { push } = useRouter();
 
@@ -20,27 +20,28 @@ const SuccessPaymentPage = () => {
 
   useEffect(() => {
     const handlePaymentSuccess = async () => {
-      if (!subscriptionId) {
-        console.error("No subscription ID found in query parameters");
+      if (!reference) {
+        console.error("Reference is missing");
         return;
       }
 
       try {
         const { data, status, error } =
-          await logPaypalSubscription(subscriptionId);
+          await verifySubscriptionReference(reference);
 
         if (status !== StatusCode.SUCCESS || error || !data) {
           return handleClientError(
-            "logging PayPal subscription - failed",
+            "verifying Paystack subscription - failed",
             error
           );
         }
 
         // Set the subscription plan name based on the retrieved data
-        setSubscriptionPlanName(data || "");
+        // The webhook will handle the actual logging to the database
+        setSubscriptionPlanName(data.plan_name || "");
       } catch (error) {
         handleClientError(
-          "An unexpected error occurred while logging subscription",
+          "An unexpected error occurred while verifying subscription",
           error
         );
       } finally {
@@ -49,7 +50,7 @@ const SuccessPaymentPage = () => {
     };
 
     handlePaymentSuccess();
-  }, [subscriptionId]);
+  }, [reference]);
 
   return (
     <Box position="relative" height="100vh" overflow="hidden">
@@ -104,8 +105,11 @@ const SuccessPaymentPage = () => {
               </Typography>
             </Flex>
 
-            <Button onClick={() => push("/dashboard")} color="white">
-              Go to Dashboard
+            <Button
+              onClick={() => push("/dashboard/subscriptions")}
+              color="white"
+            >
+              Go to Subscription
             </Button>
           </VStack>
         </Grid>
