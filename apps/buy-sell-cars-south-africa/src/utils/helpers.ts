@@ -1,3 +1,6 @@
+import { isBefore } from "date-fns";
+import { Subscription } from "../types";
+
 export const formatPriceToRands = (price: number): string => {
   // Create a formatter for South African Rand currency using en-ZA locale
   const formatter = new Intl.NumberFormat("en-ZA", {
@@ -56,4 +59,19 @@ export function formatPhoneNumberToSaCountryCode(
 
   // If the number starts with anything else, prepend '27'
   return "27" + digits;
+}
+
+export function isWithinTrialPeriod(subscription: Subscription): boolean {
+  if (!subscription) {
+    return false;
+  }
+
+  if (
+    subscription.trial_ends_at &&
+    isBefore(new Date(), new Date(subscription.trial_ends_at))
+  ) {
+    return true;
+  }
+
+  return false;
 }

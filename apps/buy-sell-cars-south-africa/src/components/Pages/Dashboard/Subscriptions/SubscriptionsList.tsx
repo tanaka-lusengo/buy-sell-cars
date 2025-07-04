@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
+import { addDays } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
 import { Typography } from "~bsc-shared/ui";
+import { formatDate } from "~bsc-shared/utils";
 import { Profile, Subscription } from "@/src/types";
 import { Box, Flex, Grid, VStack } from "@/styled-system/jsx";
 import { InfoFooter } from "../components";
@@ -31,6 +33,10 @@ export const SubscriptionsList = ({
   if (!profile) {
     return null;
   }
+
+  const trialEndDate = subscription?.trial_ends_at
+    ? formatDate(subscription.trial_ends_at)
+    : formatDate(addDays(new Date(), 30).toISOString());
 
   return (
     <Box position="relative" height="100vh" overflow="hidden">
@@ -60,7 +66,7 @@ export const SubscriptionsList = ({
           paddingX="md"
           zIndex={1}
         >
-          <Flex direction="column" marginBottom="lg">
+          <Flex direction="column" marginBottom="md">
             <Typography variant="h2" align="center" color="white">
               Select a subscription plan
             </Typography>
@@ -78,11 +84,27 @@ export const SubscriptionsList = ({
             >
               By subscribing, you agree to our{" "}
               <Link href="/faqs" target="_blank">
-                Payment, Refund & Cancellation Policy
-              </Link>{" "}
-              .
+                Payment, Refund & Cancellation Policy.
+              </Link>
             </Typography>
           </Flex>
+
+          {!subscription && (
+            <Box marginBottom="lg">
+              <Typography
+                variant="h3"
+                align="center"
+                color="white"
+                weight="bold"
+              >
+                30 Day Trial Period
+              </Typography>
+              <Typography align="center" color="white">
+                You will lose access to plan features if you do not
+                re-subscribe before your trial ends: <b>{trialEndDate}</b>
+              </Typography>
+            </Box>
+          )}
 
           <Flex
             height="fit-content"
@@ -97,7 +119,6 @@ export const SubscriptionsList = ({
               planName={starterShowcasePlan.name}
               price={starterShowcasePlan.price}
               basePrice={starterShowcasePlan.basePrice}
-              vat={starterShowcasePlan.vat}
               description={starterShowcasePlan.description}
               features={starterShowcasePlan.features.map((feature, index) => (
                 <Typography key={index} as="span">
@@ -113,7 +134,6 @@ export const SubscriptionsList = ({
               planName={growthAcceleratorPlan.name}
               price={growthAcceleratorPlan.price}
               basePrice={growthAcceleratorPlan.basePrice}
-              vat={growthAcceleratorPlan.vat}
               description={growthAcceleratorPlan.description}
               features={growthAcceleratorPlan.features.map((feature, index) => (
                 <Typography key={index} as="span">
@@ -129,7 +149,6 @@ export const SubscriptionsList = ({
               planName={dealershipDominatorPlan.name}
               price={dealershipDominatorPlan.price}
               basePrice={dealershipDominatorPlan.basePrice}
-              vat={dealershipDominatorPlan.vat}
               description={dealershipDominatorPlan.description}
               features={dealershipDominatorPlan.features.map(
                 (feature, index) => (

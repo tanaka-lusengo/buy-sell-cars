@@ -1,5 +1,6 @@
 "use server";
 
+import { addDays } from "date-fns";
 import {
   StatusCode,
   handleServerError,
@@ -10,6 +11,7 @@ import {
   manageSubscription,
   getPaystackSubscription,
 } from "@/src/lib/paystack/endpoints";
+import { LogSubscriptionType, Profile } from "@/src/types";
 import { createClient } from "@/supabase/server";
 
 export const getPaystackSubscriptionPlan = async (
@@ -241,4 +243,55 @@ export const syncPartialSubscriptions = async () => {
   } catch (error) {
     return handleServerError(error, "syncing partial subscriptions (server)");
   }
+};
+
+export const logPartialTrialSubscription = async (
+  profile: Profile,
+  subscriptionName: string
+) => {
+  if (!profile || !subscriptionName) {
+    console.error("Profile and subscription name are required");
+    return {
+      data: null,
+      status: StatusCode.BAD_REQUEST,
+      error: "Profile and subscription name are required",
+    };
+  }
+
+  const supabase = await createClient();
+
+  const logSubscriptionData: LogSubscriptionType & {
+    trial_ends_at: string;
+  } = {
+    profile_id: profile.id,
+    subscription_name: subscriptionName,
+    email: profile.email,
+    subscription_code: null,
+    customer_code: null,
+    plan_code: null,
+    status: "active (trial period)",
+    start_time: null,
+    cancel_time: null,
+    trial_ends_at: addDays(new Date(), 30).toISOString(),
+    raw_response: null,
+  };
+
+  const { error: insertError } = await supabase
+    .from("subscriptions")
+    .insert(logSubscriptionData);
+
+  if (insertError) {
+    console.error("Error logging partial subscription:", insertError.message);
+    return {
+      data: null,
+      status: StatusCode.INTERNAL_SERVER_ERROR,
+      error: "Failed to log partial subscription",
+    };
+  }
+
+  return {
+    data: logSubscriptionData,
+    status: StatusCode.SUCCESS,
+    error: null,
+  };
 };
