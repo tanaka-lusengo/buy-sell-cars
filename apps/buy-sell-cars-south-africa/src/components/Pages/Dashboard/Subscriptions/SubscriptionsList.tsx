@@ -98,7 +98,7 @@ export const SubscriptionsList = ({
                 30 Day Trial Period
               </Typography>
               <Typography align="center" color="white">
-                You will loose access to plan features if you do not
+                You will lose access to plan features if you do not
                 re-subscribe before your trial ends: <b>{trialEndDate}</b>
               </Typography>
             </Box>
