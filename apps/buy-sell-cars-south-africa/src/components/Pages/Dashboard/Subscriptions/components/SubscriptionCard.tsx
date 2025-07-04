@@ -97,7 +97,7 @@ export const SubscriptionCard = ({
     }
   };
 
-  console.log("noSubscription:", noSubscription);
+  
 
   return (
     <form
