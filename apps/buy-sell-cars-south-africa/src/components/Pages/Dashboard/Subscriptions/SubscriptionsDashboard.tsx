@@ -9,6 +9,7 @@ import {
   handleClientError,
   logErrorMessage,
   StatusCode,
+  toastNotifyInfo,
 } from "~bsc-shared/utils";
 import { managePaystackSubscription } from "@/src/server/actions/payment";
 import { Profile, Subscription } from "@/src/types";
@@ -46,9 +47,7 @@ export const SubscriptionsDashboard = ({
 
   const handleManageSubscription = async () => {
     if (!subscription?.subscription_code) {
-      console.error(
-        "No subscription code available for managing subscription."
-      );
+      toastNotifyInfo("You must have a valid subscription before managing it.");
       return;
     }
 
