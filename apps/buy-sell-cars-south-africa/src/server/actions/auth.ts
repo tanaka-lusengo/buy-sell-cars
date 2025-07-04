@@ -7,7 +7,6 @@ import {
   StatusCode,
 } from "~bsc-shared/utils";
 import { Tables } from "@/database.types";
-import { SubscriptionTypeNames } from "@/src/constants/subscription";
 import {
   signUpValidationSchema,
   signInValidationSchema,
@@ -20,7 +19,6 @@ import {
   SubscribeFormType,
   UpdatePasswordFormType,
   Profile,
-  LogSubscriptionType,
 } from "@/src/types";
 import { createClient, createClientServiceRole } from "@/supabase/server";
 
@@ -113,48 +111,6 @@ export const signUp = async (formData: SignUpFormType) => {
 
     if (error) {
       return { data: null, status: StatusCode.BAD_REQUEST, error };
-    }
-
-    if (parsedData.categoryType === "dealership") {
-      const { profile } = await fetchUserAndProfile();
-
-      if (!profile) {
-        return {
-          data: null,
-          status: StatusCode.BAD_REQUEST,
-          error: "Profile not found after sign up to log subscription",
-        };
-      }
-
-      // Log initial subscription data for the dealership
-      const partialSubscriptionData: LogSubscriptionType = {
-        profile_id: profile.id,
-        subscription_name: SubscriptionTypeNames.DealershipFreeTrialPeriod,
-        email: parsedData.email,
-        subscription_code: null,
-        customer_code: null,
-        plan_code: null,
-        status: "pending",
-        start_time: null,
-        cancel_time: null,
-        raw_response: null,
-      };
-
-      const { error: insertError } = await supabase
-        .from("subscriptions")
-        .insert(partialSubscriptionData);
-
-      if (insertError) {
-        logErrorMessage(
-          insertError,
-          "Error inserting initial subscription data after sign up"
-        );
-        return {
-          data: null,
-          status: StatusCode.BAD_REQUEST,
-          error: "Error inserting initial subscription data after sign up",
-        };
-      }
     }
 
     revalidatePath("/", "layout");

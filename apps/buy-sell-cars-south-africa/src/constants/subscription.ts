@@ -1,7 +1,6 @@
 import { addVAT } from "~bsc-shared/utils";
 
 export enum SubscriptionTypeNames {
-  DealershipFreeTrialPeriod = "Dealership Free Trial Period",
   StarterShowcase = "Starter Showcase (South Africa)",
   GrowthAccelerator = "Growth Accelerator (South Africa)",
   DealershipDominator = "Dealership Dominator (South Africa)",

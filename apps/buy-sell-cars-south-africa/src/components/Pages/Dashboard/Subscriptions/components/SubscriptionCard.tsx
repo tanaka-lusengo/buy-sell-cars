@@ -1,8 +1,15 @@
 "use client";
 
 import { JSX, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Typography, Button } from "~bsc-shared/ui";
-import { handleClientError, logErrorMessage } from "~bsc-shared/utils";
+import {
+  handleClientError,
+  logErrorMessage,
+  StatusCode,
+  toastNotifySuccess,
+} from "~bsc-shared/utils";
+import { logPartialTrialSubscription } from "@/src/server/actions/payment";
 import { Profile, Subscription } from "@/src/types";
 import { formatPriceToRands } from "@/src/utils";
 import { Box, Container, Flex } from "@/styled-system/jsx";
@@ -14,7 +21,6 @@ type SubscriptionCardProps = {
   planName: string;
   price: number;
   basePrice: number;
-  vat: number;
   description: string;
   features: JSX.Element[];
 };
@@ -26,11 +32,12 @@ export const SubscriptionCard = ({
   planName,
   price,
   basePrice,
-  vat,
   description,
   features,
 }: SubscriptionCardProps) => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const { push } = useRouter();
 
   const isIndividual = profile.user_category === "individual";
 
@@ -56,7 +63,28 @@ export const SubscriptionCard = ({
       );
 
       if (userConfirmed) {
-        window.open(planLink, "_blank", "noopener,noreferrer");
+        if (noSubscription) {
+          // If they have an existing subscription, log the partial trial subscription
+          const { status, error } = await logPartialTrialSubscription(
+            profile,
+            planName
+          );
+          if (status !== StatusCode.SUCCESS) {
+            console.error("Failed to log partial trial subscription:", error);
+            handleClientError(
+              "Failed to log trial subscription",
+              "Please try again later."
+            );
+            return;
+          }
+
+          toastNotifySuccess(
+            `You have successfully logged a trial subscription for the ${planName} plan.`
+          );
+          push("/dashboard/subscriptions");
+        } else {
+          window.open(planLink, "_blank", "noopener,noreferrer");
+        }
       }
     } catch (error) {
       logErrorMessage(error, "subscribing to plan");
@@ -68,6 +96,8 @@ export const SubscriptionCard = ({
       setIsLoading(false);
     }
   };
+
+  console.log("noSubscription:", noSubscription);
 
   return (
     <form
@@ -102,11 +132,11 @@ export const SubscriptionCard = ({
           </Typography>
         </Typography>
 
-        <Box marginY="md">
+        <Flex direction="column" marginY="md" gap="md">
           <Typography align="center">
             <b>{description}</b>
           </Typography>
-        </Box>
+        </Flex>
 
         <Typography as="ul" style={{ paddingLeft: "3.5rem" }}>
           <Flex direction="column" gap="xs">
@@ -133,7 +163,6 @@ export const SubscriptionCard = ({
                 </Button>
               </Box>
             )}
-
             {!isIndividual && (
               <Typography align="center" variant="body2">
                 <i>
@@ -142,7 +171,6 @@ export const SubscriptionCard = ({
                 </i>
               </Typography>
             )}
-
             {isIndividual && (
               <Typography align="center" variant="body2">
                 <i>

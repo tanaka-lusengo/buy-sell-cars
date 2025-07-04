@@ -73,7 +73,7 @@ export type Subscription = Tables<"subscriptions">;
 // Server Actions Types
 export type LogSubscriptionType = Omit<
   Subscription,
-  "id" | "created_at" | "updated_at"
+  "id" | "created_at" | "updated_at" | "trial_ends_at"
 >;
 
 export type LogSubscriptionWebhookType = Omit<
