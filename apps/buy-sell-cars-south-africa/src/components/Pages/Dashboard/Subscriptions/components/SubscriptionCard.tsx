@@ -64,7 +64,7 @@ export const SubscriptionCard = ({
 
       if (userConfirmed) {
         if (noSubscription) {
-          // If they have an existing subscription, log the partial trial subscription
+          // If they don't have an existing subscription, log a trial subscription for the user
           const { status, error } = await logPartialTrialSubscription(
             profile,
             planName
