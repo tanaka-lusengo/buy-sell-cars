@@ -79,7 +79,7 @@ export const SubscriptionCard = ({
       <Box
         border="1px solid"
         borderColor="greyLight"
-        maxWidth="48rem"
+        maxWidth="45rem"
         padding="md"
         borderRadius="1rem"
         bg="white"
@@ -94,7 +94,8 @@ export const SubscriptionCard = ({
             color="primaryDark"
             style={{ fontSize: "inherit" }}
           >
-            {formatPriceToDollars(basePrice)} + VAT
+            {formatPriceToDollars(basePrice)} + VAT{" "}
+            <Typography as="span">/ per month</Typography>
           </Typography>
           <Typography align="center" variant="body2" color="grey">
             ({formatPriceToDollars(price)} incl 15% VAT)
