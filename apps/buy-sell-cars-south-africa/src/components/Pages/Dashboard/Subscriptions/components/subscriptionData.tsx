@@ -69,5 +69,14 @@ export const dealershipDominatorPlan = {
     <>
       <b>CTR Links</b> to your website (if applicable)
     </>,
+    <>
+      <b>Brand ambassador</b> utilisation for dealership
+    </>,
+    <>
+      <b>Instagram</b> and social media cross-collaboration
+    </>,
+    <>
+      <b>Videographer</b>
+    </>,
   ],
 };
