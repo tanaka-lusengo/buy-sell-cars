@@ -92,6 +92,8 @@ export const SubscriptionsList = ({
               planLink={starterShowcasePlan.planLink}
               planName={starterShowcasePlan.name}
               price={starterShowcasePlan.price}
+              basePrice={starterShowcasePlan.basePrice}
+              vat={starterShowcasePlan.vat}
               description={starterShowcasePlan.description}
               features={starterShowcasePlan.features.map((feature, index) => (
                 <Typography key={index} as="span">
@@ -106,6 +108,8 @@ export const SubscriptionsList = ({
               planLink={growthAcceleratorPlan.planLink}
               planName={growthAcceleratorPlan.name}
               price={growthAcceleratorPlan.price}
+              basePrice={growthAcceleratorPlan.basePrice}
+              vat={growthAcceleratorPlan.vat}
               description={growthAcceleratorPlan.description}
               features={growthAcceleratorPlan.features.map((feature, index) => (
                 <Typography key={index} as="span">
@@ -120,6 +124,8 @@ export const SubscriptionsList = ({
               planLink={dealershipDominatorPlan.planLink}
               planName={dealershipDominatorPlan.name}
               price={dealershipDominatorPlan.price}
+              basePrice={dealershipDominatorPlan.basePrice}
+              vat={dealershipDominatorPlan.vat}
               description={dealershipDominatorPlan.description}
               features={dealershipDominatorPlan.features.map(
                 (feature, index) => (

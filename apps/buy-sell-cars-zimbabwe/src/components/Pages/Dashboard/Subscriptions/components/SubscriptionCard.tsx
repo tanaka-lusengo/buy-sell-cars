@@ -13,6 +13,8 @@ type SubscriptionCardProps = {
   planLink: string;
   planName: string;
   price: number;
+  basePrice: number;
+  vat: number;
   description: string;
   features: JSX.Element[];
 };
@@ -23,6 +25,8 @@ export const SubscriptionCard = ({
   planLink,
   planName,
   price,
+  basePrice,
+  vat,
   description,
   features,
 }: SubscriptionCardProps) => {
@@ -45,7 +49,10 @@ export const SubscriptionCard = ({
 
     try {
       const userConfirmed = confirm(
-        `You are about to subscribe to the ${planName} plan for ${formatPriceToDollars(price)}/month. Do you want to proceed?`
+        `You're about to subscribe to the ${planName} plan:\n\n` +
+          `Base Price: ${formatPriceToDollars(basePrice)}\n` +
+          `Total: ${formatPriceToDollars(price)} incl. (15% VAT) per month\n\n` +
+          `Do you want to proceed?`
       );
 
       if (userConfirmed) {
@@ -87,7 +94,10 @@ export const SubscriptionCard = ({
             color="primaryDark"
             style={{ fontSize: "inherit" }}
           >
-            {formatPriceToDollars(price)}/month
+            {formatPriceToDollars(basePrice)} + VAT
+          </Typography>
+          <Typography align="center" variant="body2" color="grey">
+            ({formatPriceToDollars(price)} incl 15% VAT)
           </Typography>
         </Typography>
 
@@ -114,7 +124,7 @@ export const SubscriptionCard = ({
         </Typography>
 
         <Container marginY="md">
-          <Flex direction="column" gap="sm">
+          <Flex direction="column" gap="md">
             {shouldShowSubmitButton && (
               <Box marginX="auto" textAlign="center">
                 <Button type="submit" disabled={isLoading}>
@@ -124,11 +134,9 @@ export const SubscriptionCard = ({
             )}
 
             {!isIndividual && (
-              <Typography align="center" variant="body2">
-                <i>
-                  Note: If you are already subscribed to a plan,{" "}
-                  <b>make sure to cancel</b> your existing subscription first.
-                </i>
+              <Typography align="center">
+                If you are already subscribed to a plan,{" "}
+                <b>make sure to cancel</b> your existing subscription first.
               </Typography>
             )}
 
@@ -140,6 +148,12 @@ export const SubscriptionCard = ({
                 </i>
               </Typography>
             )}
+
+            <Typography align="center" variant="body2">
+              <i>
+                (Note: You will be charged in South African Rands at checkout)
+              </i>
+            </Typography>
           </Flex>
         </Container>
       </Box>

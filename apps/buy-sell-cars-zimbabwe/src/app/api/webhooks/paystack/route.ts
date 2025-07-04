@@ -305,8 +305,6 @@ async function handleSubscriptionCharge(
       .from("subscriptions")
       .select("*")
       .eq("profile_id", profile.id)
-      .eq("plan_code", plan.plan_code)
-      .eq("customer_code", customer.customer_code)
       .maybeSingle();
 
     if (fetchError) {
