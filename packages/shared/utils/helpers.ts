@@ -108,3 +108,6 @@ export const getStartDate = (range: string) => {
   }
   return now.toISOString();
 };
+
+export const addVAT = (amount: number, vatRate = 0.15) =>
+  Math.round(amount * (1 + vatRate));
