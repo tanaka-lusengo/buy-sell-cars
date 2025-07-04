@@ -13,6 +13,8 @@ type SubscriptionCardProps = {
   planLink: string;
   planName: string;
   price: number;
+  basePrice: number;
+  vat: number;
   description: string;
   features: JSX.Element[];
 };
@@ -23,6 +25,8 @@ export const SubscriptionCard = ({
   planLink,
   planName,
   price,
+  basePrice,
+  vat,
   description,
   features,
 }: SubscriptionCardProps) => {
@@ -45,7 +49,10 @@ export const SubscriptionCard = ({
 
     try {
       const userConfirmed = confirm(
-        `You are about to subscribe to the ${planName} plan for ${formatPriceToRands(price)}/month. Do you want to proceed?`
+        `You're about to subscribe to the ${planName} plan:\n\n` +
+          `Base Price: ${formatPriceToRands(basePrice)}\n` +
+          `Total: ${formatPriceToRands(price)} incl. (15% VAT) per month\n\n` +
+          `Do you want to proceed?`
       );
 
       if (userConfirmed) {
@@ -72,7 +79,7 @@ export const SubscriptionCard = ({
       <Box
         border="1px solid"
         borderColor="greyLight"
-        maxWidth="48rem"
+        maxWidth="45rem"
         padding="md"
         borderRadius="1rem"
         bg="white"
@@ -87,7 +94,11 @@ export const SubscriptionCard = ({
             color="primaryDark"
             style={{ fontSize: "inherit" }}
           >
-            {formatPriceToRands(price)}/month
+            {formatPriceToRands(basePrice)} + VAT{" "}
+            <Typography as="span">/ per month</Typography>
+          </Typography>
+          <Typography align="center" variant="body2" color="grey">
+            ({formatPriceToRands(price)} incl 15% VAT)
           </Typography>
         </Typography>
 
@@ -114,7 +125,7 @@ export const SubscriptionCard = ({
         </Typography>
 
         <Container marginY="md">
-          <Flex direction="column" gap="sm">
+          <Flex direction="column" gap="md">
             {shouldShowSubmitButton && (
               <Box marginX="auto" textAlign="center">
                 <Button type="submit" disabled={isLoading}>

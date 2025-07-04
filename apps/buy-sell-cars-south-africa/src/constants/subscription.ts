@@ -1,3 +1,5 @@
+import { addVAT } from "~bsc-shared/utils";
+
 export enum SubscriptionTypeNames {
   DealershipFreeTrialPeriod = "Dealership Free Trial Period",
   StarterShowcase = "Starter Showcase (South Africa)",
@@ -15,17 +17,23 @@ export const SUBSCRIPTIONS = {
   StarterShowcase: {
     name: SubscriptionTypeNames.StarterShowcase,
     planLink: SubscriptionPlanLinks.StarterShowcase,
-    price: 890,
+    price: addVAT(900, 0.15),
+    basePrice: 900,
+    vat: 0.15,
   },
   GrowthAccelerator: {
     name: SubscriptionTypeNames.GrowthAccelerator,
     planLink: SubscriptionPlanLinks.GrowthAccelerator,
-    price: 3995,
+    price: addVAT(4500, 0.15),
+    basePrice: 4500,
+    vat: 0.15,
   },
   DealershipDominator: {
     name: SubscriptionTypeNames.DealershipDominator,
     planLink: SubscriptionPlanLinks.DealershipDominator,
-    price: 7105,
+    price: addVAT(7200, 0.15),
+    basePrice: 7200,
+    vat: 0.15,
   },
 };
 

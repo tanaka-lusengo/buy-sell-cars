@@ -29,6 +29,8 @@ export const AdClicksBarChart = ({ data }: { data: AdClick[] }) => {
 
   const totalClicks = chartData.reduce((sum, item) => sum + item.clicks, 0);
 
+  const chartDataHeightMultiplier = chartData.length <= 1 ? 120 : 70;
+
   if (chartData.length === 0) {
     return (
       <Flex direction="column" alignItems="center" gap="md">
@@ -71,11 +73,14 @@ export const AdClicksBarChart = ({ data }: { data: AdClick[] }) => {
   }
 
   return (
-    <ResponsiveContainer width="100%" height={chartData.length * 50}>
+    <ResponsiveContainer
+      width="100%"
+      height={chartData.length * chartDataHeightMultiplier}
+    >
       <BarChart
         data={chartData}
         layout="vertical"
-        margin={{ top: 20, right: 20, bottom: 20 }}
+        margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis type="number" allowDecimals={false} tickCount={5} />
