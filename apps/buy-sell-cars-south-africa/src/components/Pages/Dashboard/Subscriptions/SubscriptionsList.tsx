@@ -34,7 +34,9 @@ export const SubscriptionsList = ({
     return null;
   }
 
-  const trialEndDate = formatDate(addDays(new Date(), 30).toISOString());
+  const trialEndDate = subscription?.trial_ends_at
+    ? formatDate(subscription.trial_ends_at)
+    : formatDate(addDays(new Date(), 30).toISOString());
 
   return (
     <Box position="relative" height="100vh" overflow="hidden">
