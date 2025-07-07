@@ -25,6 +25,7 @@
     "dev": "turbo run dev --parallel",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
     "lint": "turbo run lint",
+    "lint:fix": "turbo run lint -- --fix",
     "lint:packages": "syncpack lint --dependency-types prod,dev",
     "lint:packages:fix": "syncpack fix",
     "lint:packages:format": "syncpack format",
