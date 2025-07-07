@@ -5,7 +5,6 @@ export const starterShowcasePlan = {
   planLink: SUBSCRIPTIONS.StarterShowcase.planLink,
   price: SUBSCRIPTIONS.StarterShowcase.price,
   basePrice: SUBSCRIPTIONS.StarterShowcase.basePrice,
-  vat: SUBSCRIPTIONS.StarterShowcase.vat,
   description: "Perfect entry point for new or smaller dealerships.",
   features: [
     <>
@@ -28,7 +27,6 @@ export const growthAcceleratorPlan = {
   planLink: SUBSCRIPTIONS.GrowthAccelerator.planLink,
   price: SUBSCRIPTIONS.GrowthAccelerator.price,
   basePrice: SUBSCRIPTIONS.GrowthAccelerator.basePrice,
-  vat: SUBSCRIPTIONS.GrowthAccelerator.vat,
   description: "Ideal for growing dealerships looking to stand out.",
   features: [
     <>
@@ -51,7 +49,6 @@ export const dealershipDominatorPlan = {
   planLink: SUBSCRIPTIONS.DealershipDominator.planLink,
   price: SUBSCRIPTIONS.DealershipDominator.price,
   basePrice: SUBSCRIPTIONS.DealershipDominator.basePrice,
-  vat: SUBSCRIPTIONS.DealershipDominator.vat,
   description: "Maximum visibility for high-volume dealerships.",
   features: [
     <>

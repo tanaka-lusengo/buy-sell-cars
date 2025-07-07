@@ -1,37 +1,38 @@
 {
-  "name": "buy-sell-cars",
-  "version": "1.0.0",
-  "dependencies": {
-    "next": "15.3.3",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
-    "eslint": "^9",
-    "eslint-config-custom": "workspace:*",
-    "prettier": "^3.5.3",
-    "prettier-config-custom": "workspace:*",
-    "syncpack": "14.0.0-alpha.16",
-    "turbo": "^2.5.4"
-  },
-  "packageManager": "pnpm@10.0.0",
-  "scripts": {
-    "build": "turbo run build",
-    "clean": "pnpm clean-modules && pnpm clean-next && pnpm clean-turbo",
-    "clean-modules": "rm -rf node_modules */node_modules */*/node_modules",
-    "clean-next": "rm -rf .next */.next */*/.next",
-    "clean-turbo": "rm -rf .turbo */.turbo */*/.turbo",
-    "dev": "turbo run dev --parallel",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
-    "lint": "turbo run lint",
-    "lint:packages": "syncpack lint --dependency-types prod,dev",
-    "lint:packages:fix": "syncpack fix",
-    "lint:packages:format": "syncpack format",
-    "type-check": "turbo run type-check"
-  },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+    "name": "buy-sell-cars",
+    "version": "1.0.0",
+    "dependencies": {
+        "next": "15.3.3",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0"
+    },
+    "devDependencies": {
+        "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+        "eslint": "^9",
+        "eslint-config-custom": "workspace:*",
+        "prettier": "^3.5.3",
+        "prettier-config-custom": "workspace:*",
+        "syncpack": "14.0.0-alpha.16",
+        "turbo": "^2.5.4"
+    },
+    "packageManager": "pnpm@10.0.0",
+    "scripts": {
+        "build": "turbo run build",
+        "clean": "pnpm clean-modules && pnpm clean-next && pnpm clean-turbo",
+        "clean-modules": "rm -rf node_modules */node_modules */*/node_modules",
+        "clean-next": "rm -rf .next */.next */*/.next",
+        "clean-turbo": "rm -rf .turbo */.turbo */*/.turbo",
+        "dev": "turbo run dev --parallel",
+        "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
+        "lint": "turbo run lint",
+        "lint:fix": "turbo run lint -- --fix",
+        "lint:packages": "syncpack lint --dependency-types prod,dev",
+        "lint:packages:fix": "syncpack fix",
+        "lint:packages:format": "syncpack format",
+        "type-check": "turbo run type-check"
+    },
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ]
 }

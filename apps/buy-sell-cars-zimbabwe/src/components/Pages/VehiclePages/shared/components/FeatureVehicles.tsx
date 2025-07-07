@@ -9,7 +9,7 @@ import { FeaturePreviewCard } from "@/src/components/shared";
 import { useAuth } from "@/src/context/auth-context";
 import { VehicleCategoryType, VehicleWithImageAndDealer } from "@/src/types";
 import { Box, Flex } from "@/styled-system/jsx";
-import { CorouselViewport } from "../../../Landing/common.styled";
+import { CorouselViewport } from "../../../Landing/components/common.styled";
 
 type FeatureVehiclesProps = {
   vehicleCategory: VehicleCategoryType[number];

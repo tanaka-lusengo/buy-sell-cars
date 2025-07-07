@@ -97,8 +97,6 @@ export const SubscriptionCard = ({
     }
   };
 
-  
-
   return (
     <form
       onSubmit={(e) => {

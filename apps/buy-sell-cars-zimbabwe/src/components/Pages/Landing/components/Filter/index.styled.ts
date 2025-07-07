@@ -6,7 +6,7 @@ export const Form = styled("form", {
     flexDirection: "column",
     gap: "sm",
     width: "100%",
-    maxWidth: "40 rem",
+    maxWidth: "40rem",
     border: "1px solid white",
     borderRadius: "1rem",
     padding: "md",

@@ -8,8 +8,8 @@ import { Typography } from "~bsc-shared/ui";
 import { StatusCode } from "~bsc-shared/utils";
 import { Profile } from "@/src/types";
 import { Box, Flex } from "@/styled-system/jsx";
+import { FeaturedDealersCard } from "./FeaturedDealersCard";
 import { CorouselViewport } from "./common.styled";
-import { FeaturedDealersCard } from "./components";
 
 type FeaturedDealersSectionProps = {
   featuredDealers: {
@@ -43,27 +43,17 @@ export const FeaturedDealersSection = ({
         <Typography variant="h2">Browse by dealers</Typography>
       </Box>
 
-      <Flex
-        direction={{ base: "column", lg: "row" }}
-        justifyContent="space-between"
-        align="center"
-        paddingY="lg"
-        gap={{ base: "xs", md: "xl" }}
-      >
-        <Box width="100%" overflow="hidden">
-          <CorouselViewport ref={emblaRef}>
-            <Flex paddingY="lg">
-              {dealers
-                ?.filter(
-                  (detail) => detail.profile_logo_path || detail.dealership_name
-                )
-                .map((dealer, index) => (
-                  <FeaturedDealersCard key={index} dealer={dealer} />
-                ))}
-            </Flex>
-          </CorouselViewport>
-        </Box>
-      </Flex>
+      <Box paddingY="lg" width="100%" overflow="hidden">
+        <CorouselViewport ref={emblaRef}>
+          <Flex paddingY="lg">
+            {dealers
+              ?.filter((detail) => detail.profile_logo_path)
+              .map((dealer, index) => (
+                <FeaturedDealersCard key={index} dealer={dealer} />
+              ))}
+          </Flex>
+        </CorouselViewport>
+      </Box>
 
       <Typography variant="h3" weight="bold" hoverEffect="color" align="center">
         <Link href="/dealers/">See all listed dealers</Link>

@@ -13,4 +13,5 @@ export const EXTERNAL_URLS = {
     "https://www.facebook.com/rossihararedrive?mibextid=wwXIfr&rdid=XD0b641mH0N7Z55o&share_url=https://www.facebook.com/share/1BSNJucW2A/?mibextid%3DwwXIfr",
   ROAD_BOYS_LOGISTICS_URL:
     "https://www.facebook.com/profile.php?id=61559339190662&mibextid=wwXIfr&rdid=hT2V2GBBlE0TmbTJ&share_url=https://www.facebook.com/share/1BvWhxyunK/?mibextid%3DwwXIfr",
+  REFUEL_WHATSAPP_URL: "https://wa.me/+263775158370",
 };
