@@ -54,9 +54,7 @@ export const FeaturedDealersSection = ({
           <CorouselViewport ref={emblaRef}>
             <Flex paddingY="lg">
               {dealers
-                ?.filter(
-                  (detail) => detail.profile_logo_path || detail.dealership_name
-                )
+                ?.filter((detail) => detail.profile_logo_path)
                 .map((dealer, index) => (
                   <FeaturedDealersCard key={index} dealer={dealer} />
                 ))}

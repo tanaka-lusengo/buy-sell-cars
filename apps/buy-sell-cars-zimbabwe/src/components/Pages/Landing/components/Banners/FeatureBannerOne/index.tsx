@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useWindowSize } from "~bsc-shared/hooks";
+import rossiTyresDesktop from "@/public/images/sponsors/rossi/rossi-tyres-lg.jpg";
+import rossiTyresMobile from "@/public/images/sponsors/rossi/rossi-tyres-sm.jpg";
 import { EXTERNAL_URLS } from "@/src/constants/urls";
 import { breakpointsNumber } from "@/src/styles";
 import { Box, Flex } from "@/styled-system/jsx";
@@ -10,9 +12,6 @@ import { Box, Flex } from "@/styled-system/jsx";
 export const FeatureBannerOne = () => {
   const { width } = useWindowSize();
   const isMobile = (width ?? 0) < breakpointsNumber.md;
-
-  const mobileImage = "/images/sponsors/rossi-tyres-sm.jpg";
-  const desktopImage = "/images/sponsors/rossi-tyres-lg.jpg";
 
   return (
     <Link
@@ -33,11 +32,11 @@ export const FeatureBannerOne = () => {
           transition="all 0.3s ease-in-out"
         >
           <Image
-            src={isMobile ? mobileImage : desktopImage}
+            src={isMobile ? rossiTyresMobile : rossiTyresDesktop}
             alt="Rossi Tyres Harrare Drive Zimbabwe"
             loading="lazy"
-            height={1100}
-            width={1000}
+            width={1600}
+            height={900}
             style={{
               objectFit: "cover",
               width: "100%",

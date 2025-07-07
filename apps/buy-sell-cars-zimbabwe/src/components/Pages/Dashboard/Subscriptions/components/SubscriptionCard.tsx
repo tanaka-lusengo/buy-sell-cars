@@ -14,7 +14,6 @@ type SubscriptionCardProps = {
   planName: string;
   price: number;
   basePrice: number;
-  vat: number;
   description: string;
   features: JSX.Element[];
 };
@@ -26,7 +25,6 @@ export const SubscriptionCard = ({
   planName,
   price,
   basePrice,
-  vat,
   description,
   features,
 }: SubscriptionCardProps) => {

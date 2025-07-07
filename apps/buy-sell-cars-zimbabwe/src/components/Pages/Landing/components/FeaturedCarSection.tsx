@@ -8,8 +8,8 @@ import { FeaturePreviewCard } from "@/src/components/shared";
 import { useAuth } from "@/src/context/auth-context";
 import { VehicleWithImageAndDealer } from "@/src/types";
 import { Box, Container, Flex } from "@/styled-system/jsx";
+import { Filter } from "./Filter";
 import { CorouselViewport } from "./common.styled";
-import { Filter } from "./components";
 
 export const FeaturedCarSection = ({
   featuredCarsWithDealerDetails,

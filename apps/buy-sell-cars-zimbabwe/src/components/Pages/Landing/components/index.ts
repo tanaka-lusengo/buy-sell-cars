@@ -1,2 +1,10 @@
 export { Filter } from "./Filter";
 export { FeaturedDealersCard } from "./FeaturedDealersCard";
+export { HeroBanner } from "./Banners/HeroBanner";
+export { FeatureBannerOne } from "./Banners/FeatureBannerOne";
+export { FeatureBannerTwo } from "./Banners/FeatureBannerTwo";
+export { InfoSection } from "./InfoSection";
+export { FeaturedCarSection } from "./FeaturedCarSection";
+export { BrowseCarsSection } from "./BrowseCarsSection";
+export { FeaturedDealersSection } from "./FeaturedDealersSection";
+export { SocialMediaSection } from "./SocialMediaSection";
