@@ -4,10 +4,14 @@ import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
 import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
+import Link from "next/link";
+import { ResponsiveContainer } from "~bsc-shared/ui";
+import heroBackgroundImg from "@/public/images/hero.jpg";
+import refuelBannerImg from "@/public/images/sponsors/refuel/refuel-all-towns.jpg";
 import { Box, Container, Flex } from "@/styled-system/jsx";
 import { Filter } from "../../Filter";
-import { BannerContainer, fadeSlide } from "../common.styled";
-import { BannerSlideOne, BannerSlideTwo } from "./components/BannerSlides";
+import { REFUEL_WHATSAPP_URL } from "../constants";
+import { BannerSlideContentOne } from "./components/BannerSlides";
 
 export const HeroBanner = () => {
   const [emblaRef] = useEmblaCarousel(
@@ -19,90 +23,143 @@ export const HeroBanner = () => {
     [Autoplay({ delay: 4000, stopOnInteraction: false }), Fade()]
   );
 
+  const bannerSlides = [
+    {
+      backgroundImage: heroBackgroundImg,
+      alt: "Hero Image",
+      content: <BannerSlideContentOne />,
+      isHomeBanner: true,
+    },
+    {
+      backgroundImage: refuelBannerImg,
+      alt: "Refuel, now open in Gweru, Bulawayo and Victoria Falls",
+      content: null,
+    },
+  ];
+
   return (
     <Container
       px="0"
       minHeight={{ base: "48rem", md: "54rem" }}
       position="relative"
     >
-      {/* Background Image */}
-      <Image
-        src="/images/hero.jpg"
-        alt="Hero Image"
-        fill
-        priority
-        sizes="100vw"
-        style={{
-          position: "absolute",
-          objectFit: "cover",
-          width: "100%",
-          height: "100%",
-        }}
-        quality={70}
-      />
-
-      {/* Gradient Overlay */}
       <Box
+        ref={emblaRef}
         position="absolute"
         top="0"
         left="0"
         width="100%"
         height="100%"
-        backgroundGradient="linear-gradient(rgba(30, 39, 55, 0.65), rgba(30, 39, 55, 0.65))"
-        zIndex="5"
-      />
-
-      <Container
-        px="0"
-        width="100%"
-        height="100%"
-        zIndex="10"
-        position="absolute"
+        zIndex="1"
       >
-        <BannerContainer>
-          <Flex
-            height="100%"
-            width="100%"
-            alignItems="center"
-            justifyContent="space-between"
-            px={{ base: "sm", lg: "lg" }}
-          >
-            {/* Carousel */}
-            <Box
-              ref={emblaRef}
-              position="relative"
-              overflow="hidden"
-              width="100%"
-              height="100%"
-              maxWidth={{ base: "100%", lg: 750 }}
-            >
-              <Box position="relative" width="100%" height="100%">
-                <Box
-                  className={fadeSlide}
-                  position="absolute"
-                  inset={0}
-                  height="100%"
-                >
-                  <BannerSlideOne />
-                </Box>
-                <Box
-                  className={fadeSlide}
-                  position="absolute"
-                  inset={0}
-                  height="100%"
-                >
-                  <BannerSlideTwo />
-                </Box>
-              </Box>
-            </Box>
+        <Flex>
+          {bannerSlides.map((slide, index) => {
+            const isHomeBanner = !!slide.isHomeBanner;
 
-            {/* Filter */}
-            <Box display={{ base: "none" }}>
-              <Filter />
-            </Box>
-          </Flex>
-        </BannerContainer>
-      </Container>
+            return (
+              <Box
+                key={index}
+                flex="0 0 100%"
+                position="relative"
+                width="100%"
+                height="100%"
+                minHeight={{ base: "48rem", md: "54rem" }}
+              >
+                {/* Background Image */}
+                {isHomeBanner ? (
+                  <Image
+                    src={slide.backgroundImage}
+                    alt={slide.alt}
+                    fill
+                    priority
+                    sizes="100vw"
+                    quality={70}
+                    style={{
+                      position: "absolute",
+                      objectFit: "cover",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                ) : (
+                  <Link
+                    href={REFUEL_WHATSAPP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      zIndex: 100,
+                    }}
+                  >
+                    <Image
+                      src={slide.backgroundImage}
+                      alt={slide.alt}
+                      fill
+                      loading="lazy"
+                      sizes="100vw"
+                      quality={70}
+                      style={{
+                        position: "absolute",
+                        objectFit: "contain",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    />
+                  </Link>
+                )}
+
+                {/* Gradient Overlay */}
+                <Box
+                  position="absolute"
+                  top="0"
+                  left="0"
+                  width="100%"
+                  height="100%"
+                  backgroundGradient={
+                    isHomeBanner
+                      ? "linear-gradient(rgba(30, 39, 55, 0.65), rgba(30, 39, 55, 0.65))"
+                      : undefined
+                  }
+                  zIndex="5"
+                />
+
+                {/* Content */}
+                {slide.content && (
+                  <Container
+                    width="100%"
+                    height="100%"
+                    position="absolute"
+                    zIndex="10"
+                  >
+                    <ResponsiveContainer>
+                      <Flex
+                        height="100%"
+                        width="100%"
+                        alignItems="center"
+                        justifyContent="space-between"
+                        px={{ base: "sm", lg: "lg" }}
+                      >
+                        <Box position="relative" width="100%" height="100%">
+                          {slide.content}
+                        </Box>
+
+                        {/* Filter */}
+                        <Box display={{ base: "none" }}>
+                          <Filter />
+                        </Box>
+                      </Flex>
+                    </ResponsiveContainer>
+                  </Container>
+                )}
+              </Box>
+            );
+          })}
+        </Flex>
+      </Box>
     </Container>
   );
 };
