@@ -71,7 +71,7 @@ export const HeroBanner = () => {
                     src={slide.backgroundImage}
                     alt={slide.alt}
                     fill
-                    loading="lazy"
+                    priority
                     sizes="100vw"
                     quality={70}
                     style={{
@@ -99,7 +99,7 @@ export const HeroBanner = () => {
                       src={slide.backgroundImage}
                       alt={slide.alt}
                       fill
-                      priority
+                      loading="lazy"
                       sizes="100vw"
                       quality={70}
                       style={{
