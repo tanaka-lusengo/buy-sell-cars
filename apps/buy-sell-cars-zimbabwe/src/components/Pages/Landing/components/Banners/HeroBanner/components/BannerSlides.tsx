@@ -1,11 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Typography } from "~bsc-shared/ui";
-import refuelAllTowns from "@/public/images/sponsors/refuel/refuel-all-towns.jpg";
 import { Flex, Box, HStack } from "@/styled-system/jsx";
-import { REFUEL_WHATSAPP_URL } from "../../constants";
 
-export const BannerSlideOne = () => {
+export const BannerSlideContentOne = () => {
   const factList = [
     "Launching a new era of digital automotive trading",
     "Secure, transparent, and professional platform",
@@ -44,38 +41,5 @@ export const BannerSlideOne = () => {
         ))}
       </Box>
     </Flex>
-  );
-};
-
-export const BannerSlideTwo = () => {
-  return (
-    <Link href={REFUEL_WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-      <Flex
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        width="100%"
-        height="100%"
-        borderRadius="1.2rem"
-        transition="all 0.3s ease-in-out"
-        _hover={{
-          opacity: 0.9,
-          boxShadow: "0 6px 12px rgba(0, 0, 0, 0.2)",
-        }}
-      >
-        <Image
-          src={refuelAllTowns}
-          alt="Refuel now open in Gweru, Bulawayo and Victoria Falls"
-          loading="lazy"
-          height={700}
-          width={400}
-          style={{
-            objectFit: "cover",
-            width: "100%",
-            borderRadius: "1.2rem",
-          }}
-        />
-      </Flex>
-    </Link>
   );
 };
