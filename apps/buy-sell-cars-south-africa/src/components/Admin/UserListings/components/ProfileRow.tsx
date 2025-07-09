@@ -161,7 +161,6 @@ export const ProfileRow = ({
           "phone",
           "location",
           "description",
-          "subscription",
         ].map((field) => {
           let newFieldName;
 

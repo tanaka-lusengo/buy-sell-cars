@@ -156,7 +156,10 @@ export const UserListings = ({
 
       if (error) {
         console.error("Error updating profile:", error);
-        handleClientError("updating profile", error);
+        handleClientError(
+          "updating profile",
+          error.message || "An error occurred"
+        );
         setEditingId(null);
         return;
       }
