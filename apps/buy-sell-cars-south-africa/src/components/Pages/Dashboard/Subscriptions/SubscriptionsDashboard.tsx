@@ -159,9 +159,9 @@ export const SubscriptionsDashboard = ({
     if (!currentPlanDetails || isIndividual) return null;
 
     return (
-      <Flex direction="column" marginY="lg" gap="md">
+      <Flex direction="column" gap="md">
         <Typography variant="h3">Your Plan Features</Typography>
-        <Grid gridTemplateColumns={{ base: "1fr", md: "1fr 1fr" }} gap="md">
+        <Grid gridTemplateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap="md">
           <Flex direction="column" gap="md">
             <Typography variant="h4">What&apos;s Included:</Typography>
             <Flex direction="column" gap="sm">
@@ -261,7 +261,7 @@ export const SubscriptionsDashboard = ({
                 <Typography>Priority placement</Typography>
               </Box>
               <Box style={{ listStyleType: "disc" }}>
-                <Typography>Performance reports</Typography>
+                <Typography>Performance Analytics</Typography>
               </Box>
             </Box>
           </Box>
@@ -272,12 +272,11 @@ export const SubscriptionsDashboard = ({
     return (
       <Flex marginY="lg" direction="column" gap="md">
         <Typography variant="h3">Usage Statistics</Typography>
-        <Grid gridTemplateColumns={{ base: "1fr", md: "1fr 1fr 1fr" }} gap="md">
+        <Grid gridTemplateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap="md">
           <Box
-            bg="green.50"
             border="1px solid"
-            borderColor="green.200"
-            borderRadius="md"
+            borderColor="green"
+            borderRadius="1rem"
             padding="md"
             textAlign="center"
           >
@@ -291,39 +290,16 @@ export const SubscriptionsDashboard = ({
           </Box>
 
           <Box
-            bg="blue.50"
             border="1px solid"
-            borderColor="blue.200"
-            borderRadius="md"
+            borderColor="primaryDark"
+            borderRadius="1rem"
             padding="md"
             textAlign="center"
           >
-            <Typography variant="h2" color="secondary" weight="bold">
-              {Math.round(
-                ((vehicleLimits.max - vehicleLimits.current) /
-                  vehicleLimits.max) *
-                  100
-              )}
-              %
-            </Typography>
-            <Typography color="secondary">Capacity Available</Typography>
-            <Typography variant="body2" color="grey">
-              {vehicleLimits.max - vehicleLimits.current} slots remaining
-            </Typography>
-          </Box>
-
-          <Box
-            bg="purple.50"
-            border="1px solid"
-            borderColor="purple.200"
-            borderRadius="md"
-            padding="md"
-            textAlign="center"
-          >
-            <Typography variant="h2" color="info" weight="bold">
+            <Typography variant="h2" color="primaryDark" weight="bold">
               {subscription?.status === "active" ? "Active" : "Inactive"}
             </Typography>
-            <Typography>Subscription Status</Typography>
+            <Typography color="primaryDark">Subscription Status</Typography>
             <Typography variant="body2" color="grey">
               {isInTrial ? "Trial period" : "Full subscription"}
             </Typography>
@@ -342,11 +318,11 @@ export const SubscriptionsDashboard = ({
         <Box
           bg="grey.50"
           border="1px solid"
-          borderColor="grey.200"
-          borderRadius="md"
+          borderColor="grey"
+          borderRadius="1rem"
           padding="md"
         >
-          <Grid gridTemplateColumns={{ base: "1fr", md: "1fr 1fr" }} gap="md">
+          <Grid gridTemplateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap="md">
             <Flex direction="column" gap="sm">
               <Flex justifyContent="space-between">
                 <Typography>Billing Email:</Typography>
@@ -415,7 +391,80 @@ export const SubscriptionsDashboard = ({
     return (
       <Box marginY="lg">
         <Typography variant="h3">Compare Plans</Typography>
-        <Box marginTop="sm" overflowX="auto">
+
+        {/* Mobile view - stacked cards */}
+        <Box display={{ base: "block", md: "none" }} marginTop="sm">
+          <Grid gap="md">
+            {plans.map((plan) => (
+              <Box
+                key={plan.name}
+                border="1px solid"
+                borderColor="grey"
+                borderRadius="1.2rem"
+                padding="md"
+                bg={
+                  subscription_name?.includes(plan.name.split(" (")[0])
+                    ? "primary"
+                    : "white"
+                }
+                color={
+                  subscription_name?.includes(plan.name.split(" (")[0])
+                    ? "white"
+                    : "black"
+                }
+              >
+                <Flex direction="column" gap="sm">
+                  <Flex justifyContent="space-between" alignItems="center">
+                    <Typography weight="bold" variant="h4">
+                      {plan.name.split(" (")[0]}
+                    </Typography>
+                    <Typography weight="bold" variant="h4">
+                      {formatPriceToRands(plan.price)}/mo
+                    </Typography>
+                  </Flex>
+
+                  <Flex justifyContent="space-between">
+                    <Typography>Vehicle Listings:</Typography>
+                    <Typography weight="bold">{plan.limit} vehicles</Typography>
+                  </Flex>
+
+                  <Flex justifyContent="space-between">
+                    <Typography>Featured Listings:</Typography>
+                    <Typography weight="bold">
+                      {plan.featured} listing{plan.featured > 1 ? "s" : ""}
+                    </Typography>
+                  </Flex>
+
+                  <Flex justifyContent="space-between">
+                    <Typography>Logo Display:</Typography>
+                    <Typography weight="bold">✓</Typography>
+                  </Flex>
+
+                  <Flex justifyContent="space-between">
+                    <Typography>Priority Placement:</Typography>
+                    <Typography weight="bold">
+                      {plan.name.includes("Starter") ? "-" : "✓"}
+                    </Typography>
+                  </Flex>
+
+                  <Flex justifyContent="space-between">
+                    <Typography>Performance Analytics:</Typography>
+                    <Typography weight="bold">
+                      {plan.name.includes("Starter") ? "-" : "✓"}
+                    </Typography>
+                  </Flex>
+                </Flex>
+              </Box>
+            ))}
+          </Grid>
+        </Box>
+
+        {/* Desktop view - table format */}
+        <Box
+          display={{ base: "none", md: "block" }}
+          marginTop="sm"
+          overflowX="auto"
+        >
           <Box minWidth="600px">
             <Grid
               gridTemplateColumns="1fr 1fr 1fr 1fr"
@@ -515,7 +564,7 @@ export const SubscriptionsDashboard = ({
                 borderColor="grey"
                 padding="sm"
               >
-                <Typography weight="bold">Performance Reports</Typography>
+                <Typography weight="bold">Performance Analytics</Typography>
                 <Typography align="center">-</Typography>
                 <Typography align="center">✓</Typography>
                 <Typography align="center">✓</Typography>
