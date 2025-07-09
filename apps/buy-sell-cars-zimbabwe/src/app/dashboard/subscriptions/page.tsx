@@ -2,6 +2,7 @@ import { type Metadata } from "next";
 import { redirect } from "next/navigation";
 import { SubscriptionsDashboard } from "@/src/components/Pages";
 import { fetchUserAndProfile } from "@/src/server/actions/auth";
+import { getAllVehiclesByOwnerId } from "@/src/server/actions/general";
 import { getSubscription } from "@/src/server/actions/payment";
 
 export const metadata: Metadata = {
@@ -16,15 +17,26 @@ const SubscriptionsPage = async () => {
     redirect("/sign-in");
   }
 
-  // Fetch the subscription details for the profile
-  const { data: subscription, error } = await getSubscription(profile.id);
+  // Fetch the subscription details and all vehicles for the profile
+  const { data: subscription, error: subscriptionError } =
+    await getSubscription(profile.id);
+  const { data: vehicles, error: vehiclesError } =
+    await getAllVehiclesByOwnerId(profile.id);
 
-  if (error) {
-    console.error("Failed to fetch subscription:", error);
+  if (subscriptionError || vehiclesError) {
+    console.error(
+      subscriptionError
+        ? `Failed to fetch subscription: ${subscriptionError}`
+        : `Failed to fetch vehicles: ${vehiclesError}`
+    );
   }
 
   return (
-    <SubscriptionsDashboard profile={profile} subscription={subscription} />
+    <SubscriptionsDashboard
+      profile={profile}
+      subscription={subscription}
+      vehicles={vehicles || []}
+    />
   );
 };
 
