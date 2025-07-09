@@ -13,7 +13,7 @@ import {
   toastNotifyInfo,
 } from "~bsc-shared/utils";
 import { managePaystackSubscription } from "@/src/server/actions/payment";
-import { Profile, Subscription } from "@/src/types";
+import { Profile, Subscription, VehicleWithImage } from "@/src/types";
 import { formatPriceToDollars } from "@/src/utils";
 import { Box, Flex, Grid, Divider } from "@/styled-system/jsx";
 import { InfoFooter } from "../components";
@@ -26,11 +26,13 @@ import {
 type SubscriptionsDashboardProps = {
   profile: Profile;
   subscription: Subscription | null;
+  vehicles: VehicleWithImage[];
 };
 
 export const SubscriptionsDashboard = ({
   profile,
   subscription,
+  vehicles,
 }: SubscriptionsDashboardProps) => {
   const { push } = useRouter();
 
@@ -52,6 +54,8 @@ export const SubscriptionsDashboard = ({
     ? "Individual Plan (Free)"
     : subscriptionPlanName;
 
+  const currentListingCount = vehicles.length || 0;
+
   // Get current plan details
   const getCurrentPlanDetails = () => {
     if (isIndividual) return null;
@@ -70,16 +74,16 @@ export const SubscriptionsDashboard = ({
 
   // Get vehicle limits based on subscription
   const getVehicleLimits = () => {
-    if (isIndividual) return { current: 0, max: 2 };
+    if (isIndividual) return { current: currentListingCount, max: 2 };
 
     if (subscription_name?.includes("Starter Showcase")) {
-      return { current: 0, max: 25 };
+      return { current: currentListingCount, max: 25 };
     } else if (subscription_name?.includes("Growth Accelerator")) {
-      return { current: 0, max: 75 };
+      return { current: currentListingCount, max: 75 };
     } else if (subscription_name?.includes("Dealership Dominator")) {
-      return { current: 0, max: 100 };
+      return { current: currentListingCount, max: 100 };
     }
-    return { current: 0, max: 0 };
+    return { current: currentListingCount, max: 0 };
   };
 
   const vehicleLimits = getVehicleLimits();
