@@ -5,7 +5,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { Typography } from "~bsc-shared/ui";
 import { useFileUploadHelpers } from "@/src/hooks";
 import { Profile, VehicleCategoryType, VehicleWithImage } from "@/src/types";
-import { Box, Flex } from "@/styled-system/jsx";
+import { Box, Divider, Flex } from "@/styled-system/jsx";
 import { createClient } from "@/supabase/client";
 import { FeaturePreviewCard } from "../FeaturePreviewCard";
 import {
@@ -111,10 +111,16 @@ export const VehicleDetailCard = ({
             </Box>
 
             <OverviewContent vehicle={vehicle} />
+
+            <Divider color="grey" marginY="lg" />
           </Box>
 
           {/* RHS Details */}
-          <Box paddingTop={{ base: "none", xl: "lg" }} paddingBottom="lg">
+          <Box
+            position={{ base: "static", xl: "sticky" }}
+            top={{ base: "none", xl: "130px" }}
+            paddingTop={{ base: "none", xl: "lg" }}
+          >
             <Flex direction="column" gap="lg">
               <Box display={{ base: "none", xl: "block" }}>
                 <VehicleTitle vehicle={vehicle} />
@@ -130,10 +136,14 @@ export const VehicleDetailCard = ({
                 <SellerContent owner={owner} vehicle={vehicle} />
               </Flex>
 
+              <Divider color="grey" />
+
               <VehicleDetails vehicle={vehicle} />
             </Flex>
           </Box>
         </Flex>
+
+        <Divider color="grey" marginY="lg" />
 
         {/* Other Vehicles by Owner */}
         <Box marginTop="md" marginBottom="xl">
@@ -155,6 +165,8 @@ export const VehicleDetailCard = ({
             />
           ))}
         </Flex>
+
+        <Divider color="grey" paddingY="lg" />
       </Box>
     </Box>
   );
