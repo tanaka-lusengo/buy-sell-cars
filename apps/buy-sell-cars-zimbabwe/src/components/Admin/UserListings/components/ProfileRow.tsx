@@ -74,7 +74,7 @@ export const ProfileRow = ({
       )}
 
       <Grid
-        gridTemplateColumns="0.5fr repeat(3, 1fr) 2fr repeat(5, 1fr) repeat(2, 1.5fr) repeat(2, 1fr)"
+        gridTemplateColumns="0.5fr repeat(3, 1fr) 2fr repeat(5, 1fr) 1.5fr repeat(2, 1fr)"
         alignItems="center"
         gap="sm"
         paddingX="md"
@@ -161,7 +161,6 @@ export const ProfileRow = ({
           "phone",
           "location",
           "description",
-          "subscription",
         ].map((field) => {
           let newFieldName;
 

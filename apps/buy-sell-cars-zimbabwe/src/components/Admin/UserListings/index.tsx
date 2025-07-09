@@ -34,7 +34,6 @@ const TABLE_HEADERS = [
   "Phone",
   "Location",
   "Description",
-  "Subscription Type",
   "Created On",
   "Updated On",
 ];
@@ -148,7 +147,6 @@ export const UserListings = ({
         email: formData.email,
         location: formData.location,
         description: formData.description,
-        subscription: formData.subscription ?? "",
       };
 
       const { error } = await supabase
@@ -157,6 +155,7 @@ export const UserListings = ({
         .eq("id", editingId);
 
       if (error) {
+        console.error("Error updating profile:", error);
         handleClientError("updating profile", error);
         setEditingId(null);
         return;
@@ -220,7 +219,7 @@ export const UserListings = ({
           <table>
             {/* Table Header */}
             <Grid
-              gridTemplateColumns="0.5fr repeat(3, 1fr) 2fr repeat(5, 1fr) repeat(2, 1.5fr) repeat(2, 1fr)"
+              gridTemplateColumns="0.5fr repeat(3, 1fr) 2fr repeat(5, 1fr) 1.5fr repeat(2, 1fr)"
               gap="sm"
               paddingX="md"
               paddingY="sm"
