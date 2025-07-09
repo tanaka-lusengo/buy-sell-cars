@@ -29,6 +29,9 @@
         "lint:packages": "syncpack lint --dependency-types prod,dev",
         "lint:packages:fix": "syncpack fix",
         "lint:packages:format": "syncpack format",
+        "test": "turbo run test",
+        "test:ui": "turbo run test:ui",
+        "test:coverage": "turbo run test:coverage",
         "type-check": "turbo run type-check"
     },
     "workspaces": [

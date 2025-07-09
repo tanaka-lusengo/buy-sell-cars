@@ -32,6 +32,8 @@ export const SellerImage = ({ owner, getPublicUrl }: SellerImageProps) => {
           width={{ base: "25rem", md: "30rem" }}
           height={{ base: "25rem", md: "30rem" }}
           overflow="hidden"
+          border="1px solid"
+          borderColor="grey"
           borderRadius="8px"
         >
           <Image

@@ -24,16 +24,22 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@pandacss/dev": "^0.53.3",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^4.6.0",
     "embla-carousel": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "eslint": "^9",
     "eslint-config-custom": "workspace:*",
+    "jsdom": "^26.1.0",
     "prettier": "^3.5.3",
     "prettier-config-custom": "workspace:*",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.4"
   },
   "packageManager": "pnpm@10.0.0",
   "private": true,
@@ -51,6 +57,9 @@
     "lint:fix": "next lint --fix",
     "prepare": "panda codegen",
     "start": "next start",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
     "type-check": "tsc --pretty --noEmit"
   }
 }
