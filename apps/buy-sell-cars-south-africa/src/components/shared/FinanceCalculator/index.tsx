@@ -67,7 +67,14 @@ export const FinanceCalculator = ({
   useEffect(() => {
     const initialResults = calculateFinance(defaultValues);
     setResults(initialResults);
-  }, []);
+  }, [
+    defaultValues.vehiclePrice,
+    defaultValues.deposit,
+    defaultValues.tradeIn,
+    defaultValues.interestRate,
+    defaultValues.residual,
+    defaultValues.repaymentMonths,
+  ]);
 
   // Watch for form changes and recalculate
   useEffect(() => {

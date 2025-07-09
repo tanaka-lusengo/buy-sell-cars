@@ -55,7 +55,7 @@
         },
         "test:coverage": {
             "dependsOn": ["^test:coverage"],
-            "outputs": []       
+            "outputs": []
         }
     }
 }
