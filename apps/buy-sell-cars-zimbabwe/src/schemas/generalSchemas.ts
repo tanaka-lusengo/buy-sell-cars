@@ -46,7 +46,6 @@ export const updateProfileAdminValidationSchema = z.object({
   dealershipName: z.string().nullable(),
   location: z.string().nullable(),
   description: z.string().nullable(),
-  subscription: z.string().nullable(),
   profileLogoPath: z.any().optional(),
   governmentIdPath: z.any().optional(),
 });
