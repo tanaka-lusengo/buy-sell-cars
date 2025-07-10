@@ -27,7 +27,7 @@ export const FeatureBannerTwo = () => {
       alt: "Refuel now open in Victoria Falls",
     },
     {
-      href: EXTERNAL_URLS.ROSSI_TYRES_URL,
+      href: EXTERNAL_URLS.ROAD_BOYS_LOGISTICS_URL,
       src: roadBoysLogistics,
       alt: "Road boys logistics Zimbabwe",
     },
