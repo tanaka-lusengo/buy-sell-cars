@@ -106,8 +106,9 @@ export const fetchVehiclePageViewsByOwner = async (
         properties.year AS year
         FROM events
         WHERE event = 'vehicle_page_view'
-        AND properties.owner_id = '${ownerId}'
+        AND properties.owner_id = $1
       `,
+      params: [ownerId],
     },
   };
 
