@@ -1,5 +1,6 @@
 import { tokens } from "~bsc-shared/styles";
 import { TimeFrame } from "@/src/lib/posthog/endpoints";
+import { CHART_CONFIG } from "./config";
 
 export const timeFrames: { label: string; value: TimeFrame }[] = [
   { label: "Last 7 Days", value: "7 days" },
@@ -19,6 +20,7 @@ export const themeColors = [
   tokens.colors.primaryLight.value,
 ];
 
-export const BAR_HEIGHT = 70;
-export const MIN_HEIGHT = 200;
-export const MAX_HEIGHT = 600;
+// Re-export config constants for backward compatibility
+export const BAR_HEIGHT = CHART_CONFIG.dimensions.barHeight;
+export const MIN_HEIGHT = CHART_CONFIG.dimensions.minHeight;
+export const MAX_HEIGHT = CHART_CONFIG.dimensions.maxHeight;

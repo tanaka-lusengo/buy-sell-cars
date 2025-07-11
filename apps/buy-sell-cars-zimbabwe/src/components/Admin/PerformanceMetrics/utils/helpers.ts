@@ -1,4 +1,4 @@
-import { themeColors } from "../constants";
+import { themeColors, BAR_HEIGHT, MIN_HEIGHT, MAX_HEIGHT } from "../constants";
 import { PostHogSponsorAdClickData } from "../types";
 
 export const transformSponsorClicks = (
@@ -49,4 +49,16 @@ export const createPlacementColors = (
     colorMap[placement] = themeColors[index % themeColors.length];
   });
   return colorMap;
+};
+
+export const calculateChartHeight = (dataLength: number): number => {
+  return Math.min(Math.max(dataLength * BAR_HEIGHT, MIN_HEIGHT), MAX_HEIGHT);
+};
+
+export const generateAxisTicks = (maxValue: number): number[] => {
+  return Array.from({ length: maxValue + 1 }, (_, i) => i);
+};
+
+export const getMaxValue = (data: any[], key: string): number => {
+  return Math.max(...data.map((item) => item[key] || 0));
 };
