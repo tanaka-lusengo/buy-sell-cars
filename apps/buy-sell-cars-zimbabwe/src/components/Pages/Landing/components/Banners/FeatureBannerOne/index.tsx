@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useWindowSize } from "~bsc-shared/hooks";
 import rossiTyresDesktop from "@/public/images/sponsors/rossi/rossi-tyres-lg.jpg";
 import rossiTyresMobile from "@/public/images/sponsors/rossi/rossi-tyres-sm.jpg";
+import { trackPostHogEvent } from "@/src/components/Analytics";
+import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { EXTERNAL_URLS } from "@/src/constants/urls";
 import { breakpointsNumber } from "@/src/styles";
 import { Box, Flex } from "@/styled-system/jsx";
@@ -16,6 +18,17 @@ export const FeatureBannerOne = () => {
   return (
     <Link
       href={EXTERNAL_URLS.ROSSI_TYRES_URL}
+      onClick={() =>
+        trackPostHogEvent({
+          event: "sponsor_ad_click",
+          properties: {
+            sponsor: SPONSOR_NAMES.ROSSI_TYRES,
+            action: "click",
+            url: EXTERNAL_URLS.ROSSI_TYRES_URL,
+            placement: "feature_banner_one",
+          },
+        })
+      }
       target="_blank"
       rel="noopener noreferrer"
     >

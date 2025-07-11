@@ -2,6 +2,9 @@ import { useMemo } from "react";
 import { PostgrestError } from "@supabase/supabase-js";
 import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { StatusCode } from "~bsc-shared/utils";
+import roadBoysLogisticsImg from "@/public/images/sponsors/road-boys-logistics/road-boys-logistics.jpg";
+import rossiTyresImgLg from "@/public/images/sponsors/rossi/rossi-tyres-lg.jpg";
+import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { SUBSCRIPTION_FEATURE_TYPES } from "@/src/constants/subscription";
 import { EXTERNAL_URLS } from "@/src/constants/urls";
 import { ProfileWithSubscription } from "@/src/types";
@@ -135,12 +138,16 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
           <Flex wrap="wrap" width="100%" justifyContent="center" paddingY="md">
             <PaidSponsorFeature
               href={EXTERNAL_URLS.ROSSI_TYRES_URL}
-              imgSrc="/images/sponsors/rossi-tyres-sm.jpg"
+              name={SPONSOR_NAMES.ROSSI_TYRES}
+              placement="all_dealers_page"
+              imgSrc={rossiTyresImgLg}
               imgAlt="Rossi Tyres"
             />
             <PaidSponsorFeature
               href={EXTERNAL_URLS.ROAD_BOYS_LOGISTICS_URL}
-              imgSrc="/images/sponsors/road-boys-logistics.jpg"
+              name={SPONSOR_NAMES.ROAD_BOYS_LOGISTICS}
+              placement="all_dealers_page"
+              imgSrc={roadBoysLogisticsImg}
               imgAlt="Road Boys Logistics"
             />
           </Flex>

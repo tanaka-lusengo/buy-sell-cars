@@ -1,3 +1,4 @@
+import { PostgrestError } from "@supabase/supabase-js";
 import { Params } from "~bsc-shared/types/next-types";
 import { AllVehicles } from "@/src/components/Pages/VehiclePages";
 import {
@@ -32,7 +33,9 @@ export const AllCarsPage = async ({ params }: Params) => {
             await getProfileSubscriptionDetails(dealer?.id || "");
 
           if (error) {
-            console.error("Error fetching dealer subscription details:", error);
+            if (error instanceof PostgrestError && error.code === "PGRST116") {
+              console.error("No subscription details found for dealer");
+            }
           }
           const hasDealershipName =
             typeof dealer?.dealership_name === "string" &&

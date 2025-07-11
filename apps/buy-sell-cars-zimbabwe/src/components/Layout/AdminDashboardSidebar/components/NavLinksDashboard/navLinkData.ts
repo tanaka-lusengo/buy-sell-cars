@@ -2,9 +2,6 @@ import { generateIcon } from "~bsc-shared/utils";
 
 export const navLinksDashboard = [
   {
-    label: "Admin:",
-  },
-  {
     label: "User Management",
   },
   {
@@ -24,5 +21,13 @@ export const navLinksDashboard = [
     href: "/admin/vehicle-listings/",
     icon: generateIcon("car"),
     label: "All Vehicles",
+  },
+  {
+    label: "Performance Metrics",
+  },
+  {
+    href: "/admin/performance-metrics/",
+    icon: generateIcon("chart-bar"),
+    label: "Sponsor Ad Clicks",
   },
 ];

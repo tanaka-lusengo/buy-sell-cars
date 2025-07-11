@@ -2,13 +2,34 @@
 
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
+import { trackPostHogEvent } from "@/src/components/Analytics";
 import { Box, Flex } from "@/styled-system/jsx";
 
-type BannerSlideProps = { href: string; src: StaticImageData; alt: string };
+type BannerSlideProps = {
+  href: string;
+  src: StaticImageData;
+  alt: string;
+  name: string;
+};
 
-export const BannerSlide = ({ href, src, alt }: BannerSlideProps) => {
+export const BannerSlide = ({ href, src, alt, name }: BannerSlideProps) => {
   return (
-    <Link href={href} target="_blank" rel="noopener noreferrer">
+    <Link
+      href={href}
+      onClick={() =>
+        trackPostHogEvent({
+          event: "sponsor_ad_click",
+          properties: {
+            sponsor: name,
+            action: "click",
+            url: href,
+            placement: "feature_banner_two",
+          },
+        })
+      }
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <Box width="100%">
         <Flex
           marginX="auto"

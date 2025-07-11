@@ -1,7 +1,6 @@
 import { ParamsWithId } from "~bsc-shared/types/next-types";
-import { ViewerTracker } from "@/src/components/Analytics";
+import { PostHogDealerViewTracker } from "@/src/components/Analytics";
 import { DealerDetails } from "@/src/components/Pages/Dealers";
-import { fetchUserAndProfile } from "@/src/server/actions/auth";
 import {
   getAllVehiclesByOwnerId,
   getProfileById,
@@ -9,9 +8,6 @@ import {
 
 const DealerDetailPage = async ({ params }: ParamsWithId) => {
   const { id } = await params;
-
-  // Fetch the viewer's user data
-  const { user } = await fetchUserAndProfile();
 
   // Fetch all vehicle details using the provided ID
   const {
@@ -37,12 +33,18 @@ const DealerDetailPage = async ({ params }: ParamsWithId) => {
 
   return (
     <>
-      <ViewerTracker viewerId={user?.id} profileOwnerId={id} />
       <DealerDetails
         vehicles={vehicleData}
         owner={profileData}
         error={error || profileError}
         status={status}
+      />
+      <PostHogDealerViewTracker
+        dealerData={{
+          dealerId: id,
+          dealerName: profileData?.dealership_name || "Unknown Dealer",
+          sourcePage: "dealer_detail_page",
+        }}
       />
     </>
   );
