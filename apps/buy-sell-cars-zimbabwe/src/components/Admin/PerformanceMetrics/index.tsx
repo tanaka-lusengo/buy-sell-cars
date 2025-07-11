@@ -12,7 +12,7 @@ import { timeFrames } from "./constants";
 export const PerformanceMetrics = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [timeframe, setTimeframe] = useState<TimeFrame>("7 days");
-  const [sponsorAdClicks, setSponsorAdClicks] = useState<[]>([]);
+  const [sponsorAdClicks, setSponsorAdClicks] = useState<PostHogSponsorAdClickData[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
