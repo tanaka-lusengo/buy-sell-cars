@@ -20,7 +20,6 @@ export const transformByPlacement = (rows: PostHogSponsorAdClickData[]) => {
   const sponsorMap = new Map<string, Record<string, number>>();
 
   for (const [event, placement, sponsor] of rows) {
-    console.log("Processing row:", { event, placement, sponsor });
     if (!placement || !sponsor) continue;
 
     if (!sponsorMap.has(sponsor)) {
