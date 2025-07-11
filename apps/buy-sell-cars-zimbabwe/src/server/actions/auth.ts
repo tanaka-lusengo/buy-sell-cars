@@ -147,12 +147,16 @@ export const signIn = async (formData: SignInFormType) => {
 
     // If a user is authenticated, fetch their profile
     if (user) {
-      const { data: profileData } = await supabase
+      const { data: profileData, error: profileError } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", user.id)
         .single();
 
+      if (profileError) {
+        logErrorMessage(profileError, "fetching user profile (server)");
+        return { data: null, status: StatusCode.BAD_REQUEST, error: profileError };
+      }
       profile = profileData ?? null;
     }
 
