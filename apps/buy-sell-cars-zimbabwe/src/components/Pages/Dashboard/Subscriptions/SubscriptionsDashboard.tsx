@@ -220,32 +220,30 @@ export const SubscriptionsDashboard = ({
       return (
         <Flex marginY="lg" direction="column" gap="md">
           <Typography variant="h3">Get Started</Typography>
-          <Box
-            bg="yellow.50"
+          <Flex
+            direction="column"
+            bg="greyLight"
             border="1px solid"
-            borderColor="yellow.200"
-            borderRadius="md"
+            borderColor="greyLight"
+            borderRadius="1.2rem"
             padding="md"
+            gap="sm"
           >
             <Typography>
               Choose a subscription plan to start listing vehicles and access
               premium features:
             </Typography>
+
             <Box paddingLeft="lg">
-              <Box style={{ listStyleType: "disc" }}>
-                <Typography>List multiple vehicles</Typography>
-              </Box>
-              <Box style={{ listStyleType: "disc" }}>
-                <Typography>Featured listings</Typography>
-              </Box>
-              <Box style={{ listStyleType: "disc" }}>
-                <Typography>Priority placement</Typography>
-              </Box>
-              <Box style={{ listStyleType: "disc" }}>
-                <Typography>Performance Analytics</Typography>
-              </Box>
+              <Typography>- List multiple vehicles</Typography>
+
+              <Typography>- Featured listings</Typography>
+
+              <Typography>- Priority placement</Typography>
+
+              <Typography>- Performance Analytics</Typography>
             </Box>
-          </Box>
+          </Flex>
         </Flex>
       );
     }

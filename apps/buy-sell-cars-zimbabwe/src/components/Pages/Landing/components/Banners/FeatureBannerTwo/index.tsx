@@ -25,11 +25,13 @@ export const FeatureBannerTwo = () => {
       href: REFUEL_WHATSAPP_URL,
       src: refuelVictoriaFalls,
       alt: "Refuel now open in Victoria Falls",
+      name: "Refuel",
     },
     {
       href: EXTERNAL_URLS.ROAD_BOYS_LOGISTICS_URL,
       src: roadBoysLogistics,
       alt: "Road boys logistics Zimbabwe",
+      name: "Road Boys Logistics",
     },
   ];
 
@@ -55,6 +57,7 @@ export const FeatureBannerTwo = () => {
                 href={sponsor.href}
                 src={sponsor.src}
                 alt={sponsor.alt}
+                name={sponsor.name}
               />
             </Box>
           ))}

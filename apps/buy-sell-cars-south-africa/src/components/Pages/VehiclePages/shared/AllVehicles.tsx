@@ -3,11 +3,7 @@ import { PostgrestError } from "@supabase/supabase-js";
 import Link from "next/link";
 import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { formatToReadableString, StatusCode } from "~bsc-shared/utils";
-import {
-  PaginatedVehicleList,
-  // PaidSponsorFeature,
-} from "@/src/components/shared";
-// import { EXTERNAL_URLS } from "@/src/constants/urls";
+import { PaginatedVehicleList } from "@/src/components/shared";
 import { VehicleCategoryType, VehicleWithImageAndDealer } from "@/src/types";
 import { Container, Box, Flex, Grid, Divider } from "@/styled-system/jsx";
 import { FeatureVehicles } from "./components/FeatureVehicles";
@@ -149,12 +145,6 @@ export const AllVehicles = ({
                   featuredCarsWithDealerDetails={featruredVehicles}
                 />
 
-                {/* <PaidSponsorFeature
-                  href={EXTERNAL_URLS.ROSSI_TYRES_URL}
-                  imgSrc="/images/sponsors/rossi-tyres-sm.jpg"
-                  imgAlt="Rossi Tyres Logistics"
-                /> */}
-
                 <Divider color="grey" marginTop="md" maxWidth="100rem" />
 
                 <PaginatedVehicleList
@@ -166,15 +156,6 @@ export const AllVehicles = ({
             </Box>
           </ResponsiveContainer>
         )}
-
-        {/* {successStatus && vehicles.length > 0 && (
-          <PaidSponsorFeature
-            href={EXTERNAL_URLS.ROAD_BOYS_LOGISTICS_URL}
-            imgSrc="/images/sponsors/road-boys-logistics.jpg"
-            imgAlt="Road Boys Logistics"
-            showHeading
-          />
-        )} */}
       </Container>
     </>
   );

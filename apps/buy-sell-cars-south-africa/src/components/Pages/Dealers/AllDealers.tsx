@@ -5,12 +5,9 @@ import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { StatusCode } from "~bsc-shared/utils";
 import { SUBSCRIPTION_FEATURE_TYPES } from "@/src/constants/subscription";
 import { ProfileWithSubscription } from "@/src/types";
-// import { PaidSponsorFeature } from "../../shared";
 import { filterAndSortByDealers } from "@/src/utils";
 import { Container, Box, Grid, Flex, Divider } from "@/styled-system/jsx";
 import { Filter, DealerCard } from "./components";
-
-// import { EXTERNAL_URLS } from "@/src/constants/urls";
 
 type AllDealersProps = {
   dealers: ProfileWithSubscription[];
@@ -145,25 +142,6 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
             </Box>
           </ResponsiveContainer>
         )}
-
-        {/* <Box paddingY="lg">
-          <Typography variant="h3" align="center">
-            Our Sponsors
-          </Typography>
-
-          <Flex wrap="wrap" width="100%" justifyContent="center" paddingY="md">
-            <PaidSponsorFeature
-              href={EXTERNAL_URLS.ROSSI_TYRES_URL}
-              imgSrc="/images/sponsors/rossi-tyres-sm.jpg"
-              imgAlt="Rossi Tyres"
-            />
-            <PaidSponsorFeature
-              href={EXTERNAL_URLS.ROAD_BOYS_LOGISTICS_URL}
-              imgSrc="/images/sponsors/road-boys-logistics.jpg"
-              imgAlt="Road Boys Logistics"
-            />
-          </Flex>
-        </Box> */}
       </Container>
     </>
   );

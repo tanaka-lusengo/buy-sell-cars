@@ -3,10 +3,13 @@ import { PostgrestError } from "@supabase/supabase-js";
 import Link from "next/link";
 import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { formatToReadableString, StatusCode } from "~bsc-shared/utils";
+import roadBoysLogisticsImg from "@/public/images/sponsors/road-boys-logistics/road-boys-logistics.jpg";
+import rossiTyresImgLg from "@/public/images/sponsors/rossi/rossi-tyres-lg.jpg";
 import {
   PaginatedVehicleList,
   PaidSponsorFeature,
 } from "@/src/components/shared";
+import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { EXTERNAL_URLS } from "@/src/constants/urls";
 import { VehicleCategoryType, VehicleWithImageAndDealer } from "@/src/types";
 import { Container, Box, Flex, Grid, Divider } from "@/styled-system/jsx";
@@ -151,7 +154,9 @@ export const AllVehicles = ({
 
                 <PaidSponsorFeature
                   href={EXTERNAL_URLS.ROSSI_TYRES_URL}
-                  imgSrc="/images/sponsors/rossi-tyres-sm.jpg"
+                  name={SPONSOR_NAMES.ROSSI_TYRES}
+                  placement={`all_vehicles_page_top_${vehicleCategory}`}
+                  imgSrc={rossiTyresImgLg}
                   imgAlt="Rossi Tyres Logistics"
                 />
 
@@ -170,7 +175,9 @@ export const AllVehicles = ({
         {successStatus && vehicles.length > 0 && (
           <PaidSponsorFeature
             href={EXTERNAL_URLS.ROAD_BOYS_LOGISTICS_URL}
-            imgSrc="/images/sponsors/road-boys-logistics.jpg"
+            name={SPONSOR_NAMES.ROAD_BOYS_LOGISTICS}
+            placement={`all_vehicles_page_bottom_${vehicleCategory}`}
+            imgSrc={roadBoysLogisticsImg}
             imgAlt="Road Boys Logistics"
             showHeading
           />
