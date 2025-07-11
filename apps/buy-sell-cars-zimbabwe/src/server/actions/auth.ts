@@ -140,12 +140,25 @@ export const signIn = async (formData: SignInFormType) => {
     } = await supabase.auth.signInWithPassword(signInUserData);
 
     if (error || !user) {
-      return { status: StatusCode.BAD_REQUEST, error };
+      return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+
+    let profile = null;
+
+    // If a user is authenticated, fetch their profile
+    if (user) {
+      const { data: profileData } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+
+      profile = profileData ?? null;
     }
 
     revalidatePath("/", "layout");
 
-    return { status: StatusCode.SUCCESS, error: null };
+    return { data: profile, status: StatusCode.SUCCESS, error: null };
   } catch (error) {
     return handleServerError(error, "signing in (server)");
   }

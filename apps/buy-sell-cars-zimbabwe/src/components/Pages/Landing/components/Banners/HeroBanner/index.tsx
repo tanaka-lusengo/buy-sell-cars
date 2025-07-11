@@ -8,6 +8,8 @@ import Link from "next/link";
 import { ResponsiveContainer } from "~bsc-shared/ui";
 import heroBackgroundImg from "@/public/images/hero.jpg";
 import refuelBannerImg from "@/public/images/sponsors/refuel/refuel-all-towns.jpg";
+import { trackPostHogEvent } from "@/src/components/Analytics";
+import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { Box, Container, Flex } from "@/styled-system/jsx";
 import { Filter } from "../../Filter";
 import { REFUEL_WHATSAPP_URL } from "../constants";
@@ -84,6 +86,17 @@ export const HeroBanner = () => {
                 ) : (
                   <Link
                     href={REFUEL_WHATSAPP_URL}
+                    onClick={() =>
+                      trackPostHogEvent({
+                        event: "sponsor_ad_click",
+                        properties: {
+                          sponsor: SPONSOR_NAMES.REFUEL,
+                          action: "click",
+                          url: REFUEL_WHATSAPP_URL,
+                          placement: "hero_banner",
+                        },
+                      })
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{

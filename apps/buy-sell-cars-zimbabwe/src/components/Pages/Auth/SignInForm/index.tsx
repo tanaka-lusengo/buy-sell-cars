@@ -11,6 +11,7 @@ import {
   StatusCode,
   toastNotifySuccess,
 } from "~bsc-shared/utils";
+import { identifyUser } from "@/src/components/Analytics";
 import { signInValidationSchema, signInFormDefaultValues } from "@/src/schemas";
 import { signIn } from "@/src/server/actions/auth";
 import { type SignInFormType } from "@/src/types";
@@ -32,11 +33,13 @@ export const SignInForm = () => {
 
   const handleAction = async (formData: SignInFormType) => {
     try {
-      const { status, error } = await signIn(formData);
+      const { data: profile, status, error } = await signIn(formData);
 
-      if (status === StatusCode.BAD_REQUEST) {
+      if (!profile || status === StatusCode.BAD_REQUEST) {
         return handleClientError("signing in", error);
       }
+
+      identifyUser(profile);
 
       toastNotifySuccess("Sign in Success! ");
 

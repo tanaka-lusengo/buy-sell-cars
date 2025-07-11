@@ -1,12 +1,17 @@
-import Image from "next/image";
+"use client";
+
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { Box, Flex } from "@/styled-system/jsx";
+import { trackPostHogEvent } from "../../Analytics";
 
 type PaidSponsorFeatureProps = {
   href: string;
-  imgSrc: string;
+  imgSrc: StaticImageData | string;
   imgAlt: string;
+  name: string;
+  placement: string;
   showHeading?: boolean;
   headingText?: string;
 };
@@ -15,6 +20,8 @@ export const PaidSponsorFeature = ({
   href,
   imgSrc,
   imgAlt,
+  name,
+  placement,
   showHeading = false,
   headingText = "Our Partners",
 }: PaidSponsorFeatureProps) => {
@@ -29,7 +36,22 @@ export const PaidSponsorFeature = ({
           </Box>
         )}
 
-        <Link href={href} target="_blank" rel="noopener noreferrer">
+        <Link
+          href={href}
+          onClick={() =>
+            trackPostHogEvent({
+              event: "sponsor_ad_click",
+              properties: {
+                sponsor: name,
+                action: "click",
+                url: href,
+                placement,
+              },
+            })
+          }
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Flex
             marginX="auto"
             height="100%"
