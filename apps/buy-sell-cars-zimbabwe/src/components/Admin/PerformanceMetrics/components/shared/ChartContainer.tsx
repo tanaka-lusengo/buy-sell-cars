@@ -2,15 +2,7 @@ import React from "react";
 import { Box } from "@/styled-system/jsx";
 import { MAX_HEIGHT } from "../../constants";
 
-type ChartContainerProps = {
-  children: React.ReactNode;
-  className?: string;
-};
-
-export const ChartContainer: React.FC<ChartContainerProps> = ({
-  children,
-  className,
-}) => (
+export const ChartContainer = ({ children }: { children: React.ReactNode }) => (
   <Box
     width="100%"
     padding="md"
@@ -21,7 +13,6 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
     borderRadius="1.2rem"
     boxShadow="0 2px 8px rgba(0, 0, 0, 0.1)"
     transition="0.3s ease-in-out"
-    className={className}
     _hover={{
       boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
     }}

@@ -9,10 +9,10 @@ type MobilePlacementListProps = {
   placements: string[];
 };
 
-export const MobilePlacementList: React.FC<MobilePlacementListProps> = ({
+export const MobilePlacementList = ({
   data,
   placements,
-}) => (
+}: MobilePlacementListProps) => (
   <VStack alignItems="start" gap="md">
     <Typography variant="h3">Clicks by Placement</Typography>
     {data.map((sponsor) => (

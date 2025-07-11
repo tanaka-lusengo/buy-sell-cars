@@ -7,10 +7,10 @@ type MobileClicksListProps = {
   totalClicks: number;
 };
 
-export const MobileClicksList: React.FC<MobileClicksListProps> = ({
+export const MobileClicksList = ({
   data,
   totalClicks,
-}) => (
+}: MobileClicksListProps) => (
   <Flex direction="column" gap="md">
     <Typography variant="h3">
       Total Ad Clicks:{" "}
