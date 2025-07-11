@@ -16,13 +16,6 @@ export const ErrorBoundary = ({ error, message }: ErrorBoundaryProps) => {
   }, [error]);
 
   const router = useRouter();
-  const handleGoBack = () => {
-    router.back();
-  };
-
-  const handleReset = () => {
-    router.refresh();
-  };
 
   return (
     <ResponsiveContainer padding="lg" maxWidth="sm">
@@ -31,12 +24,11 @@ export const ErrorBoundary = ({ error, message }: ErrorBoundaryProps) => {
           {message ? message : "Hmmm, Something went wrong!"}
         </Typography>
         <Typography as="h4" align="center">
-          &quot;{error.message}&quot;
+          Please try again later or contact support if the issue persists.
         </Typography>
 
-        <Button onClick={handleReset}>Try again!</Button>
-        <Box display="flex" justifyContent="center">
-          <Button onClick={handleGoBack}>Go back</Button>
+        <Box display="flex" justifyContent="center" gap="lg">
+          <Button onClick={() => router.push("/")}>Go Home</Button>
         </Box>
       </Stack>
     </ResponsiveContainer>

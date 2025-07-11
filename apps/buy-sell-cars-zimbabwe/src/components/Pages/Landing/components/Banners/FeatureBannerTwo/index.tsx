@@ -5,6 +5,7 @@ import Fade from "embla-carousel-fade";
 import useEmblaCarousel from "embla-carousel-react";
 import refuelVictoriaFalls from "@/public/images/sponsors/refuel/refuel-victoria-falls.jpg";
 import roadBoysLogistics from "@/public/images/sponsors/road-boys-logistics/road-boys-logistics.jpg";
+import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { EXTERNAL_URLS } from "@/src/constants/urls";
 import { Box, Flex } from "@/styled-system/jsx";
 import { REFUEL_WHATSAPP_URL } from "../constants";
