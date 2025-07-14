@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
 import useEmblaCarousel from "embla-carousel-react";
@@ -8,7 +9,7 @@ import Link from "next/link";
 import { ResponsiveContainer } from "~bsc-shared/ui";
 import heroBackgroundImg from "@/public/images/hero.jpg";
 import refuelBannerImg from "@/public/images/sponsors/refuel/refuel-all-towns.jpg";
-import { trackPostHogEvent } from "@/src/components/Analytics";
+import { trackPostHogEvent, useTrackOnView } from "@/src/components/Analytics";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { Box, Container, Flex } from "@/styled-system/jsx";
 import { Filter } from "../../Filter";
@@ -23,6 +24,20 @@ export const HeroBanner = () => {
       dragFree: false,
     },
     [Autoplay({ delay: 4000, stopOnInteraction: false }), Fade()]
+  );
+
+  const ref = useRef(null);
+
+  useTrackOnView(ref, () =>
+    trackPostHogEvent({
+      event: "sponsor_ad_view",
+      properties: {
+        sponsor: SPONSOR_NAMES.REFUEL,
+        action: "view",
+        url: REFUEL_WHATSAPP_URL,
+        placement: "landing_page_banner_top",
+      },
+    })
   );
 
   const bannerSlides = [
@@ -93,7 +108,7 @@ export const HeroBanner = () => {
                           sponsor: SPONSOR_NAMES.REFUEL,
                           action: "click",
                           url: REFUEL_WHATSAPP_URL,
-                          placement: "hero_banner",
+                          placement: "landing_page_banner_top",
                         },
                       })
                     }
@@ -109,6 +124,7 @@ export const HeroBanner = () => {
                     }}
                   >
                     <Image
+                      ref={ref}
                       src={slide.backgroundImage}
                       alt={slide.alt}
                       fill

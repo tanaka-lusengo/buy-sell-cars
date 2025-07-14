@@ -1,11 +1,12 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useWindowSize } from "~bsc-shared/hooks";
 import rossiTyresDesktop from "@/public/images/sponsors/rossi/rossi-tyres-lg.jpg";
 import rossiTyresMobile from "@/public/images/sponsors/rossi/rossi-tyres-sm.jpg";
-import { trackPostHogEvent } from "@/src/components/Analytics";
+import { trackPostHogEvent, useTrackOnView } from "@/src/components/Analytics";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { EXTERNAL_URLS } from "@/src/constants/urls";
 import { breakpointsNumber } from "@/src/styles";
@@ -14,6 +15,20 @@ import { Box, Flex } from "@/styled-system/jsx";
 export const FeatureBannerOne = () => {
   const { width } = useWindowSize();
   const isMobile = (width ?? 0) < breakpointsNumber.md;
+
+  const ref = useRef(null);
+
+  useTrackOnView(ref, () =>
+    trackPostHogEvent({
+      event: "sponsor_ad_view",
+      properties: {
+        sponsor: SPONSOR_NAMES.ROSSI_TYRES,
+        action: "view",
+        url: EXTERNAL_URLS.ROSSI_TYRES_URL,
+        placement: "landing_page_banner_middle",
+      },
+    })
+  );
 
   return (
     <Link
@@ -25,14 +40,14 @@ export const FeatureBannerOne = () => {
             sponsor: SPONSOR_NAMES.ROSSI_TYRES,
             action: "click",
             url: EXTERNAL_URLS.ROSSI_TYRES_URL,
-            placement: "feature_banner_one",
+            placement: "landing_page_banner_middle",
           },
         })
       }
       target="_blank"
       rel="noopener noreferrer"
     >
-      <Box bg="greyLight" padding="md" width="100%">
+      <Box bg="greyLight" padding="md" width="100%" ref={ref}>
         <Flex
           marginX="auto"
           height="100%"

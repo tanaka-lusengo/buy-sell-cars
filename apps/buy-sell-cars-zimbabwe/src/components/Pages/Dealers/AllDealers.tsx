@@ -1,3 +1,5 @@
+"use client";
+
 import { useMemo } from "react";
 import { PostgrestError } from "@supabase/supabase-js";
 import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
