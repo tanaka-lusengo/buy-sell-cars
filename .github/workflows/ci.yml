@@ -8,7 +8,7 @@ on:
 
 env:
     NODE_VERSION: "20"
-    PNPM_VERSION: "9"
+    PNPM_VERSION: "10.0.0"
 
 jobs:
     # Job 1: Install dependencies and cache
@@ -92,6 +92,9 @@ jobs:
                       packages/*/node_modules
                   key: ${{ needs.setup.outputs.cache-key }}
 
+            - name: Generate styled-system
+              run: pnpm run -r prepare
+
             - name: Run ESLint
               run: pnpm run -r lint
 
@@ -127,6 +130,9 @@ jobs:
                       packages/*/node_modules
                   key: ${{ needs.setup.outputs.cache-key }}
 
+            - name: Generate styled-system
+              run: pnpm run -r prepare
+
             - name: Run TypeScript type checking
               run: pnpm run -r type-check
 
@@ -158,6 +164,9 @@ jobs:
                       apps/*/node_modules
                       packages/*/node_modules
                   key: ${{ needs.setup.outputs.cache-key }}
+
+            - name: Generate styled-system
+              run: pnpm run -r prepare
 
             - name: Run tests
               run: pnpm run -r test
@@ -203,6 +212,9 @@ jobs:
                       apps/*/node_modules
                       packages/*/node_modules
                   key: ${{ needs.setup.outputs.cache-key }}
+
+            - name: Generate styled-system
+              run: pnpm run -r prepare
 
             - name: Build ${{ matrix.app }}
               run: pnpm --filter ${{ matrix.app }} build

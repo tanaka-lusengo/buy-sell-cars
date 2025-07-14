@@ -2,8 +2,7 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { InputField, SelectField } from "~bsc-shared";
-import { Divider } from "~bsc-shared/styled-system/jsx";
+import { InputField, SelectField, Divider } from "~bsc-shared";
 import { Typography, Button } from "~bsc-shared/ui";
 import { formatPriceToRands } from "@/src/utils";
 import { Grid, Flex, Container, Box, HStack } from "@/styled-system/jsx";

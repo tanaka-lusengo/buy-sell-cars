@@ -25,7 +25,7 @@ jobs:
             - name: Setup pnpm
               uses: pnpm/action-setup@v4
               with:
-                  version: "9"
+                  version: "10.0.0"
                   run_install: false
 
             - name: Get pnpm store directory
@@ -105,10 +105,10 @@ jobs:
                   # Parse Lighthouse results
                   for app in sa zw; do
                     if [ -f "lighthouse-reports/${app}-report.report.json" ]; then
-                      PERF_SCORE=$(cat lighthouse-reports/${app}-report.report.json | jq -r '.categories.performance.score * 100 // "N/A"')
-                      ACCESSIBILITY_SCORE=$(cat lighthouse-reports/${app}-report.report.json | jq -r '.categories.accessibility.score * 100 // "N/A"')
-                      BEST_PRACTICES_SCORE=$(cat lighthouse-reports/${app}-report.report.json | jq -r '.categories["best-practices"].score * 100 // "N/A"')
-                      SEO_SCORE=$(cat lighthouse-reports/${app}-report.report.json | jq -r '.categories.seo.score * 100 // "N/A"')
+                      PERF_SCORE=$(cat lighthouse-reports/${app}-report.report.json | jq -r '.categories.performance.score | if . == null then "N/A" else (. * 100 | floor) end')
+                      ACCESSIBILITY_SCORE=$(cat lighthouse-reports/${app}-report.report.json | jq -r '.categories.accessibility.score | if . == null then "N/A" else (. * 100 | floor) end')
+                      BEST_PRACTICES_SCORE=$(cat lighthouse-reports/${app}-report.report.json | jq -r '.categories["best-practices"].score | if . == null then "N/A" else (. * 100 | floor) end')
+                      SEO_SCORE=$(cat lighthouse-reports/${app}-report.report.json | jq -r '.categories.seo.score | if . == null then "N/A" else (. * 100 | floor) end')
                       
                       echo ""
                       echo "🏁 ${app^^} App Scores:"
