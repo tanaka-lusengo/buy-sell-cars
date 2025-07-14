@@ -155,7 +155,11 @@ export const signIn = async (formData: SignInFormType) => {
 
       if (profileError) {
         logErrorMessage(profileError, "fetching user profile (server)");
-        return { data: null, status: StatusCode.BAD_REQUEST, error: profileError };
+        return {
+          data: null,
+          status: StatusCode.BAD_REQUEST,
+          error: profileError,
+        };
       }
       profile = profileData ?? null;
     }
