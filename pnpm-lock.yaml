@@ -415,22 +415,6 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@20.19.1)(jsdom@26.1.0)(lightningcss@1.25.1)(tsx@4.20.3)
 
-  packages/shared-config:
-    dependencies:
-      '@pandacss/dev':
-        specifier: ^0.53.3
-        version: 0.53.7(jsdom@26.1.0)(typescript@5.8.3)
-      next:
-        specifier: 15.3.3
-        version: 15.3.3(@babel/core@7.28.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      vitest:
-        specifier: ^3.2.4
-        version: 3.2.4(@types/node@20.19.1)(jsdom@26.1.0)(lightningcss@1.25.1)(tsx@4.20.3)
-    devDependencies:
-      typescript:
-        specifier: ^5
-        version: 5.8.3
-
 packages:
 
   '@adobe/css-tools@4.4.3':
