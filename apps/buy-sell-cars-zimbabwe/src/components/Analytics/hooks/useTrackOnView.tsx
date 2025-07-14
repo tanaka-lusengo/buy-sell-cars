@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 export const useTrackOnView = (
-  ref: React.RefObject<HTMLElement> | React.RefObject<null>,
+  ref: React.RefObject<HTMLElement | null>,
   callback: () => void,
   threshold = 0.5
 ) => {
