@@ -19,7 +19,7 @@ export const transformSponsorClicks = (
 export const transformByPlacement = (rows: PostHogSponsorAdClickData[]) => {
   const sponsorMap = new Map<string, Record<string, number>>();
 
-  for (const [placement, sponsor] of rows) {
+  for (const [event_, placement, sponsor] of rows) {
     if (!placement || !sponsor) continue;
 
     if (!sponsorMap.has(sponsor)) {
