@@ -45,7 +45,7 @@ export const trackPostHogEvent = <T extends PostHogEventUnion>(
       ...eventData.properties,
       $current_url: window.location.href,
     });
-    isDev &&
+    if (isDev) {
       console.log(
         `[PostHog]: Event '${eventData.event}' tracked successfully`,
         {
@@ -53,6 +53,7 @@ export const trackPostHogEvent = <T extends PostHogEventUnion>(
           url: window.location.href,
         }
       );
+    }
   } catch (error) {
     const trackingError =
       error instanceof Error ? error : new Error(String(error));

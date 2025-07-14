@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useWindowSize } from "~bsc-shared/hooks";
+import { breakpointsNumber } from "~bsc-shared/styles";
 import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { FeaturePreviewCard } from "@/src/components/shared";
-import { breakpointsNumber } from "@/src/styles";
 import { VehicleWithImageAndDealer } from "@/src/types";
 import { Container, Flex } from "@/styled-system/jsx";
 

@@ -1,6 +1,6 @@
 import { BeatLoader } from "react-spinners";
+import { tokens } from "~bsc-shared/styles";
 import { Typography } from "~bsc-shared/ui";
-import { tokens } from "@/src/styles/theme";
 import { Flex } from "@/styled-system/jsx";
 
 export const SuspenseLoader = ({ label }: { label?: string }) => (

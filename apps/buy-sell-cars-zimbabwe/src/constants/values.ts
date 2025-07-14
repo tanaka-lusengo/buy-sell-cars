@@ -1,18 +1,4 @@
-export const LOCATIONS = [
-  "Bulawayo",
-  "Gweru",
-  "Marondera",
-  "Masvingo",
-  "Mutare",
-  "Msasa",
-  "Ruwa",
-  "Harare",
-];
+import { ZIMBABWE_CONFIG } from "~bsc-shared/constants";
 
-export const DEALER_LOGOS_TO_CONTAIN = [
-  "Welly Motors",
-  "August Auto Zimbabwe",
-  "Willy's Auto Group",
-  "JP Motors",
-  "Kenmac motors",
-];
+export const LOCATIONS = ZIMBABWE_CONFIG.locations;
+export const DEALER_LOGOS_TO_CONTAIN = ZIMBABWE_CONFIG.dealerLogos;

@@ -9,7 +9,7 @@ export {
   SocialMediaSection,
 } from "./Landing";
 export { AllDealers } from "./Dealers";
-export { SignUpForm, SignInForm, SignOut, AuthLayout } from "./Auth";
+export { SignUpForm, SignInForm, SignOut } from "./Auth";
 export {
   Account,
   AddListing,

@@ -1,6 +1,6 @@
 import { BeatLoader } from "react-spinners";
+import { tokens } from "~bsc-shared/styles";
 import { Button } from "~bsc-shared/ui";
-import { tokens } from "@/src/styles";
 import { Flex } from "@/styled-system/jsx";
 
 type ActionButtonsProps = {

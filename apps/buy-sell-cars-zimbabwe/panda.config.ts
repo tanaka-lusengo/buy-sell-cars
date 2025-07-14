@@ -1,5 +1,5 @@
 import { defineConfig } from "@pandacss/dev";
-import { globalCss, tokens, textStyles, breakpoints } from "@/src/styles";
+import { globalCss, tokens, textStyles, breakpoints } from "~bsc-shared/styles";
 
 export default defineConfig({
   preflight: true,

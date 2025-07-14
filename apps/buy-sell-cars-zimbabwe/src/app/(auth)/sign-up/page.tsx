@@ -1,9 +1,10 @@
 import { type Metadata } from "next";
-import { AuthLayout, SignUpForm } from "@/src/components/Pages";
+import { AuthLayout } from "~bsc-shared/components";
+import { SignUpForm } from "@/src/components/Pages";
 
 export const metadata: Metadata = {
   title: "Sign Up",
-  description: "Sign up for an account",
+  description: "Create your account",
 };
 
 export default function SignUp() {

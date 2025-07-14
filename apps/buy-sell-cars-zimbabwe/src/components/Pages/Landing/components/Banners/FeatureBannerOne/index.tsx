@@ -4,12 +4,12 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useWindowSize } from "~bsc-shared/hooks";
+import { breakpointsNumber } from "~bsc-shared/styles";
 import rossiTyresDesktop from "@/public/images/sponsors/rossi/rossi-tyres-lg.jpg";
 import rossiTyresMobile from "@/public/images/sponsors/rossi/rossi-tyres-sm.jpg";
 import { trackPostHogEvent, useTrackOnView } from "@/src/components/Analytics";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { EXTERNAL_URLS } from "@/src/constants/urls";
-import { breakpointsNumber } from "@/src/styles";
 import { Box, Flex } from "@/styled-system/jsx";
 
 export const FeatureBannerOne = () => {

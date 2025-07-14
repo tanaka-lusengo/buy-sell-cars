@@ -1,6 +1,5 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { renderHook } from "@testing-library/react";
-import { useRef } from "react";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { useTrackOnView } from "./useTrackOnView";
 
 // Mock IntersectionObserver
@@ -8,18 +7,23 @@ const mockObserve = vi.fn();
 const mockDisconnect = vi.fn();
 const mockUnobserve = vi.fn();
 
-const mockIntersectionObserver = vi.fn().mockImplementation((callback: IntersectionObserverCallback) => ({
-  observe: mockObserve,
-  disconnect: mockDisconnect,
-  unobserve: mockUnobserve,
-  callback,
-}));
+const mockIntersectionObserver = vi
+  .fn()
+  .mockImplementation((callback: IntersectionObserverCallback) => ({
+    observe: mockObserve,
+    disconnect: mockDisconnect,
+    unobserve: mockUnobserve,
+    callback,
+  }));
 
 // Store the original IntersectionObserver
 const originalIntersectionObserver = global.IntersectionObserver;
 
 // Helper function to create a complete mock IntersectionObserverEntry
-const createMockEntry = (isIntersecting: boolean, target: Element): IntersectionObserverEntry => ({
+const createMockEntry = (
+  isIntersecting: boolean,
+  target: Element
+): IntersectionObserverEntry => ({
   isIntersecting,
   target,
   boundingClientRect: {} as DOMRectReadOnly,
@@ -41,7 +45,8 @@ describe("useTrackOnView", () => {
     mockRef = { current: mockElement };
 
     // Mock IntersectionObserver globally
-    global.IntersectionObserver = mockIntersectionObserver as any;
+    global.IntersectionObserver =
+      mockIntersectionObserver as typeof IntersectionObserver;
 
     // Clear all mocks
     vi.clearAllMocks();
@@ -83,14 +88,16 @@ describe("useTrackOnView", () => {
   it("should call callback when element becomes visible", () => {
     let observerCallback: IntersectionObserverCallback;
 
-    mockIntersectionObserver.mockImplementation((callback: IntersectionObserverCallback) => {
-      observerCallback = callback;
-      return {
-        observe: mockObserve,
-        disconnect: mockDisconnect,
-        unobserve: mockUnobserve,
-      };
-    });
+    mockIntersectionObserver.mockImplementation(
+      (callback: IntersectionObserverCallback) => {
+        observerCallback = callback;
+        return {
+          observe: mockObserve,
+          disconnect: mockDisconnect,
+          unobserve: mockUnobserve,
+        };
+      }
+    );
 
     renderHook(() => useTrackOnView(mockRef, mockCallback));
 
@@ -106,14 +113,16 @@ describe("useTrackOnView", () => {
   it("should not call callback when element is not intersecting", () => {
     let observerCallback: IntersectionObserverCallback;
 
-    mockIntersectionObserver.mockImplementation((callback: IntersectionObserverCallback) => {
-      observerCallback = callback;
-      return {
-        observe: mockObserve,
-        disconnect: mockDisconnect,
-        unobserve: mockUnobserve,
-      };
-    });
+    mockIntersectionObserver.mockImplementation(
+      (callback: IntersectionObserverCallback) => {
+        observerCallback = callback;
+        return {
+          observe: mockObserve,
+          disconnect: mockDisconnect,
+          unobserve: mockUnobserve,
+        };
+      }
+    );
 
     renderHook(() => useTrackOnView(mockRef, mockCallback));
 
@@ -129,14 +138,16 @@ describe("useTrackOnView", () => {
   it("should only fire callback once and disconnect observer after first intersection", () => {
     let observerCallback: IntersectionObserverCallback;
 
-    mockIntersectionObserver.mockImplementation((callback: IntersectionObserverCallback) => {
-      observerCallback = callback;
-      return {
-        observe: mockObserve,
-        disconnect: mockDisconnect,
-        unobserve: mockUnobserve,
-      };
-    });
+    mockIntersectionObserver.mockImplementation(
+      (callback: IntersectionObserverCallback) => {
+        observerCallback = callback;
+        return {
+          observe: mockObserve,
+          disconnect: mockDisconnect,
+          unobserve: mockUnobserve,
+        };
+      }
+    );
 
     renderHook(() => useTrackOnView(mockRef, mockCallback));
 
@@ -144,7 +155,7 @@ describe("useTrackOnView", () => {
 
     // First intersection should fire callback and disconnect
     observerCallback!([mockEntry], {} as IntersectionObserver);
-    
+
     expect(mockCallback).toHaveBeenCalledTimes(1);
     expect(mockDisconnect).toHaveBeenCalledTimes(1);
 
@@ -159,14 +170,16 @@ describe("useTrackOnView", () => {
 
     let observerCallback: IntersectionObserverCallback;
 
-    mockIntersectionObserver.mockImplementation((callback: IntersectionObserverCallback) => {
-      observerCallback = callback;
-      return {
-        observe: mockObserve,
-        disconnect: mockDisconnect,
-        unobserve: mockUnobserve,
-      };
-    });
+    mockIntersectionObserver.mockImplementation(
+      (callback: IntersectionObserverCallback) => {
+        observerCallback = callback;
+        return {
+          observe: mockObserve,
+          disconnect: mockDisconnect,
+          unobserve: mockUnobserve,
+        };
+      }
+    );
 
     const { rerender } = renderHook(
       ({ callback }) => useTrackOnView(mockRef, callback),
@@ -239,23 +252,27 @@ describe("useTrackOnView", () => {
 
     let observerCallback: IntersectionObserverCallback;
 
-    mockIntersectionObserver.mockImplementation((callback: IntersectionObserverCallback) => {
-      observerCallback = callback;
-      return {
-        observe: mockObserve,
-        disconnect: mockDisconnect,
-        unobserve: mockUnobserve,
-      };
-    });
+    mockIntersectionObserver.mockImplementation(
+      (callback: IntersectionObserverCallback) => {
+        observerCallback = callback;
+        return {
+          observe: mockObserve,
+          disconnect: mockDisconnect,
+          unobserve: mockUnobserve,
+        };
+      }
+    );
 
     renderHook(() => useTrackOnView(mockRef, errorCallback));
 
     const mockEntry = createMockEntry(true, mockElement);
 
     // When callback throws, the error should bubble up and disconnect should still be called
-    expect(() => observerCallback!([mockEntry], {} as IntersectionObserver)).toThrow("Test error");
+    expect(() =>
+      observerCallback!([mockEntry], {} as IntersectionObserver)
+    ).toThrow("Test error");
     expect(errorCallback).toHaveBeenCalledTimes(1);
-    
+
     // Note: In the actual implementation, disconnect is called after the callback,
     // so if the callback throws, disconnect might not be reached. This is expected behavior.
     // The hook doesn't implement error handling - that's the responsibility of the consumer.

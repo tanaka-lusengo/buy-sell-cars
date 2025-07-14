@@ -8,7 +8,13 @@ const POSTHOG_URL = `https://eu.posthog.com/api/projects/${PROJECT_ID}/query/`;
 
 export type TimeFrame = "7 days" | "30 days" | "90 days" | "1 year";
 
-type PostHogResponse<T = any> = {
+type PostHogSponsorAdClickData = [
+  event: string,
+  placement: string,
+  sponsor: string,
+];
+
+type PostHogResponse<T = unknown> = {
   data: T | null;
   status: StatusCode;
   error: string | null;
@@ -23,11 +29,11 @@ type PostHogQueryPayload =
     }
   | {
       query: string;
-      params?: any[];
+      params?: unknown[];
     };
 
 // Generic function to handle PostHog API requests
-const executePostHogQuery = async <T = any>(
+const executePostHogQuery = async <T = unknown>(
   payload: PostHogQueryPayload
 ): Promise<PostHogResponse<T>> => {
   try {
@@ -72,7 +78,7 @@ const executePostHogQuery = async <T = any>(
 
 export const fetchSponsorAdClicks = async (
   timeFrame: TimeFrame
-): Promise<PostHogResponse> => {
+): Promise<PostHogResponse<PostHogSponsorAdClickData[]>> => {
   const payload = {
     query: {
       kind: "HogQLQuery" as const,
