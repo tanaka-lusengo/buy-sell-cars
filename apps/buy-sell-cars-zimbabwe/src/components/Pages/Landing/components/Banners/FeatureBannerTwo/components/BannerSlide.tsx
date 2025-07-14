@@ -1,8 +1,9 @@
 "use client";
 
+import { useRef } from "react";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
-import { trackPostHogEvent } from "@/src/components/Analytics";
+import { trackPostHogEvent, useTrackOnView } from "@/src/components/Analytics";
 import { Box, Flex } from "@/styled-system/jsx";
 
 type BannerSlideProps = {
@@ -13,6 +14,20 @@ type BannerSlideProps = {
 };
 
 export const BannerSlide = ({ href, src, alt, name }: BannerSlideProps) => {
+  const ref = useRef(null);
+
+  useTrackOnView(ref, () =>
+    trackPostHogEvent({
+      event: "sponsor_ad_view",
+      properties: {
+        sponsor: name,
+        action: "view",
+        url: href,
+        placement: "landing_page_banner_bottom",
+      },
+    })
+  );
+
   return (
     <Link
       href={href}
@@ -23,14 +38,14 @@ export const BannerSlide = ({ href, src, alt, name }: BannerSlideProps) => {
             sponsor: name,
             action: "click",
             url: href,
-            placement: "feature_banner_two",
+            placement: "landing_page_banner_bottom",
           },
         })
       }
       target="_blank"
       rel="noopener noreferrer"
     >
-      <Box width="100%">
+      <Box width="100%" ref={ref}>
         <Flex
           marginX="auto"
           justifyItems="center"

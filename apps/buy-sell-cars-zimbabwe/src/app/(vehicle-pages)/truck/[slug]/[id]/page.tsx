@@ -1,4 +1,5 @@
 import { ParamsWithId } from "~bsc-shared/types/next-types";
+import { PostHogVehicleViewTracker } from "@/src/components/Analytics";
 import { VehicleDetails } from "@/src/components/Pages/VehiclePages";
 import {
   getVehicleById,
@@ -47,14 +48,31 @@ const TruckDetailPage = async ({ params }: ParamsWithId) => {
   const error = vehicleByIdError || ownerError || allVehiclesErrorByOwner;
 
   return (
-    <VehicleDetails
-      vehicleCategory="truck"
-      vehicle={vehicleData}
-      allVehiclesByOwner={allVehiclesByOwner}
-      owner={ownerData}
-      error={error}
-      status={status}
-    />
+    <>
+      <VehicleDetails
+        vehicleCategory="truck"
+        vehicle={vehicleData}
+        allVehiclesByOwner={allVehiclesByOwner}
+        owner={ownerData}
+        error={error}
+        status={status}
+      />
+      <PostHogVehicleViewTracker
+        vehicleData={{
+          vehicleId: vehicleData.id,
+          ownerId: vehicleData.owner_id,
+          ownerName:
+            ownerData?.user_category === "dealership"
+              ? ownerData.dealership_name || "Unknown Dealership"
+              : "Individual Owner",
+          vehicleType: "truck",
+          make: vehicleData.make,
+          model: vehicleData.model,
+          year: vehicleData.year,
+          sourcePage: "vehicle_detail_page",
+        }}
+      />
+    </>
   );
 };
 

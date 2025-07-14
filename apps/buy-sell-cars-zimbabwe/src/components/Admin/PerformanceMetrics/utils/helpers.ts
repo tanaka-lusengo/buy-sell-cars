@@ -1,9 +1,9 @@
 import { themeColors, BAR_HEIGHT, MIN_HEIGHT, MAX_HEIGHT } from "../constants";
-import { PostHogSponsorAdClickData } from "../types";
+import { ChartData, PostHogSponsorAdClickData } from "../types";
 
 export const transformSponsorClicks = (
   posthogRows: PostHogSponsorAdClickData[]
-): { company: string; clicks: number }[] => {
+): ChartData[] => {
   const counts = new Map<string, number>();
 
   for (const [, , sponsor] of posthogRows) {
@@ -19,7 +19,7 @@ export const transformSponsorClicks = (
 export const transformByPlacement = (rows: PostHogSponsorAdClickData[]) => {
   const sponsorMap = new Map<string, Record<string, number>>();
 
-  for (const [event, placement, sponsor] of rows) {
+  for (const [event_, placement, sponsor] of rows) {
     if (!placement || !sponsor) continue;
 
     if (!sponsorMap.has(sponsor)) {

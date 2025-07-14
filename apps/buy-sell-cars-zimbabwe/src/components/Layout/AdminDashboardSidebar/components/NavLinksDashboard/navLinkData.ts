@@ -22,12 +22,4 @@ export const navLinksDashboard = [
     icon: generateIcon("car"),
     label: "All Vehicles",
   },
-  {
-    label: "Performance Metrics",
-  },
-  {
-    href: "/admin/performance-metrics/",
-    icon: generateIcon("chart-bar"),
-    label: "Sponsor Ad Clicks",
-  },
 ];

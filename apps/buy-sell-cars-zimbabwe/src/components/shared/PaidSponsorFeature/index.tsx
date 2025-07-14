@@ -1,10 +1,11 @@
 "use client";
 
+import { useRef } from "react";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { Box, Flex } from "@/styled-system/jsx";
-import { trackPostHogEvent } from "../../Analytics";
+import { trackPostHogEvent, useTrackOnView } from "../../Analytics";
 
 type PaidSponsorFeatureProps = {
   href: string;
@@ -25,8 +26,22 @@ export const PaidSponsorFeature = ({
   showHeading = false,
   headingText = "Our Partners",
 }: PaidSponsorFeatureProps) => {
+  const ref = useRef(null);
+
+  useTrackOnView(ref, () =>
+    trackPostHogEvent({
+      event: "sponsor_ad_view",
+      properties: {
+        sponsor: name,
+        action: "view",
+        url: href,
+        placement,
+      },
+    })
+  );
+
   return (
-    <Box paddingY="lg">
+    <Box paddingY="lg" ref={ref}>
       <ResponsiveContainer>
         {showHeading && (
           <Box paddingBottom="md">
