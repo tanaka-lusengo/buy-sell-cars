@@ -60,6 +60,8 @@ export const trackPostHogEvent = <T extends PostHogEventUnion>(
 export type TrackVehicleViewEvent = {
   vehicleId: string;
   ownerId: string;
+  ownerName: string;
+  vehicleType: string;
   make: string;
   model: string;
   year: number;
@@ -76,6 +78,8 @@ export const trackVehicleView = (vehicleData: TrackVehicleViewEvent) => {
       interaction_type: "view",
       vehicle_id: vehicleData.vehicleId,
       owner_id: vehicleData.ownerId,
+      owner_name: vehicleData.ownerName,
+      vehicle_type: vehicleData.vehicleType,
       vehicle_make: vehicleData.make,
       vehicle_model: vehicleData.model,
       year: vehicleData.year,

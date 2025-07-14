@@ -1,3 +1,5 @@
+"use client";
+
 import { useMemo } from "react";
 import { PostgrestError } from "@supabase/supabase-js";
 import Link from "next/link";
@@ -157,7 +159,7 @@ export const AllVehicles = ({
                   name={SPONSOR_NAMES.ROSSI_TYRES}
                   placement={`all_vehicles_page_top_${vehicleCategory}`}
                   imgSrc={rossiTyresImgLg}
-                  imgAlt="Rossi Tyres Logistics"
+                  imgAlt={SPONSOR_NAMES.ROSSI_TYRES}
                 />
 
                 <Divider color="grey" marginTop="md" maxWidth="100rem" />
@@ -178,7 +180,7 @@ export const AllVehicles = ({
             name={SPONSOR_NAMES.ROAD_BOYS_LOGISTICS}
             placement={`all_vehicles_page_bottom_${vehicleCategory}`}
             imgSrc={roadBoysLogisticsImg}
-            imgAlt="Road Boys Logistics"
+            imgAlt={SPONSOR_NAMES.ROAD_BOYS_LOGISTICS}
             showHeading
           />
         )}

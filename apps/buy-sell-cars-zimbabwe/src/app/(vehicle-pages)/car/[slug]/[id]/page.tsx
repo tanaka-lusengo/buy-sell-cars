@@ -61,10 +61,15 @@ const CarDetailPage = async ({ params }: ParamsWithId) => {
         vehicleData={{
           vehicleId: vehicleData.id,
           ownerId: vehicleData.owner_id,
+          ownerName:
+            ownerData?.user_category === "dealership"
+              ? ownerData.dealership_name || "Unknown Dealership"
+              : "Individual Owner",
+          vehicleType: "car",
           make: vehicleData.make,
           model: vehicleData.model,
           year: vehicleData.year,
-          sourcePage: "car_detail_page",
+          sourcePage: "vehicle_detail_page",
         }}
       />
     </>

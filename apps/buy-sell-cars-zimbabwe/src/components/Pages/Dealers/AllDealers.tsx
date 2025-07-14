@@ -143,14 +143,14 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
               name={SPONSOR_NAMES.ROSSI_TYRES}
               placement="all_dealers_page"
               imgSrc={rossiTyresImgLg}
-              imgAlt="Rossi Tyres"
+              imgAlt={SPONSOR_NAMES.ROSSI_TYRES}
             />
             <PaidSponsorFeature
               href={EXTERNAL_URLS.ROAD_BOYS_LOGISTICS_URL}
               name={SPONSOR_NAMES.ROAD_BOYS_LOGISTICS}
               placement="all_dealers_page"
               imgSrc={roadBoysLogisticsImg}
-              imgAlt="Road Boys Logistics"
+              imgAlt={SPONSOR_NAMES.ROAD_BOYS_LOGISTICS}
             />
           </Flex>
         </Box>
