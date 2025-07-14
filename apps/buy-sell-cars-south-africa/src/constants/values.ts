@@ -1,13 +1,4 @@
-export const LOCATIONS = [
-  "Eastern Cape",
-  "Western Cape",
-  "Free State",
-  "Gauteng",
-  "KwaZulu-Natal",
-  "Limpopo",
-  "Mpumalanga",
-  "North West Province",
-  "Northern Cape",
-];
+import { SOUTH_AFRICA_CONFIG } from "~bsc-shared/constants";
 
-export const DEALER_LOGOS_TO_CONTAIN = ["none"];
+export const LOCATIONS = SOUTH_AFRICA_CONFIG.locations;
+export const DEALER_LOGOS_TO_CONTAIN = SOUTH_AFRICA_CONFIG.dealerLogos;

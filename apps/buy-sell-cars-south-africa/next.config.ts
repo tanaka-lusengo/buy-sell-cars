@@ -18,16 +18,16 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    // Set a long cache TTL if your images don't change often
     minimumCacheTTL: 2678400, // 31 days
-    // Single optimised format to reduce duplicate transformations
     formats: ["image/webp"],
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: supabaseHostname,
-      },
-    ],
+    remotePatterns: supabaseHostname
+      ? [
+          {
+            protocol: "https",
+            hostname: supabaseHostname,
+          },
+        ]
+      : [],
   },
   async headers() {
     return [
@@ -37,6 +37,7 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  skipTrailingSlashRedirect: true,
 };
 
 export default nextConfig;
