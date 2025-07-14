@@ -1,0 +1,243 @@
+name: Performance Monitoring
+
+on:
+    pull_request:
+        branches: [main]
+    push:
+        branches: [main]
+    schedule:
+        # Run performance checks every day at 6 AM UTC
+        - cron: "0 6 * * *"
+
+jobs:
+    performance-test:
+        name: Performance Testing
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: "9"
+                  run_install: false
+
+            - name: Get pnpm store directory
+              shell: bash
+              run: |
+                  echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+            - name: Setup pnpm cache
+              uses: actions/cache@v4
+              with:
+                  path: ${{ env.STORE_PATH }}
+                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pnpm-store-
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Build applications
+              run: |
+                  pnpm --filter buy-sell-cars-south-africa build
+                  pnpm --filter buy-sell-cars-zimbabwe build
+
+            - name: Start applications
+              run: |
+                  # Start South Africa app
+                  cd apps/buy-sell-cars-south-africa
+                  pnpm start &
+                  SA_PID=$!
+                  echo "SA_PID=$SA_PID" >> $GITHUB_ENV
+                  cd ../..
+
+                  # Start Zimbabwe app on different port
+                  cd apps/buy-sell-cars-zimbabwe
+                  PORT=3001 pnpm start &
+                  ZW_PID=$!
+                  echo "ZW_PID=$ZW_PID" >> $GITHUB_ENV
+                  cd ../..
+
+                  # Wait for apps to start
+                  sleep 30
+
+                  # Check if apps are running
+                  curl -f http://localhost:3000 || echo "South Africa app not responding"
+                  curl -f http://localhost:3001 || echo "Zimbabwe app not responding"
+
+            - name: Install Lighthouse CLI
+              run: npm install -g @lhci/cli lighthouse
+
+            - name: Run Lighthouse Performance Tests
+              run: |
+                  mkdir -p lighthouse-reports
+
+                  # Test South Africa app
+                  echo "🔍 Testing Buy Sell Cars South Africa performance..."
+                  lighthouse http://localhost:3000 \
+                    --output html \
+                    --output json \
+                    --output-path ./lighthouse-reports/sa-report \
+                    --chrome-flags="--headless --no-sandbox --disable-gpu" \
+                    --quiet || true
+
+                  # Test Zimbabwe app  
+                  echo "🔍 Testing Buy Sell Cars Zimbabwe performance..."
+                  lighthouse http://localhost:3001 \
+                    --output html \
+                    --output json \
+                    --output-path ./lighthouse-reports/zw-report \
+                    --chrome-flags="--headless --no-sandbox --disable-gpu" \
+                    --quiet || true
+
+            - name: Analyze Performance Results
+              run: |
+                  echo "📊 Performance Analysis Results"
+                  echo "================================"
+
+                  # Parse Lighthouse results
+                  for app in sa zw; do
+                    if [ -f "lighthouse-reports/${app}-report.report.json" ]; then
+                      PERF_SCORE=$(cat lighthouse-reports/${app}-report.report.json | jq -r '.categories.performance.score * 100 // "N/A"')
+                      ACCESSIBILITY_SCORE=$(cat lighthouse-reports/${app}-report.report.json | jq -r '.categories.accessibility.score * 100 // "N/A"')
+                      BEST_PRACTICES_SCORE=$(cat lighthouse-reports/${app}-report.report.json | jq -r '.categories["best-practices"].score * 100 // "N/A"')
+                      SEO_SCORE=$(cat lighthouse-reports/${app}-report.report.json | jq -r '.categories.seo.score * 100 // "N/A"')
+                      
+                      echo ""
+                      echo "🏁 ${app^^} App Scores:"
+                      echo "  Performance: ${PERF_SCORE}%"
+                      echo "  Accessibility: ${ACCESSIBILITY_SCORE}%"
+                      echo "  Best Practices: ${BEST_PRACTICES_SCORE}%"
+                      echo "  SEO: ${SEO_SCORE}%"
+                      
+                      # Check performance thresholds
+                      if [ "$PERF_SCORE" != "N/A" ] && [ "$(echo "$PERF_SCORE < 80" | bc -l)" -eq 1 ]; then
+                        echo "⚠️ ${app^^} Performance score below threshold (80%): ${PERF_SCORE}%"
+                      fi
+                    else
+                      echo "❌ No Lighthouse report found for ${app^^} app"
+                    fi
+                  done
+
+            - name: Bundle Size Analysis
+              run: |
+                  echo ""
+                  echo "📦 Bundle Size Analysis"
+                  echo "======================"
+
+                  for app in buy-sell-cars-south-africa buy-sell-cars-zimbabwe; do
+                    echo ""
+                    echo "📊 $app:"
+                    
+                    # Check if build directory exists
+                    if [ -d "apps/$app/.next" ]; then
+                      # Calculate total bundle size
+                      TOTAL_JS=$(find "apps/$app/.next/static" -name "*.js" -exec du -ch {} + 2>/dev/null | tail -1 | cut -f1 || echo "0K")
+                      TOTAL_CSS=$(find "apps/$app/.next/static" -name "*.css" -exec du -ch {} + 2>/dev/null | tail -1 | cut -f1 || echo "0K")
+                      
+                      echo "  JavaScript: $TOTAL_JS"
+                      echo "  CSS: $TOTAL_CSS"
+                      
+                      # List largest files
+                      echo "  Largest JS files:"
+                      find "apps/$app/.next/static" -name "*.js" -exec du -h {} + 2>/dev/null | sort -hr | head -3 | sed 's/^/    /'
+                      
+                    else
+                      echo "  ❌ Build directory not found"
+                    fi
+                  done
+
+            - name: Memory Usage Test
+              run: |
+                  echo ""
+                  echo "🧠 Memory Usage Test"
+                  echo "==================="
+
+                  # Install memory testing tool
+                  npm install -g clinic
+
+                  # Simple memory test
+                  echo "Checking application memory usage..."
+                  ps aux | grep -E "(node|next)" | grep -v grep || echo "No Node.js processes found"
+
+            - name: Stop applications
+              if: always()
+              run: |
+                  if [ ! -z "$SA_PID" ]; then
+                    kill $SA_PID || true
+                  fi
+                  if [ ! -z "$ZW_PID" ]; then
+                    kill $ZW_PID || true
+                  fi
+
+            - name: Upload Performance Reports
+              uses: actions/upload-artifact@v4
+              if: always()
+              with:
+                  name: performance-reports
+                  path: |
+                      lighthouse-reports/
+                  retention-days: 30
+
+            - name: Performance Summary Comment
+              if: github.event_name == 'pull_request'
+              uses: actions/github-script@v7
+              with:
+                  script: |
+                      const fs = require('fs');
+
+                      let comment = '## 🏎️ Performance Test Results\n\n';
+
+                      // Try to read Lighthouse results
+                      const apps = ['sa', 'zw'];
+                      const appNames = ['South Africa', 'Zimbabwe'];
+
+                      for (let i = 0; i < apps.length; i++) {
+                        const app = apps[i];
+                        const appName = appNames[i];
+                        const reportPath = `lighthouse-reports/${app}-report.report.json`;
+                        
+                        comment += `### ${appName} App\n`;
+                        
+                        try {
+                          if (fs.existsSync(reportPath)) {
+                            const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+                            const scores = {
+                              performance: Math.round((report.categories.performance?.score || 0) * 100),
+                              accessibility: Math.round((report.categories.accessibility?.score || 0) * 100),
+                              bestPractices: Math.round((report.categories['best-practices']?.score || 0) * 100),
+                              seo: Math.round((report.categories.seo?.score || 0) * 100)
+                            };
+                            
+                            comment += `- 🏁 Performance: ${scores.performance}%\n`;
+                            comment += `- ♿ Accessibility: ${scores.accessibility}%\n`;
+                            comment += `- ✅ Best Practices: ${scores.bestPractices}%\n`;
+                            comment += `- 🔍 SEO: ${scores.seo}%\n\n`;
+                            
+                            if (scores.performance < 80) {
+                              comment += `⚠️ Performance score below recommended threshold of 80%\n\n`;
+                            }
+                          } else {
+                            comment += '❌ Performance test failed or report not generated\n\n';
+                          }
+                        } catch (error) {
+                          comment += `❌ Error reading performance report: ${error.message}\n\n`;
+                        }
+                      }
+
+                      comment += `\n📊 Detailed reports are available in the workflow artifacts.`;
+
+                      // Post comment on PR
+                      github.rest.issues.createComment({
+                        issue_number: context.issue.number,
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        body: comment
+                      });

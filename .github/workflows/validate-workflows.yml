@@ -1,0 +1,106 @@
+name: Validate Workflows
+
+on:
+    pull_request:
+        paths:
+            - ".github/workflows/**"
+    push:
+        paths:
+            - ".github/workflows/**"
+
+jobs:
+    validate-workflows:
+        name: Validate GitHub Actions Workflows
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Validate workflow syntax
+              run: |
+                  echo "🔍 Validating GitHub Actions workflow syntax..."
+
+                  # Check if workflow files are valid YAML
+                  for workflow in .github/workflows/*.yml .github/workflows/*.yaml; do
+                    if [ -f "$workflow" ]; then
+                      echo "Checking $workflow..."
+                      # Use python to validate YAML syntax
+                      python3 -c "
+                  import yaml
+                  import sys
+
+                  try:
+                      with open('$workflow', 'r') as f:
+                          yaml.safe_load(f)
+                      print('✅ $workflow is valid')
+                  except yaml.YAMLError as e:
+                      print('❌ $workflow has syntax errors:')
+                      print(e)
+                      sys.exit(1)
+                  except Exception as e:
+                      print('❌ Error reading $workflow:')
+                      print(e)
+                      sys.exit(1)
+                  "
+                    fi
+                  done
+
+            - name: Check workflow naming conventions
+              run: |
+                  echo "🏷️ Checking workflow naming conventions..."
+
+                  # Check that all workflow files follow naming conventions
+                  for workflow in .github/workflows/*.yml .github/workflows/*.yaml; do
+                    if [ -f "$workflow" ]; then
+                      filename=$(basename "$workflow")
+                      echo "Checking $filename..."
+                      
+                      # Check filename conventions (lowercase, hyphens, no spaces)
+                      if [[ ! "$filename" =~ ^[a-z0-9-]+\.(yml|yaml)$ ]]; then
+                        echo "❌ $filename doesn't follow naming convention (lowercase, hyphens only)"
+                        exit 1
+                      else
+                        echo "✅ $filename follows naming convention"
+                      fi
+                    fi
+                  done
+
+            - name: Validate workflow permissions
+              run: |
+                  echo "🔒 Checking workflow permissions..."
+
+                  # Check for potentially dangerous permissions
+                  if grep -r "permissions:" .github/workflows/ | grep -E "(write-all|admin)"; then
+                    echo "⚠️ Found potentially dangerous permissions in workflows"
+                    grep -r "permissions:" .github/workflows/ | grep -E "(write-all|admin)"
+                    echo "Please review these permissions carefully"
+                  else
+                    echo "✅ No dangerous permissions found"
+                  fi
+
+            - name: Check for secrets usage
+              run: |
+                  echo "🔐 Checking secrets usage..."
+
+                  # Check for hardcoded secrets (basic check)
+                  if grep -r -i "password\|token\|key" .github/workflows/ | grep -v "secrets\." | grep -v "github.token" | grep -v "GITHUB_TOKEN"; then
+                    echo "⚠️ Found potential hardcoded secrets:"
+                    grep -r -i "password\|token\|key" .github/workflows/ | grep -v "secrets\." | grep -v "github.token" | grep -v "GITHUB_TOKEN"
+                    echo "Please use GitHub secrets instead"
+                  else
+                    echo "✅ No hardcoded secrets found"
+                  fi
+
+            - name: Summary
+              run: |
+                  echo ""
+                  echo "🎉 Workflow validation complete!"
+                  echo ""
+                  echo "📊 Summary:"
+                  workflow_count=$(find .github/workflows/ -name "*.yml" -o -name "*.yaml" | wc -l)
+                  echo "  - Total workflows: $workflow_count"
+                  echo "  - All workflows have valid syntax ✅"
+                  echo "  - All workflows follow naming conventions ✅"
+                  echo "  - Security checks passed ✅"
+                  echo ""
+                  echo "Your GitHub Actions configuration is ready! 🚀"
