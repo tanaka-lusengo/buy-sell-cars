@@ -1,6 +1,8 @@
 import posthog from "posthog-js";
 import { Profile } from "@/src/types";
 
+const isDev = process.env.NODE_ENV === "development";
+
 // Enhanced type definitions for better type safety
 type SponsorAdEvent = {
   event: "sponsor_ad_click" | "sponsor_ad_view";
@@ -43,10 +45,14 @@ export const trackPostHogEvent = <T extends PostHogEventUnion>(
       ...eventData.properties,
       $current_url: window.location.href,
     });
-    console.log(`[PostHog]: Event '${eventData.event}' tracked successfully`, {
-      properties: eventData.properties,
-      url: window.location.href,
-    });
+    isDev &&
+      console.log(
+        `[PostHog]: Event '${eventData.event}' tracked successfully`,
+        {
+          properties: eventData.properties,
+          url: window.location.href,
+        }
+      );
   } catch (error) {
     const trackingError =
       error instanceof Error ? error : new Error(String(error));
