@@ -2,8 +2,8 @@ import posthog from "posthog-js";
 import { Profile } from "@/src/types";
 
 // Enhanced type definitions for better type safety
-type SponsorAdClickEvent = {
-  event: "sponsor_ad_click";
+type SponsorAdEvent = {
+  event: "sponsor_ad_click" | "sponsor_ad_view";
   properties: {
     sponsor: string;
     action: string;
@@ -30,7 +30,7 @@ type VehicleInteractionEvent = {
   };
 };
 
-export type PostHogEventUnion = SponsorAdClickEvent | VehicleInteractionEvent;
+export type PostHogEventUnion = SponsorAdEvent | VehicleInteractionEvent;
 
 /**
  * Generic PostHog event tracker with enhanced error handling and retry logic
