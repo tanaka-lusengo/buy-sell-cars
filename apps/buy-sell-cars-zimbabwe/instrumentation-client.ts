@@ -12,8 +12,9 @@ if (!isDev || enablePostHogInDev) {
     api_host: "/ingest",
     ui_host: "https://eu.posthog.com",
     defaults: "2025-05-24",
-    capture_pageview: false, // This disables automatic pageview tracking, set to true if you want this
-    capture_exceptions: true, // This enables capturing exceptions using Error Tracking, set to false if you don't want this
+    capture_pageview: true,
+    capture_pageleave: true,
+    capture_exceptions: true,
     debug: isDev,
   });
   isDev && console.log("[PostHog] initialized successfully");
