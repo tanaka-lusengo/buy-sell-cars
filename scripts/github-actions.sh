@@ -13,10 +13,15 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-REPO_OWNER="your-username"  # Replace with your GitHub username
-REPO_NAME="buy-sell-cars"   # Replace with your repository name
+REPO_OWNER=$(gh repo view --json owner --jq '.owner.login') || REPO_OWNER="${1:-}"
+REPO_NAME=$(gh repo view --json name --jq '.name') || REPO_NAME="${2:-}"
 GITHUB_TOKEN="${GITHUB_TOKEN:-}"
 
+if [[ -z "$REPO_OWNER" || -z "$REPO_NAME" ]]; then
+    echo -e "${RED}❌ REPO_OWNER and REPO_NAME could not be determined.${NC}"
+    echo "Usage: $0 [REPO_OWNER] [REPO_NAME]"
+    exit 1
+fi
 # Helper functions
 print_header() {
     echo -e "${BLUE}===================================${NC}"
