@@ -6,9 +6,11 @@ import Fade from "embla-carousel-fade";
 import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import Link from "next/link";
+import { breakpointsNumber, useWindowSize } from "~bsc-shared";
 import { ResponsiveContainer } from "~bsc-shared/ui";
 import heroBackgroundImg from "@/public/images/hero.jpg";
-import refuelBannerImg from "@/public/images/sponsors/refuel/refuel-all-towns.jpg";
+import refuelBannerMobileImg from "@/public/images/sponsors/refuel/refuel-all-towns.jpg";
+import refuelHeroBannerImg from "@/public/images/sponsors/refuel/refuel-hero-banner.jpg";
 import { trackPostHogEvent, useTrackOnView } from "@/src/components/Analytics";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { Box, Container, Flex } from "@/styled-system/jsx";
@@ -17,6 +19,9 @@ import { REFUEL_WHATSAPP_URL } from "../constants";
 import { BannerSlideContentOne } from "./components/BannerSlides";
 
 export const HeroBanner = () => {
+  const { width } = useWindowSize();
+  const isMobile = (width ?? 0) < breakpointsNumber.lg;
+
   const [emblaRef] = useEmblaCarousel(
     {
       loop: true,
@@ -48,7 +53,7 @@ export const HeroBanner = () => {
       isHomeBanner: true,
     },
     {
-      backgroundImage: refuelBannerImg,
+      backgroundImage: isMobile ? refuelBannerMobileImg : refuelHeroBannerImg,
       alt: "Refuel, now open in Gweru, Bulawayo and Victoria Falls",
       content: null,
     },
