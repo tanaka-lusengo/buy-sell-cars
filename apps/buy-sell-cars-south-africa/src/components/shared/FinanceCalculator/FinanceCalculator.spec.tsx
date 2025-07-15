@@ -173,7 +173,8 @@ describe("FinanceCalculator component", () => {
 
     await waitFor(() => {
       const monthlyPayment = screen.getByTestId("monthly-payment");
-      expect(monthlyPayment).toHaveTextContent("R 0");
+      // Zero value should format as "R 0" or "R  0.00" depending on environment
+      expect(monthlyPayment).toHaveTextContent(/R\s*0(?:[.,]00)?/);
     });
   });
 
@@ -191,7 +192,8 @@ describe("FinanceCalculator component", () => {
 
     await waitFor(() => {
       const monthlyPayment = screen.getByTestId("monthly-payment");
-      expect(monthlyPayment).toHaveTextContent("R 0");
+      // Zero value should format as "R 0" or "R  0.00" depending on environment
+      expect(monthlyPayment).toHaveTextContent(/R\s*0(?:[.,]00)?/);
     });
   });
 
@@ -209,8 +211,8 @@ describe("FinanceCalculator component", () => {
       // With 0% interest, monthly payment should be loan amount / months
       // vehiclePrice 419900 - deposit 41990 (10%) = 377910
       // 377910 / 72 = 5249
-      // In test environment, formatting outputs: R 5,249.00
-      expect(monthlyPayment).toHaveTextContent("R 5,249.00");
+      // Local environment: "R 5,249.00", GitHub Actions: "R 5 249,00"
+      expect(monthlyPayment).toHaveTextContent(/R\s*5[, ]249[,.]/);
     });
   });
 
@@ -253,7 +255,9 @@ describe("FinanceCalculator component", () => {
       // In GitHub Actions (South African locale): "Total Loan Value: R 900 000,00"
       // In local environment: "Total Loan Value: R  900,000.00"
       // Test for the presence of both the label and a formatted currency value
-      expect(loanValue).toHaveTextContent(/Total Loan Value:\s*R\s*900[, ]000[,.]/);
+      expect(loanValue).toHaveTextContent(
+        /Total Loan Value:\s*R\s*900[, ]000[,.]/
+      );
     });
   });
 });
