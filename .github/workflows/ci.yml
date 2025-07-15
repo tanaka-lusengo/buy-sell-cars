@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI
 
 on:
     push:
@@ -11,14 +11,11 @@ env:
     PNPM_VERSION: "10.0.0"
 
 jobs:
-    # Job 1: Install dependencies and cache
-    setup:
-        name: Setup Dependencies
+    ci:
+        name: CI
         runs-on: ubuntu-latest
-        outputs:
-            cache-key: ${{ steps.cache-keys.outputs.cache-key }}
         steps:
-            - name: Checkout repository
+            - name: Checkout
               uses: actions/checkout@v4
 
             - name: Setup Node.js
@@ -30,212 +27,19 @@ jobs:
               uses: pnpm/action-setup@v4
               with:
                   version: ${{ env.PNPM_VERSION }}
-                  run_install: false
-
-            - name: Get pnpm store directory
-              shell: bash
-              run: |
-                  echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-            - name: Setup pnpm cache
-              uses: actions/cache@v4
-              with:
-                  path: ${{ env.STORE_PATH }}
-                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-                  restore-keys: |
-                      ${{ runner.os }}-pnpm-store-
 
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
 
-            - name: Cache node_modules
-              uses: actions/cache@v4
-              id: cache-node-modules
-              with:
-                  path: |
-                      node_modules
-                      apps/*/node_modules
-                      packages/*/node_modules
-                  key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
+            - name: Run CI checks
+              run: pnpm ci:check
 
-            - name: Output cache key
-              id: cache-keys
-              run: |
-                  echo "cache-key=${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml') }}" >> $GITHUB_OUTPUT
-
-    # Job 2: Linting
-    lint:
-        name: Lint
-        runs-on: ubuntu-latest
-        needs: setup
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: ${{ env.NODE_VERSION }}
-
-            - name: Setup pnpm
-              uses: pnpm/action-setup@v4
-              with:
-                  version: ${{ env.PNPM_VERSION }}
-                  run_install: false
-
-            - name: Restore node_modules cache
-              uses: actions/cache@v4
-              with:
-                  path: |
-                      node_modules
-                      apps/*/node_modules
-                      packages/*/node_modules
-                  key: ${{ needs.setup.outputs.cache-key }}
-
-            - name: Generate styled-system
-              run: pnpm run -r prepare
-
-            - name: Run ESLint
-              run: pnpm run -r lint
-
-            - name: Check formatting with Prettier
-              run: pnpm exec prettier --check "**/*.{ts,tsx,js,jsx,json,md}"
-
-    # Job 3: Type checking
-    type-check:
-        name: Type Check
-        runs-on: ubuntu-latest
-        needs: setup
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: ${{ env.NODE_VERSION }}
-
-            - name: Setup pnpm
-              uses: pnpm/action-setup@v4
-              with:
-                  version: ${{ env.PNPM_VERSION }}
-                  run_install: false
-
-            - name: Restore node_modules cache
-              uses: actions/cache@v4
-              with:
-                  path: |
-                      node_modules
-                      apps/*/node_modules
-                      packages/*/node_modules
-                  key: ${{ needs.setup.outputs.cache-key }}
-
-            - name: Generate styled-system
-              run: pnpm run -r prepare
-
-            - name: Run TypeScript type checking
-              run: pnpm run -r type-check
-
-    # Job 4: Testing
-    test:
-        name: Test
-        runs-on: ubuntu-latest
-        needs: setup
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: ${{ env.NODE_VERSION }}
-
-            - name: Setup pnpm
-              uses: pnpm/action-setup@v4
-              with:
-                  version: ${{ env.PNPM_VERSION }}
-                  run_install: false
-
-            - name: Restore node_modules cache
-              uses: actions/cache@v4
-              with:
-                  path: |
-                      node_modules
-                      apps/*/node_modules
-                      packages/*/node_modules
-                  key: ${{ needs.setup.outputs.cache-key }}
-
-            - name: Generate styled-system
-              run: pnpm run -r prepare
-
-            - name: Run tests
-              run: pnpm run -r test
-
-            - name: Upload test coverage
-              uses: codecov/codecov-action@v4
-              if: always()
-              with:
-                  files: |
-                      apps/buy-sell-cars-south-africa/coverage/lcov.info
-                      apps/buy-sell-cars-zimbabwe/coverage/lcov.info
-                      packages/shared/coverage/lcov.info
-                  fail_ci_if_error: false
-
-    # Job 5: Build
-    build:
-        name: Build
-        runs-on: ubuntu-latest
-        needs: [setup, lint, type-check, test]
-        strategy:
-            matrix:
-                app: [buy-sell-cars-south-africa, buy-sell-cars-zimbabwe]
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: ${{ env.NODE_VERSION }}
-
-            - name: Setup pnpm
-              uses: pnpm/action-setup@v4
-              with:
-                  version: ${{ env.PNPM_VERSION }}
-                  run_install: false
-
-            - name: Restore node_modules cache
-              uses: actions/cache@v4
-              with:
-                  path: |
-                      node_modules
-                      apps/*/node_modules
-                      packages/*/node_modules
-                  key: ${{ needs.setup.outputs.cache-key }}
-
-            - name: Generate styled-system
-              run: pnpm run -r prepare
-
-            - name: Build ${{ matrix.app }}
-              run: pnpm --filter ${{ matrix.app }} build
-              env:
-                  # Add any environment variables needed for build
-                  NODE_ENV: production
-
-            - name: Upload build artifacts
-              uses: actions/upload-artifact@v4
-              with:
-                  name: build-${{ matrix.app }}
-                  path: apps/${{ matrix.app }}/.next
-                  retention-days: 1
-
-    # Job 6: Security Audit
     security:
         name: Security Audit
         runs-on: ubuntu-latest
-        needs: setup
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         steps:
-            - name: Checkout repository
+            - name: Checkout
               uses: actions/checkout@v4
 
             - name: Setup Node.js
@@ -247,78 +51,9 @@ jobs:
               uses: pnpm/action-setup@v4
               with:
                   version: ${{ env.PNPM_VERSION }}
-                  run_install: false
 
-            - name: Restore node_modules cache
-              uses: actions/cache@v4
-              with:
-                  path: |
-                      node_modules
-                      apps/*/node_modules
-                      packages/*/node_modules
-                  key: ${{ needs.setup.outputs.cache-key }}
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
 
-            - name: Run security audit
+            - name: Security audit
               run: pnpm audit --audit-level moderate
-
-            - name: Run dependency check
-              run: pnpm outdated || true
-
-    # Job 7: Bundle Analysis (only on main branch)
-    bundle-analysis:
-        name: Bundle Analysis
-        runs-on: ubuntu-latest
-        needs: [setup, build]
-        if: github.ref == 'refs/heads/main'
-        strategy:
-            matrix:
-                app: [buy-sell-cars-south-africa, buy-sell-cars-zimbabwe]
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: ${{ env.NODE_VERSION }}
-
-            - name: Setup pnpm
-              uses: pnpm/action-setup@v4
-              with:
-                  version: ${{ env.PNPM_VERSION }}
-                  run_install: false
-
-            - name: Restore node_modules cache
-              uses: actions/cache@v4
-              with:
-                  path: |
-                      node_modules
-                      apps/*/node_modules
-                      packages/*/node_modules
-                  key: ${{ needs.setup.outputs.cache-key }}
-
-            - name: Download build artifacts
-              uses: actions/download-artifact@v4
-              with:
-                  name: build-${{ matrix.app }}
-                  path: apps/${{ matrix.app }}/.next
-
-            - name: Analyze bundle size
-              run: |
-                  cd apps/${{ matrix.app }}
-                  npx @next/bundle-analyzer || true
-
-    # Job 8: Deployment preparation (only on main branch)
-    deploy-prep:
-        name: Deployment Preparation
-        runs-on: ubuntu-latest
-        needs: [build, security]
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-
-            - name: Deployment ready
-              run: |
-                  echo "🚀 All checks passed! Ready for deployment."
-                  echo "Build artifacts are available for deployment to production."

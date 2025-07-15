@@ -83,14 +83,6 @@ show_workflows() {
     echo "   - Runs on: weekly schedule, manual trigger"
     echo "   - Actions: update dependencies, create PR"
     echo ""
-    echo "3. 🔍 Code Quality (code-quality.yml)"
-    echo "   - Runs on: pull requests, push to main"
-    echo "   - Actions: complexity analysis, dead code detection, bundle analysis"
-    echo ""
-    echo "4. ⚡ Performance Monitoring (performance.yml)"
-    echo "   - Runs on: pull requests, daily schedule"
-    echo "   - Actions: Lighthouse tests, bundle size analysis"
-    echo ""
 }
 
 trigger_workflow() {
@@ -172,8 +164,6 @@ show_help() {
     echo "  trigger <workflow> Trigger a workflow manually"
     echo "  check              Run local checks before pushing"
     echo "  deps               Trigger dependency update workflow"
-    echo "  quality            Trigger code quality workflow"
-    echo "  performance        Trigger performance workflow"
     echo "  help               Show this help message"
     echo ""
     echo "Examples:"
@@ -223,16 +213,6 @@ main() {
             print_header
             check_prerequisites
             trigger_workflow "dependency-updates.yml" "Dependency Updates"
-            ;;
-        "quality")
-            print_header
-            check_prerequisites
-            trigger_workflow "code-quality.yml" "Code Quality"
-            ;;
-        "performance")
-            print_header
-            check_prerequisites
-            trigger_workflow "performance.yml" "Performance Monitoring"
             ;;
         "help"|*)
             show_help

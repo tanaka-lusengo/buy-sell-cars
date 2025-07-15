@@ -1,22 +1,21 @@
 # GitHub Actions CI/CD Pipeline
 
-This repository includes a comprehensive CI/CD pipeline built with GitHub Actions to ensure code quality, security, and reliable deployments.
+This repository includes a lean and effective CI/CD pipeline built with GitHub Actions to ensure code quality, security, and reliable deployments.
 
 ## 🚀 Workflows Overview
 
-### 1. **CI/CD Pipeline** (`ci.yml`)
+### 1. **CI** (`ci.yml`)
 
 **Triggers:** Push to `main`/`develop`, Pull Requests
 
 **What it does:**
 
-- 🔍 **Setup & Dependencies**: Caches dependencies for faster builds
-- 🧹 **Linting**: Runs ESLint and Prettier checks
-- 🔍 **Type Checking**: Validates TypeScript types
-- 🧪 **Testing**: Runs all test suites with coverage
+- 🔍 **Setup & Dependencies**: Installs dependencies with pnpm
+- 🧹 **Linting**: ESLint and Prettier checks
+- 🔍 **Type Checking**: TypeScript validation
+- 🧪 **Testing**: Complete test suite
 - 🏗️ **Building**: Builds both apps (South Africa & Zimbabwe)
-- 🔒 **Security Audit**: Checks for vulnerabilities
-- 📊 **Bundle Analysis**: Analyzes bundle sizes (main branch only)
+- 🔒 **Security Audit**: Vulnerability checks (main branch only)
 
 ### 2. **Dependency Updates** (`dependency-updates.yml`)
 
@@ -28,31 +27,6 @@ This repository includes a comprehensive CI/CD pipeline built with GitHub Action
 - 🔄 Updates to latest compatible versions
 - 🧪 Runs tests to ensure compatibility
 - 📝 Creates automated PR with changes
-
-### 3. **Code Quality** (`code-quality.yml`)
-
-**Triggers:** Pull Requests, Push to `main`
-
-**What it does:**
-
-- 📊 Complexity analysis
-- 🔍 Dead code detection
-- 📝 TODO/FIXME comment tracking
-- 📦 Package.json consistency checks
-- ⚡ Performance budget validation
-- 📈 Quality summary reports
-
-### 4. **Performance Monitoring** (`performance.yml`)
-
-**Triggers:** Pull Requests, Daily (6 AM UTC)
-
-**What it does:**
-
-- 🏎️ Lighthouse performance testing
-- 📊 Bundle size analysis
-- 🧠 Memory usage monitoring
-- 📈 Performance score tracking
-- 💬 PR comments with results
 
 ## 🛠️ Quick Start
 
@@ -80,8 +54,6 @@ chmod +x scripts/github-actions.sh
 
 # Trigger specific workflows manually
 ./scripts/github-actions.sh deps        # Dependency updates
-./scripts/github-actions.sh quality     # Code quality analysis
-./scripts/github-actions.sh performance # Performance testing
 
 # Get help
 ./scripts/github-actions.sh help
@@ -89,12 +61,10 @@ chmod +x scripts/github-actions.sh
 
 ## 📊 Workflow Status Badges
 
-Add these badges to your main README to show workflow status:
+Add this badge to your main README to show workflow status:
 
 ```markdown
-![CI/CD](https://github.com/tanaka-lusengo/buy-sell-cars/workflows/CI%2FCD%20Pipeline/badge.svg)
-![Code Quality](https://github.com/tanaka-lusengo/buy-sell-cars/workflows/Code%20Quality/badge.svg)
-![Performance](https://github.com/tanaka-lusengo/buy-sell-cars/workflows/Performance%20Monitoring/badge.svg)
+![CI](https://github.com/tanaka-lusengo/buy-sell-cars/workflows/CI/badge.svg)
 ```
 
 ## 🔧 Configuration
@@ -106,34 +76,13 @@ Some workflows may require environment variables. Add these to your repository s
 - `GITHUB_TOKEN`: Automatically provided by GitHub Actions
 - Add any deployment-specific secrets as needed
 
-### Performance Budgets
-
-The code quality workflow includes performance budgets:
-
-- **JavaScript bundles**: 500KB max
-- **CSS bundles**: 100KB max
-
-Adjust these in `.github/workflows/code-quality.yml` if needed.
-
-### Lighthouse Thresholds
-
-Performance monitoring uses these thresholds:
-
-- **Performance score**: 80% minimum
-- **Accessibility score**: Tracked and reported
-- **Best Practices score**: Tracked and reported
-- **SEO score**: Tracked and reported
-
 ## 🚦 Branch Protection Rules
 
 For maximum effectiveness, configure these branch protection rules on your `main` branch:
 
 1. **Require status checks to pass**:
 
-    - `lint`
-    - `type-check`
-    - `test`
-    - `build`
+    - `CI` (includes lint, type-check, test, build)
 
 2. **Require pull request reviews**: 1 reviewer minimum
 
@@ -145,36 +94,28 @@ For maximum effectiveness, configure these branch protection rules on your `main
 
 ### Artifacts Generated
 
-- **Test Coverage Reports**: Available for 7 days
-- **Performance Reports**: Available for 30 days
-- **Code Quality Reports**: Available for 7 days
 - **Build Artifacts**: Available for 1 day
 
 ### Notifications
 
 - **Failed workflows**: GitHub will notify via email/web
-- **PR comments**: Performance results posted automatically
 - **Dependency updates**: Weekly PR created automatically
 
 ## Troubleshooting
 
 ### Common Issues
 
-**1. Workflow fails with "No space left on device"**
+**1. Workflow fails with dependency issues**
 
-- Solution: Workflows use caching to prevent this. If it persists, clear caches in Actions settings.
+- Solution: Check the dependency update PR and resolve conflicts manually.
 
 **2. Tests fail in CI but pass locally**
 
 - Check: Environment differences, timezone issues, or missing environment variables.
 
-**3. Build artifacts are too large**
+**3. Build fails in CI**
 
-- Check: Bundle analysis reports for optimization opportunities.
-
-**4. Dependency updates break tests**
-
-- The workflow will automatically fail and not create a PR if tests don't pass.
+- Check: Build logs for specific errors and ensure all dependencies are properly installed.
 
 ### Getting Help
 
@@ -189,15 +130,15 @@ For maximum effectiveness, configure these branch protection rules on your `main
 
 - ✅ Dependency vulnerability scanning
 - ✅ Automated security updates
-- ✅ Code quality checks
+- ✅ Essential code quality checks (via CI workflow)
 - ✅ No secrets in code (use GitHub secrets)
 - ✅ Limited permissions for workflows
 
 ### Security Scanning
 
-- **npm audit**: Checks for known vulnerabilities
+- **npm audit**: Checks for known vulnerabilities (main branch)
 - **Dependency updates**: Automated weekly updates
-- **Bundle analysis**: Checks for suspicious large files
+- **Build verification**: Ensures builds complete successfully
 
 ## 📚 Additional Resources
 
