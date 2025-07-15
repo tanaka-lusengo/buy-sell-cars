@@ -1,5 +1,5 @@
 import { type NextRequest } from "next/server";
-import { updateSession } from "@/supabase/middleware";
+import { updateSession } from "~bsc-shared/utils";
 
 export async function middleware(request: NextRequest) {
   // update user's auth session

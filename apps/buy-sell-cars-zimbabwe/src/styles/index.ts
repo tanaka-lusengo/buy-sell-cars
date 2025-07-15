@@ -1,2 +1,7 @@
-export { tokens, textStyles, breakpoints, breakpointsNumber } from "./theme";
-export { globalCss } from "./globalCss";
+export {
+  tokens,
+  textStyles,
+  breakpoints,
+  breakpointsNumber,
+  globalCss,
+} from "~bsc-shared/styles";

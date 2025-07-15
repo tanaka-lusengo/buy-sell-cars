@@ -2,8 +2,7 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { InputField, SelectField } from "~bsc-shared";
-import { Divider } from "~bsc-shared/styled-system/jsx";
+import { InputField, SelectField, Divider } from "~bsc-shared";
 import { Typography, Button } from "~bsc-shared/ui";
 import { formatPriceToRands } from "@/src/utils";
 import { Grid, Flex, Container, Box, HStack } from "@/styled-system/jsx";
@@ -16,14 +15,17 @@ export const FinanceCalculator = ({
 }: {
   vehiclePrice: number;
 }) => {
-  const defaultValues: FormValues = {
-    vehiclePrice,
-    deposit: vehiclePrice * 0.1, // Default 10% deposit
-    tradeIn: 0,
-    interestRate: 12.75,
-    residual: 0,
-    repaymentMonths: 72,
-  };
+  const defaultValues: FormValues = useMemo(
+    () => ({
+      vehiclePrice,
+      deposit: vehiclePrice * 0.1, // Default 10% deposit
+      tradeIn: 0,
+      interestRate: 12.75,
+      residual: 0,
+      repaymentMonths: 72,
+    }),
+    [vehiclePrice]
+  );
 
   const {
     register,
@@ -67,14 +69,7 @@ export const FinanceCalculator = ({
   useEffect(() => {
     const initialResults = calculateFinance(defaultValues);
     setResults(initialResults);
-  }, [
-    defaultValues.vehiclePrice,
-    defaultValues.deposit,
-    defaultValues.tradeIn,
-    defaultValues.interestRate,
-    defaultValues.residual,
-    defaultValues.repaymentMonths,
-  ]);
+  }, [defaultValues]);
 
   // Watch for form changes and recalculate
   useEffect(() => {

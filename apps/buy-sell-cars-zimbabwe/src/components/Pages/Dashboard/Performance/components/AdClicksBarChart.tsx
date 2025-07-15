@@ -11,8 +11,8 @@ import {
   CartesianGrid,
 } from "recharts";
 import { useWindowSize } from "~bsc-shared/hooks";
+import { breakpointsNumber } from "~bsc-shared/styles";
 import { Typography } from "~bsc-shared/ui";
-import { breakpointsNumber } from "@/src/styles";
 import { Divider, Flex } from "@/styled-system/jsx";
 import { AdClick } from "../types";
 

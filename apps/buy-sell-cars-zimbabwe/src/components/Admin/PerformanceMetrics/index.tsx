@@ -28,7 +28,7 @@ export const PerformanceMetrics = () => {
           return;
         }
 
-        setSponsorAdClicks(data);
+        setSponsorAdClicks(data || []);
       } catch (error) {
         console.error("Error fetching sponsor ad clicks:", error);
         handleClientError(

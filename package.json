@@ -32,7 +32,12 @@
         "test": "turbo run test",
         "test:ui": "turbo run test:ui",
         "test:coverage": "turbo run test:coverage",
-        "type-check": "turbo run type-check"
+        "type-check": "turbo run type-check",
+        "ci:check": "pnpm lint && pnpm type-check && pnpm test && pnpm build",
+        "ci:actions": "./scripts/github-actions.sh",
+        "ci:local": "./scripts/github-actions.sh check",
+        "ci:workflows": "./scripts/github-actions.sh workflows",
+        "ci:deps": "./scripts/github-actions.sh deps"
     },
     "workspaces": [
         "apps/*",

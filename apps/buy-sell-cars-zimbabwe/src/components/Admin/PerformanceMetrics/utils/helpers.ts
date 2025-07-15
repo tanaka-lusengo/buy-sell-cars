@@ -19,7 +19,7 @@ export const transformSponsorClicks = (
 export const transformByPlacement = (rows: PostHogSponsorAdClickData[]) => {
   const sponsorMap = new Map<string, Record<string, number>>();
 
-  for (const [event_, placement, sponsor] of rows) {
+  for (const [, placement, sponsor] of rows) {
     if (!placement || !sponsor) continue;
 
     if (!sponsorMap.has(sponsor)) {
@@ -58,6 +58,9 @@ export const generateAxisTicks = (maxValue: number): number[] => {
   return Array.from({ length: maxValue + 1 }, (_, i) => i);
 };
 
-export const getMaxValue = (data: any[], key: string): number => {
-  return Math.max(...data.map((item) => item[key] || 0));
+export const getMaxValue = (
+  data: Record<string, unknown>[],
+  key: string
+): number => {
+  return Math.max(...data.map((item) => (item[key] as number) || 0));
 };

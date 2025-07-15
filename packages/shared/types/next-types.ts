@@ -10,3 +10,12 @@ export type ParamsWithId = {
     id: string;
   };
 };
+
+export type SearchParams = {
+  [key: string]: string | string[] | undefined;
+};
+
+export type PageProps = {
+  params: Params["params"];
+  searchParams: SearchParams;
+};

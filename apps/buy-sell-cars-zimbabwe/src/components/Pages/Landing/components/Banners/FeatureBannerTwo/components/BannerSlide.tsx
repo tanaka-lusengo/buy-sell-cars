@@ -8,7 +8,7 @@ import { Box, Flex } from "@/styled-system/jsx";
 
 type BannerSlideProps = {
   href: string;
-  src: StaticImageData;
+  src: string | StaticImageData;
   alt: string;
   name: string;
 };

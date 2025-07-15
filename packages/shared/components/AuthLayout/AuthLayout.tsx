@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Box, Grid, VStack } from "@/styled-system/jsx";
+import { Box, Grid, VStack } from "../../styled-system/jsx";
 
 export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (

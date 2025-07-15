@@ -89,9 +89,9 @@ export const Footer = () => {
           <Flex direction="column" mb="lg">
             <Typography variant="h3">Find Your Vehicle</Typography>
 
-            <FooterLink href="/cars/sales/">Car sales</FooterLink>
-            <FooterLink href="/trucks/sales/">Truck sales</FooterLink>
-            <FooterLink href="/bikes/sales/">Bike sales</FooterLink>
+            <FooterLink href="/car/sales/">Car sales</FooterLink>
+            <FooterLink href="/truck/sales/">Truck sales</FooterLink>
+            <FooterLink href="/bike/sales/">Bike sales</FooterLink>
             <FooterLink href="/agriculture/sales/">
               Agriculture machinery sales
             </FooterLink>

@@ -22,12 +22,14 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 2678400, // 31 days
     // Single optimised format to reduce duplicate transformations
     formats: ["image/webp"],
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: supabaseHostname,
-      },
-    ],
+    remotePatterns: supabaseHostname
+      ? [
+          {
+            protocol: "https",
+            hostname: supabaseHostname,
+          },
+        ]
+      : [],
   },
   async headers() {
     return [
