@@ -2,15 +2,20 @@
 
 import { useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { type infer as ZodInfer } from "zod";
 import { InputField, SelectField } from "~bsc-shared/components";
-import { CAR_CONDITIONS, FUEL_TYPES } from "~bsc-shared/constants/values";
-import { Button, Typography } from "~bsc-shared/ui";
+import {
+  CAR_CONDITIONS,
+  FUEL_TYPES,
+  VEHICLE_CATEGORIES,
+} from "~bsc-shared/constants/values";
+import { Button, LinkButton, Typography } from "~bsc-shared/ui";
 import { generatePrices, generateYears, toSnakeCase } from "~bsc-shared/utils";
 import { LOCATIONS } from "@/src/constants/values";
-import { Container, Grid } from "@/styled-system/jsx";
-import { filterValidationSchema } from "../../schema";
+import { filterValidationSchema } from "@/src/schemas";
+import { Container, Flex, Grid } from "@/styled-system/jsx";
 import { Form } from "./index.styled";
 
 type FilterForm = ZodInfer<typeof filterValidationSchema>;
@@ -20,17 +25,34 @@ export const Filter = () => {
     handleSubmit,
     register,
     reset,
+    watch,
     formState: { errors },
   } = useForm<FilterForm>({
     resolver: zodResolver(filterValidationSchema),
     mode: "all",
   });
 
+  const { push } = useRouter();
+
   const YEARS = useMemo(() => generateYears(), []);
   const PRICES = useMemo(() => generatePrices(), []);
 
+  const vehicleCategory = watch("vehicleCategory");
+
   const handleAction = async (formData: FilterForm) => {
-    console.log("Form data:", formData);
+    // Create search parameters from form data, filtering out empty values
+    const searchParams = new URLSearchParams();
+
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value && value.trim() !== "") {
+        searchParams.set(key, value);
+      }
+    });
+
+    // Redirect to car sales page with search parameters
+    const queryString = searchParams.toString();
+    const url = `/${vehicleCategory}/sales/${queryString ? `?${queryString}` : ""}`;
+    push(url);
   };
 
   return (
@@ -39,13 +61,50 @@ export const Filter = () => {
         async (formValues: FilterForm) => await handleAction(formValues)
       )}
     >
-      <Typography variant="h4" align="center">
-        Find your car
-      </Typography>
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        justifyItems="center"
+      >
+        <Typography variant="h3">Search</Typography>
+
+        <LinkButton onClick={() => reset()} type="button">
+          Clear fields
+        </LinkButton>
+      </Flex>
+
+      <Grid gridTemplateColumns="0.5fr">
+        <SelectField name="vehicleCategory" register={register} errors={errors}>
+          <option key="vehicleCategory" value="">
+            Vehicle type
+          </option>
+          {VEHICLE_CATEGORIES.map((category) => (
+            <option key={category} value={toSnakeCase(category)}>
+              {category}
+            </option>
+          ))}
+        </SelectField>
+      </Grid>
+
+      <Grid gridTemplateColumns="1fr 1fr" gap="sm">
+        <InputField
+          name="make"
+          placeholder="Make"
+          register={register}
+          errors={errors}
+        />
+
+        <InputField
+          name="model"
+          placeholder="Model"
+          register={register}
+          errors={errors}
+        />
+      </Grid>
 
       <Grid gridTemplateColumns="1fr 1fr" gap="sm">
         <SelectField name="location" register={register} errors={errors}>
-          <option key="location" value={""}>
+          <option key="location" value="">
             Location
           </option>
           {LOCATIONS.map((location) => (
@@ -54,22 +113,6 @@ export const Filter = () => {
             </option>
           ))}
         </SelectField>
-
-        <InputField
-          name="make"
-          placeholder="Make"
-          register={register}
-          errors={errors}
-        />
-      </Grid>
-
-      <Grid gridTemplateColumns="1fr 1fr" gap="sm">
-        <InputField
-          name="model"
-          placeholder="model"
-          register={register}
-          errors={errors}
-        />
 
         <SelectField name="year" register={register} errors={errors}>
           <option key="year" value={""}>
@@ -139,10 +182,6 @@ export const Filter = () => {
       <Button type="submit" variant="primary" marginTop="sm">
         Search
       </Button>
-
-      <Container marginTop="sm">
-        <Button onClick={() => reset()}>Clear fields</Button>
-      </Container>
     </Form>
   );
 };
