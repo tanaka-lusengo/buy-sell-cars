@@ -11,6 +11,10 @@ import { PreloadResources } from "./preload-resources";
 // Base metadata for the app
 export { metadata };
 
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function RootLayout({
   children,
 }: {

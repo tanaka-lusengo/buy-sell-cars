@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    minimumCacheTTL: 2678400, // 31 days
+    minimumCacheTTL: 60, // 1 minute for dynamic updates
     formats: ["image/webp"],
     remotePatterns: supabaseHostname
       ? [
@@ -33,7 +33,13 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/:path*",
-        headers: securityHeaders,
+        headers: [
+          ...securityHeaders,
+          {
+            key: "Cache-Control",
+            value: "no-store, no-cache, must-revalidate, max-age=0",
+          },
+        ],
       },
     ];
   },
