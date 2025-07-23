@@ -7,6 +7,7 @@ export {
   FeaturedDealersSection,
   BrowseCarsSection,
   SocialMediaSection,
+  Filter,
 } from "./Landing";
 export { AllDealers } from "./Dealers";
 export { SignUpForm, SignInForm, SignOut } from "./Auth";

@@ -14,7 +14,6 @@ import refuelHeroBannerImg from "@/public/images/sponsors/refuel/refuel-hero-ban
 import { trackPostHogEvent, useTrackOnView } from "@/src/components/Analytics";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { Box, Container, Flex } from "@/styled-system/jsx";
-import { Filter } from "../../Filter";
 import { REFUEL_WHATSAPP_URL } from "../constants";
 import { BannerSlideContentOne } from "./components/BannerSlides";
 
@@ -174,16 +173,11 @@ export const HeroBanner = () => {
                         height="100%"
                         width="100%"
                         alignItems="center"
-                        justifyContent="space-between"
+                        justifyContent="center"
                         px={{ base: "sm", lg: "lg" }}
                       >
                         <Box position="relative" width="100%" height="100%">
                           {slide.content}
-                        </Box>
-
-                        {/* Filter */}
-                        <Box display={{ base: "none" }}>
-                          <Filter />
                         </Box>
                       </Flex>
                     </ResponsiveContainer>

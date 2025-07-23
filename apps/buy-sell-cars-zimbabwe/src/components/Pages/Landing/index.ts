@@ -7,4 +7,5 @@ export {
   BrowseCarsSection,
   SocialMediaSection,
   InfoSection,
+  Filter,
 } from "./components";

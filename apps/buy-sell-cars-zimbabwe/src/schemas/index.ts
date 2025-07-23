@@ -10,6 +10,8 @@ export {
   updateProfileAdminValidationSchema,
   addVehicleValidationSchema,
   editVehicleValidationSchema,
+  filterValidationSchema,
+  vehiclePageFilterValidationSchema,
 } from "./generalSchemas";
 
 export {
