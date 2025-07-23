@@ -47,18 +47,20 @@ export const AllVehicles = ({
     const filterCriteria = parseUrlSearchParams(searchParams);
     const filtered = filterVehicles(vehicles, filterCriteria);
     setFilteredVehicles(filtered);
-    
+
     // Check if user came with search parameters (from landing page search)
-    const hasSearchParams = Object.values(filterCriteria).some(value => value && value.trim() !== '');
-    
+    const hasSearchParams = Object.values(filterCriteria).some(
+      (value) => value && value.trim() !== ""
+    );
+
     if (hasSearchParams) {
       // Smooth scroll to vehicle list when user arrives with search parameters
       setTimeout(() => {
         if (vehicleListRef.current) {
           const yOffset = -145;
           const y =
-            vehicleListRef.current.getBoundingClientRect().top + 
-            window.scrollY + 
+            vehicleListRef.current.getBoundingClientRect().top +
+            window.scrollY +
             yOffset;
           window.scrollTo({ top: y, behavior: "smooth" });
         }

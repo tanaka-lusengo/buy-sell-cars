@@ -229,7 +229,9 @@ export const editVehicleValidationSchema = z.object({
 });
 
 export const filterValidationSchema = z.object({
-  vehicleCategory: z.string().min(1, { message: "Vehicle category is required" }),
+  vehicleCategory: z
+    .string()
+    .min(1, { message: "Vehicle category is required" }),
   location: z.string().optional(),
   make: z.string().optional(),
   model: z.string().optional(),

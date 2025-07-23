@@ -15,7 +15,7 @@ import { Button, LinkButton, Typography } from "~bsc-shared/ui";
 import { generatePrices, generateYears, toSnakeCase } from "~bsc-shared/utils";
 import { LOCATIONS } from "@/src/constants/values";
 import { filterValidationSchema } from "@/src/schemas";
-import { Container, Flex, Grid } from "@/styled-system/jsx";
+import { Flex, Grid } from "@/styled-system/jsx";
 import { Form } from "./index.styled";
 
 type FilterForm = ZodInfer<typeof filterValidationSchema>;
