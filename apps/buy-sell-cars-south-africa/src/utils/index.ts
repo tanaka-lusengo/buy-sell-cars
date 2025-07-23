@@ -4,3 +4,8 @@ export {
   filterAndSortByDealers,
   sortByDealershipName,
 } from "./filterAndSortByDealers";
+export {
+  filterVehicles,
+  parseUrlSearchParams,
+  type FilterCriteria,
+} from "./vehicleFilters";

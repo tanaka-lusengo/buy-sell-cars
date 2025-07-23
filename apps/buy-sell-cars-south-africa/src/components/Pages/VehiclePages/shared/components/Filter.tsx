@@ -1,24 +1,25 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { type infer as ZodInfer } from "zod";
-import { SelectField } from "~bsc-shared/components/FormComponents";
+import { SelectField } from "~bsc-shared/components";
 import {
   CAR_CONDITIONS,
   FUEL_TYPES,
   GEARBOX_TYPES,
 } from "~bsc-shared/constants";
-import { Button, Typography } from "~bsc-shared/ui";
-import { toSnakeCase } from "~bsc-shared/utils";
+import { Button, Typography, LinkButton } from "~bsc-shared/ui";
+import { generatePrices, generateYears, toSnakeCase } from "~bsc-shared/utils";
 import { LOCATIONS } from "@/src/constants/values";
-import { generatePrices } from "@/src/utils";
+import { vehiclePageFilterValidationSchema } from "@/src/schemas";
+import { parseUrlSearchParams } from "@/src/utils";
 import { Flex, Grid } from "@/styled-system/jsx";
-import { filterValidationSchema } from "../schema";
 import { Form } from "./common.styled";
 
-type FilterForm = ZodInfer<typeof filterValidationSchema>;
+type FilterForm = ZodInfer<typeof vehiclePageFilterValidationSchema>;
 
 export const Filter = ({
   vehicleFilterData,
@@ -28,21 +29,68 @@ export const Filter = ({
     models: string[];
   };
 }) => {
+  const searchParams = useSearchParams();
+
   const {
     handleSubmit,
     register,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<FilterForm>({
-    resolver: zodResolver(filterValidationSchema),
+    resolver: zodResolver(vehiclePageFilterValidationSchema),
     mode: "all",
   });
 
+  // Populate form with URL parameters on mount
+  useEffect(() => {
+    const filterCriteria = parseUrlSearchParams(searchParams);
+    Object.entries(filterCriteria).forEach(([key, value]) => {
+      if (value) {
+        setValue(key as keyof FilterForm, value);
+      }
+    });
+  }, [searchParams, setValue]);
+
   const handleAction = async (formData: FilterForm) => {
-    console.log("Form data:", formData);
+    // Create search parameters from form data, filtering out empty values
+    const searchParams = new URLSearchParams(window.location.search);
+
+    // Clear existing params first
+    Object.keys(formData).forEach((key) => {
+      searchParams.delete(key);
+    });
+
+    // Add new values
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value && value.trim() !== "") {
+        searchParams.set(key, value);
+      }
+    });
+
+    // Update URL with new search parameters
+    const queryString = searchParams.toString();
+    const newUrl = `${window.location.pathname}${queryString ? `?${queryString}` : ""}`;
+    window.history.pushState({}, "", newUrl);
+
+    // Trigger a custom event to notify components of the filter change
+    window.dispatchEvent(new Event("filterchange"));
+  };
+
+  const handleReset = () => {
+    // Clear form fields
+    reset();
+
+    // Clear URL parameters
+    const newUrl = window.location.pathname;
+    window.history.pushState({}, "", newUrl);
+
+    // Trigger filter change event to show all vehicles
+    window.dispatchEvent(new Event("filterchange"));
   };
 
   const PRICES = useMemo(() => generatePrices(), []);
+  const YEARS = useMemo(() => generateYears(), []);
 
   return (
     <Form
@@ -57,13 +105,28 @@ export const Filter = ({
       >
         <Typography variant="h3">Filters</Typography>
 
-        <Button onClick={() => reset()}>Clear fields</Button>
+        <LinkButton onClick={handleReset} type="button">
+          Clear fields
+        </LinkButton>
       </Flex>
+
+      <Grid gridTemplateColumns="0.5fr" gap="sm">
+        <SelectField name="location" register={register} errors={errors}>
+          <option key="location" value={""}>
+            Location
+          </option>
+          {LOCATIONS.map((location) => (
+            <option key={location} value={location}>
+              {location}
+            </option>
+          ))}
+        </SelectField>
+      </Grid>
 
       <Grid gridTemplateColumns="1fr 1fr" gap="sm">
         <SelectField name="make" register={register} errors={errors}>
           <option key="make" value={""}>
-            Car make
+            Make
           </option>
           {vehicleFilterData.makes.map((make) => (
             <option key={make} value={make}>
@@ -74,7 +137,7 @@ export const Filter = ({
 
         <SelectField name="model" register={register} errors={errors}>
           <option key="model" value={""}>
-            Car model
+            Model
           </option>
           {vehicleFilterData.models.map((model) => (
             <option key={model} value={model}>
@@ -85,13 +148,13 @@ export const Filter = ({
       </Grid>
 
       <Grid gridTemplateColumns="1fr 1fr" gap="sm">
-        <SelectField name="location" register={register} errors={errors}>
-          <option key="location" value={""}>
-            Location
+        <SelectField name="year" register={register} errors={errors}>
+          <option key="year" value={""}>
+            Year
           </option>
-          {LOCATIONS.map((location) => (
-            <option key={location} value={location}>
-              {location}
+          {YEARS.map((year) => (
+            <option key={year} value={year}>
+              {year}
             </option>
           ))}
         </SelectField>
@@ -109,22 +172,22 @@ export const Filter = ({
       </Grid>
 
       <Grid gridTemplateColumns="1fr 1fr" gap="sm">
-        <SelectField name="fuelType" register={register} errors={errors}>
-          <option key="fuel-type" value={""}>
-            Fuel type
+        <SelectField name="gearboxType" register={register} errors={errors}>
+          <option key="gearbox-type" value={""}>
+            Gearbox
           </option>
-          {FUEL_TYPES.map((type) => (
+          {GEARBOX_TYPES.map((type) => (
             <option key={type} value={toSnakeCase(type)}>
               {type}
             </option>
           ))}
         </SelectField>
 
-        <SelectField name="gearboxType" register={register} errors={errors}>
-          <option key="gearbox-type" value={""}>
-            Gearbox
+        <SelectField name="fuelType" register={register} errors={errors}>
+          <option key="fuel-type" value={""}>
+            Fuel type
           </option>
-          {GEARBOX_TYPES.map((type) => (
+          {FUEL_TYPES.map((type) => (
             <option key={type} value={toSnakeCase(type)}>
               {type}
             </option>

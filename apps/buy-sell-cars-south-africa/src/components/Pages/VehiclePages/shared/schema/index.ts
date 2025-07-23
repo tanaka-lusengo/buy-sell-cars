@@ -1,15 +1,13 @@
 import * as z from "zod";
-import { GearBoxType, ConditionType, FuelType } from "@/src/types";
 
 export const filterValidationSchema = z.object({
+  location: z.string().optional(),
   make: z.string().optional(),
   model: z.string().optional(),
-  location: z.string().optional(),
-  condition: z.enum(["new", "used"] satisfies ConditionType).optional(),
-  fuelType: z
-    .enum(["petrol", "diesel", "electric", "hybrid"] satisfies FuelType)
-    .optional(),
-  gearboxType: z.enum(["manual", "automatic"] satisfies GearBoxType).optional(),
+  year: z.string().optional(),
+  condition: z.string().optional(),
+  fuelType: z.string().optional(),
+  gearboxType: z.string().optional(),
   minPrice: z.string().optional(),
   maxPrice: z.string().optional(),
 });
