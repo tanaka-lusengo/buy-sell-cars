@@ -1,10 +1,14 @@
-import { useMemo } from "react";
+"use client";
+
+import { useMemo, useEffect, useState, useRef } from "react";
 import { PostgrestError } from "@supabase/supabase-js";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
 import { formatToReadableString, StatusCode } from "~bsc-shared/utils";
 import { PaginatedVehicleList } from "@/src/components/shared";
 import { VehicleCategoryType, VehicleWithImageAndDealer } from "@/src/types";
+import { filterVehicles, parseUrlSearchParams } from "@/src/utils";
 import { Container, Box, Flex, Grid, Divider } from "@/styled-system/jsx";
 import { FeatureVehicles } from "./components/FeatureVehicles";
 import { Filter } from "./components/Filter";
@@ -27,6 +31,60 @@ export const AllVehicles = ({
   isRental,
 }: AllVehiclesProps) => {
   const successStatus = status === StatusCode.SUCCESS;
+  const searchParams = useSearchParams();
+  const [filteredVehicles, setFilteredVehicles] = useState(vehicles);
+  const vehicleListRef = useRef<HTMLDivElement>(null);
+
+  // Parse search parameters and apply filters
+  useEffect(() => {
+    const filterCriteria = parseUrlSearchParams(searchParams);
+    const filtered = filterVehicles(vehicles, filterCriteria);
+    setFilteredVehicles(filtered);
+
+    // Check if user came with search parameters (from landing page search)
+    const hasSearchParams = Object.values(filterCriteria).some(
+      (value) => value && value.trim() !== ""
+    );
+
+    if (hasSearchParams) {
+      // Smooth scroll to vehicle list when user arrives with search parameters
+      setTimeout(() => {
+        if (vehicleListRef.current) {
+          const yOffset = -145;
+          const y =
+            vehicleListRef.current.getBoundingClientRect().top +
+            window.scrollY +
+            yOffset;
+          window.scrollTo({ top: y, behavior: "smooth" });
+        }
+      }, 500); // Longer delay to allow page to fully render
+    }
+  }, [vehicles, searchParams]);
+
+  // Listen for filter change events from the filter component
+  useEffect(() => {
+    const handleFilterChange = () => {
+      const newSearchParams = new URLSearchParams(window.location.search);
+      const filterCriteria = parseUrlSearchParams(newSearchParams);
+      const filtered = filterVehicles(vehicles, filterCriteria);
+      setFilteredVehicles(filtered);
+
+      // Smooth scroll to vehicle list with offset (matching PaginatedVehiclesList behavior)
+      setTimeout(() => {
+        if (vehicleListRef.current) {
+          const yOffset = -145;
+          const y =
+            vehicleListRef.current.getBoundingClientRect().top +
+            window.scrollY +
+            yOffset;
+          window.scrollTo({ top: y, behavior: "smooth" });
+        }
+      }, 200);
+    };
+
+    window.addEventListener("filterchange", handleFilterChange);
+    return () => window.removeEventListener("filterchange", handleFilterChange);
+  }, [vehicles]);
 
   const vehicleMakes = useMemo(() => {
     const makes = vehicles.map((vehicle) => vehicle.make);
@@ -57,6 +115,11 @@ export const AllVehicles = ({
     }
     return formatToReadableString(vehicleCategory);
   };
+
+  const showFilterCounter =
+    successStatus &&
+    vehicles.length > 0 &&
+    filteredVehicles.length !== vehicles.length;
 
   return (
     <>
@@ -122,36 +185,52 @@ export const AllVehicles = ({
           <ResponsiveContainer backgroundColor="greyLight">
             <Box paddingY="lg">
               <Grid
-                // gridTemplateColumns={{ base: "1fr", lg: "1fr 3fr" }}
+                gridTemplateColumns={{ base: "1fr", lg: "1fr 3fr" }}
                 alignItems={{ base: "center", lg: "flex-start" }}
                 justifyItems="center"
                 gap="lg"
               >
                 <Flex
-                  display="none"
+                  display={{ base: "none", lg: "flex" }}
+                  direction="column"
                   position="sticky"
                   top={{ base: "none", lg: "130px" }}
                   minWidth={{ base: "100%", md: "40rem" }}
                   justifyContent="center"
                   paddingX="md"
                 >
+                  {showFilterCounter && (
+                    <Box marginBottom="sm">
+                      <Typography variant="h3">
+                        Showing <b>{filteredVehicles.length}</b> of{" "}
+                        <b>{vehicles.length}</b> results
+                      </Typography>
+                    </Box>
+                  )}
                   <Filter vehicleFilterData={vehicleFilterData} />
                 </Flex>
 
-                <FeatureVehicles
-                  isFeature
-                  vehicleCategory={vehicleCategory}
-                  isRental={isRental}
-                  featuredCarsWithDealerDetails={featruredVehicles}
-                />
+                <Box>
+                  <FeatureVehicles
+                    isFeature
+                    vehicleCategory={vehicleCategory}
+                    isRental={isRental}
+                    featuredCarsWithDealerDetails={featruredVehicles}
+                  />
 
-                <Divider color="grey" marginTop="md" maxWidth="100rem" />
+                  <Divider
+                    ref={vehicleListRef}
+                    color="grey"
+                    marginBottom="lg"
+                    maxWidth="100rem"
+                  />
 
-                <PaginatedVehicleList
-                  vehicles={vehicles}
-                  vehicleCategory={vehicleCategory}
-                  isRental={isRental}
-                />
+                  <PaginatedVehicleList
+                    vehicles={filteredVehicles}
+                    vehicleCategory={vehicleCategory}
+                    isRental={isRental}
+                  />
+                </Box>
               </Grid>
             </Box>
           </ResponsiveContainer>
