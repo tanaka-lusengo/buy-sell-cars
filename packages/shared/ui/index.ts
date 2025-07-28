@@ -1,4 +1,4 @@
-export * from "./Typography/Typography";
+export * from "./Typography";
 export * from "./Button/Button";
 export * from "./ButtonAsLink/ButtonAsLink";
 export * from "./LinkButton/LinkButton";
