@@ -11,9 +11,7 @@ export const H3 = (props: H3Props) => {
   const { className, ...restProps } = localProps;
 
   return (
-    <h3
-      className={cx(h3Recipe(variantProps), className)}
-      {...restProps}
-    />
+    // eslint-disable-next-line jsx-a11y/heading-has-content
+    <h3 className={cx(h3Recipe(variantProps), className)} {...restProps} />
   );
 };

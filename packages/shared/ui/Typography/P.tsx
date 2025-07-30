@@ -10,10 +10,5 @@ export const P = (props: PProps) => {
   const [variantProps, localProps] = pRecipe.splitVariantProps(props);
   const { className, ...restProps } = localProps;
 
-  return (
-    <p
-      className={cx(pRecipe(variantProps), className)}
-      {...restProps}
-    />
-  );
+  return <p className={cx(pRecipe(variantProps), className)} {...restProps} />;
 };

@@ -4,7 +4,7 @@ import { useMemo, useEffect, useState, useRef } from "react";
 import { PostgrestError } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
+import { ResponsiveContainer, H2, H3, H5, P, Typography } from "~bsc-shared/ui";
 import { formatToReadableString, StatusCode } from "~bsc-shared/utils";
 import roadBoysLogisticsImg from "@/public/images/sponsors/road-boys-logistics/road-boys-logistics.jpg";
 import rossiTyresImgLg from "@/public/images/sponsors/rossi/rossi-tyres-lg.jpg";
@@ -132,9 +132,9 @@ export const AllVehicles = ({
     <>
       <ResponsiveContainer>
         <Box paddingY="md">
-          <Typography variant="h2">
+          <H2>
             Browse {category()} {isRental ? "to rent" : "for sale"}
-          </Typography>
+          </H2>
         </Box>
       </ResponsiveContainer>
 
@@ -142,17 +142,13 @@ export const AllVehicles = ({
         {!successStatus && Boolean(error) && (
           <ResponsiveContainer backgroundColor="greyLight">
             <Flex direction="column" paddingY="md" gap="sm">
-              <Typography variant="h3" color="error">
-                Error fetching {category()}
-              </Typography>
+              <H3 color="error">Error fetching {category()}</H3>
 
-              <Typography color="error">
+              <P color="error">
                 Please try again a later time or contact support if the issue
                 persists.
-              </Typography>
-              {error === typeof "string" && (
-                <Typography color="error">{error}</Typography>
-              )}
+              </P>
+              {error === typeof "string" && <P color="error">{error}</P>}
             </Flex>
           </ResponsiveContainer>
         )}
@@ -160,30 +156,29 @@ export const AllVehicles = ({
         {successStatus && vehicles.length === 0 && (
           <ResponsiveContainer backgroundColor="greyLight">
             <Flex direction="column" gap="md" paddingY="lg">
-              <Typography variant="h3" align="center" color="primaryDark">
+              <H3 align="center" color="primaryDark">
                 Sorry, we currently don&#39;t have any {category()} available{" "}
                 {isRental ? "to rent" : "for sale"} at the moment.
-              </Typography>
+              </H3>
               <Box maxWidth="70rem" marginX="auto">
-                <Typography variant="h5" align="center">
+                <H5 align="center">
                   We&#39;re working closely with new dealers and individuals to
                   feature new listings as we speak. Please come back later or
                   check out our other listings.
-                </Typography>
+                </H5>
               </Box>
 
-              <Typography variant="h5" align="center">
+              <H5 align="center">
                 <Typography
                   as="span"
                   weight="bold"
-                  variant="h5"
                   color="primary"
                   hoverEffect="color"
                 >
                   <Link href="/sign-up">Subscribe now</Link>
                 </Typography>{" "}
                 to become a featured dealer and showcase your vehicles here!
-              </Typography>
+              </H5>
             </Flex>
           </ResponsiveContainer>
         )}
@@ -208,10 +203,10 @@ export const AllVehicles = ({
                 >
                   {showFilterCounter && (
                     <Box marginBottom="sm">
-                      <Typography variant="h3">
+                      <H3>
                         Showing <b>{filteredVehicles.length}</b> of{" "}
                         <b>{vehicles.length}</b> results
-                      </Typography>
+                      </H3>
                     </Box>
                   )}
                   <Filter vehicleFilterData={vehicleFilterData} />

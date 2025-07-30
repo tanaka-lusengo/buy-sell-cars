@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { InputField } from "~bsc-shared/components";
-import { Button, Typography } from "~bsc-shared/ui";
+import { Button, H2, H3, Typography } from "~bsc-shared/ui";
 import {
   generateIcon,
   handleClientError,
@@ -44,7 +44,7 @@ export const Security = () => {
   return (
     <Box padding="lg">
       <Box>
-        <Typography variant="h2">Security Settings</Typography>
+        <H2>Security Settings</H2>
       </Box>
 
       <SecurityForm
@@ -53,7 +53,7 @@ export const Security = () => {
             await handleUpdatePassword(formData)
         )}
       >
-        <Typography variant="h3">Update Password</Typography>
+        <H3>Update Password</H3>
 
         <InputField
           name="currentPassword"

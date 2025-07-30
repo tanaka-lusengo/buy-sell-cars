@@ -11,9 +11,6 @@ export const PSmall = (props: PSmallProps) => {
   const { className, ...restProps } = localProps;
 
   return (
-    <p
-      className={cx(pSmallRecipe(variantProps), className)}
-      {...restProps}
-    />
+    <p className={cx(pSmallRecipe(variantProps), className)} {...restProps} />
   );
 };

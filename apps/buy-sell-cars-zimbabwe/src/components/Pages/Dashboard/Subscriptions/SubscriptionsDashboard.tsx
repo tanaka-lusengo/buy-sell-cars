@@ -2,7 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ResponsiveContainer, Typography, Button } from "~bsc-shared/ui";
+import {
+  ResponsiveContainer,
+  Typography,
+  Button,
+  H2,
+  H3,
+  H4,
+  P,
+  PSmall,
+} from "~bsc-shared/ui";
 import {
   capitaliseFirstChar,
   formatDate,
@@ -121,9 +130,9 @@ export const SubscriptionsDashboard = ({
   const renderButtonState = () => {
     if (isIndividual) {
       return (
-        <Typography>
+        <P>
           <i>Individual users do not have a subscription plan.</i>
-        </Typography>
+        </P>
       );
     } else if (subscription) {
       return (
@@ -141,47 +150,43 @@ export const SubscriptionsDashboard = ({
 
     return (
       <Flex direction="column" gap="md">
-        <Typography variant="h3">Your Plan Features</Typography>
+        <H3>Your Plan Features</H3>
         <Grid gridTemplateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap="md">
           <Flex direction="column" gap="md">
-            <Typography variant="h4">What&apos;s Included:</Typography>
+            <H4>What&apos;s Included:</H4>
             <Flex direction="column" gap="sm">
               {currentPlanDetails.features.map((feature, index) => (
-                <Typography key={index}>
+                <P key={index}>
                   {generateIcon("check")} {feature}
-                </Typography>
+                </P>
               ))}
             </Flex>
           </Flex>
 
           <Flex direction="column" gap="md">
-            <Typography variant="h4">Plan Details:</Typography>
+            <H4>Plan Details:</H4>
             <Flex direction="column" gap="sm">
               <Flex justifyContent="space-between">
-                <Typography>Monthly Price:</Typography>
-                <Typography weight="bold" color="primary">
+                <P>Monthly Price:</P>
+                <P weight="bold" color="primary">
                   {formatPriceToDollars(currentPlanDetails.price)}
-                </Typography>
+                </P>
               </Flex>
               <Flex justifyContent="space-between">
-                <Typography>Base Price:</Typography>
-                <Typography>
-                  {formatPriceToDollars(currentPlanDetails.basePrice)}
-                </Typography>
+                <P>Base Price:</P>
+                <P>{formatPriceToDollars(currentPlanDetails.basePrice)}</P>
               </Flex>
               <Flex justifyContent="space-between">
-                <Typography>VAT (15%):</Typography>
-                <Typography>
+                <P>VAT (15%):</P>
+                <P>
                   {formatPriceToDollars(
                     currentPlanDetails.price - currentPlanDetails.basePrice
                   )}
-                </Typography>
+                </P>
               </Flex>
               <Flex justifyContent="space-between">
-                <Typography>Vehicle Limit:</Typography>
-                <Typography weight="bold">
-                  {vehicleLimits.max} vehicles
-                </Typography>
+                <P>Vehicle Limit:</P>
+                <P weight="bold">{vehicleLimits.max} vehicles</P>
               </Flex>
             </Flex>
           </Flex>
@@ -194,7 +199,7 @@ export const SubscriptionsDashboard = ({
     if (isIndividual) {
       return (
         <Flex direction="column" marginY="lg" gap="md">
-          <Typography variant="h3">Your Usage</Typography>
+          <H3>Your Usage</H3>
           <Box
             bg="blue.50"
             border="1px solid"
@@ -203,14 +208,14 @@ export const SubscriptionsDashboard = ({
             padding="md"
           >
             <Flex justifyContent="space-between" alignItems="center">
-              <Typography>Vehicle Listings:</Typography>
-              <Typography weight="bold">
+              <P>Vehicle Listings:</P>
+              <P weight="bold">
                 {vehicleLimits.current} / {vehicleLimits.max} vehicles
-              </Typography>
+              </P>
             </Flex>
-            <Typography variant="body2" color="grey">
+            <PSmall color="grey">
               Individual users can list up to 2 vehicles for free
-            </Typography>
+            </PSmall>
           </Box>
         </Flex>
       );
@@ -219,7 +224,7 @@ export const SubscriptionsDashboard = ({
     if (!subscription) {
       return (
         <Flex marginY="lg" direction="column" gap="md">
-          <Typography variant="h3">Get Started</Typography>
+          <H3>Get Started</H3>
           <Flex
             direction="column"
             bg="greyLight"
@@ -229,19 +234,19 @@ export const SubscriptionsDashboard = ({
             padding="md"
             gap="sm"
           >
-            <Typography>
+            <P>
               Choose a subscription plan to start listing vehicles and access
               premium features:
-            </Typography>
+            </P>
 
             <Box paddingLeft="lg">
-              <Typography>- List multiple vehicles</Typography>
+              <P>- List multiple vehicles</P>
 
-              <Typography>- Featured listings</Typography>
+              <P>- Featured listings</P>
 
-              <Typography>- Priority placement</Typography>
+              <P>- Priority placement</P>
 
-              <Typography>- Performance Analytics</Typography>
+              <P>- Performance Analytics</P>
             </Box>
           </Flex>
         </Flex>
@@ -250,7 +255,7 @@ export const SubscriptionsDashboard = ({
 
     return (
       <Flex marginY="lg" direction="column" gap="md">
-        <Typography variant="h3">Usage Statistics</Typography>
+        <H3>Usage Statistics</H3>
         <Grid gridTemplateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap="md">
           <Box
             border="1px solid"
@@ -259,13 +264,11 @@ export const SubscriptionsDashboard = ({
             padding="md"
             textAlign="center"
           >
-            <Typography variant="h2" color="green" weight="bold">
+            <H2 color="green" weight="bold">
               {vehicleLimits.current}
-            </Typography>
-            <Typography color="green">Active Listings</Typography>
-            <Typography variant="body2" color="grey">
-              of {vehicleLimits.max} allowed
-            </Typography>
+            </H2>
+            <P color="green">Active Listings</P>
+            <PSmall color="grey">of {vehicleLimits.max} allowed</PSmall>
           </Box>
 
           <Box
@@ -275,13 +278,11 @@ export const SubscriptionsDashboard = ({
             padding="md"
             textAlign="center"
           >
-            <Typography variant="h2" color="primaryDark" weight="bold">
+            <H2 color="primaryDark" weight="bold">
               {subscription?.status === "active" ? "Active" : "Inactive"}
-            </Typography>
-            <Typography color="primaryDark">Subscription Status</Typography>
-            <Typography variant="body2" color="grey">
-              Full subscription
-            </Typography>
+            </H2>
+            <P color="primaryDark">Subscription Status</P>
+            <PSmall color="grey">Full subscription</PSmall>
           </Box>
         </Grid>
       </Flex>
@@ -293,7 +294,7 @@ export const SubscriptionsDashboard = ({
 
     return (
       <Flex marginY="lg" direction="column" gap="md">
-        <Typography variant="h3">Billing Information</Typography>
+        <H3>Billing Information</H3>
         <Box
           bg="grey.50"
           border="1px solid"

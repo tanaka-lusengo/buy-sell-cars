@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PostgrestError } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
+import { ResponsiveContainer, H2, H3, P } from "~bsc-shared/ui";
 import {
   handleClientError,
   StatusCode,
@@ -204,26 +204,22 @@ export const VehicleListings = ({
   return (
     <Box padding="lg">
       <Flex direction="column" gap="sm" paddingBottom="lg">
-        <Typography variant="h2">Vehicle Listings</Typography>
+        <H2>Vehicle Listings</H2>
 
-        <Typography>
+        <P>
           Manage your customer&#39;s vehicle listings. You can edit, delete, and
           view details of each listing from here.
-        </Typography>
+        </P>
       </Flex>
 
       {status !== StatusCode.SUCCESS && error && (
         <ResponsiveContainer>
           <Flex direction="column" paddingY="md" gap="sm">
-            <Typography variant="h3" color="error">
-              Error fetching vehicles
-            </Typography>
+            <H3 color="error">Error fetching vehicles</H3>
 
-            <Typography color="error">Please try again a later time</Typography>
+            <P color="error">Please try again a later time</P>
 
-            {error === typeof "string" && (
-              <Typography color="error">{error}</Typography>
-            )}
+            {error === typeof "string" && <P color="error">{error}</P>}
           </Flex>
         </ResponsiveContainer>
       )}
@@ -231,9 +227,9 @@ export const VehicleListings = ({
       {status === StatusCode.SUCCESS && vehicles.length === 0 && (
         <ResponsiveContainer>
           <Box paddingY="lg">
-            <Typography variant="h3" align="center" color="primaryDark">
+            <H3 align="center" color="primaryDark">
               There are no vehicle listings available.
-            </Typography>
+            </H3>
           </Box>
         </ResponsiveContainer>
       )}

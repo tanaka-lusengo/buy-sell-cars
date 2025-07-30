@@ -11,7 +11,7 @@ import {
   FUEL_TYPES,
   GEARBOX_TYPES,
 } from "~bsc-shared/constants";
-import { Button, Typography, LinkButton } from "~bsc-shared/ui";
+import { Button, H3, LinkButton } from "~bsc-shared/ui";
 import { generatePrices, generateYears, toSnakeCase } from "~bsc-shared/utils";
 import { LOCATIONS } from "@/src/constants/values";
 import { vehiclePageFilterValidationSchema } from "@/src/schemas";
@@ -103,7 +103,7 @@ export const Filter = ({
         alignItems="center"
         justifyItems="center"
       >
-        <Typography variant="h3">Filters</Typography>
+        <H3>Filters</H3>
 
         <LinkButton onClick={handleReset} type="button">
           Clear fields

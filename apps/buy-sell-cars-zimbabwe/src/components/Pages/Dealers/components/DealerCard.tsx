@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Typography } from "~bsc-shared/ui";
+import { H4, P } from "~bsc-shared/ui";
 import defaultUserIcon from "@/public/images/default-user-icon.png";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 import { useFileUploadHelpers } from "@/src/hooks";
@@ -69,9 +69,7 @@ export const DealerCard = ({ dealer, isFeature }: DealerCardProps) => {
           width={{ base: "25rem", xl: "30rem" }}
         >
           <Box marginBottom="sm">
-            <Typography variant="h4" weight="bold">
-              {dealer.dealership_name}
-            </Typography>
+            <H4 weight="bold">{dealer.dealership_name}</H4>
           </Box>
 
           <HStack>
@@ -81,7 +79,7 @@ export const DealerCard = ({ dealer, isFeature }: DealerCardProps) => {
               title="email envelope"
               style={{ width: "2rem" }}
             ></i>
-            <Typography
+            <P
               title={dealer.email}
               style={{
                 whiteSpace: "nowrap",
@@ -92,7 +90,7 @@ export const DealerCard = ({ dealer, isFeature }: DealerCardProps) => {
               }}
             >
               {dealer.email}
-            </Typography>
+            </P>
           </HStack>
           <HStack>
             <i
@@ -101,7 +99,7 @@ export const DealerCard = ({ dealer, isFeature }: DealerCardProps) => {
               title="phone"
               style={{ width: "2rem" }}
             ></i>
-            <Typography>{dealer.phone}</Typography>
+            <P>{dealer.phone}</P>
           </HStack>
           <HStack>
             <i
@@ -110,7 +108,7 @@ export const DealerCard = ({ dealer, isFeature }: DealerCardProps) => {
               title="location"
               style={{ width: "2rem" }}
             ></i>
-            <Typography>{dealer.location}</Typography>
+            <P>{dealer.location}</P>
           </HStack>
         </Box>
       </Box>

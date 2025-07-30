@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { PostgrestError } from "@supabase/supabase-js";
-import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
+import { ResponsiveContainer, H2, H3, H4, P } from "~bsc-shared/ui";
 import { StatusCode } from "~bsc-shared/utils";
 import roadBoysLogisticsImg from "@/public/images/sponsors/road-boys-logistics/road-boys-logistics.jpg";
 import rossiTyresImgLg from "@/public/images/sponsors/rossi/rossi-tyres-lg.jpg";
@@ -39,7 +39,7 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
     <>
       <ResponsiveContainer>
         <Box paddingY="md">
-          <Typography variant="h2">Browse our range of Dealers</Typography>
+          <H2>Browse our range of Dealers</H2>
         </Box>
       </ResponsiveContainer>
 
@@ -47,16 +47,10 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
         {!successStatus && Boolean(error) && (
           <ResponsiveContainer backgroundColor="greyLight">
             <Flex direction="column" paddingY="md" gap="sm">
-              <Typography variant="h3" color="error">
-                Error fetching dealers
-              </Typography>
+              <H3 color="error">Error fetching dealers</H3>
 
-              <Typography color="error">
-                Please try again a later time
-              </Typography>
-              {error === typeof "string" && (
-                <Typography color="error">{error}</Typography>
-              )}
+              <P color="error">Please try again a later time</P>
+              {error === typeof "string" && <P color="error">{error}</P>}
             </Flex>
           </ResponsiveContainer>
         )}
@@ -64,9 +58,7 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
         {successStatus && dealers?.length === 0 && (
           <ResponsiveContainer backgroundColor="greyLight">
             <Box paddingY="lg">
-              <Typography variant="h4" align="center">
-                No dealers found
-              </Typography>
+              <H4 align="center">No dealers found</H4>
             </Box>
           </ResponsiveContainer>
         )}
@@ -133,9 +125,7 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
         )}
 
         <Box paddingY="lg">
-          <Typography variant="h3" align="center">
-            Our Sponsors
-          </Typography>
+          <H3 align="center">Our Sponsors</H3>
 
           <Flex wrap="wrap" width="100%" justifyContent="center" paddingY="md">
             <PaidSponsorFeature

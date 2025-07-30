@@ -1,4 +1,4 @@
-import { Typography } from "~bsc-shared/ui";
+import { H3, H4, P } from "~bsc-shared/ui";
 import { formatMileage, capitaliseFirstChar } from "~bsc-shared/utils";
 import { VehicleWithImage } from "@/src/types";
 import { Flex, HStack, Box, Grid } from "@/styled-system/jsx";
@@ -11,11 +11,9 @@ export const OverviewContent = ({ vehicle }: { vehicle: VehicleWithImage }) => {
         marginTop="md"
         width={{ base: "29rem", sm: "55rem", md: "65rem" }}
       >
-        <Typography variant="h3" weight="bold">
-          Overview
-        </Typography>
+        <H3 weight="bold">Overview</H3>
 
-        <Typography>{vehicle.description}</Typography>
+        <P>{vehicle.description}</P>
       </Flex>
     </>
   );
@@ -24,9 +22,7 @@ export const OverviewContent = ({ vehicle }: { vehicle: VehicleWithImage }) => {
 export const VehicleDetails = ({ vehicle }: { vehicle: VehicleWithImage }) => {
   return (
     <Box marginTop="md">
-      <Typography variant="h3" weight="bold">
-        Vehicle details
-      </Typography>
+      <H3 weight="bold">Vehicle details</H3>
 
       <Grid
         gridTemplateColumns={{ base: "1fr", sm: "1fr 1fr" }}
@@ -42,11 +38,9 @@ export const VehicleDetails = ({ vehicle }: { vehicle: VehicleWithImage }) => {
               aria-hidden="true"
               title="location"
             ></i>
-            <Typography variant="h4">Mileage:</Typography>
+            <H4>Mileage:</H4>
           </HStack>
-          <Typography variant="h4">
-            {formatMileage(vehicle.mileage ?? 0)} km
-          </Typography>
+          <H4>{formatMileage(vehicle.mileage ?? 0)} km</H4>
         </HStack>
 
         <HStack justifyContent="space-between">
@@ -56,11 +50,9 @@ export const VehicleDetails = ({ vehicle }: { vehicle: VehicleWithImage }) => {
               aria-hidden="true"
               title="location"
             ></i>
-            <Typography variant="h4">Condition:</Typography>
+            <H4>Condition:</H4>
           </HStack>
-          <Typography variant="h4">
-            {vehicle.condition === "new" ? "Brand new" : "Pre-owned"}
-          </Typography>
+          <H4>{vehicle.condition === "new" ? "Brand new" : "Pre-owned"}</H4>
         </HStack>
       </Grid>
 
@@ -78,11 +70,9 @@ export const VehicleDetails = ({ vehicle }: { vehicle: VehicleWithImage }) => {
               aria-hidden="true"
               title="location"
             ></i>
-            <Typography variant="h4">Fuel type:</Typography>
+            <H4>Fuel type:</H4>
           </HStack>
-          <Typography variant="h4">
-            {capitaliseFirstChar(vehicle.fuel)}
-          </Typography>
+          <H4>{capitaliseFirstChar(vehicle.fuel)}</H4>
         </HStack>
         <HStack justifyContent="space-between">
           <HStack>
@@ -91,9 +81,9 @@ export const VehicleDetails = ({ vehicle }: { vehicle: VehicleWithImage }) => {
               aria-hidden="true"
               title="location"
             ></i>
-            <Typography variant="h4">Doors: </Typography>
+            <H4>Doors: </H4>
           </HStack>
-          <Typography variant="h4">{vehicle.doors}</Typography>
+          <H4>{vehicle.doors}</H4>
         </HStack>
       </Grid>
       <Grid
@@ -110,11 +100,9 @@ export const VehicleDetails = ({ vehicle }: { vehicle: VehicleWithImage }) => {
               aria-hidden="true"
               title="location"
             ></i>
-            <Typography variant="h4">Gearbox:</Typography>
+            <H4>Gearbox:</H4>
           </HStack>
-          <Typography variant="h4">
-            {capitaliseFirstChar(vehicle.gear_box)}
-          </Typography>
+          <H4>{capitaliseFirstChar(vehicle.gear_box)}</H4>
         </HStack>
         <HStack justifyContent="space-between">
           <HStack>
@@ -123,9 +111,9 @@ export const VehicleDetails = ({ vehicle }: { vehicle: VehicleWithImage }) => {
               aria-hidden="true"
               title="location"
             ></i>
-            <Typography variant="h4">Seats: </Typography>
+            <H4>Seats: </H4>
           </HStack>
-          <Typography variant="h4">{vehicle.seats}</Typography>
+          <H4>{vehicle.seats}</H4>
         </HStack>
       </Grid>
     </Box>

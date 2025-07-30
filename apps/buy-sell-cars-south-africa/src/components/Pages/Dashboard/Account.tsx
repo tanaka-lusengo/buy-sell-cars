@@ -11,7 +11,7 @@ import {
   SelectField,
   TextareaField,
 } from "~bsc-shared/components/FormComponents";
-import { Button, Typography } from "~bsc-shared/ui";
+import { Button, H3, H4, P } from "~bsc-shared/ui";
 import { handleClientError, toastNotifySuccess } from "~bsc-shared/utils";
 import { LOCATIONS } from "@/src/constants/values";
 import { useFileUploadHelpers } from "@/src/hooks";
@@ -164,18 +164,18 @@ export const Account = ({ profile }: { profile: Profile | null }) => {
       )}
     >
       <Box marginBottom="md">
-        <Typography variant="h3">
+        <H3>
           Welcome:{" "}
           {isDealership ? profile.dealership_name : profile?.first_name || ""}
-        </Typography>
+        </H3>
 
-        <Typography variant="h4">Update your account details</Typography>
-        <Typography>
+        <H4>Update your account details</H4>
+        <P>
           <i>
             (Note: If you have <b>no profile logo</b>, your listing will not be
             visible on the platform)
           </i>
-        </Typography>
+        </P>
       </Box>
 
       <Grid gridTemplateColumns="1fr 1fr" gap="sm">

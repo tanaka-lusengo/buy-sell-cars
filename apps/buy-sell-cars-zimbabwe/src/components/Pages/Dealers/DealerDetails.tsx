@@ -1,6 +1,6 @@
 import { PostgrestError } from "@supabase/supabase-js";
 import Link from "next/link";
-import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
+import { ResponsiveContainer, H2, H3, H4, P } from "~bsc-shared/ui";
 import { StatusCode } from "~bsc-shared/utils";
 import { useFileUploadHelpers } from "@/src/hooks";
 import { Profile, VehicleWithImage } from "@/src/types";
@@ -43,7 +43,7 @@ export const DealerDetails = ({
     <>
       <ResponsiveContainer>
         <Box paddingY="md">
-          <Typography variant="h2">Browse: {sellerName}</Typography>
+          <H2>Browse: {sellerName}</H2>
         </Box>
       </ResponsiveContainer>
 
@@ -51,16 +51,10 @@ export const DealerDetails = ({
         {!successStatus && Boolean(error) && (
           <ResponsiveContainer backgroundColor="greyLight">
             <Flex direction="column" paddingY="md" gap="sm">
-              <Typography variant="h3" color="error">
-                Error fetching dealer and/or vehicles
-              </Typography>
+              <H3 color="error">Error fetching dealer and/or vehicles</H3>
 
-              <Typography color="error">
-                Please try again a later time
-              </Typography>
-              {error === typeof "string" && (
-                <Typography color="error">{error}</Typography>
-              )}
+              <P color="error">Please try again a later time</P>
+              {error === typeof "string" && <P color="error">{error}</P>}
             </Flex>
           </ResponsiveContainer>
         )}
@@ -68,16 +62,16 @@ export const DealerDetails = ({
         {successStatus && vehicles?.length === 0 && (
           <ResponsiveContainer backgroundColor="greyLight">
             <Flex direction="column" gap="sm" paddingY="lg">
-              <Typography variant="h3" align="center" color="primaryDark">
+              <H3 align="center" color="primaryDark">
                 Sorry, it looks like we don&#39;t have any listings available
                 for {owner?.dealership_name} at the moment.
-              </Typography>
-              <Typography variant="h4" align="center">
+              </H3>
+              <H4 align="center">
                 Please come back later or check out our other listings.
-              </Typography>
-              <Typography variant="h4" color="primary">
+              </H4>
+              <H4 color="primary">
                 <Link href="/dealers">View all Dealers</Link>
-              </Typography>
+              </H4>
             </Flex>
           </ResponsiveContainer>
         )}

@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Typography } from "~bsc-shared/ui";
+import { Typography, H3, P } from "~bsc-shared/ui";
 import { formatMileage, getPageName } from "~bsc-shared/utils";
 import defaultUserIcon from "@/public/images/default-user-icon.png";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
@@ -104,10 +104,9 @@ export const CarPreviewCard = ({ car, isRental }: CarPreviewCardProps) => {
               padding="sm"
             >
               <Box>
-                <Typography>{car.year}</Typography>
-                <Typography
+                <P>{car.year}</P>
+                <H3
                   weight="bold"
-                  variant="h3"
                   title={`${car.make}, ${car.model}`}
                   style={{
                     whiteSpace: "nowrap",
@@ -118,19 +117,19 @@ export const CarPreviewCard = ({ car, isRental }: CarPreviewCardProps) => {
                   }}
                 >
                   {car.make}, {car.model}
-                </Typography>
+                </H3>
                 <Flex justifyContent="space-between" gap="sm">
-                  <Typography color="grey" weight="bold">
+                  <P color="grey" weight="bold">
                     Mileage: {carMileage} km
-                  </Typography>
-                  <Typography weight="bold">{listingCategory}</Typography>
+                  </P>
+                  <P weight="bold">{listingCategory}</P>
                 </Flex>
               </Box>
 
               <Divider color="grey" />
 
               <Box>
-                <Typography variant="h3" weight="bold" color="primaryDark">
+                <H3 weight="bold" color="primaryDark">
                   {carPrice}{" "}
                   {isRental ? (
                     <Typography as="span" style={{ fontSize: "inherit" }}>
@@ -139,8 +138,8 @@ export const CarPreviewCard = ({ car, isRental }: CarPreviewCardProps) => {
                   ) : (
                     ""
                   )}
-                </Typography>
-                <Typography>{isUsedCar ? "Pre-owned" : "Brand new"}</Typography>
+                </H3>
+                <P>{isUsedCar ? "Pre-owned" : "Brand new"}</P>
 
                 <HStack>
                   <HStack mt="sm">
@@ -149,7 +148,7 @@ export const CarPreviewCard = ({ car, isRental }: CarPreviewCardProps) => {
                       aria-hidden="true"
                       title="location"
                     ></i>
-                    <Typography>{car.location}</Typography>
+                    <P>{car.location}</P>
                   </HStack>
                   <Box
                     position="relative"

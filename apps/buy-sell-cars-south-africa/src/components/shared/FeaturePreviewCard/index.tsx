@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Typography } from "~bsc-shared/ui";
+import { H3, P, Typography } from "~bsc-shared/ui";
 import { formatMileage, getPageName } from "~bsc-shared/utils";
 import defaultUserIcon from "@/public/images/default-user-icon.png";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
@@ -155,11 +155,10 @@ export const FeaturePreviewCard = ({
               width={{ base: "26rem", md: width }}
             >
               <Box>
-                <Typography>{vehicle.year}</Typography>
+                <P>{vehicle.year}</P>
 
                 <Flex direction="column" gap="sm">
-                  <Typography
-                    variant="h3"
+                  <H3
                     weight="bold"
                     title={`${vehicle.make}, ${vehicle.model}`}
                     style={{
@@ -171,13 +170,13 @@ export const FeaturePreviewCard = ({
                     }}
                   >
                     {vehicle.make}, {vehicle.model}
-                  </Typography>
+                  </H3>
 
                   <Flex justifyContent="space-between" gap="sm">
-                    <Typography color="grey" weight="bold">
+                    <P color="grey" weight="bold">
                       Mileage: {vehicleMileage} km
-                    </Typography>
-                    <Typography weight="bold">{listingCategory}</Typography>
+                    </P>
+                    <P weight="bold">{listingCategory}</P>
                   </Flex>
                 </Flex>
               </Box>
@@ -185,7 +184,7 @@ export const FeaturePreviewCard = ({
               <Divider color="grey" />
 
               <Box>
-                <Typography variant="h3" weight="bold" color="primaryDark">
+                <H3 weight="bold" color="primaryDark">
                   {vehiclePrice}{" "}
                   {isRental ? (
                     <Typography as="span" style={{ fontSize: "inherit" }}>
@@ -194,10 +193,8 @@ export const FeaturePreviewCard = ({
                   ) : (
                     ""
                   )}
-                </Typography>
-                <Typography>
-                  {isUsedvehicle ? "Pre-owned" : "Brand new"}
-                </Typography>
+                </H3>
+                <P>{isUsedvehicle ? "Pre-owned" : "Brand new"}</P>
 
                 <HStack alignItems="end" justifyContent="space-between">
                   <HStack>
@@ -206,7 +203,7 @@ export const FeaturePreviewCard = ({
                       aria-hidden="true"
                       title="location"
                     ></i>
-                    <Typography>{vehicle.location}</Typography>
+                    <P>{vehicle.location}</P>
                   </HStack>
                   <Box
                     position="relative"

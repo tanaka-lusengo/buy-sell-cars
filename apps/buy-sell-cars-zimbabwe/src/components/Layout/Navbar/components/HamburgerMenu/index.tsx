@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Typography } from "~bsc-shared/ui";
+import { Typography, H4 } from "~bsc-shared/ui";
 import { SignOut } from "@/src/components/Pages";
 import { useAuth } from "@/src/context/auth-context";
 import { Divider, VStack } from "@/styled-system/jsx";
@@ -73,22 +73,22 @@ export const HamburgerMenu = ({
             display={{ base: "flex", xxl: "none" }}
             alignItems="flex-start"
           >
-            <Typography variant="h4" weight="bold" hoverEffect="color">
+            <H4 weight="bold" hoverEffect="color">
               <Link
                 href={user ? "/dashboard/add-listing" : "/sign-up"}
                 onClick={() => setIsOpen(false)}
               >
                 Sell Your Vehicle
               </Link>
-            </Typography>
-            <Typography variant="h4" weight="bold" hoverEffect="color">
+            </H4>
+            <H4 weight="bold" hoverEffect="color">
               <Link
                 href={`${user ? "/dashboard" : "/sign-in"}`}
                 onClick={() => setIsOpen(false)}
               >
                 {user ? "Account" : "Login"}
               </Link>
-            </Typography>
+            </H4>
             {user && <SignOut showIcon={false} />}
           </VStack>
 

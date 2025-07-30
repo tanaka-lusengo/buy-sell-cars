@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { FileInputField } from "~bsc-shared/components/FormComponents";
-import { Typography } from "~bsc-shared/ui";
+import { P } from "~bsc-shared/ui";
 import { formatToReadableString, formatDate } from "~bsc-shared/utils";
 import defaultUserIcon from "@/public/images/default-user-icon.png";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
@@ -52,7 +52,7 @@ export const ProfileRow = ({
       {editingId === profileId && imagePreview && (
         <>
           <Flex direction="column" gap="sm" marginY="md" paddingX="lg">
-            <Typography weight="bold">Preview:</Typography>
+            <P weight="bold">Preview:</P>
 
             <Flex gap="xxs" flexWrap="wrap">
               <Image
@@ -89,7 +89,7 @@ export const ProfileRow = ({
         }}
       >
         <Box>
-          <Typography>{count}</Typography>
+          <P>{count}</P>
         </Box>
 
         <ActionButtons
@@ -217,10 +217,10 @@ export const ProfileRow = ({
         })}
 
         <Box>
-          <Typography>{formatDate(profile.created_at || "")}</Typography>
+          <P>{formatDate(profile.created_at || "")}</P>
         </Box>
         <Box>
-          <Typography>{formatDate(profile.updated_at || "")}</Typography>
+          <P>{formatDate(profile.updated_at || "")}</P>
         </Box>
       </Grid>
 

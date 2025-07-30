@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { type infer as ZodInfer } from "zod";
 import { SelectField } from "~bsc-shared/components";
-import { Button, Typography } from "~bsc-shared/ui";
+import { Button, H3 } from "~bsc-shared/ui";
 import { LOCATIONS } from "@/src/constants/values";
 import { Flex, Grid } from "@/styled-system/jsx";
 import { filterValidationSchema } from "../schema";
@@ -38,7 +38,7 @@ export const Filter = ({ dealers }: { dealers: string[] }) => {
         alignItems="center"
         justifyItems="center"
       >
-        <Typography variant="h3">Filters</Typography>
+        <H3>Filters</H3>
 
         <Button type="button" onClick={() => reset()}>
           Reset fields

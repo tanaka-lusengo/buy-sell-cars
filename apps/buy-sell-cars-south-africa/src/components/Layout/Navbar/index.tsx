@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Typography, ResponsiveContainer } from "~bsc-shared/ui";
+import { P, PSmall, Typography, ResponsiveContainer } from "~bsc-shared/ui";
 import { generateIcon } from "~bsc-shared/utils";
 import { useAuth } from "@/src/context/auth-context";
 import { Divider, Flex, HStack, Stack } from "@/styled-system/jsx";
@@ -16,7 +16,7 @@ type BasePath = keyof typeof navLinksMap;
 
 const AccountIcon = (
   <HStack>
-    <Typography weight="bold">Account</Typography>
+    <P weight="bold">Account</P>
     {generateIcon("user")}
   </HStack>
 );
@@ -81,9 +81,9 @@ export const Navbar = () => {
             <NavList>
               {navLinks.map((item) => (
                 <li key={item.label}>
-                  <Typography color="primary" hoverEffect="color" weight="bold">
+                  <P color="primary" hoverEffect="color" weight="bold">
                     <Link href={item.href}>{item.label}</Link>
-                  </Typography>
+                  </P>
                 </li>
               ))}
             </NavList>
@@ -120,8 +120,7 @@ export const Navbar = () => {
         <SubNavList>
           {subNavLinks.map((item) => (
             <li key={item.label}>
-              <Typography
-                variant="body2"
+              <PSmall
                 weight={
                   isMatchingPath(item.href, item.label) ? "bold" : "normal"
                 }
@@ -131,7 +130,7 @@ export const Navbar = () => {
                 hoverEffect="color"
               >
                 <Link href={item.href}>{item.label}</Link>
-              </Typography>
+              </PSmall>
             </li>
           ))}
         </SubNavList>
