@@ -569,6 +569,48 @@ export const getVehicleById = async (vehicleId: string) => {
   }
 };
 
+export const getVehiclesByIds = async (vehicleIds: string[]) => {
+  // Init supabase client
+  const supabase = await createClient();
+
+  try {
+    // fetch vehicles by ids
+    const { data, error } = await supabase
+      .from("vehicles")
+      .select("*")
+      .in("id", vehicleIds)
+      .eq("is_active", true);
+
+    if (error) {
+      return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+
+    // fetch vehicle images for all vehicles
+    const vehiclesWithImages = await Promise.all(
+      data.map(async (vehicle) => {
+        const { data: images, error: imagesError } = await supabase
+          .from("vehicle_images")
+          .select("*")
+          .eq("vehicle_id", vehicle.id);
+
+        if (imagesError) {
+          throw imagesError;
+        }
+
+        return { ...vehicle, images };
+      })
+    );
+
+    return {
+      data: vehiclesWithImages,
+      status: StatusCode.SUCCESS,
+      error: null,
+    };
+  } catch (error) {
+    return handleServerError(error, "getting vehicles by ids (server)");
+  }
+};
+
 export const getAllCarsByListingCategory = async (
   category: ListingCategoryType[number],
   isLandingPage: boolean = false
