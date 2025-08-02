@@ -4,11 +4,12 @@ import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { H3, P } from "~bsc-shared/ui";
+import { H3, P, FavouriteButton } from "~bsc-shared/ui";
 import { formatMileage, getPageName } from "~bsc-shared/utils";
 import defaultUserIcon from "@/public/images/default-user-icon.png";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 import { useAuth } from "@/src/context/auth-context";
+import { useFavourites } from "@/src/context/favourites-context";
 import { useFileUploadHelpers } from "@/src/hooks";
 import { logAdClick } from "@/src/server/actions/analytics";
 import { VehicleWithImageAndDealer } from "@/src/types";
@@ -40,6 +41,7 @@ export const CarPreviewCard = ({ car, isRental }: CarPreviewCardProps) => {
   const pathname = usePathname();
 
   const { profile } = useAuth();
+  const { isFavourite, toggleFavourite } = useFavourites();
 
   const pageName = getPageName(pathname);
 
@@ -93,6 +95,11 @@ export const CarPreviewCard = ({ car, isRental }: CarPreviewCardProps) => {
                   borderRadius: "8px",
                 }}
                 quality={70}
+              />
+              <FavouriteButton
+                vehicleId={car.id}
+                isFavourite={isFavourite(car.id)}
+                onFavouriteToggle={toggleFavourite}
               />
             </Box>
 

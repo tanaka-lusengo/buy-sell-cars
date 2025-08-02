@@ -6,4 +6,5 @@ export * from "./H5";
 export * from "./H6";
 export * from "./P";
 export * from "./PSmall";
+export * from "./Span";
 export * from "./Typography";

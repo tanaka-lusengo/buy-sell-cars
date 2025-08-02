@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import Toaster from "~bsc-shared/utils/reactHotToast/Toaster";
 import { AuthProvider } from "@/src/context/auth-context";
+import { FavouritesProvider } from "@/src/context/favourites-context";
 import { createClient } from "@/supabase/server";
 import { Navbar, Footer } from "../components/Layout";
 import "./globals.css";
@@ -48,9 +49,11 @@ export default async function RootLayout({
 
         {/* Global styles and fonts */}
         <AuthProvider initialUser={user} initialProfile={profile}>
-          <Navbar />
-          <main id="main-content">{children}</main>
-          <Footer />
+          <FavouritesProvider>
+            <Navbar />
+            <main id="main-content">{children}</main>
+            <Footer />
+          </FavouritesProvider>
         </AuthProvider>
 
         <Toaster />

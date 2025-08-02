@@ -108,6 +108,117 @@ export const addFavourite = async (profileId: string, vehicleId: string) => {
   }
 };
 
+export const removeFavourite = async (profileId: string, vehicleId: string) => {
+  if (!profileId || !vehicleId)
+    return {
+      status: StatusCode.UNAUTHORIZED,
+      error: "Missing Ids",
+    };
+
+  try {
+    const supabase = await createClient();
+
+    const { error } = await supabase
+      .from("vehicle_favourites")
+      .delete()
+      .eq("profile_id", profileId)
+      .eq("vehicle_id", vehicleId);
+
+    if (error) {
+      return { status: StatusCode.BAD_REQUEST, error };
+    }
+
+    return { status: StatusCode.SUCCESS, error: null };
+  } catch (error) {
+    return handleServerError(error, "removing favourite (server)");
+  }
+};
+
+export const getUserFavourites = async (profileId: string) => {
+  if (!profileId)
+    return {
+      data: [],
+      status: StatusCode.UNAUTHORIZED,
+      error: "Missing profile ID",
+    };
+
+  try {
+    const supabase = await createClient();
+
+    const { data, error } = await supabase
+      .from("vehicle_favourites")
+      .select("vehicle_id")
+      .eq("profile_id", profileId);
+
+    if (error) {
+      return { data: [], status: StatusCode.BAD_REQUEST, error };
+    }
+
+    return {
+      data: data?.map((favourite) => favourite.vehicle_id) ?? [],
+      status: StatusCode.SUCCESS,
+      error: null,
+    };
+  } catch (error) {
+    return handleServerError(error, "getting user favourites (server)");
+  }
+};
+
+export const migrateFavourites = async (
+  profileId: string,
+  vehicleIds: string[]
+) => {
+  if (!profileId)
+    return {
+      status: StatusCode.UNAUTHORIZED,
+      error: "Missing profile ID",
+    };
+
+  if (!vehicleIds.length) {
+    return { status: StatusCode.SUCCESS, error: null };
+  }
+
+  try {
+    const supabase = await createClient();
+
+    // Get existing favourites to avoid duplicates
+    const { data: existingFavourites } = await supabase
+      .from("vehicle_favourites")
+      .select("vehicle_id")
+      .eq("profile_id", profileId);
+
+    const existingVehicleIds =
+      existingFavourites?.map((fav) => fav.vehicle_id) ?? [];
+
+    // Filter out duplicates
+    const newVehicleIds = vehicleIds.filter(
+      (id) => !existingVehicleIds.includes(id)
+    );
+
+    if (newVehicleIds.length === 0) {
+      return { status: StatusCode.SUCCESS, error: null };
+    }
+
+    // Insert new favourites
+    const favouritesToInsert = newVehicleIds.map((vehicleId) => ({
+      profile_id: profileId,
+      vehicle_id: vehicleId,
+    }));
+
+    const { error } = await supabase
+      .from("vehicle_favourites")
+      .insert(favouritesToInsert);
+
+    if (error) {
+      return { status: StatusCode.BAD_REQUEST, error };
+    }
+
+    return { status: StatusCode.SUCCESS, error: null };
+  } catch (error) {
+    return handleServerError(error, "migrating favourites (server)");
+  }
+};
+
 export const getMyProfileViewCount = async (
   userId: string,
   timeframe: "7d" | "30d" | "90d" | "365d" | "all" = "30d"

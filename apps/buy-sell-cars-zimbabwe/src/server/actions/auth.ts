@@ -164,7 +164,7 @@ export const signIn = async (formData: SignInFormType) => {
       profile = profileData ?? null;
     }
 
-    revalidatePath("/", "layout");
+    revalidatePath("/dashboard", "page");
 
     return { data: profile, status: StatusCode.SUCCESS, error: null };
   } catch (error) {

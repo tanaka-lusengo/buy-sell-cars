@@ -1,5 +1,9 @@
+"use client";
+
 import { useMemo } from "react";
-import { H3 } from "~bsc-shared/ui";
+import { Box } from "~bsc-shared";
+import { FavouriteButton, H3 } from "~bsc-shared/ui";
+import { useFavourites } from "@/src/context/favourites-context";
 import { VehicleWithImage } from "@/src/types";
 import { formatPriceToDollars } from "@/src/utils";
 import { Flex } from "@/styled-system/jsx";
@@ -20,15 +24,25 @@ export const VehicleTitle = ({
 
   const isRental = vehicle.listing_category === "rental";
 
+  const { isFavourite, toggleFavourite } = useFavourites();
+
   return (
     <Flex
       direction={{ base: "column", md: flexDirection }}
       alignItems={{ base: "flex-start", md: "center" }}
       justifyContent={flexDirection === "row" ? "space-between" : "flex-start"}
     >
-      <H3>
-        {vehicle.make}, {vehicle.model} {vehicle.year}
-      </H3>
+      <Flex alignItems="center" gap="sm">
+        <H3>
+          {vehicle.make}, {vehicle.model} {vehicle.year}
+        </H3>
+        <FavouriteButton
+          style={{ position: "relative", top: "0", right: "0" }}
+          vehicleId={vehicle.id}
+          isFavourite={isFavourite(vehicle.id)}
+          onFavouriteToggle={toggleFavourite}
+        />
+      </Flex>
       <H3 color="primaryDark">
         {vehiclePrice}{" "}
         {isRental ? <span style={{ fontSize: "inherit" }}>/ per day</span> : ""}

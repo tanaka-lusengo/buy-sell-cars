@@ -11,7 +11,6 @@ export const H4 = (props: H4Props) => {
   const { className, ...restProps } = localProps;
 
   return (
-    // eslint-disable-next-line jsx-a11y/heading-has-content
     <h4 className={cx(h4Recipe(variantProps), className)} {...restProps} />
   );
 };

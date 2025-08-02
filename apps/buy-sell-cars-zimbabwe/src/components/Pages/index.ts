@@ -21,3 +21,4 @@ export {
   Performance,
 } from "./Dashboard";
 export { BuySellCarsFAQs } from "./FAQs/BuySellCarsFAQs";
+export { FavouritesPage } from "./Favourites";

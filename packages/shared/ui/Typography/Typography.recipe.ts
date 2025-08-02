@@ -78,37 +78,37 @@ const commonDefaults = {
 export const h1Recipe = cva({
   base: { ...baseStyles, textStyle: "h1" },
   variants: commonVariants,
-  defaultVariants: { ...commonDefaults, font: "heading" },
+  defaultVariants: { ...commonDefaults },
 });
 
 export const h2Recipe = cva({
   base: { ...baseStyles, textStyle: "h2" },
   variants: commonVariants,
-  defaultVariants: { ...commonDefaults, font: "heading" },
+  defaultVariants: { ...commonDefaults },
 });
 
 export const h3Recipe = cva({
   base: { ...baseStyles, textStyle: "h3" },
   variants: commonVariants,
-  defaultVariants: { ...commonDefaults, font: "heading" },
+  defaultVariants: { ...commonDefaults },
 });
 
 export const h4Recipe = cva({
   base: { ...baseStyles, textStyle: "h4" },
   variants: commonVariants,
-  defaultVariants: { ...commonDefaults, font: "heading" },
+  defaultVariants: { ...commonDefaults },
 });
 
 export const h5Recipe = cva({
   base: { ...baseStyles, textStyle: "h5" },
   variants: commonVariants,
-  defaultVariants: { ...commonDefaults, font: "heading" },
+  defaultVariants: { ...commonDefaults },
 });
 
 export const h6Recipe = cva({
   base: { ...baseStyles, textStyle: "h6" },
   variants: commonVariants,
-  defaultVariants: { ...commonDefaults, font: "heading" },
+  defaultVariants: { ...commonDefaults },
 });
 
 export const pRecipe = cva({
@@ -119,6 +119,12 @@ export const pRecipe = cva({
 
 export const pSmallRecipe = cva({
   base: { ...baseStyles, textStyle: "body2" },
+  variants: commonVariants,
+  defaultVariants: commonDefaults,
+});
+
+export const spanRecipe = cva({
+  base: { ...baseStyles, textStyle: "body1" },
   variants: commonVariants,
   defaultVariants: commonDefaults,
 });

@@ -35,7 +35,6 @@ export const VehicleDetails = ({
       <ResponsiveContainer>
         <Box paddingY="md">
           <Flex alignItems="center" gap="0.5rem">
-            {/* Wrapping both the icon and the text inside the Link to make them clickable */}
             <Link href={isRental ? `/${slug}/rentals/` : `/${slug}/sales/`}>
               <Flex
                 alignItems="center"
@@ -47,9 +46,7 @@ export const VehicleDetails = ({
                   transition: "border-color 0.2s ease-in-out",
                 }}
               >
-                {/* Clickable arrow icon */}
                 {generateIcon("arrow-left")}
-                {/* Clickable text */}
                 <H4>{`Back to ${isRental ? "rental" : "sales"} results`}</H4>
               </Flex>
             </Link>
