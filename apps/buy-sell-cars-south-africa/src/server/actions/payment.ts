@@ -1,5 +1,6 @@
 "use server";
 
+import { User } from "@supabase/supabase-js";
 import { addDays } from "date-fns";
 import {
   StatusCode,
@@ -286,6 +287,49 @@ export const logPartialTrialSubscription = async (
       data: null,
       status: StatusCode.INTERNAL_SERVER_ERROR,
       error: "Failed to log partial subscription",
+    };
+  }
+
+  return {
+    data: logSubscriptionData,
+    status: StatusCode.SUCCESS,
+    error: null,
+  };
+};
+
+export const logSubscription = async (
+  user: User,
+  subscriptionData: LogSubscriptionType
+) => {
+  if (!user || !subscriptionData) {
+    console.error("User and subscription data are required");
+    return {
+      data: null,
+      status: StatusCode.BAD_REQUEST,
+      error: "User and subscription data are required",
+    };
+  }
+
+  const supabase = await createClient();
+
+  const logSubscriptionData: LogSubscriptionType = {
+    ...subscriptionData,
+    profile_id: user.id,
+    email: user.email || "",
+    subscription_name: subscriptionData.subscription_name,
+    start_time: new Date().toISOString(),
+  };
+
+  const { error: insertError } = await supabase
+    .from("subscriptions")
+    .insert(logSubscriptionData);
+
+  if (insertError) {
+    console.error("Error logging subscription:", insertError.message);
+    return {
+      data: null,
+      status: StatusCode.INTERNAL_SERVER_ERROR,
+      error: "Failed to log subscription",
     };
   }
 

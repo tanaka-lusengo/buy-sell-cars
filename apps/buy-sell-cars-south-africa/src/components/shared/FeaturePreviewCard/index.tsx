@@ -1,16 +1,18 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { H3, P, Typography } from "~bsc-shared/ui";
+import { FavouriteButton, H3, P, Typography } from "~bsc-shared/ui";
 import { formatMileage, getPageName } from "~bsc-shared/utils";
 import defaultUserIcon from "@/public/images/default-user-icon.png";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
 import { useAuth } from "@/src/context/auth-context";
+import { useFavourites } from "@/src/context/favourites-context";
 import { useFileUploadHelpers } from "@/src/hooks";
 import { logAdClick } from "@/src/server/actions/analytics";
+import { fetchUserProfile } from "@/src/server/actions/auth";
 import {
   Profile,
   VehicleCategoryType,
@@ -41,6 +43,9 @@ export const FeaturePreviewCard = ({
   isFeature = false,
 }: VehiclePreviewCardProps) => {
   const supabase = createClient();
+  const [profileImageSrc, setProfileImageSrc] = useState<
+    string | StaticImageData
+  >(defaultUserIcon);
 
   const { getPublicUrl } = useFileUploadHelpers(supabase);
 
@@ -53,6 +58,43 @@ export const FeaturePreviewCard = ({
     [vehicle.mileage]
   );
 
+  useEffect(() => {
+    const loadProfileImage = async () => {
+      // If the vehicle has a dealer and the dealer has a profile logo, use it
+      if ("dealer" in vehicle && vehicle.dealer?.profile_logo_path) {
+        setProfileImageSrc(
+          getPublicUrl("profile-logos", vehicle.dealer.profile_logo_path)
+        );
+        return;
+      }
+
+      // If owner prop has profile logo, use it
+      if (owner?.profile_logo_path) {
+        setProfileImageSrc(
+          getPublicUrl("profile-logos", owner.profile_logo_path)
+        );
+        return;
+      }
+
+      // Only make API call if we don't have profile data from dealer or owner prop
+      try {
+        const ownerProfile = await fetchUserProfile(vehicle.owner_id);
+        if (ownerProfile?.profile_logo_path) {
+          setProfileImageSrc(
+            getPublicUrl("profile-logos", ownerProfile.profile_logo_path)
+          );
+        } else {
+          setProfileImageSrc(defaultUserIcon);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user profile:", error);
+        setProfileImageSrc(defaultUserIcon);
+      }
+    };
+
+    loadProfileImage();
+  }, [vehicle, owner, getPublicUrl]);
+
   const isUsedvehicle = vehicle.condition === "used";
 
   const listingCategory =
@@ -64,6 +106,7 @@ export const FeaturePreviewCard = ({
   const pathname = usePathname();
 
   const { profile } = useAuth();
+  const { isFavourite, toggleFavourite } = useFavourites();
 
   const pageName = getPageName(pathname);
 
@@ -77,22 +120,6 @@ export const FeaturePreviewCard = ({
   };
 
   const handleAdClick = async () => await logAdClick(logAdClickData);
-
-  const getProfileLogoPath = (
-    vehicle: VehicleWithImageAndDealer | VehicleWithImage,
-    owner?: Profile | null
-  ): string | StaticImageData => {
-    // If the vehicle has a dealer and the dealer has a profile logo, use it
-    if ("dealer" in vehicle && vehicle.dealer?.profile_logo_path) {
-      return getPublicUrl("profile-logos", vehicle.dealer.profile_logo_path);
-    }
-    // Otherwise, use the owner's profile logo if available
-    if (owner?.profile_logo_path) {
-      return getPublicUrl("profile-logos", owner.profile_logo_path);
-    }
-    // If neither exists, return the default user icon
-    return defaultUserIcon;
-  };
 
   return (
     <Box
@@ -144,6 +171,11 @@ export const FeaturePreviewCard = ({
                   borderRadius: "8px",
                 }}
                 quality={70}
+              />
+              <FavouriteButton
+                vehicleId={vehicle.id}
+                isFavourite={isFavourite(vehicle.id)}
+                onFavouriteToggle={toggleFavourite}
               />
             </Box>
 
@@ -215,7 +247,7 @@ export const FeaturePreviewCard = ({
                     overflow="hidden"
                   >
                     <Image
-                      src={getProfileLogoPath(vehicle, owner)}
+                      src={profileImageSrc}
                       alt={
                         "dealer" in vehicle && vehicle.dealer?.dealership_name
                           ? vehicle.dealer.dealership_name

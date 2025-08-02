@@ -611,6 +611,78 @@ export const getVehiclesByIds = async (vehicleIds: string[]) => {
   }
 };
 
+export const getVehiclesByIdsWithOwners = async (vehicleIds: string[]) => {
+  // Init supabase client
+  const supabase = await createClient();
+
+  try {
+    if (vehicleIds.length === 0) {
+      return {
+        data: [],
+        status: StatusCode.SUCCESS,
+        error: null,
+      };
+    }
+
+    // fetch vehicles by ids with owner profiles joined
+    const { data, error } = await supabase
+      .from("vehicles")
+      .select(`
+        *,
+        profiles!vehicles_owner_id_fkey(
+          id,
+          first_name,
+          last_name,
+          dealership_name,
+          profile_logo_path,
+          user_category
+        )
+      `)
+      .in("id", vehicleIds)
+      .eq("is_active", true);
+
+    if (error) {
+      return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+
+    // fetch vehicle images and format data
+    const vehiclesWithImagesAndOwners = await Promise.all(
+      data.map(async (vehicle) => {
+        const { data: images, error: imagesError } = await supabase
+          .from("vehicle_images")
+          .select("*")
+          .eq("vehicle_id", vehicle.id);
+
+        if (imagesError) {
+          throw imagesError;
+        }
+
+        // Format the vehicle with dealer info
+        return {
+          ...vehicle,
+          images,
+          dealer: {
+            id: vehicle.profiles?.id || "",
+            dealership_name: 
+              vehicle.profiles?.dealership_name || 
+              vehicle.profiles?.first_name || "",
+            profile_logo_path: vehicle.profiles?.profile_logo_path || null,
+            subscription: null, // Can be enhanced later if needed
+          },
+        };
+      })
+    );
+
+    return {
+      data: vehiclesWithImagesAndOwners,
+      status: StatusCode.SUCCESS,
+      error: null,
+    };
+  } catch (error) {
+    return handleServerError(error, "getting vehicles by ids with owners (server)");
+  }
+};
+
 export const getAllCarsByListingCategory = async (
   category: ListingCategoryType[number],
   isLandingPage: boolean = false

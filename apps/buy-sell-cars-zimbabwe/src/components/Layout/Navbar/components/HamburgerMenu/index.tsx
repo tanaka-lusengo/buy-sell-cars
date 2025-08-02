@@ -86,6 +86,7 @@ export const HamburgerMenu = ({
                 Sell Your Vehicle
               </Link>
             </H4>
+
             <Box position="relative" display="inline-block">
               <H4 weight="bold" hoverEffect="color">
                 <Link href="/favourites" onClick={() => setIsOpen(false)}>
@@ -95,6 +96,7 @@ export const HamburgerMenu = ({
                   </HStack>
                 </Link>
               </H4>
+
               {favouritesCount > 0 && (
                 <Link href="/favourites" onClick={() => setIsOpen(false)}>
                   <Box
@@ -119,6 +121,7 @@ export const HamburgerMenu = ({
                 </Link>
               )}
             </Box>
+
             <H4 weight="bold" hoverEffect="color">
               <Link
                 href={`${user ? "/dashboard" : "/sign-in"}`}

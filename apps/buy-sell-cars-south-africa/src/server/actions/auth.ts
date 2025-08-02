@@ -19,8 +19,10 @@ import {
   SubscribeFormType,
   UpdatePasswordFormType,
   Profile,
+  LogSubscriptionType,
 } from "@/src/types";
 import { createClient, createClientServiceRole } from "@/supabase/server";
+import { logSubscription } from "./payment";
 
 export const subscribe = async (formData: SubscribeFormType) => {
   try {
@@ -109,8 +111,27 @@ export const signUp = async (formData: SignUpFormType) => {
       },
     });
 
-    if (error) {
+    if (error || !user) {
       return { data: null, status: StatusCode.BAD_REQUEST, error };
+    }
+
+    // If user creation is successful, log subscription if individual
+    if (createUserData.user_category === "individual") {
+      const subscriptionData = {
+        profile_id: user.id,
+        email: user.email || "",
+        subscription_name: "Individual Plan (Free)",
+        start_time: new Date().toISOString(),
+      };
+
+      const { status, error: subscriptionError } = await logSubscription(
+        user,
+        subscriptionData as LogSubscriptionType
+      );
+
+      if (status !== StatusCode.SUCCESS) {
+        console.error("Error subscribing user:", subscriptionError);
+      }
     }
 
     revalidatePath("/", "layout");
@@ -244,6 +265,36 @@ export const fetchUserAndProfile = async () => {
   }
 
   return { user, profile };
+};
+
+export const fetchUserProfile = async (userId: string) => {
+  const supabase = await createClient();
+
+  const { data: profileData, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", userId)
+    .single();
+
+  if (error) {
+    console.error("Error fetching user profile:", error);
+    return null;
+  }
+
+  return profileData ?? null;
+};
+
+export const fetchAllProfiles = async () => {
+  const supabase = await createClient();
+
+  const { data: profiles, error } = await supabase.from("profiles").select("*");
+
+  if (error) {
+    console.error("Error fetching all profiles:", error);
+    return [];
+  }
+
+  return profiles ?? [];
 };
 
 export const resetPassword = async (email: string) => {

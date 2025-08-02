@@ -78,7 +78,7 @@ export const DashboardSidebar = ({
             <Divider display={{ base: "block", md: "none" }} />
 
             {/* Main content */}
-            <Box flex="1" overflowY="auto">
+            <Box flex="1" overflowY="auto" paddingX="md">
               {children}
             </Box>
           </Flex>

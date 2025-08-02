@@ -6,7 +6,8 @@ import { H2, H3, P, ResponsiveContainer } from "~bsc-shared/ui";
 import { FeaturePreviewCard } from "@/src/components/shared";
 import { SuspenseLoader } from "@/src/components/shared";
 import { useFavourites } from "@/src/context/favourites-context";
-import { getVehiclesByIds, getAllDealers } from "@/src/server/actions/general";
+import { fetchAllProfiles } from "@/src/server/actions/auth";
+import { getVehiclesByIds } from "@/src/server/actions/general";
 import { VehicleWithImageAndDealer } from "@/src/types";
 import { Box, VStack } from "@/styled-system/jsx";
 
@@ -27,14 +28,16 @@ export const FavouritesPage = () => {
       setIsLoadingVehicles(true);
       try {
         // Get favourite vehicles and dealers
-        const [favouriteVehiclesResponse, allDealersResponse] =
-          await Promise.all([getVehiclesByIds(favourites), getAllDealers()]);
+        const [favouriteVehiclesResponse, allProfiles] = await Promise.all([
+          getVehiclesByIds(favourites),
+          fetchAllProfiles(),
+        ]);
 
-        if (favouriteVehiclesResponse?.data && allDealersResponse?.data) {
+        if (favouriteVehiclesResponse?.data && allProfiles) {
           // Add dealer details to each vehicle
           const vehiclesWithDealers: VehicleWithImageAndDealer[] =
             favouriteVehiclesResponse.data.map((vehicle) => {
-              const dealer = allDealersResponse.data.find(
+              const dealer = allProfiles.find(
                 (dealer) => dealer.id === vehicle.owner_id
               );
 

@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { H4, Typography } from "~bsc-shared/ui";
+import { generateIcon } from "~bsc-shared";
+import { H4, Span, Typography } from "~bsc-shared/ui";
 import { SignOut } from "@/src/components/Pages";
 import { useAuth } from "@/src/context/auth-context";
-import { Divider, VStack } from "@/styled-system/jsx";
+import { useFavourites } from "@/src/context/favourites-context";
+import { Box, Divider, HStack, VStack } from "@/styled-system/jsx";
 import { navLinksMap } from "../../constants";
 import { stripTrailingSlash } from "../../utils/helpers";
 import { NavDrawer, NavList, SubNavList, Overlay } from "./index.styled";
@@ -23,7 +25,10 @@ export const HamburgerMenu = ({
 }: HanburgerMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
+  const { getFavouritesCount } = useFavourites();
   const pathname = usePathname();
+
+  const favouritesCount = getFavouritesCount();
 
   const basePaths = Object.keys(navLinksMap).sort(
     (a, b) => b.length - a.length
@@ -81,6 +86,41 @@ export const HamburgerMenu = ({
                 Sell Your Vehicle
               </Link>
             </H4>
+
+            <Box position="relative" display="inline-block">
+              <H4 weight="bold" hoverEffect="color">
+                <Link href="/favourites" onClick={() => setIsOpen(false)}>
+                  <HStack>
+                    Saved
+                    {generateIcon("heart", false)}
+                  </HStack>
+                </Link>
+              </H4>
+              {favouritesCount > 0 && (
+                <Link href="/favourites" onClick={() => setIsOpen(false)}>
+                  <Box
+                    position="absolute"
+                    top="-8px"
+                    right="-8px"
+                    bg="primary"
+                    borderRadius="50%"
+                    minWidth="20px"
+                    height="20px"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    fontSize="xs"
+                    fontWeight="bold"
+                    zIndex={1}
+                  >
+                    <Span>
+                      {favouritesCount > 99 ? "99+" : favouritesCount}
+                    </Span>
+                  </Box>
+                </Link>
+              )}
+            </Box>
+
             <H4 weight="bold" hoverEffect="color">
               <Link
                 href={`${user ? "/dashboard" : "/sign-in"}`}
