@@ -78,8 +78,6 @@ export const FavouritesProvider = ({
           const localStorageFavsToMigrate = getAllLocalStorageFavourites();
 
           if (localStorageFavsToMigrate.length > 0 && !hasMigrated) {
-            console.log("Migrating favourites:", localStorageFavsToMigrate);
-
             // Migrate localStorage favourites to database one by one
             let migrationSuccess = true;
             const successfulMigrations: string[] = [];
@@ -95,7 +93,6 @@ export const FavouritesProvider = ({
                   migrationResult.error === "Already favourited"
                 ) {
                   successfulMigrations.push(vehicleId);
-                  console.log(`Successfully migrated favourite: ${vehicleId}`);
                 } else {
                   console.error(
                     `Failed to migrate favourite ${vehicleId}:`,
@@ -110,10 +107,6 @@ export const FavouritesProvider = ({
             }
 
             if (migrationSuccess || successfulMigrations.length > 0) {
-              console.log(
-                `Migration completed. ${successfulMigrations.length}/${localStorageFavsToMigrate.length} favourites migrated successfully`
-              );
-
               // Reload database favourites after migration
               const updatedResult = await getUserFavourites(profile.id);
               if (updatedResult.status === 200 && updatedResult.data) {
@@ -149,23 +142,16 @@ export const FavouritesProvider = ({
 
   const addToFavourites = useCallback(
     async (vehicleId: string) => {
-      console.log("Adding to favourites:", {
-        vehicleId,
-        isAuthenticated,
-        profileId: profile?.id,
-      });
-
       if (isAuthenticated && profile?.id) {
         try {
           const result = await addFavourite(profile.id, vehicleId);
-          console.log("Database add result:", result);
 
           if (result.status === 200 || result.error === "Already favourited") {
             setDatabaseFavourites((prev) => {
               const updated = prev.includes(vehicleId)
                 ? prev
                 : [...prev, vehicleId];
-              console.log("Updated database favourites:", updated);
+
               return updated;
             });
           } else {
@@ -175,7 +161,6 @@ export const FavouritesProvider = ({
           console.error("Error adding favourite to database:", error);
         }
       } else {
-        console.log("Adding to localStorage");
         addLocalStorageFavourite(vehicleId);
       }
     },
@@ -237,7 +222,6 @@ export const FavouritesProvider = ({
   const clearAllFavourites = useCallback(async () => {
     if (isAuthenticated) {
       // TODO: Implement bulk delete for database favourites
-      console.log("Clearing all database favourites");
       setDatabaseFavourites([]);
     } else {
       clearAllLocalStorageFavourites();
