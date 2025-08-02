@@ -79,19 +79,28 @@ export const FavouritesProvider = ({
 
           if (localStorageFavsToMigrate.length > 0 && !hasMigrated) {
             console.log("Migrating favourites:", localStorageFavsToMigrate);
-            
+
             // Migrate localStorage favourites to database one by one
             let migrationSuccess = true;
             const successfulMigrations: string[] = [];
-            
+
             for (const vehicleId of localStorageFavsToMigrate) {
               try {
-                const migrationResult = await addFavourite(profile.id, vehicleId);
-                if (migrationResult.status === 200 || migrationResult.error === "Already favourited") {
+                const migrationResult = await addFavourite(
+                  profile.id,
+                  vehicleId
+                );
+                if (
+                  migrationResult.status === 200 ||
+                  migrationResult.error === "Already favourited"
+                ) {
                   successfulMigrations.push(vehicleId);
                   console.log(`Successfully migrated favourite: ${vehicleId}`);
                 } else {
-                  console.error(`Failed to migrate favourite ${vehicleId}:`, migrationResult.error);
+                  console.error(
+                    `Failed to migrate favourite ${vehicleId}:`,
+                    migrationResult.error
+                  );
                   migrationSuccess = false;
                 }
               } catch (error) {
@@ -101,14 +110,16 @@ export const FavouritesProvider = ({
             }
 
             if (migrationSuccess || successfulMigrations.length > 0) {
-              console.log(`Migration completed. ${successfulMigrations.length}/${localStorageFavsToMigrate.length} favourites migrated successfully`);
-              
+              console.log(
+                `Migration completed. ${successfulMigrations.length}/${localStorageFavsToMigrate.length} favourites migrated successfully`
+              );
+
               // Reload database favourites after migration
               const updatedResult = await getUserFavourites(profile.id);
               if (updatedResult.status === 200 && updatedResult.data) {
                 setDatabaseFavourites(updatedResult.data);
               }
-              
+
               // Clear localStorage after successful migration and reload
               clearAllLocalStorageFavourites();
               setHasMigrated(true);
@@ -132,20 +143,28 @@ export const FavouritesProvider = ({
     profile?.id,
     localStorageIsLoaded,
     hasMigrated,
+    clearAllLocalStorageFavourites,
+    getAllLocalStorageFavourites,
   ]);
 
   const addToFavourites = useCallback(
     async (vehicleId: string) => {
-      console.log("Adding to favourites:", { vehicleId, isAuthenticated, profileId: profile?.id });
-      
+      console.log("Adding to favourites:", {
+        vehicleId,
+        isAuthenticated,
+        profileId: profile?.id,
+      });
+
       if (isAuthenticated && profile?.id) {
         try {
           const result = await addFavourite(profile.id, vehicleId);
           console.log("Database add result:", result);
-          
+
           if (result.status === 200 || result.error === "Already favourited") {
             setDatabaseFavourites((prev) => {
-              const updated = prev.includes(vehicleId) ? prev : [...prev, vehicleId];
+              const updated = prev.includes(vehicleId)
+                ? prev
+                : [...prev, vehicleId];
               console.log("Updated database favourites:", updated);
               return updated;
             });

@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-import { Box } from "~bsc-shared";
 import { FavouriteButton, H3 } from "~bsc-shared/ui";
 import { useFavourites } from "@/src/context/favourites-context";
 import { VehicleWithImage } from "@/src/types";

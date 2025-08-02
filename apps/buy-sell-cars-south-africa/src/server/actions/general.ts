@@ -627,7 +627,8 @@ export const getVehiclesByIdsWithOwners = async (vehicleIds: string[]) => {
     // fetch vehicles by ids with owner profiles joined
     const { data, error } = await supabase
       .from("vehicles")
-      .select(`
+      .select(
+        `
         *,
         profiles!vehicles_owner_id_fkey(
           id,
@@ -637,7 +638,8 @@ export const getVehiclesByIdsWithOwners = async (vehicleIds: string[]) => {
           profile_logo_path,
           user_category
         )
-      `)
+      `
+      )
       .in("id", vehicleIds)
       .eq("is_active", true);
 
@@ -663,9 +665,10 @@ export const getVehiclesByIdsWithOwners = async (vehicleIds: string[]) => {
           images,
           dealer: {
             id: vehicle.profiles?.id || "",
-            dealership_name: 
-              vehicle.profiles?.dealership_name || 
-              vehicle.profiles?.first_name || "",
+            dealership_name:
+              vehicle.profiles?.dealership_name ||
+              vehicle.profiles?.first_name ||
+              "",
             profile_logo_path: vehicle.profiles?.profile_logo_path || null,
             subscription: null, // Can be enhanced later if needed
           },
@@ -679,7 +682,10 @@ export const getVehiclesByIdsWithOwners = async (vehicleIds: string[]) => {
       error: null,
     };
   } catch (error) {
-    return handleServerError(error, "getting vehicles by ids with owners (server)");
+    return handleServerError(
+      error,
+      "getting vehicles by ids with owners (server)"
+    );
   }
 };
 

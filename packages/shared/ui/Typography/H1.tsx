@@ -8,9 +8,11 @@ export type H1Props = RecipeVariantProps<typeof h1Recipe> &
 
 export const H1 = (props: H1Props) => {
   const [variantProps, localProps] = h1Recipe.splitVariantProps(props);
-  const { className, ...restProps } = localProps;
+  const { className, children, ...restProps } = localProps;
 
   return (
-    <h1 className={cx(h1Recipe(variantProps), className)} {...restProps} />
+    <h1 className={cx(h1Recipe(variantProps), className)} {...restProps}>
+      {children}
+    </h1>
   );
 };

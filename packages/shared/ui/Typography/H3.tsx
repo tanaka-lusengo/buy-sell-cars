@@ -8,9 +8,11 @@ export type H3Props = RecipeVariantProps<typeof h3Recipe> &
 
 export const H3 = (props: H3Props) => {
   const [variantProps, localProps] = h3Recipe.splitVariantProps(props);
-  const { className, ...restProps } = localProps;
+  const { className, children, ...restProps } = localProps;
 
   return (
-    <h3 className={cx(h3Recipe(variantProps), className)} {...restProps} />
+    <h3 className={cx(h3Recipe(variantProps), className)} {...restProps}>
+      {children}
+    </h3>
   );
 };

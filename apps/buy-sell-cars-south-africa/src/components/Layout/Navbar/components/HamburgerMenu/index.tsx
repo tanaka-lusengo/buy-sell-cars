@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { generateIcon } from "~bsc-shared";
-import { H4, Span, Typography } from "~bsc-shared/ui";
+import { H4, Span } from "~bsc-shared/ui";
 import { SignOut } from "@/src/components/Pages";
 import { useAuth } from "@/src/context/auth-context";
 import { useFavourites } from "@/src/context/favourites-context";
@@ -137,8 +137,7 @@ export const HamburgerMenu = ({
           <SubNavList>
             {subNavLinks.map((item) => (
               <li key={item.label}>
-                <Typography
-                  as="span"
+                <Span
                   style={{ fontSize: "1.6rem" }}
                   weight={
                     isMatchingPath(item.href, item.label) ? "bold" : "normal"
@@ -153,7 +152,7 @@ export const HamburgerMenu = ({
                   <Link href={item.href} onClick={() => setIsOpen(false)}>
                     {item.label}
                   </Link>
-                </Typography>
+                </Span>
               </li>
             ))}
           </SubNavList>
@@ -161,16 +160,11 @@ export const HamburgerMenu = ({
           <NavList>
             {navLinks.map((item) => (
               <li key={item.label}>
-                <Typography
-                  as="span"
-                  color="primary"
-                  hoverEffect="color"
-                  weight="bold"
-                >
+                <Span color="primary" hoverEffect="color" weight="bold">
                   <Link href={item.href} onClick={() => setIsOpen(false)}>
                     {item.label}
                   </Link>
-                </Typography>
+                </Span>
               </li>
             ))}
           </NavList>

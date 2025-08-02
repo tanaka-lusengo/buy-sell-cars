@@ -131,7 +131,14 @@ export const FavouritesProvider = ({
     };
 
     loadDatabaseFavouritesAndMigrate();
-  }, [isAuthenticated, profile?.id, localStorageIsLoaded, hasMigrated]);
+  }, [
+    isAuthenticated,
+    profile?.id,
+    localStorageIsLoaded,
+    hasMigrated,
+    clearAllLocalStorageFavourites,
+    getAllLocalStorageFavourites,
+  ]);
 
   const addToFavourites = useCallback(
     async (vehicleId: string) => {

@@ -8,9 +8,11 @@ export type H4Props = RecipeVariantProps<typeof h4Recipe> &
 
 export const H4 = (props: H4Props) => {
   const [variantProps, localProps] = h4Recipe.splitVariantProps(props);
-  const { className, ...restProps } = localProps;
+  const { className, children, ...restProps } = localProps;
 
   return (
-    <h4 className={cx(h4Recipe(variantProps), className)} {...restProps} />
+    <h4 className={cx(h4Recipe(variantProps), className)} {...restProps}>
+      {children}
+    </h4>
   );
 };
