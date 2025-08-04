@@ -23,6 +23,7 @@ import { HomeBannerSlide } from "./components/HomeBannerSlide";
 export const HeroBanner = () => {
   const { width } = useWindowSize();
   const isMobile = (width ?? 0) < breakpointsNumber.lg;
+  const isTablet = (width ?? 0) < breakpointsNumber.xxl;
 
   const [emblaRef] = useEmblaCarousel(
     {
@@ -47,12 +48,18 @@ export const HeroBanner = () => {
     })
   );
 
+  const handleObjectFit = () => {
+    if (isMobile) return "contain";
+    if (isTablet) return "scale-down";
+    return "cover";
+  };
+
   type BannerSlide = {
     backgroundImage: StaticImageData | string;
     sponsorName: string;
     href: string;
     alt: string;
-    objectFit: "cover" | "contain";
+    objectFit: "cover" | "contain" | "scale-down";
     content?: React.ReactNode;
     isHomeBanner?: boolean;
   };
@@ -72,7 +79,7 @@ export const HeroBanner = () => {
       sponsorName: SPONSOR_NAMES.SUPA_CAR_SOUNDS,
       href: EXTERNAL_URLS.SUPA_CAR_SOUNDS_URL,
       alt: "Supa Car Sounds",
-      objectFit: "cover",
+      objectFit: handleObjectFit(),
       content: null,
     },
     {
