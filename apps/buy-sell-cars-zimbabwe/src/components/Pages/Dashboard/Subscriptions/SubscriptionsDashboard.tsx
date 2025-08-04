@@ -4,13 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ResponsiveContainer,
-  Typography,
   Button,
   H2,
   H3,
   H4,
   P,
   PSmall,
+  Span,
 } from "~bsc-shared/ui";
 import {
   capitaliseFirstChar,
@@ -305,43 +305,39 @@ export const SubscriptionsDashboard = ({
           <Grid gridTemplateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap="md">
             <Flex direction="column" gap="sm">
               <Flex justifyContent="space-between">
-                <Typography>Billing Email:</Typography>
-                <Typography weight="bold">{profile.email}</Typography>
+                <P>Billing Email:</P>
+                <P weight="bold">{profile.email}</P>
               </Flex>
               <Flex justifyContent="space-between">
-                <Typography>Customer Code:</Typography>
-                <Typography>{subscription.customer_code || "N/A"}</Typography>
+                <P>Customer Code:</P>
+                <P>{subscription.customer_code || "N/A"}</P>
               </Flex>
               <Flex justifyContent="space-between">
-                <Typography>Subscription Code:</Typography>
-                <Typography>
-                  {subscription.subscription_code || "N/A"}
-                </Typography>
+                <P>Subscription Code:</P>
+                <P>{subscription.subscription_code || "N/A"}</P>
               </Flex>
             </Flex>
 
             <Flex direction="column" gap="sm">
               {!isCancelled && start_time && (
                 <Flex justifyContent="space-between">
-                  <Typography>Started On:</Typography>
-                  <Typography weight="bold">
-                    {formatDate(start_time)}
-                  </Typography>
+                  <P>Started On:</P>
+                  <P weight="bold">{formatDate(start_time)}</P>
                 </Flex>
               )}
 
               {isCancelled && cancel_time && (
                 <Flex justifyContent="space-between">
-                  <Typography>Cancelled On:</Typography>
-                  <Typography weight="bold" color="error">
+                  <P>Cancelled On:</P>
+                  <P weight="bold" color="error">
                     {formatDate(cancel_time)}
-                  </Typography>
+                  </P>
                 </Flex>
               )}
 
               <Flex justifyContent="space-between">
-                <Typography>Billing Frequency:</Typography>
-                <Typography weight="bold">Monthly</Typography>
+                <P>Billing Frequency:</P>
+                <P weight="bold">Monthly</P>
               </Flex>
             </Flex>
           </Grid>
@@ -361,7 +357,7 @@ export const SubscriptionsDashboard = ({
 
     return (
       <Box marginY="lg">
-        <Typography variant="h3">Compare Plans</Typography>
+        <H3>Compare Plans</H3>
 
         {/* Mobile view - stacked cards */}
         <Box display={{ base: "block", md: "none" }} marginTop="sm">
@@ -386,43 +382,39 @@ export const SubscriptionsDashboard = ({
               >
                 <Flex direction="column" gap="sm">
                   <Flex justifyContent="space-between" alignItems="center">
-                    <Typography weight="bold" variant="h4">
-                      {plan.name.split(" (")[0]}
-                    </Typography>
-                    <Typography weight="bold" variant="h4">
-                      {formatPriceToDollars(plan.price)}/mo
-                    </Typography>
+                    <H4 weight="bold">{plan.name.split(" (")[0]}</H4>
+                    <H4 weight="bold">{formatPriceToDollars(plan.price)}/mo</H4>
                   </Flex>
 
                   <Flex justifyContent="space-between">
-                    <Typography>Vehicle Listings:</Typography>
-                    <Typography weight="bold">{plan.limit} vehicles</Typography>
+                    <P>Vehicle Listings:</P>
+                    <P weight="bold">{plan.limit} vehicles</P>
                   </Flex>
 
                   <Flex justifyContent="space-between">
-                    <Typography>Featured Listings:</Typography>
-                    <Typography weight="bold">
+                    <P>Featured Listings:</P>
+                    <P weight="bold">
                       {plan.featured} listing{plan.featured > 1 ? "s" : ""}
-                    </Typography>
+                    </P>
                   </Flex>
 
                   <Flex justifyContent="space-between">
-                    <Typography>Logo Display:</Typography>
-                    <Typography weight="bold">✓</Typography>
+                    <P>Logo Display:</P>
+                    <P weight="bold">✓</P>
                   </Flex>
 
                   <Flex justifyContent="space-between">
-                    <Typography>Priority Placement:</Typography>
-                    <Typography weight="bold">
+                    <P>Priority Placement:</P>
+                    <P weight="bold">
                       {plan.name.includes("Starter") ? "-" : "✓"}
-                    </Typography>
+                    </P>
                   </Flex>
 
                   <Flex justifyContent="space-between">
-                    <Typography>Performance Analytics:</Typography>
-                    <Typography weight="bold">
+                    <P>Performance Analytics:</P>
+                    <P weight="bold">
                       {plan.name.includes("Starter") ? "-" : "✓"}
-                    </Typography>
+                    </P>
                   </Flex>
                 </Flex>
               </Box>
@@ -443,7 +435,7 @@ export const SubscriptionsDashboard = ({
               marginBottom="sm"
               padding="sm"
             >
-              <Typography weight="bold">Feature</Typography>
+              <P weight="bold">Feature</P>
               {plans.map((plan) => (
                 <Box
                   key={plan.name}
@@ -461,10 +453,8 @@ export const SubscriptionsDashboard = ({
                   textAlign="center"
                   borderRadius="1rem"
                 >
-                  <Typography weight="bold">
-                    {plan.name.split(" (")[0]}
-                  </Typography>
-                  <Typography>{formatPriceToDollars(plan.price)}/mo</Typography>
+                  <P weight="bold">{plan.name.split(" (")[0]}</P>
+                  <P>{formatPriceToDollars(plan.price)}/mo</P>
                 </Box>
               ))}
             </Grid>
@@ -481,11 +471,11 @@ export const SubscriptionsDashboard = ({
                 bg="greyLight"
                 padding="sm"
               >
-                <Typography weight="bold">Vehicle Listings</Typography>
+                <P weight="bold">Vehicle Listings</P>
                 {plans.map((plan) => (
-                  <Typography key={plan.name} align="center">
+                  <P key={plan.name} align="center">
                     {plan.limit} vehicles
-                  </Typography>
+                  </P>
                 ))}
               </Grid>
 
@@ -495,11 +485,11 @@ export const SubscriptionsDashboard = ({
                 borderColor="grey.200"
                 padding="sm"
               >
-                <Typography weight="bold">Featured Listings</Typography>
+                <P weight="bold">Featured Listings</P>
                 {plans.map((plan) => (
-                  <Typography key={plan.name} align="center">
+                  <P key={plan.name} align="center">
                     {plan.featured} listing{plan.featured > 1 ? "s" : ""}
-                  </Typography>
+                  </P>
                 ))}
               </Grid>
 
@@ -510,10 +500,10 @@ export const SubscriptionsDashboard = ({
                 borderColor="grey"
                 padding="sm"
               >
-                <Typography weight="bold">Logo Display</Typography>
-                <Typography align="center">✓</Typography>
-                <Typography align="center">✓</Typography>
-                <Typography align="center">✓</Typography>
+                <P weight="bold">Logo Display</P>
+                <P align="center">✓</P>
+                <P align="center">✓</P>
+                <P align="center">✓</P>
               </Grid>
 
               <Grid
@@ -522,10 +512,10 @@ export const SubscriptionsDashboard = ({
                 borderColor="grey"
                 padding="sm"
               >
-                <Typography weight="bold">Priority Placement</Typography>
-                <Typography align="center">-</Typography>
-                <Typography align="center">✓</Typography>
-                <Typography align="center">✓</Typography>
+                <P weight="bold">Priority Placement</P>
+                <P align="center">-</P>
+                <P align="center">✓</P>
+                <P align="center">✓</P>
               </Grid>
 
               <Grid
@@ -535,10 +525,10 @@ export const SubscriptionsDashboard = ({
                 borderColor="grey"
                 padding="sm"
               >
-                <Typography weight="bold">Performance Analytics</Typography>
-                <Typography align="center">-</Typography>
-                <Typography align="center">✓</Typography>
-                <Typography align="center">✓</Typography>
+                <P weight="bold">Performance Analytics</P>
+                <P align="center">-</P>
+                <P align="center">✓</P>
+                <P align="center">✓</P>
               </Grid>
             </Box>
           </Box>
@@ -551,46 +541,41 @@ export const SubscriptionsDashboard = ({
     <ResponsiveContainer>
       <Flex direction="column" padding="lg" gap="md">
         <Box>
-          <Typography variant="h2">Subscription Dashboard</Typography>
-          <Typography>
+          <H2>Subscription Dashboard</H2>
+          <P>
             Manage your subscription plans and view detailed billing
             information.
-          </Typography>
+          </P>
         </Box>
 
         {/* Current Plan Status */}
         <Flex direction="column" gap="sm" paddingY="sm">
-          <Typography variant="h4">
+          <H4>
             Current Plan:{" "}
-            <Typography
-              as="span"
-              color="primary"
-              weight="bold"
-              style={{ fontSize: "inherit" }}
-            >
+            <Span color="primary" weight="bold" style={{ fontSize: "inherit" }}>
               {subscriptionPlan}
-            </Typography>
-          </Typography>
+            </Span>
+          </H4>
 
           {subscription && !isIndividual && (
             <>
               {isCancelled ? (
-                <Typography>
+                <P>
                   Cancelled at:{" "}
                   <strong>{cancel_time ? formatDate(cancel_time) : ""}</strong>
-                </Typography>
+                </P>
               ) : (
-                <Typography>
+                <P>
                   Subscription start:{" "}
                   <strong>{start_time ? formatDate(start_time) : "TBC"}</strong>
-                </Typography>
+                </P>
               )}
-              <Typography>
+              <P>
                 Status:{" "}
                 <strong>
                   {status ? capitaliseFirstChar(status) : "Pending Start"}
                 </strong>
-              </Typography>
+              </P>
             </>
           )}
         </Flex>

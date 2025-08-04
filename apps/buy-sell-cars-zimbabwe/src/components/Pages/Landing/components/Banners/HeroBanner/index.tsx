@@ -4,20 +4,21 @@ import { useRef } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
 import useEmblaCarousel from "embla-carousel-react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { breakpointsNumber, useWindowSize } from "~bsc-shared";
 import { ResponsiveContainer } from "~bsc-shared/ui";
 import heroBackgroundImg from "@/public/images/hero.jpg";
-import refuelBannerMobileImg from "@/public/images/sponsors/refuel/refuel-all-towns.jpg";
-import refuelHeroBannerImg from "@/public/images/sponsors/refuel/refuel-hero-banner.jpg";
-import supaCarSoundsBannerImg from "@/public/images/sponsors/supa-car-sounds/supa-car-sounds.jpg";
+import refuelBannerSmallImg from "@/public/images/sponsors/refuel/refuel-all-towns.jpg";
+import refuelBannerLargeImg from "@/public/images/sponsors/refuel/refuel-hero-banner.jpg";
+import supaCarSoundsLargeImg from "@/public/images/sponsors/supa-car-sounds/supa-car-sounds-large.png";
+import supaCarSoundsSmallImg from "@/public/images/sponsors/supa-car-sounds/supa-car-sounds-small.jpg";
 import { trackPostHogEvent, useTrackOnView } from "@/src/components/Analytics";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { EXTERNAL_URLS } from "@/src/constants/urls";
 import { Box, Container, Flex } from "@/styled-system/jsx";
 import { REFUEL_WHATSAPP_URL } from "../constants";
-import { BannerSlideContentOne } from "./components/BannerSlides";
+import { HomeBannerSlide } from "./components/HomeBannerSlide";
 
 export const HeroBanner = () => {
   const { width } = useWindowSize();
@@ -46,26 +47,39 @@ export const HeroBanner = () => {
     })
   );
 
-  const bannerSlides = [
+  type BannerSlide = {
+    backgroundImage: StaticImageData | string;
+    sponsorName: string;
+    href: string;
+    alt: string;
+    objectFit: "cover" | "contain";
+    content?: React.ReactNode;
+    isHomeBanner?: boolean;
+  };
+
+  const bannerSlides: BannerSlide[] = [
     {
       backgroundImage: heroBackgroundImg,
       sponsorName: "",
       href: "/",
       alt: "Hero Image",
-      content: <BannerSlideContentOne />,
+      objectFit: "cover",
+      content: <HomeBannerSlide />,
       isHomeBanner: true,
     },
     {
-      backgroundImage: supaCarSoundsBannerImg,
+      backgroundImage: isMobile ? supaCarSoundsSmallImg : supaCarSoundsLargeImg,
       sponsorName: SPONSOR_NAMES.SUPA_CAR_SOUNDS,
       href: EXTERNAL_URLS.SUPA_CAR_SOUNDS_URL,
       alt: "Supa Car Sounds",
+      objectFit: "cover",
       content: null,
     },
     {
-      backgroundImage: isMobile ? refuelBannerMobileImg : refuelHeroBannerImg,
+      backgroundImage: isMobile ? refuelBannerSmallImg : refuelBannerLargeImg,
       sponsorName: SPONSOR_NAMES.REFUEL,
       href: REFUEL_WHATSAPP_URL,
+      objectFit: "contain",
       alt: "Refuel, now open in Gweru, Bulawayo and Victoria Falls",
       content: null,
     },
@@ -110,7 +124,7 @@ export const HeroBanner = () => {
                     quality={70}
                     style={{
                       position: "absolute",
-                      objectFit: "cover",
+                      objectFit: slide.objectFit,
                       width: "100%",
                       height: "100%",
                     }}
@@ -150,7 +164,7 @@ export const HeroBanner = () => {
                       quality={70}
                       style={{
                         position: "absolute",
-                        objectFit: "contain",
+                        objectFit: slide.objectFit,
                         width: "100%",
                         height: "100%",
                       }}

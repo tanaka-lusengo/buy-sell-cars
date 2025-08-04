@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { Typography } from "~bsc-shared/ui";
+import { H1, H2, P } from "~bsc-shared/ui";
 import { Flex, Box, HStack } from "@/styled-system/jsx";
 
-export const BannerSlideContentOne = () => {
+export const HomeBannerSlide = () => {
   const factList = [
     "Launching a new era of digital automotive trading",
     "Secure, transparent, and professional platform",
@@ -18,12 +18,12 @@ export const BannerSlideContentOne = () => {
       alignItems="flex-start"
       gap="md"
     >
-      <Typography variant="h1" font="heading" weight="bold" color="primary">
+      <H1 font="heading" weight="bold" color="primary">
         Zimbabwe&#39;s Premier Vehicle Marketplace
-      </Typography>
-      <Typography variant="h2" font="heading" weight="bold" color="white">
+      </H1>
+      <H2 font="heading" weight="bold" color="white">
         Revolutionising the way you buy and sell cars
-      </Typography>
+      </H2>
 
       <Box display={{ base: "none", md: "block" }}>
         {factList.map((fact, index) => (
@@ -36,7 +36,7 @@ export const BannerSlideContentOne = () => {
               style={{ height: "auto" }}
               unoptimized
             />
-            <Typography color="white">{fact}</Typography>
+            <P color="white">{fact}</P>
           </HStack>
         ))}
       </Box>

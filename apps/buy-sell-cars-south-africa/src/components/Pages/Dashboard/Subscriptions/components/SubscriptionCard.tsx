@@ -2,7 +2,7 @@
 
 import { JSX, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Typography, Button } from "~bsc-shared/ui";
+import { H3, P, PSmall, Span, Button } from "~bsc-shared/ui";
 import {
   handleClientError,
   logErrorMessage,
@@ -115,42 +115,37 @@ export const SubscriptionCard = ({
         style={{ transition: "transform 0.2s ease-in-out" }}
         _hover={{ transform: "scale(1.01)" }}
       >
-        <Typography align="center" variant="h3">
+        <H3 align="center">
           {planName} <br />
-          <Typography
-            as="span"
-            color="primaryDark"
-            style={{ fontSize: "inherit" }}
-          >
-            {formatPriceToRands(basePrice)} + VAT{" "}
-            <Typography as="span">/ per month</Typography>
-          </Typography>
-          <Typography align="center" variant="body2" color="grey">
+          <Span color="primaryDark" style={{ fontSize: "inherit" }}>
+            {formatPriceToRands(basePrice)} + VAT <Span>/ per month</Span>
+          </Span>
+          <PSmall align="center" color="grey">
             ({formatPriceToRands(price)} incl 15% VAT)
-          </Typography>
-        </Typography>
+          </PSmall>
+        </H3>
 
         <Flex direction="column" marginY="md" gap="md">
-          <Typography align="center">
+          <P align="center">
             <b>{description}</b>
-          </Typography>
+          </P>
         </Flex>
 
-        <Typography as="ul" style={{ paddingLeft: "3.5rem" }}>
+        <div style={{ paddingLeft: "3.5rem" }}>
           <Flex direction="column" gap="xs">
             {features.map((feature, index) => (
-              <Typography
-                as="li"
+              <P
                 key={index}
                 style={{
                   listStyleType: "disc",
+                  display: "list-item",
                 }}
               >
                 {feature}
-              </Typography>
+              </P>
             ))}
           </Flex>
-        </Typography>
+        </div>
 
         <Container marginY="md">
           <Flex direction="column" gap="md">
@@ -162,20 +157,20 @@ export const SubscriptionCard = ({
               </Box>
             )}
             {!isIndividual && (
-              <Typography align="center" variant="body2">
+              <PSmall align="center">
                 <i>
                   Note: If you are already subscribed to a plan,{" "}
                   <b>make sure to cancel</b> your existing subscription first.
                 </i>
-              </Typography>
+              </PSmall>
             )}
             {isIndividual && (
-              <Typography align="center" variant="body2">
+              <PSmall align="center">
                 <i>
                   Note: Individual users do not have access to subscription
                   plans.
                 </i>
-              </Typography>
+              </PSmall>
             )}
           </Flex>
         </Container>

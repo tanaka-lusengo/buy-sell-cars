@@ -3,13 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Typography,
-  ResponsiveContainer,
-  P,
-  PSmall,
-  Span,
-} from "~bsc-shared/ui";
+import { ResponsiveContainer, P, PSmall, Span } from "~bsc-shared/ui";
 import { generateIcon } from "~bsc-shared/utils";
 import { useAuth } from "@/src/context/auth-context";
 import { useFavourites } from "@/src/context/favourites-context";
@@ -104,11 +98,11 @@ export const Navbar = () => {
             flexDirection="row"
             gap="md"
           >
-            <Typography as="span" hoverEffect="color" weight="bold">
+            <Span hoverEffect="color" weight="bold">
               <Link href={user ? "/dashboard/add-listing" : "/sign-up"}>
                 Sell your vehicle
               </Link>
-            </Typography>
+            </Span>
 
             <Box position="relative">
               <Span hoverEffect="color" weight="bold">
@@ -143,11 +137,11 @@ export const Navbar = () => {
               )}
             </Box>
 
-            <Typography as="span" hoverEffect="color" weight="bold">
+            <Span hoverEffect="color" weight="bold">
               <Link href={`${user ? "/dashboard" : "/sign-in"}`}>
                 {user ? AccountIcon : "Login"}
               </Link>
-            </Typography>
+            </Span>
           </Stack>
 
           {/* Hamburger Menu Button */}

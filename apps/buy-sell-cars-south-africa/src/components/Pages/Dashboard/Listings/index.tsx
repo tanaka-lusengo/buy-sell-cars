@@ -5,7 +5,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PostgrestError } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { Button, ResponsiveContainer, Typography } from "~bsc-shared/ui";
+import {
+  Button,
+  H2,
+  H3,
+  H4,
+  P,
+  ResponsiveContainer,
+  Span,
+} from "~bsc-shared/ui";
 import {
   handleClientError,
   StatusCode,
@@ -225,9 +233,9 @@ export const Listings = ({
 
   return (
     <Box padding="lg">
-      <Typography variant="h2">Your Listings: {vehicles.length}</Typography>
+      <H2>Your Listings: {vehicles.length}</H2>
 
-      <Typography>
+      <P>
         Manage your vehicle listings, edit details, and update your images.{" "}
         <br /> On your current plan:{" "}
         <b>
@@ -236,26 +244,22 @@ export const Listings = ({
             : "Individual"}
         </b>
         , you can have up to <b>{maxVehicles}</b> active listings.
-      </Typography>
+      </P>
 
       <Button onClick={() => push("/dashboard/add-listing")} marginY="md">
-        <Typography as="span" weight="bold" color="white">
+        <Span weight="bold" color="white">
           + Add New Listing
-        </Typography>
+        </Span>
       </Button>
 
       {status !== StatusCode.SUCCESS && error && (
         <ResponsiveContainer>
           <Flex direction="column" paddingY="md" gap="sm">
-            <Typography variant="h3" color="error">
-              Error fetching vehicles
-            </Typography>
+            <H3 color="error">Error fetching vehicles</H3>
 
-            <Typography color="error">Please try again a later time</Typography>
+            <P color="error">Please try again a later time</P>
 
-            {error === typeof "string" && (
-              <Typography color="error">{error}</Typography>
-            )}
+            {error === typeof "string" && <P color="error">{error}</P>}
           </Flex>
         </ResponsiveContainer>
       )}
@@ -263,12 +267,12 @@ export const Listings = ({
       {status === StatusCode.SUCCESS && vehicles.length === 0 && (
         <ResponsiveContainer>
           <Flex direction="column" gap="sm" paddingY="lg">
-            <Typography variant="h3" align="center" color="primaryDark">
+            <H3 align="center" color="primaryDark">
               It looks like you don&#39;t have any listings.
-            </Typography>
-            <Typography variant="h4" align="center">
+            </H3>
+            <H4 align="center">
               No problem, just click the button above to add your first listing.
-            </Typography>
+            </H4>
           </Flex>
         </ResponsiveContainer>
       )}

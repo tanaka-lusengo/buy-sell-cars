@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FavouriteButton, H3, P, Typography } from "~bsc-shared/ui";
+import { FavouriteButton, H3, P, Span } from "~bsc-shared/ui";
 import { formatMileage, getPageName } from "~bsc-shared/utils";
 import defaultUserIcon from "@/public/images/default-user-icon.png";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
@@ -219,9 +219,7 @@ export const FeaturePreviewCard = ({
                 <H3 weight="bold" color="primaryDark">
                   {vehiclePrice}{" "}
                   {isRental ? (
-                    <Typography as="span" style={{ fontSize: "inherit" }}>
-                      / per day
-                    </Typography>
+                    <Span style={{ fontSize: "inherit" }}>/ per day</Span>
                   ) : (
                     ""
                   )}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ResponsiveContainer, Typography, Button } from "~bsc-shared/ui";
+import { ResponsiveContainer, H3, P, Button } from "~bsc-shared/ui";
 import { type Profile } from "@/src/types";
 import { Flex } from "@/styled-system/jsx";
 import { InfoFooter } from "../components";
@@ -20,16 +20,16 @@ export const Performance = ({ profile }: { profile: Profile }) => {
       <Flex paddingY="lg" direction="column" gap="md">
         {isIndividual ? (
           <Flex direction="column" gap="md" padding="md">
-            <Typography variant="h3">
+            <H3>
               Sorry, you don&#39;t have access to Performance metrics at this
               time.
-            </Typography>
+            </H3>
 
-            <Typography>
+            <P>
               To gain access to Performance metrics you must subscribe to either
               our <b>&#39;Growth Accelerator&#39;</b> or{" "}
               <b>&#39;Dealership Dominator&#39;</b> Packages.
-            </Typography>
+            </P>
 
             <Flex justify="center">
               <Button onClick={() => push("/dashboard/subscriptions/view")}>
