@@ -50,9 +50,7 @@ export const FAQAccordion = ({ title, content }: FAQAccordionProps) => {
       shadow="md"
     >
       <button onClick={toggleAccordion} className={buttonStyles}>
-        <Span weight="bold">
-          {title}
-        </Span>
+        <Span weight="bold">{title}</Span>
         <Box
           transform={isOpen ? "rotate(180deg)" : "rotate(0deg)"}
           transition="transform 0.3s ease"

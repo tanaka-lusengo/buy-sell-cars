@@ -5,11 +5,7 @@ import { H4 } from "../../ui";
 
 export const SuspenseLoader = ({ label }: { label?: string }) => (
   <Flex justifyContent="center" alignItems="center" height="100vh" gap="md">
-    {label && (
-      <H4 align="center">
-        {label}
-      </H4>
-    )}
+    {label && <H4 align="center">{label}</H4>}
     <BeatLoader
       size={15}
       speedMultiplier={1.5}
