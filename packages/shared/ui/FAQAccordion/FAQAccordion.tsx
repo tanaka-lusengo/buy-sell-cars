@@ -4,7 +4,7 @@ import { useState } from "react";
 import { css } from "../../styled-system/css";
 import { Flex, Box } from "../../styled-system/jsx";
 import { generateIcon } from "../../utils";
-import { Typography } from "../Typography/Typography";
+import { Span } from "../Typography";
 
 type FAQAccordionProps = {
   title: string;
@@ -50,9 +50,9 @@ export const FAQAccordion = ({ title, content }: FAQAccordionProps) => {
       shadow="md"
     >
       <button onClick={toggleAccordion} className={buttonStyles}>
-        <Typography as="span" weight="bold">
+        <Span weight="bold">
           {title}
-        </Typography>
+        </Span>
         <Box
           transform={isOpen ? "rotate(180deg)" : "rotate(0deg)"}
           transition="transform 0.3s ease"

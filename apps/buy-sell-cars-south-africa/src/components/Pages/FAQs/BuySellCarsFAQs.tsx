@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { ResponsiveContainer, Typography, FAQAccordion } from "~bsc-shared/ui";
+import {
+  ResponsiveContainer,
+  H3,
+  H4,
+  P,
+  PSmall,
+  FAQAccordion,
+} from "~bsc-shared/ui";
 import { SOCIAL_MEDIA_URLS } from "@/src/constants/urls";
 import { HStack, Flex } from "@/styled-system/jsx";
 import { FaqData } from "./FaqData";
@@ -10,9 +17,9 @@ export const BuySellCarsFAQs = () => {
   return (
     <ResponsiveContainer>
       <Flex direction="column" gap="sm" marginY="lg">
-        <Typography align="center" variant="h3" color="secondary">
+        <H3 align="center" color="secondary">
           Frequently asked questions
-        </Typography>
+        </H3>
 
         {/* FAQ 1 */}
         <FAQAccordion
@@ -22,12 +29,12 @@ export const BuySellCarsFAQs = () => {
       </Flex>
 
       <Flex direction="column" gap="sm" paddingBottom="xxl" alignItems="center">
-        <Typography align="center" variant="h4">
+        <H4 align="center">
           Can&lsquo;t find the answer you&lsquo;re looking for?
-        </Typography>
-        <Typography align="center">
+        </H4>
+        <P align="center">
           For account help, general enquiries, please feel free to reach out
-        </Typography>
+        </P>
 
         <Link
           href={SOCIAL_MEDIA_URLS.phone_tel}
@@ -46,7 +53,7 @@ export const BuySellCarsFAQs = () => {
               title="phone"
               style={{ width: "2rem" }}
             ></i>
-            <Typography variant="body2">{SOCIAL_MEDIA_URLS.phone}</Typography>
+            <PSmall>{SOCIAL_MEDIA_URLS.phone}</PSmall>
           </HStack>
         </Link>
 
@@ -67,9 +74,7 @@ export const BuySellCarsFAQs = () => {
               title="email"
               style={{ width: "2rem" }}
             ></i>
-            <Typography variant="body2">
-              {SOCIAL_MEDIA_URLS.email.replace("mailto:", "")}
-            </Typography>
+            <PSmall>{SOCIAL_MEDIA_URLS.email.replace("mailto:", "")}</PSmall>
           </HStack>
         </Link>
       </Flex>

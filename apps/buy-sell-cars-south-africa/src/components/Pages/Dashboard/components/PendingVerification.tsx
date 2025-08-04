@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Typography, ResponsiveContainer } from "~bsc-shared/ui";
+import { ResponsiveContainer, H2, P, Span } from "~bsc-shared/ui";
 import { SOCIAL_MEDIA_URLS } from "@/src/constants/urls";
 import { Box, Flex } from "@/styled-system/jsx";
 
@@ -14,39 +14,29 @@ export const PendingVerification = () => {
         padding="xl"
         gap="md"
       >
-        <Typography color="primary" variant="h2" align="center">
+        <H2 color="primary" align="center">
           Your Account is being verified
-        </Typography>
+        </H2>
 
-        <Typography align="center">
+        <P align="center">
           We are currently reviewing your account details. This may take up to
           24hrs. Please check back once notified via email to list your
           vehicles. In the meantime, you can{" "}
-          <Typography
-            as="span"
-            color="primary"
-            hoverEffect="color"
-            weight="bold"
-          >
+          <Span color="primary" hoverEffect="color" weight="bold">
             <Link href="/dashboard/security">update your password</Link>
-          </Typography>{" "}
+          </Span>{" "}
           or check out{" "}
-          <Typography
-            as="span"
-            color="primary"
-            hoverEffect="color"
-            weight="bold"
-          >
+          <Span color="primary" hoverEffect="color" weight="bold">
             <Link href="/dashboard/subscriptions/">subscription plans.</Link>
-          </Typography>
-        </Typography>
+          </Span>
+        </P>
 
         <Box marginTop="xl">
-          <Typography align="center">
+          <P align="center">
             If you have any questions, please contact our support team at:
-          </Typography>
+          </P>
 
-          <Typography
+          <P
             color="primaryDark"
             weight="bold"
             hoverEffect="color"
@@ -60,7 +50,7 @@ export const PendingVerification = () => {
             >
               {SOCIAL_MEDIA_URLS.email.replace("mailto:", "")}
             </Link>
-          </Typography>
+          </P>
         </Box>
       </Flex>
     </ResponsiveContainer>
