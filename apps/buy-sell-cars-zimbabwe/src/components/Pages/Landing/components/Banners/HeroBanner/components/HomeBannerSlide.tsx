@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Typography } from "~bsc-shared/ui";
 import { Flex, Box, HStack } from "@/styled-system/jsx";
 
-export const BannerSlideContentOne = () => {
+export const HomeBannerSlide = () => {
   const factList = [
     "Launching a new era of digital automotive trading",
     "Secure, transparent, and professional platform",

@@ -17,6 +17,9 @@ import {
   getProfileSubscriptionDetails,
 } from "../server/actions/general";
 
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
+
 export const Home = async () => {
   const [
     allFeatureCarsWithDealersResponse,
