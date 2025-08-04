@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { InputField } from "~bsc-shared/components";
 import { Typography, Button } from "~bsc-shared/ui";
@@ -19,8 +18,6 @@ import { HStack, Divider, Flex } from "@/styled-system/jsx";
 import { Form } from "./index.styled";
 
 export const SignInForm = () => {
-  const { push, refresh } = useRouter();
-
   const {
     register,
     handleSubmit,
@@ -43,8 +40,7 @@ export const SignInForm = () => {
 
       toastNotifySuccess("Sign in Success! ");
 
-      refresh();
-      push("/dashboard");
+      window.location.href = "/dashboard";
     } catch (error) {
       handleClientError("signing up", error);
     }

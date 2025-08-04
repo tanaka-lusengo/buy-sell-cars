@@ -1,8 +1,6 @@
 import { StatusCode } from "~bsc-shared/utils";
 import {
   HeroBanner,
-  // FeatureBannerOne,
-  // FeatureBannerTwo,
   FeaturedCarSection,
   BrowseCarsSection,
   InfoSection,
@@ -71,10 +69,8 @@ export const Home = async () => {
       <BrowseCarsSection
         allCarsForSaleWithDealerDetails={allCarsForSaleWithDealerDetails}
       />
-      {/* <FeatureBannerOne /> */}
       <InfoSection />
       <FeaturedDealersSection featuredDealers={allDealersResponse} />
-      {/* <FeatureBannerTwo /> */}
       <SocialMediaSection />
       <SubscribeModal />
     </>

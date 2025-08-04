@@ -108,6 +108,62 @@ export const addFavourite = async (profileId: string, vehicleId: string) => {
   }
 };
 
+export const removeFavourite = async (profileId: string, vehicleId: string) => {
+  if (!profileId || !vehicleId)
+    return {
+      status: StatusCode.UNAUTHORIZED,
+      error: "Missing Ids",
+    };
+
+  try {
+    const supabase = await createClient();
+
+    const { error } = await supabase
+      .from("vehicle_favourites")
+      .delete()
+      .eq("profile_id", profileId)
+      .eq("vehicle_id", vehicleId);
+
+    if (error) {
+      return { status: StatusCode.BAD_REQUEST, error };
+    }
+
+    return { status: StatusCode.SUCCESS, error: null };
+  } catch (error) {
+    return handleServerError(error, "removing favourite (server)");
+  }
+};
+
+export const getUserFavourites = async (profileId: string) => {
+  if (!profileId)
+    return {
+      data: [],
+      status: StatusCode.UNAUTHORIZED,
+      error: "Missing profile ID",
+    };
+
+  try {
+    const supabase = await createClient();
+
+    const { data, error } = await supabase
+      .from("vehicle_favourites")
+      .select("vehicle_id")
+      .eq("profile_id", profileId);
+
+    if (error) {
+      return { data: [], status: StatusCode.BAD_REQUEST, error };
+    }
+
+    return {
+      data: data?.map((favourite) => favourite.vehicle_id) ?? [],
+      status: StatusCode.SUCCESS,
+      error: null,
+    };
+  } catch (error) {
+    return handleServerError(error, "getting user favourites (server)");
+  }
+};
+
 export const getMyProfileViewCount = async (
   userId: string,
   timeframe: "7d" | "30d" | "90d" | "365d" | "all" = "30d"

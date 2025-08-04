@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Typography } from "~bsc-shared/ui";
+import { generateIcon } from "~bsc-shared";
+import { H4, Span } from "~bsc-shared/ui";
 import { SignOut } from "@/src/components/Pages";
 import { useAuth } from "@/src/context/auth-context";
-import { Divider, VStack } from "@/styled-system/jsx";
+import { useFavourites } from "@/src/context/favourites-context";
+import { Box, Divider, HStack, VStack } from "@/styled-system/jsx";
 import { navLinksMap } from "../../constants";
 import { stripTrailingSlash } from "../../utils/helpers";
 import { NavDrawer, NavList, SubNavList, Overlay } from "./index.styled";
@@ -23,7 +25,10 @@ export const HamburgerMenu = ({
 }: HanburgerMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
+  const { getFavouritesCount } = useFavourites();
   const pathname = usePathname();
+
+  const favouritesCount = getFavouritesCount();
 
   const basePaths = Object.keys(navLinksMap).sort(
     (a, b) => b.length - a.length
@@ -73,22 +78,57 @@ export const HamburgerMenu = ({
             display={{ base: "flex", xxl: "none" }}
             alignItems="flex-start"
           >
-            <Typography variant="h4" weight="bold" hoverEffect="color">
+            <H4 weight="bold" hoverEffect="color">
               <Link
                 href={user ? "/dashboard/add-listing" : "/sign-up"}
                 onClick={() => setIsOpen(false)}
               >
                 Sell Your Vehicle
               </Link>
-            </Typography>
-            <Typography variant="h4" weight="bold" hoverEffect="color">
+            </H4>
+
+            <Box position="relative" display="inline-block">
+              <H4 weight="bold" hoverEffect="color">
+                <Link href="/favourites" onClick={() => setIsOpen(false)}>
+                  <HStack>
+                    Saved
+                    {generateIcon("heart", false)}
+                  </HStack>
+                </Link>
+              </H4>
+              {favouritesCount > 0 && (
+                <Link href="/favourites" onClick={() => setIsOpen(false)}>
+                  <Box
+                    position="absolute"
+                    top="-8px"
+                    right="-8px"
+                    bg="primary"
+                    borderRadius="50%"
+                    minWidth="20px"
+                    height="20px"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    fontSize="xs"
+                    fontWeight="bold"
+                    zIndex={1}
+                  >
+                    <Span>
+                      {favouritesCount > 99 ? "99+" : favouritesCount}
+                    </Span>
+                  </Box>
+                </Link>
+              )}
+            </Box>
+
+            <H4 weight="bold" hoverEffect="color">
               <Link
                 href={`${user ? "/dashboard" : "/sign-in"}`}
                 onClick={() => setIsOpen(false)}
               >
                 {user ? "Account" : "Login"}
               </Link>
-            </Typography>
+            </H4>
             {user && <SignOut showIcon={false} />}
           </VStack>
 
@@ -97,8 +137,7 @@ export const HamburgerMenu = ({
           <SubNavList>
             {subNavLinks.map((item) => (
               <li key={item.label}>
-                <Typography
-                  as="span"
+                <Span
                   style={{ fontSize: "1.6rem" }}
                   weight={
                     isMatchingPath(item.href, item.label) ? "bold" : "normal"
@@ -113,7 +152,7 @@ export const HamburgerMenu = ({
                   <Link href={item.href} onClick={() => setIsOpen(false)}>
                     {item.label}
                   </Link>
-                </Typography>
+                </Span>
               </li>
             ))}
           </SubNavList>
@@ -121,16 +160,11 @@ export const HamburgerMenu = ({
           <NavList>
             {navLinks.map((item) => (
               <li key={item.label}>
-                <Typography
-                  as="span"
-                  color="primary"
-                  hoverEffect="color"
-                  weight="bold"
-                >
+                <Span color="primary" hoverEffect="color" weight="bold">
                   <Link href={item.href} onClick={() => setIsOpen(false)}>
                     {item.label}
                   </Link>
-                </Typography>
+                </Span>
               </li>
             ))}
           </NavList>

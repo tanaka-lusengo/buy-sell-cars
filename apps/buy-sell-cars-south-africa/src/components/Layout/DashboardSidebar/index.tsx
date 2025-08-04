@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
+import { ResponsiveContainer, H4, P } from "~bsc-shared/ui";
 import { SignOut } from "@/src/components/Pages";
 import { Flex, Box, Divider } from "@/styled-system/jsx";
 import { HamburgerMenu, NavLinksDashboard } from "./components";
@@ -19,9 +19,7 @@ export const DashboardSidebar = ({
     <>
       {/* Container */}
       <Box paddingY="xs" paddingX="md" backgroundColor="greyLight">
-        <Typography variant="h4" align="center">
-          Account Dashboard
-        </Typography>
+        <H4 align="center">Account Dashboard</H4>
       </Box>
       <Flex
         height="100%"
@@ -73,14 +71,14 @@ export const DashboardSidebar = ({
               marginY="sm"
               borderRadius="1.2rem"
             >
-              <Typography weight="bold">Settings</Typography>
+              <P weight="bold">Settings</P>
               <HamburgerMenu pathname={pathname} />
             </Box>
 
             <Divider display={{ base: "block", md: "none" }} />
 
             {/* Main content */}
-            <Box flex="1" overflowY="auto">
+            <Box flex="1" overflowY="auto" paddingX="md">
               {children}
             </Box>
           </Flex>

@@ -19,7 +19,7 @@ import {
   LISTING_TYPES,
   VEHICLE_CATEGORIES,
 } from "~bsc-shared/constants";
-import { Button, Typography } from "~bsc-shared/ui";
+import { Button, Typography, H2, H3, H4, H5 } from "~bsc-shared/ui";
 import {
   handleClientError,
   toastNotifySuccess,
@@ -247,7 +247,7 @@ export const AddListing = ({ profile }: { profile: Profile }) => {
         async (formData: AddVehicleFormType) => await uploadListing(formData)
       )}
     >
-      <Typography variant="h2">List your vehicle details</Typography>
+      <H2>List your vehicle details</H2>
 
       {restrictAccess ? (
         <Flex
@@ -257,12 +257,12 @@ export const AddListing = ({ profile }: { profile: Profile }) => {
           marginY="md"
           marginX="auto"
         >
-          <Typography variant="h3" color="error" align="center">
+          <H3 color="error" align="center">
             <b>Note:</b> You must have a{" "}
             <b>profile logo, address and description</b> to list your vehicle.
-          </Typography>
+          </H3>
 
-          <Typography align="center" variant="h4">
+          <H4 align="center">
             Please update your profile in the{" "}
             <Typography
               as="span"
@@ -279,11 +279,11 @@ export const AddListing = ({ profile }: { profile: Profile }) => {
               </Link>
             </Typography>{" "}
             section.
-          </Typography>
+          </H4>
         </Flex>
       ) : (
         <>
-          <Typography variant="h5">Select your type of listing:</Typography>
+          <H5>Select your type of listing:</H5>
 
           <Grid
             gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
@@ -528,7 +528,7 @@ export const AddListing = ({ profile }: { profile: Profile }) => {
             <>
               <Divider marginY="sm" color="primary" />
 
-              <Typography variant="h5">Image preview:</Typography>
+              <H5>Image preview:</H5>
 
               <Flex gap="xxs" flexWrap="wrap" justifyContent="center">
                 {imagesPreview.map((src, index) => (

@@ -1,4 +1,4 @@
-import { Typography } from "~bsc-shared/ui";
+import { Typography, H4, PSmall, P } from "~bsc-shared/ui";
 import { css } from "@/styled-system/css";
 
 export const FaqData = {
@@ -6,9 +6,9 @@ export const FaqData = {
     title: "Payment, Refund & Cancellation Policy",
     content: (
       <>
-        <Typography variant="h4" weight="bold">
+        <H4 weight="bold">
           1. Subscription & Billing Terms (Dealership Packages Only)
-        </Typography>
+        </H4>
         <ul className={css({ paddingLeft: "1.5rem" })}>
           <Typography
             as="li"
@@ -41,15 +41,13 @@ export const FaqData = {
             your selected payment method on a recurring monthly basis.
           </Typography>
         </ul>
-        <Typography variant="body2">
+        <PSmall>
           Note: Private individuals listing a single vehicle may do so for free.
           This policy applies exclusively to dealerships and businesses using
           our paid listing packages.
-        </Typography>
+        </PSmall>
 
-        <Typography variant="h4" weight="bold">
-          2. Cancellation Policy
-        </Typography>
+        <H4 weight="bold">2. Cancellation Policy</H4>
         <ul className={css({ paddingLeft: "1.5rem" })}>
           <Typography
             as="li"
@@ -92,13 +90,11 @@ export const FaqData = {
           </Typography>
         </ul>
 
-        <Typography variant="h4" weight="bold">
-          3. Strict No-Refund Policy
-        </Typography>
-        <Typography>
+        <H4 weight="bold">3. Strict No-Refund Policy</H4>
+        <P>
           Due to the nature of digital advertising services, all payments are
           final and non-refundable, including but not limited to:
-        </Typography>
+        </P>
         <ul className={css({ paddingLeft: "1.5rem" })}>
           <Typography
             as="li"
@@ -147,9 +143,7 @@ export const FaqData = {
           </Typography>
         </ul>
 
-        <Typography variant="h4" weight="bold">
-          4. Subscription Changes
-        </Typography>
+        <H4 weight="bold">4. Subscription Changes</H4>
         <ul className={css({ paddingLeft: "1.5rem" })}>
           <Typography
             as="li"
@@ -196,9 +190,7 @@ export const FaqData = {
           </Typography>
         </ul>
 
-        <Typography variant="h4" weight="bold">
-          5. Failed Payments & Account Suspension
-        </Typography>
+        <H4 weight="bold">5. Failed Payments & Account Suspension</H4>
         <ul className={css({ paddingLeft: "1.5rem" })}>
           <Typography
             as="li"
@@ -229,15 +221,13 @@ export const FaqData = {
           </Typography>
         </ul>
 
-        <Typography variant="h4" weight="bold">
-          6. Billing Queries
-        </Typography>
+        <H4 weight="bold">6. Billing Queries</H4>
 
-        <Typography>
+        <P>
           All billing-related queries must be submitted within 3 business days
           of the transaction. After this period, we may not be able to
           investigate or reverse charges.
-        </Typography>
+        </P>
       </>
     ),
   },

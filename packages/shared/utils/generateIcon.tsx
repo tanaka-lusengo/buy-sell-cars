@@ -1,3 +1,7 @@
-export const generateIcon = (type: string) => (
-  <i className={`fa-solid fa-${type} `} aria-hidden="true" title={type}></i>
+export const generateIcon = (type: string, isSolid: boolean = true) => (
+  <i
+    className={`fa-${isSolid ? "solid" : "regular"} fa-${type} `}
+    aria-hidden="true"
+    title={type}
+  ></i>
 );

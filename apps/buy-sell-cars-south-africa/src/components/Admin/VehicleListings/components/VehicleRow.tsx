@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { FileInputField } from "~bsc-shared/components/FormComponents";
-import { Typography } from "~bsc-shared/ui";
+import { P } from "~bsc-shared/ui";
 import { formatMileage, formatToReadableString } from "~bsc-shared/utils";
 import { formatDate } from "~bsc-shared/utils";
 import {
@@ -50,7 +50,7 @@ export const VehicleRow = ({
       {editingId === vehicleId && imagesPreview.length > 0 && (
         <>
           <Flex direction="column" gap="sm" marginY="md" paddingX="lg">
-            <Typography weight="bold">Preview:</Typography>
+            <P weight="bold">Preview:</P>
 
             <Flex gap="xxs" flexWrap="wrap">
               {imagesPreview.map((src, index) => (
@@ -139,9 +139,9 @@ export const VehicleRow = ({
                   quality={70}
                 />
                 {vehicle.images.length > 1 && (
-                  <Typography as="span" weight="bold">
+                  <span style={{ fontWeight: "bold" }}>
                     Total: {vehicle.images.length}
-                  </Typography>
+                  </span>
                 )}
               </Flex>
             )}
@@ -223,10 +223,10 @@ export const VehicleRow = ({
         })}
 
         <Box>
-          <Typography>{formatDate(vehicle.created_at || "")}</Typography>
+          <P>{formatDate(vehicle.created_at || "")}</P>
         </Box>
         <Box>
-          <Typography>{formatDate(vehicle.updated_at || "")}</Typography>
+          <P>{formatDate(vehicle.updated_at || "")}</P>
         </Box>
       </Grid>
 

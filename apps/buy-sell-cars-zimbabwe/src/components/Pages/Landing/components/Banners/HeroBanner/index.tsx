@@ -11,8 +11,10 @@ import { ResponsiveContainer } from "~bsc-shared/ui";
 import heroBackgroundImg from "@/public/images/hero.jpg";
 import refuelBannerMobileImg from "@/public/images/sponsors/refuel/refuel-all-towns.jpg";
 import refuelHeroBannerImg from "@/public/images/sponsors/refuel/refuel-hero-banner.jpg";
+import supaCarSoundsBannerImg from "@/public/images/sponsors/supa-car-sounds/supa-car-sounds.jpg";
 import { trackPostHogEvent, useTrackOnView } from "@/src/components/Analytics";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
+import { EXTERNAL_URLS } from "@/src/constants/urls";
 import { Box, Container, Flex } from "@/styled-system/jsx";
 import { REFUEL_WHATSAPP_URL } from "../constants";
 import { BannerSlideContentOne } from "./components/BannerSlides";
@@ -47,12 +49,23 @@ export const HeroBanner = () => {
   const bannerSlides = [
     {
       backgroundImage: heroBackgroundImg,
+      sponsorName: "",
+      href: "/",
       alt: "Hero Image",
       content: <BannerSlideContentOne />,
       isHomeBanner: true,
     },
     {
+      backgroundImage: supaCarSoundsBannerImg,
+      sponsorName: SPONSOR_NAMES.SUPA_CAR_SOUNDS,
+      href: EXTERNAL_URLS.SUPA_CAR_SOUNDS_URL,
+      alt: "Supa Car Sounds",
+      content: null,
+    },
+    {
       backgroundImage: isMobile ? refuelBannerMobileImg : refuelHeroBannerImg,
+      sponsorName: SPONSOR_NAMES.REFUEL,
+      href: REFUEL_WHATSAPP_URL,
       alt: "Refuel, now open in Gweru, Bulawayo and Victoria Falls",
       content: null,
     },
@@ -104,14 +117,14 @@ export const HeroBanner = () => {
                   />
                 ) : (
                   <Link
-                    href={REFUEL_WHATSAPP_URL}
+                    href={slide.href}
                     onClick={() =>
                       trackPostHogEvent({
                         event: "sponsor_ad_click",
                         properties: {
-                          sponsor: SPONSOR_NAMES.REFUEL,
+                          sponsor: slide.sponsorName,
                           action: "click",
-                          url: REFUEL_WHATSAPP_URL,
+                          url: slide.href,
                           placement: "landing_page_banner_top",
                         },
                       })

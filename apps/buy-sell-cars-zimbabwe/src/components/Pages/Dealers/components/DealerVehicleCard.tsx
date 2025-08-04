@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Typography } from "~bsc-shared/ui";
+import { Typography, H3, P } from "~bsc-shared/ui";
 import { formatMileage, getPageName } from "~bsc-shared/utils";
 import defaultUserIcon from "@/public/images/default-user-icon.png";
 import { DEALER_LOGOS_TO_CONTAIN } from "@/src/constants/values";
@@ -118,10 +118,9 @@ export const DealerVehicleCard = ({
             width={{ base: "26rem", md: "28rem" }}
           >
             <Box>
-              <Typography>{vehicle.year}</Typography>
-              <Typography
+              <P>{vehicle.year}</P>
+              <H3
                 weight="bold"
-                variant="h3"
                 title={`${vehicle.make}, ${vehicle.model}`}
                 style={{
                   whiteSpace: "nowrap",
@@ -132,19 +131,19 @@ export const DealerVehicleCard = ({
                 }}
               >
                 {vehicle.make}, {vehicle.model}
-              </Typography>
+              </H3>
               <Flex justifyContent="space-between" gap="sm">
-                <Typography color="grey" weight="bold">
+                <P color="grey" weight="bold">
                   Mileage: {vehicleMileage} km
-                </Typography>
-                <Typography weight="bold">{listingCategory}</Typography>
+                </P>
+                <P weight="bold">{listingCategory}</P>
               </Flex>
             </Box>
 
             <Divider color="grey" />
 
             <Box>
-              <Typography variant="h3" weight="bold" color="primaryDark">
+              <H3 weight="bold" color="primaryDark">
                 {vehiclePrice}{" "}
                 {isRental ? (
                   <Typography as="span" style={{ fontSize: "inherit" }}>
@@ -153,10 +152,8 @@ export const DealerVehicleCard = ({
                 ) : (
                   ""
                 )}
-              </Typography>
-              <Typography>
-                {isUsedVehicle ? "Pre-owned" : "Brand new"}
-              </Typography>
+              </H3>
+              <P>{isUsedVehicle ? "Pre-owned" : "Brand new"}</P>
 
               <HStack alignItems="end" justifyContent="space-between">
                 <HStack>
@@ -165,7 +162,7 @@ export const DealerVehicleCard = ({
                     aria-hidden="true"
                     title="location"
                   ></i>
-                  <Typography>{owner?.location}</Typography>
+                  <P>{owner?.location}</P>
                 </HStack>
                 <Box
                   position="relative"

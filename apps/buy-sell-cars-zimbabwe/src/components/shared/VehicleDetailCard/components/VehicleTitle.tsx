@@ -1,5 +1,8 @@
+"use client";
+
 import { useMemo } from "react";
-import { Typography } from "~bsc-shared/ui";
+import { FavouriteButton, H3 } from "~bsc-shared/ui";
+import { useFavourites } from "@/src/context/favourites-context";
 import { VehicleWithImage } from "@/src/types";
 import { formatPriceToDollars } from "@/src/utils";
 import { Flex } from "@/styled-system/jsx";
@@ -20,25 +23,29 @@ export const VehicleTitle = ({
 
   const isRental = vehicle.listing_category === "rental";
 
+  const { isFavourite, toggleFavourite } = useFavourites();
+
   return (
     <Flex
       direction={{ base: "column", md: flexDirection }}
       alignItems={{ base: "flex-start", md: "center" }}
       justifyContent={flexDirection === "row" ? "space-between" : "flex-start"}
     >
-      <Typography variant="h3">
-        {vehicle.make}, {vehicle.model} {vehicle.year}
-      </Typography>
-      <Typography variant="h3" color="primaryDark">
+      <Flex alignItems="center" gap="sm">
+        <H3>
+          {vehicle.make}, {vehicle.model} {vehicle.year}
+        </H3>
+        <FavouriteButton
+          style={{ position: "relative", top: "0", right: "0" }}
+          vehicleId={vehicle.id}
+          isFavourite={isFavourite(vehicle.id)}
+          onFavouriteToggle={toggleFavourite}
+        />
+      </Flex>
+      <H3 color="primaryDark">
         {vehiclePrice}{" "}
-        {isRental ? (
-          <Typography as="span" style={{ fontSize: "inherit" }}>
-            / per day
-          </Typography>
-        ) : (
-          ""
-        )}
-      </Typography>
+        {isRental ? <span style={{ fontSize: "inherit" }}>/ per day</span> : ""}
+      </H3>
     </Flex>
   );
 };

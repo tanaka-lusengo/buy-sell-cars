@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Typography, Button } from "~bsc-shared/ui";
+import { H2, H4, Button } from "~bsc-shared/ui";
 import { handleClientError, StatusCode } from "~bsc-shared/utils";
 import { SuspenseLoader } from "@/src/components/shared";
 import { verifySubscriptionReference } from "@/src/server/actions/payment";
@@ -87,23 +87,24 @@ const SuccessPaymentPage = () => {
               width="100%"
               gap="md"
             >
-              <Typography variant="h2" align="center" color="white">
+              <H2 align="center" color="white">
                 Your payment was successful!
-              </Typography>
+              </H2>
 
-              <Typography variant="h4" align="center" color="white">
+              <H4 align="center" color="white">
                 Thank you for subscribing to the{" "}
-                <Typography
-                  as="span"
-                  weight="bold"
-                  color="primary"
-                  style={{ fontSize: "inherit" }}
+                <span
+                  style={{
+                    fontWeight: "bold",
+                    color: "primary",
+                    fontSize: "inherit",
+                  }}
                 >
                   {subscriptionPlanName}
-                </Typography>{" "}
+                </span>{" "}
                 plan! You can now access your dashboard and start managing your
                 dealership effectively.
-              </Typography>
+              </H4>
             </Flex>
 
             <Button

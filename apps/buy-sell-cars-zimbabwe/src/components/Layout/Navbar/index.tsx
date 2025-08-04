@@ -3,10 +3,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Typography, ResponsiveContainer } from "~bsc-shared/ui";
+import {
+  Typography,
+  ResponsiveContainer,
+  P,
+  PSmall,
+  Span,
+} from "~bsc-shared/ui";
 import { generateIcon } from "~bsc-shared/utils";
 import { useAuth } from "@/src/context/auth-context";
-import { Divider, Flex, HStack, Stack } from "@/styled-system/jsx";
+import { useFavourites } from "@/src/context/favourites-context";
+import { Divider, Flex, HStack, Stack, Box } from "@/styled-system/jsx";
 import { HamburgerMenu } from "./components/HamburgerMenu";
 import { navLinksMap } from "./constants";
 import { Header, Nav, NavList, SubNavList } from "./index.styled";
@@ -16,14 +23,17 @@ type BasePath = keyof typeof navLinksMap;
 
 const AccountIcon = (
   <HStack>
-    <Typography weight="bold">Account</Typography>
+    <P weight="bold">Account</P>
     {generateIcon("user")}
   </HStack>
 );
 
 export const Navbar = () => {
   const { user } = useAuth();
+  const { getFavouritesCount } = useFavourites();
   const pathname = usePathname();
+
+  const favouritesCount = getFavouritesCount();
 
   const basePaths = Object.keys(navLinksMap).sort(
     (a, b) => b.length - a.length
@@ -81,9 +91,9 @@ export const Navbar = () => {
             <NavList>
               {navLinks.map((item) => (
                 <li key={item.label}>
-                  <Typography color="primary" hoverEffect="color" weight="bold">
+                  <P color="primary" hoverEffect="color" weight="bold">
                     <Link href={item.href}>{item.label}</Link>
-                  </Typography>
+                  </P>
                 </li>
               ))}
             </NavList>
@@ -99,6 +109,39 @@ export const Navbar = () => {
                 Sell your vehicle
               </Link>
             </Typography>
+
+            <Box position="relative">
+              <Span hoverEffect="color" weight="bold">
+                <Link href="/favourites">
+                  <HStack>
+                    <P weight="bold">Saved</P>
+                    {generateIcon("heart", false)}
+                  </HStack>
+                </Link>
+              </Span>
+              {favouritesCount > 0 && (
+                <Link href="/favourites">
+                  <Box
+                    position="absolute"
+                    top="-8px"
+                    right="-8px"
+                    bg="primary"
+                    borderRadius="50%"
+                    minWidth="20px"
+                    height="20px"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    fontWeight="bold"
+                    zIndex={1}
+                  >
+                    <Span>
+                      {favouritesCount > 99 ? "99+" : favouritesCount}
+                    </Span>
+                  </Box>
+                </Link>
+              )}
+            </Box>
 
             <Typography as="span" hoverEffect="color" weight="bold">
               <Link href={`${user ? "/dashboard" : "/sign-in"}`}>
@@ -120,8 +163,7 @@ export const Navbar = () => {
         <SubNavList>
           {subNavLinks.map((item) => (
             <li key={item.label}>
-              <Typography
-                variant="body2"
+              <PSmall
                 weight={
                   isMatchingPath(item.href, item.label) ? "bold" : "normal"
                 }
@@ -131,7 +173,7 @@ export const Navbar = () => {
                 hoverEffect="color"
               >
                 <Link href={item.href}>{item.label}</Link>
-              </Typography>
+              </PSmall>
             </li>
           ))}
         </SubNavList>

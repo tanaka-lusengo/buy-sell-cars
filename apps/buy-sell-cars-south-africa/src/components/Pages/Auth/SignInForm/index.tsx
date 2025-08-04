@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { InputField } from "~bsc-shared/components/FormComponents";
-import { Typography, Button } from "~bsc-shared/ui";
+import { H1, P, Button } from "~bsc-shared/ui";
 import {
   handleClientError,
   StatusCode,
@@ -54,7 +54,7 @@ export const SignInForm = () => {
       )}
     >
       <HStack marginBottom="md">
-        <Typography variant="h1">Sign in</Typography>
+        <H1>Sign in</H1>
       </HStack>
 
       <InputField
@@ -82,23 +82,23 @@ export const SignInForm = () => {
       >
         <Button type="submit">Sign in</Button>
         <Link href="/">
-          <Typography hoverEffect="color">Forgot password?</Typography>
+          <P hoverEffect="color">Forgot password?</P>
         </Link>
       </Flex>
 
       <Divider marginY="md" color="grey" />
 
-      <Typography color="primaryDark" weight="bold">
+      <P color="primaryDark" weight="bold">
         <i>Don&apos;t have an account?</i>
-      </Typography>
+      </P>
 
       <HStack justifyContent="space-between">
         <Link href="/sign-up">
-          <Typography hoverEffect="color">Sign up</Typography>
+          <P hoverEffect="color">Sign up</P>
         </Link>
 
         <Link href="/">
-          <Typography hoverEffect="color">Close</Typography>
+          <P hoverEffect="color">Close</P>
         </Link>
       </HStack>
     </Form>

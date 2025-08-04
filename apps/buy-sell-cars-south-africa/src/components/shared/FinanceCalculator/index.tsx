@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { InputField, SelectField, Divider } from "~bsc-shared";
-import { Typography, Button } from "~bsc-shared/ui";
+import { H3, H4, P, PSmall, Typography, Button } from "~bsc-shared/ui";
 import { formatPriceToRands } from "@/src/utils";
 import { Grid, Flex, Container, Box, HStack } from "@/styled-system/jsx";
 import { REPAYMENT_MONTHS_OPTIONS } from "./constants";
@@ -93,9 +93,7 @@ export const FinanceCalculator = ({
       maxWidth={{ base: "29rem", sm: "55rem", md: "65rem" }}
       onSubmit={handleSubmit(() => {})}
     >
-      <Typography variant="h4" weight="bold">
-        Finance Calculator:
-      </Typography>
+      <H4 weight="bold">Finance Calculator:</H4>
 
       <Grid
         marginTop="sm"
@@ -147,7 +145,7 @@ export const FinanceCalculator = ({
           </Flex>
 
           <Box paddingX="sm" marginY="sm">
-            <Typography variant="h4">
+            <H4>
               Total Loan Value:{" "}
               <Typography
                 as="span"
@@ -157,7 +155,7 @@ export const FinanceCalculator = ({
               >
                 {formattedLoanValue}
               </Typography>
-            </Typography>
+            </H4>
           </Box>
 
           <Flex
@@ -215,32 +213,27 @@ export const FinanceCalculator = ({
           padding="md"
           flex="1"
         >
-          <Typography weight="bold">Monthly Payments</Typography>
+          <P weight="bold">Monthly Payments</P>
 
-          <Typography
-            variant="h3"
-            weight="bold"
-            color="primaryDark"
-            data-testid="monthly-payment"
-          >
+          <H3 weight="bold" color="primaryDark" data-testid="monthly-payment">
             {formattedMonthlyPayment}
-          </Typography>
+          </H3>
 
           <Divider color="greyDark" marginY="sm" />
 
           <HStack justifyContent="space-between">
-            <Typography>Total Interest</Typography>
-            <Typography variant="h4">{formattedTotalInterest}</Typography>
+            <P>Total Interest</P>
+            <H4>{formattedTotalInterest}</H4>
           </HStack>
 
           <HStack justifyContent="space-between">
-            <Typography>Total Payment</Typography>
-            <Typography variant="h4">{formattedTotalPayment}</Typography>
+            <P>Total Payment</P>
+            <H4>{formattedTotalPayment}</H4>
           </HStack>
 
           <Divider color="greyDark" marginY="sm" />
 
-          <Typography variant="body2">
+          <PSmall>
             <i>
               * Please note that{" "}
               <strong>these calculations are estimates only</strong> and should
@@ -249,7 +242,7 @@ export const FinanceCalculator = ({
               associated administrative fees. Car finance is subject to bank
               approval with an accredited finance provider.
             </i>
-          </Typography>
+          </PSmall>
 
           <Button type="button" onClick={handleReset} variant="ghost" size="md">
             Reset Calculator

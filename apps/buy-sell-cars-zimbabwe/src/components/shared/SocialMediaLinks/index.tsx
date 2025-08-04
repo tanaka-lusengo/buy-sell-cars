@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Typography } from "~bsc-shared/ui";
+import { P } from "~bsc-shared/ui";
 import { VStack } from "@/styled-system/jsx";
 
 type SocialMediaLinkProps = {
@@ -23,7 +23,7 @@ export const SocialMediaLink = ({
           aria-hidden="true"
           title={label || type}
         ></i>
-        {label && <Typography>{label}</Typography>}
+        {label && <P>{label}</P>}
       </VStack>
     </Link>
   );

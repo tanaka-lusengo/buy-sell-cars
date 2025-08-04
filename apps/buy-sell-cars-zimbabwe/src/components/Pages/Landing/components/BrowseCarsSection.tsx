@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Grid } from "~bsc-shared";
 import { useWindowSize } from "~bsc-shared/hooks";
 import { breakpointsNumber } from "~bsc-shared/styles";
-import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
+import { ResponsiveContainer, H2, H3 } from "~bsc-shared/ui";
 import { FeaturePreviewCard } from "@/src/components/shared";
 import { VehicleWithImageAndDealer } from "@/src/types";
 import { Container, Flex } from "@/styled-system/jsx";
@@ -24,7 +24,7 @@ export const BrowseCarsSection = ({
   return (
     <>
       <ResponsiveContainer paddingY="lg">
-        <Typography variant="h2">Browse more cars for sale</Typography>
+        <H2>Browse more cars for sale</H2>
       </ResponsiveContainer>
 
       <Container bg="greyLight" paddingY="lg" paddingX="md">
@@ -63,14 +63,9 @@ export const BrowseCarsSection = ({
               ))}
             </Flex>
 
-            <Typography
-              variant="h3"
-              weight="bold"
-              hoverEffect="color"
-              align="center"
-            >
+            <H3 weight="bold" hoverEffect="color" align="center">
               <Link href="/car/sales/">View all cars for sale</Link>
-            </Typography>
+            </H3>
           </Flex>
         </Grid>
       </Container>

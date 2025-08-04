@@ -10,7 +10,7 @@ import {
   TextareaField,
 } from "~bsc-shared/components/FormComponents";
 import { USER_CATEGORYS } from "~bsc-shared/constants";
-import { Typography, Button } from "~bsc-shared/ui";
+import { H1, H4, P, Button } from "~bsc-shared/ui";
 import {
   handleClientError,
   StatusCode,
@@ -62,9 +62,7 @@ export const SignUpForm = () => {
       )}
     >
       <HStack marginBottom="md">
-        <Typography variant="h1">
-          {!showSuccess ? "Sign up" : "Thank you for signing up!"}
-        </Typography>
+        <H1>{!showSuccess ? "Sign up" : "Thank you for signing up!"}</H1>
       </HStack>
 
       {!showSuccess ? (
@@ -186,25 +184,23 @@ export const SignUpForm = () => {
 
           <Divider marginY="md" color="grey" />
 
-          <Typography color="primaryDark" weight="bold">
+          <P color="primaryDark" weight="bold">
             <i>Already have an account?</i>
-          </Typography>
+          </P>
 
           <HStack justifyContent="space-between">
             <Link href="/sign-in">
-              <Typography hoverEffect="color">Sign in</Typography>
+              <P hoverEffect="color">Sign in</P>
             </Link>
 
             <Link href="/">
-              <Typography hoverEffect="color">Close</Typography>
+              <P hoverEffect="color">Close</P>
             </Link>
           </HStack>
         </>
       ) : (
         <Stack alignItems="center" marginTop="md" gap="md">
-          <Typography variant="h4" align="center">
-            Now sign in to your account to get started.
-          </Typography>
+          <H4 align="center">Now sign in to your account to get started.</H4>
 
           <Link href="/sign-in">
             <Button>Sign in</Button>

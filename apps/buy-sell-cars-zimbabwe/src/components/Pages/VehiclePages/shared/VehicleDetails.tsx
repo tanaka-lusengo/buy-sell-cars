@@ -1,6 +1,6 @@
 import { PostgrestError } from "@supabase/supabase-js";
 import Link from "next/link";
-import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
+import { ResponsiveContainer, H3, H4, P } from "~bsc-shared/ui";
 import { generateIcon, StatusCode } from "~bsc-shared/utils";
 import { VehicleDetailCard } from "@/src/components/shared";
 import { Profile, VehicleCategoryType, VehicleWithImage } from "@/src/types";
@@ -35,7 +35,6 @@ export const VehicleDetails = ({
       <ResponsiveContainer>
         <Box paddingY="md">
           <Flex alignItems="center" gap="0.5rem">
-            {/* Wrapping both the icon and the text inside the Link to make them clickable */}
             <Link href={isRental ? `/${slug}/rentals/` : `/${slug}/sales/`}>
               <Flex
                 alignItems="center"
@@ -47,12 +46,8 @@ export const VehicleDetails = ({
                   transition: "border-color 0.2s ease-in-out",
                 }}
               >
-                {/* Clickable arrow icon */}
                 {generateIcon("arrow-left")}
-                {/* Clickable text */}
-                <Typography variant="h4">
-                  {`Back to ${isRental ? "rental" : "sales"} results`}
-                </Typography>
+                <H4>{`Back to ${isRental ? "rental" : "sales"} results`}</H4>
               </Flex>
             </Link>
           </Flex>
@@ -63,16 +58,10 @@ export const VehicleDetails = ({
         {!successStatus && Boolean(error) && (
           <ResponsiveContainer backgroundColor="greyLight">
             <Flex direction="column" paddingY="md">
-              <Typography variant="h3" color="error">
-                Error fetching vehicle
-              </Typography>
+              <H3 color="error">Error fetching vehicle</H3>
 
-              <Typography color="error">
-                Please try again a later time
-              </Typography>
-              {error === typeof "string" && (
-                <Typography color="error">{error}</Typography>
-              )}
+              <P color="error">Please try again a later time</P>
+              {error === typeof "string" && <P color="error">{error}</P>}
             </Flex>
           </ResponsiveContainer>
         )}
@@ -80,9 +69,7 @@ export const VehicleDetails = ({
         {successStatus && !vehicle && (
           <ResponsiveContainer backgroundColor="greyLight">
             <Box paddingY="lg">
-              <Typography variant="h4" align="center">
-                No vehicle found
-              </Typography>
+              <H4 align="center">No vehicle found</H4>
             </Box>
           </ResponsiveContainer>
         )}

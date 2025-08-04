@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ResponsiveContainer, Typography } from "~bsc-shared/ui";
+import { ResponsiveContainer, H4 } from "~bsc-shared/ui";
 import { Box, Flex } from "@/styled-system/jsx";
 
 type PaidSponsorFeatureProps = {
@@ -23,9 +23,7 @@ export const PaidSponsorFeature = ({
       <ResponsiveContainer>
         {showHeading && (
           <Box paddingBottom="md">
-            <Typography variant="h4" align="center">
-              {headingText}
-            </Typography>
+            <H4 align="center">{headingText}</H4>
           </Box>
         )}
 

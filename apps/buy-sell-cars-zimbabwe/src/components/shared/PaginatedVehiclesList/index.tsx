@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Typography } from "~bsc-shared/ui";
+import { H4 } from "~bsc-shared/ui";
 import { FeaturePreviewCard } from "@/src/components/shared";
 import { VehicleCategoryType, VehicleWithImageAndDealer } from "@/src/types";
 import { Box, Flex } from "@/styled-system/jsx";
@@ -80,9 +80,9 @@ export const PaginatedVehicleList = ({
           onClick={() => handlePageChange(currentPage - 1)}
         />
 
-        <Typography variant="h4" weight="bold">
+        <H4 weight="bold">
           {currentPage} / {totalPages}
-        </Typography>
+        </H4>
 
         <NextButton
           isDisabled={nextBtnDisabled}

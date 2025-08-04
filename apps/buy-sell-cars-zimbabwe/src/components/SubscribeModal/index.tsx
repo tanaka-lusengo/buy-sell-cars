@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { InputField } from "~bsc-shared/components";
-import { Button, Typography } from "~bsc-shared/ui";
+import { Button, H4, P, PSmall } from "~bsc-shared/ui";
 import {
   handleClientError,
   StatusCode,
@@ -152,17 +152,13 @@ export const SubscribeModal = () => {
           )}
         >
           <VStack alignItems="flex-start" gap="sm">
-            <Typography variant="h4" weight="bold">
-              Join our newsletter
-            </Typography>
-            <Typography>
-              Get updates, car listings, and tips right in your inbox.
-            </Typography>
+            <H4 weight="bold">Join our newsletter</H4>
+            <P>Get updates, car listings, and tips right in your inbox.</P>
 
             {isSuccess ? (
-              <Typography>
+              <P>
                 Thank you for subscribing! Check your email for future updates.
-              </Typography>
+              </P>
             ) : (
               <>
                 <Box marginY="md" width="100%">
@@ -185,12 +181,12 @@ export const SubscribeModal = () => {
             )}
 
             <Box marginTop="lg">
-              <Typography variant="body2" align="center">
+              <PSmall align="center">
                 <i>
                   By subscribing, you agree to receive emails from us. You can
                   unsubscribe at any time.
                 </i>
-              </Typography>
+              </PSmall>
             </Box>
           </VStack>
         </form>

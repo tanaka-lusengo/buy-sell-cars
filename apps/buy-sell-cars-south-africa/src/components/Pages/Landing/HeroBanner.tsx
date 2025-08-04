@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Typography, ResponsiveContainer } from "~bsc-shared/ui";
+import { H1, H2, P, ResponsiveContainer } from "~bsc-shared/ui";
 import heroImageBanner from "@/public/images/hero-banner.jpg";
 import { Box, Container, Flex, HStack } from "@/styled-system/jsx";
 
@@ -64,22 +64,12 @@ export const HeroBanner = () => {
               alignItems="flex-start"
               gap="md"
             >
-              <Typography
-                variant="h1"
-                font="heading"
-                weight="bold"
-                color="primary"
-              >
+              <H1 font="heading" weight="bold" color="primary">
                 South Africa&#39;s Premier Vehicle Marketplace
-              </Typography>
-              <Typography
-                variant="h2"
-                font="heading"
-                weight="bold"
-                color="white"
-              >
+              </H1>
+              <H2 font="heading" weight="bold" color="white">
                 Revolutionising the way you buy and sell cars
-              </Typography>
+              </H2>
 
               <Box display={{ base: "none", md: "block" }}>
                 {factList.map((fact, index) => (
@@ -92,7 +82,7 @@ export const HeroBanner = () => {
                       style={{ height: "auto" }}
                       unoptimized
                     />
-                    <Typography color="white">{fact}</Typography>
+                    <P color="white">{fact}</P>
                   </HStack>
                 ))}
               </Box>

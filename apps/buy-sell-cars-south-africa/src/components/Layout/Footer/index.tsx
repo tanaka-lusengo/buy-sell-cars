@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { InputField } from "~bsc-shared/components/FormComponents";
-import { Typography, Button } from "~bsc-shared/ui";
+import { H3, P, PSmall, Button } from "~bsc-shared/ui";
 import {
   handleClientError,
   StatusCode,
@@ -75,10 +75,8 @@ export const Footer = () => {
         </Link>
 
         <Box mb="lg">
-          <Typography variant="h3">Buy Sell Cars SA</Typography>
-          <Typography variant="body2">
-            Your trusted car marketplace in South Africa
-          </Typography>
+          <H3>Buy Sell Cars SA</H3>
+          <PSmall>Your trusted car marketplace in South Africa</PSmall>
         </Box>
 
         <Grid
@@ -87,7 +85,7 @@ export const Footer = () => {
         >
           {/* Block 1 */}
           <Flex direction="column" mb="lg">
-            <Typography variant="h3">Find Your Vehicle</Typography>
+            <H3>Find Your Vehicle</H3>
 
             <FooterLink href="/car/sales/">Car sales</FooterLink>
             <FooterLink href="/truck/sales/">Truck sales</FooterLink>
@@ -102,7 +100,7 @@ export const Footer = () => {
 
           {/* Bock 2 */}
           <Flex direction="column" mb="lg">
-            <Typography variant="h3">Sell Your Vehicle</Typography>
+            <H3>Sell Your Vehicle</H3>
 
             <FooterLink href={user ? "/dashboard/add-listing" : "/sign-up"}>
               Post your car ad
@@ -116,7 +114,7 @@ export const Footer = () => {
 
           {/* Block 3 */}
           <Flex direction="column" mb="lg">
-            <Typography variant="h3">Contact Us</Typography>
+            <H3>Contact Us</H3>
             <Link
               href={SOCIAL_MEDIA_URLS.phone_whatsapp}
               target="_blank"
@@ -134,7 +132,7 @@ export const Footer = () => {
                   title="whatsapp"
                   style={{ width: "2rem" }}
                 ></i>
-                <Typography variant="body2">WhatsApp</Typography>
+                <PSmall>WhatsApp</PSmall>
               </HStack>
             </Link>
 
@@ -155,9 +153,7 @@ export const Footer = () => {
                   title="phone"
                   style={{ width: "2rem" }}
                 ></i>
-                <Typography variant="body2">
-                  {SOCIAL_MEDIA_URLS.phone}
-                </Typography>
+                <PSmall>{SOCIAL_MEDIA_URLS.phone}</PSmall>
               </HStack>
             </Link>
 
@@ -178,9 +174,9 @@ export const Footer = () => {
                   title="email"
                   style={{ width: "2rem" }}
                 ></i>
-                <Typography variant="body2">
+                <PSmall>
                   {SOCIAL_MEDIA_URLS.email.replace("mailto:", "")}
-                </Typography>
+                </PSmall>
               </HStack>
             </Link>
 
@@ -197,7 +193,7 @@ export const Footer = () => {
                   title="FAQs"
                   style={{ width: "2rem" }}
                 ></i>
-                <Typography variant="body2">FAQs</Typography>
+                <PSmall>FAQs</PSmall>
               </HStack>
             </Link>
 
@@ -208,13 +204,13 @@ export const Footer = () => {
                 title="location"
                 style={{ width: "2rem" }}
               ></i>
-              <Typography variant="body2">South Africa</Typography>
+              <PSmall>South Africa</PSmall>
             </HStack>
           </Flex>
 
           {/* Block 4 */}
           <Flex direction="column" mb="lg">
-            <Typography variant="h3">Follow Us</Typography>
+            <H3>Follow Us</H3>
 
             <HStack paddingY="md">
               <SocialMediaLink
@@ -237,13 +233,13 @@ export const Footer = () => {
                 await handleAction(formValues)
             )}
           >
-            <Typography align="center">Subscribe to our newsletter</Typography>
+            <P align="center">Subscribe to our newsletter</P>
             <HStack justifyContent="center" alignItems="flex-start" mt="sm">
               {isSuccess ? (
-                <Typography color="primaryDark">
+                <P color="primaryDark">
                   Thank you for subscribing! Check your email for future
                   updates.
-                </Typography>
+                </P>
               ) : (
                 <>
                   <Box>
@@ -263,9 +259,7 @@ export const Footer = () => {
           </form>
         </Flex>
 
-        <Typography align="center">
-          © 2024 Buy Sell Cars. All rights reserved.
-        </Typography>
+        <P align="center">© 2024 Buy Sell Cars. All rights reserved.</P>
       </FooterContent>
     </FooterContainer>
   );

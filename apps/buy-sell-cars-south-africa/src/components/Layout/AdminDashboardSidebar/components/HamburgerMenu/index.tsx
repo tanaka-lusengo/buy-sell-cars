@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Typography } from "~bsc-shared/ui";
+import { H4 } from "~bsc-shared/ui";
 import { SignOut } from "@/src/components/Pages";
 import { Divider, VStack } from "@/styled-system/jsx";
 import { NavLinksDashboard } from "../NavLinksDashboard";
@@ -50,9 +50,7 @@ export const HamburgerMenu = ({ pathname }: { pathname: string }) => {
       <NavDrawer isOpen={isOpen}>
         <VStack gap="md" alignItems="flex-start">
           <VStack marginTop="lg" alignItems="flex-start">
-            <Typography variant="h4" weight="bold">
-              Settings
-            </Typography>
+            <H4 weight="bold">Settings</H4>
           </VStack>
 
           <Divider marginY="sm" display={{ base: "block", md: "none" }} />
