@@ -12,7 +12,7 @@ import heroBackgroundImg from "@/public/images/hero.jpg";
 import refuelBannerSmallImg from "@/public/images/sponsors/refuel/refuel-all-towns.jpg";
 import refuelBannerLargeImg from "@/public/images/sponsors/refuel/refuel-hero-banner.jpg";
 import supaCarSoundsLargeImg from "@/public/images/sponsors/supa-car-sounds/supa-car-sounds-large.png";
-import supaCarSoundsSmallImg from "@/public/images/sponsors/supa-car-sounds/supa-car-sounds-small.jpg";
+import supaCarSoundsSmallImg from "@/public/images/sponsors/supa-car-sounds/supa-car-sounds-small.png";
 import { trackPostHogEvent, useTrackOnView } from "@/src/components/Analytics";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { EXTERNAL_URLS } from "@/src/constants/urls";
