@@ -34,20 +34,6 @@ export const HeroBanner = () => {
     [Autoplay({ delay: 4000, stopOnInteraction: false }), Fade()]
   );
 
-  const ref = useRef(null);
-
-  useTrackOnView(ref, () =>
-    trackPostHogEvent({
-      event: "sponsor_ad_view",
-      properties: {
-        sponsor: SPONSOR_NAMES.REFUEL,
-        action: "view",
-        url: REFUEL_WHATSAPP_URL,
-        placement: "landing_page_banner_top",
-      },
-    })
-  );
-
   const handleObjectFit = () => {
     if (isMobile) return "contain";
     if (isTablet) return "scale-down";
@@ -91,6 +77,37 @@ export const HeroBanner = () => {
       content: null,
     },
   ];
+
+  // Create refs for each sponsor banner
+  const supaCarSoundsRef = useRef<HTMLImageElement>(null);
+  const refuelRef = useRef<HTMLImageElement>(null);
+
+  const sponsorBannerRefs = [null, supaCarSoundsRef, refuelRef];
+
+  // Set up individual tracking for each sponsor banner
+  useTrackOnView(supaCarSoundsRef, () =>
+    trackPostHogEvent({
+      event: "sponsor_ad_view",
+      properties: {
+        sponsor: SPONSOR_NAMES.SUPA_CAR_SOUNDS,
+        action: "view",
+        url: EXTERNAL_URLS.SUPA_CAR_SOUNDS_URL,
+        placement: "landing_page_banner_top",
+      },
+    })
+  );
+
+  useTrackOnView(refuelRef, () =>
+    trackPostHogEvent({
+      event: "sponsor_ad_view",
+      properties: {
+        sponsor: SPONSOR_NAMES.REFUEL,
+        action: "view",
+        url: REFUEL_WHATSAPP_URL,
+        placement: "landing_page_banner_top",
+      },
+    })
+  );
 
   return (
     <Container
@@ -162,7 +179,7 @@ export const HeroBanner = () => {
                     }}
                   >
                     <Image
-                      ref={ref}
+                      ref={sponsorBannerRefs[index]}
                       src={slide.backgroundImage}
                       alt={slide.alt}
                       fill
