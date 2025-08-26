@@ -39,9 +39,9 @@ export const isValidSouthAfricaPhoneNumber = (phoneNumber: string): boolean => {
  * @param phone The input phone number as a string.
  * @returns The formatted phone number string.
  */
-export function formatPhoneNumberToSaCountryCode(
+export const formatPhoneNumberToSaCountryCode = (
   phone: string | undefined | null
-): string {
+): string => {
   if (!phone) return "";
 
   // Remove all non-digit characters from the input
@@ -59,9 +59,9 @@ export function formatPhoneNumberToSaCountryCode(
 
   // If the number starts with anything else, prepend '27'
   return "27" + digits;
-}
+};
 
-export function isWithinTrialPeriod(subscription: Subscription): boolean {
+export const isWithinTrialPeriod = (subscription: Subscription): boolean => {
   if (!subscription) {
     return false;
   }
@@ -74,4 +74,4 @@ export function isWithinTrialPeriod(subscription: Subscription): boolean {
   }
 
   return false;
-}
+};
