@@ -8,7 +8,7 @@ const enablePostHogInDev =
 // Only initialize PostHog if not in dev OR if dev feature flag is enabled
 if (!isDev || enablePostHogInDev) {
   const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-  
+
   if (!posthogKey) {
     console.error("[PostHog] API key not found");
   } else {

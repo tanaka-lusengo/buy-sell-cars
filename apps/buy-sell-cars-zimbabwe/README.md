@@ -26,20 +26,23 @@ A modern rebuild of [BuySellCars.co.zw](https://buysellcars.co.zw/), a platform 
 ### Running the app
 
 1. **From the monorepo root:**
+
    ```bash
    # Install all dependencies
    pnpm install
-   
+
    # Start this app specifically
    cd apps/buy-sell-cars-zimbabwe
    pnpm dev
    ```
 
 2. **Environment setup:**
+
    - Copy `.env.example` to `.env` in this app directory, or
    - Run `vercel env pull` from the app directory
 
 3. **Generate Supabase types:**
+
    ```bash
    pnpm generate-supabase-types
    ```
