@@ -20,9 +20,45 @@ import {
   Profile,
   CategoryType,
   VehicleCategoryType,
+  VehicleWithImage,
   VehicleWithImageAndDealer,
 } from "@/src/types";
+import { shouldVehicleBeVisible } from "@/src/utils/vehicleVisibilityHelpers";
 import { createClient } from "@/supabase/server";
+
+/**
+ * Filter vehicles to only show publicly visible ones (removes expired trial vehicles)
+ */
+const filterPubliclyVisibleVehicles = async <T extends VehicleWithImage>(
+  vehicles: T[],
+  supabase: Awaited<ReturnType<typeof createClient>>
+): Promise<T[]> => {
+  const visibleVehicles = await Promise.all(
+    vehicles.map(async (vehicle) => {
+      // Get owner profile and subscription
+      const { data: ownerProfile } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", vehicle.owner_id)
+        .single();
+
+      const { data: ownerSubscription } = await getProfileSubscriptionDetails(
+        vehicle.owner_id
+      );
+
+      const isVisible = shouldVehicleBeVisible(
+        ownerSubscription,
+        ownerProfile?.user_category || null,
+        // @ts-expect-error - this is in the database
+        ownerProfile?.show_vehicles || null
+      );
+
+      return isVisible ? vehicle : null;
+    })
+  );
+
+  return visibleVehicles.filter((vehicle) => vehicle !== null) as T[];
+};
 
 type AddVehicleProps = {
   profile: Profile;
@@ -454,7 +490,10 @@ export const getAllVehicles = async () => {
   try {
     // fetch all vehicles by user category
 
-    const { data, error } = await supabase.from("vehicles").select("*");
+    const { data, error } = await supabase
+      .from("vehicles")
+      .select("*")
+      .eq("is_active", true);
 
     if (error) {
       return { data: null, status: StatusCode.BAD_REQUEST, error };
@@ -474,7 +513,13 @@ export const getAllVehicles = async () => {
         return { ...vehicle, images };
       })
     );
-    return { data: vehicleWithImages, status: StatusCode.SUCCESS, error: null };
+
+    // Filter out vehicles from expired trial users for public display
+    const visibleVehicles = await filterPubliclyVisibleVehicles(
+      vehicleWithImages,
+      supabase
+    );
+    return { data: visibleVehicles, status: StatusCode.SUCCESS, error: null };
   } catch (error) {
     return handleServerError(
       error,
@@ -517,7 +562,12 @@ export const getAllVehiclesByVehicleCategory = async (
       })
     );
 
-    const shuffledVehicleWithImages = shuffleArray(vehicleWithImages);
+    // Filter out vehicles from expired trial users for public display
+    const visibleVehicles = await filterPubliclyVisibleVehicles(
+      vehicleWithImages,
+      supabase
+    );
+    const shuffledVehicleWithImages = shuffleArray(visibleVehicles);
 
     return {
       data: shuffledVehicleWithImages,
@@ -851,8 +901,14 @@ export const getAllFeaturedDealersAndVehiclesWithImages = async (
       )
     ).flat(); // Flatten the array so all vehicles are in a single array
 
+    // Filter out vehicles from expired trial users
+    const visibleVehicles = await filterPubliclyVisibleVehicles(
+      vehiclesWithDealer,
+      supabase
+    );
+
     // Shuffle the dealers to randomize the order
-    const shuffledDealers = shuffleArray(vehiclesWithDealer);
+    const shuffledDealers = shuffleArray(visibleVehicles);
     // Limit to 6 featuredDealers
     const featuredDealers = shuffledDealers.slice(0, 6);
     return {
