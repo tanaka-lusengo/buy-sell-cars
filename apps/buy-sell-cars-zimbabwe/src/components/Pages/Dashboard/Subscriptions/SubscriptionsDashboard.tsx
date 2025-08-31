@@ -498,7 +498,7 @@ export const SubscriptionsDashboard = ({
               <Grid
                 gridTemplateColumns="1fr 1fr 1fr 1fr"
                 borderTop="1px solid"
-                borderColor="grey.200"
+                borderColor="grey"
                 padding="sm"
               >
                 <P weight="bold">Featured Listings</P>

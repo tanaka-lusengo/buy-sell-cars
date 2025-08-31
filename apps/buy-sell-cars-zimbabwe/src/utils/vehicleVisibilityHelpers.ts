@@ -12,8 +12,13 @@ export const shouldVehicleBeVisible = (
   ownerCategory: "individual" | "dealership" | null,
   ownerProfileShowVehicles: boolean | null
 ): boolean => {
+  // Manual override: always show vehicles if set
+  if (ownerProfileShowVehicles) {
+    return true;
+  }
+
   // Always show vehicles from individual users (they get free access)
-  if (ownerCategory === "individual" || ownerProfileShowVehicles) {
+  if (ownerCategory === "individual") {
     return true;
   }
 
