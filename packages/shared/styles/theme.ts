@@ -38,6 +38,8 @@ export const tokens = defineTokens({
     text: { value: "#1e2737" },
     textLight: { value: "#e2e8f0" },
     white: { value: "#ffffff" },
+    orange: { value: "#ff6600" },
+    blue: { value: "#0070f3" },
     black: { value: "#000000" },
     grey: { value: "#cccccc" },
     greyLight: { value: "#f5f5f7" },
