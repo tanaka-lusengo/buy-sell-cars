@@ -24,6 +24,11 @@ import {
 import { managePaystackSubscription } from "@/src/server/actions/payment";
 import { Profile, Subscription, VehicleWithImage } from "@/src/types";
 import { formatPriceToDollars } from "@/src/utils";
+import {
+  getRemainingTrialDays,
+  hasTrialExpired,
+  hasActiveTrialAccess,
+} from "@/src/utils/trialHelpers";
 import { Box, Flex, Grid, Divider } from "@/styled-system/jsx";
 import { InfoFooter } from "../components";
 import {
@@ -58,10 +63,16 @@ export const SubscriptionsDashboard = ({
   const isCancelled = cancel_time !== null;
   const isIndividual = user_category === "individual";
   const subscriptionPlanName = subscription_name || "No Plan Selected";
+  const isTrialActive = hasActiveTrialAccess(subscription);
+
+  const remainingTrialDays = getRemainingTrialDays(subscription);
+  const trialExpired = hasTrialExpired(subscription);
 
   const subscriptionPlan = isIndividual
     ? "Individual Plan (Free)"
-    : subscriptionPlanName;
+    : isTrialActive
+      ? `${subscriptionPlanName} (Trial - ${remainingTrialDays} days left)`
+      : subscriptionPlanName;
 
   const currentListingCount = vehicles.length || 0;
 
@@ -201,9 +212,8 @@ export const SubscriptionsDashboard = ({
         <Flex direction="column" marginY="lg" gap="md">
           <H3>Your Usage</H3>
           <Box
-            bg="blue.50"
             border="1px solid"
-            borderColor="blue.200"
+            borderColor="blue"
             borderRadius="md"
             padding="md"
           >
@@ -279,10 +289,16 @@ export const SubscriptionsDashboard = ({
             textAlign="center"
           >
             <H2 color="primaryDark" weight="bold">
-              {subscription?.status === "active" ? "Active" : "Inactive"}
+              {subscription?.status === "active"
+                ? isTrialActive
+                  ? "Trial Active"
+                  : "Active"
+                : "Inactive"}
             </H2>
             <P color="primaryDark">Subscription Status</P>
-            <PSmall color="grey">Full subscription</PSmall>
+            <PSmall color="grey">
+              {isTrialActive ? `Trial subscription` : "Full subscription"}
+            </PSmall>
           </Box>
         </Grid>
       </Flex>
@@ -580,11 +596,73 @@ export const SubscriptionsDashboard = ({
           )}
         </Flex>
 
+        {/* Trial Status Banner */}
+        {isTrialActive && !isIndividual && (
+          <Box
+            border="1px solid"
+            borderColor={remainingTrialDays <= 7 ? "orange" : "blue"}
+            borderRadius="1rem"
+            padding="md"
+            marginY="md"
+          >
+            <Flex direction="column" gap="sm">
+              <H4 color={remainingTrialDays <= 7 ? "orange" : "blue"}>
+                🚀 Trial Active - {remainingTrialDays} days remaining
+              </H4>
+              <P>
+                You&apos;re currently on a 14-day free trial of the{" "}
+                <b>{subscriptionPlanName}</b>.
+                {remainingTrialDays <= 7
+                  ? " Your trial is ending soon - upgrade now to keep access to all features!"
+                  : " Upgrade anytime to continue enjoying all features after your trial ends."}
+              </P>
+              {remainingTrialDays <= 7 && (
+                <Button
+                  onClick={() =>
+                    push("/dashboard/subscriptions/view?upgrade=true")
+                  }
+                  size="sm"
+                >
+                  Upgrade Now
+                </Button>
+              )}
+            </Flex>
+          </Box>
+        )}
+
+        {trialExpired && !isIndividual && (
+          <Box
+            border="1px solid"
+            borderColor="red"
+            borderRadius="1rem"
+            padding="md"
+            marginY="md"
+          >
+            <Flex direction="column" gap="sm">
+              <H4 color="error">⚠️ Trial Expired</H4>
+              <P>
+                Your 14-day trial has ended. Upgrade to a paid plan to regain
+                access to vehicle listings and dashboard features.
+              </P>
+              <Button
+                onClick={() =>
+                  push("/dashboard/subscriptions/view?upgrade=true")
+                }
+                size="sm"
+              >
+                Upgrade Now
+              </Button>
+            </Flex>
+          </Box>
+        )}
+
         {/* Action Buttons */}
         <Flex gap="md" wrap="wrap">
           {renderButtonState()}
 
-          <Button onClick={() => push("/dashboard/subscriptions/view")}>
+          <Button
+            onClick={() => push("/dashboard/subscriptions/view?upgrade=true")}
+          >
             See Available Plans
           </Button>
         </Flex>

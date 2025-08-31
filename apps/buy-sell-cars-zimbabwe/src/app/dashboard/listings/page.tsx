@@ -36,6 +36,7 @@ const ListingsPage = async () => {
     <Listings
       profile={profile}
       profileSubscription={profileSubscription}
+      subscription={profileSubData}
       vehicles={data || []}
       error={error || profileSubError}
       status={status || profileSubStatus}
