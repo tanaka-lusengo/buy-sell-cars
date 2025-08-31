@@ -1,0 +1,1 @@
+Please review the codebase and update all relevant documentation files (README.md, CLAUDE.md, and any others) so they accurately reflect the current functionality, architecture, setup instructions, and usage examples of the project.

@@ -60,6 +60,12 @@ pnpm clean
 
 # Run full CI checks (lint + type-check + test + build)
 pnpm ci:check
+
+# GitHub Actions management scripts
+pnpm ci:actions     # Manage GitHub Actions workflows
+pnpm ci:local       # Run local checks equivalent to CI
+pnpm ci:workflows   # List workflow information
+pnpm ci:deps        # Check dependency status
 ```
 
 ### Application-Specific Commands
