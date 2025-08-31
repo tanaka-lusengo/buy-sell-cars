@@ -58,7 +58,9 @@ export type UpdateProfileAdminFormType = ZodInfer<
 >;
 
 // Database Tables Types
-export type Profile = Tables<"profiles">;
+export type Profile = Tables<"profiles"> & {
+  show_vehicles?: boolean | null;
+};
 
 export type ProfileWithSubscription = Profile & {
   subscriptions: Subscription | null;
@@ -68,13 +70,19 @@ export type Vehicle = Tables<"vehicles">;
 
 export type VehicleImage = Tables<"vehicle_images">;
 
-export type Subscription = Tables<"subscriptions">;
+export type Subscription = Tables<"subscriptions"> & {
+  is_trial?: boolean;
+  trial_end_date?: string | null;
+};
 
 // Server Actions Types
 export type LogSubscriptionType = Omit<
   Subscription,
   "id" | "created_at" | "updated_at"
->;
+> & {
+  is_trial?: boolean;
+  trial_end_date?: string;
+};
 
 export type LogSubscriptionWebhookType = Omit<
   Subscription,

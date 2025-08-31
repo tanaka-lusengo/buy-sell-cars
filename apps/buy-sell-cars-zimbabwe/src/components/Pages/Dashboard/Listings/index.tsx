@@ -21,8 +21,9 @@ import {
   deleteVehicle,
   addVehicleImagePaths,
 } from "@/src/server/actions/general";
-import { Profile, type VehicleWithImage } from "@/src/types";
+import { Profile, type VehicleWithImage, Subscription } from "@/src/types";
 import { EditVehicleFormType } from "@/src/types";
+import { getVehicleStatusMessage } from "@/src/utils/vehicleVisibilityHelpers";
 import { Grid, Box, Flex } from "@/styled-system/jsx";
 import { createClient } from "@/supabase/client";
 import { ListingsForm } from "../common.styled";
@@ -53,6 +54,7 @@ const TABLE_HEADERS = [
 type ListingsProps = {
   profile: Profile;
   profileSubscription: string | null | undefined;
+  subscription: Subscription | null;
   vehicles: VehicleWithImage[];
   error: string | PostgrestError | null;
   status: StatusCode;
@@ -61,6 +63,7 @@ type ListingsProps = {
 export const Listings = ({
   profile,
   profileSubscription,
+  subscription,
   vehicles,
   error,
   status,
@@ -223,6 +226,13 @@ export const Listings = ({
     maxVehicles = 2;
   }
 
+  // Get vehicle visibility status
+  const vehicleStatus = getVehicleStatusMessage(
+    subscription,
+    profile?.user_category || null,
+    vehicles.length
+  );
+
   return (
     <Box padding="lg">
       <Typography variant="h2">Your Listings: {vehicles.length}</Typography>
@@ -237,6 +247,48 @@ export const Listings = ({
         </b>
         , you can have up to <b>{maxVehicles}</b> active listings.
       </Typography>
+
+      {/* Vehicle Visibility Status */}
+      {vehicleStatus.status === "hidden" && vehicles.length > 0 && (
+        <Box
+          border="1px solid"
+          borderColor="red"
+          borderRadius="1rem"
+          padding="md"
+          marginY="md"
+        >
+          <Flex direction="column" gap="sm">
+            <Typography weight="bold" color="error">
+              ⚠️ Vehicles Hidden from Public Site
+            </Typography>
+            <Typography>{vehicleStatus.message}</Typography>
+            {vehicleStatus.showUpgradePrompt && (
+              <Button
+                onClick={() =>
+                  push("/dashboard/subscriptions/view?upgrade=true")
+                }
+                size="sm"
+              >
+                Upgrade Subscription
+              </Button>
+            )}
+          </Flex>
+        </Box>
+      )}
+
+      {vehicleStatus.status === "visible" && vehicles.length > 0 && (
+        <Box
+          border="1px solid"
+          borderColor="green"
+          borderRadius="1rem"
+          padding="md"
+          marginY="md"
+        >
+          <Flex alignItems="center" gap="sm">
+            <Typography color="success">✅ {vehicleStatus.message}</Typography>
+          </Flex>
+        </Box>
+      )}
 
       <Button onClick={() => push("/dashboard/add-listing")} marginY="md">
         <Typography as="span" weight="bold" color="white">

@@ -7,17 +7,26 @@ const enablePostHogInDev =
 
 // Only initialize PostHog if not in dev OR if dev feature flag is enabled
 if (!isDev || enablePostHogInDev) {
-  isDev && console.log("Initializing PostHog...");
-  posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-    api_host: "/ingest",
-    ui_host: "https://eu.posthog.com",
-    defaults: "2025-05-24",
-    capture_pageview: true,
-    capture_pageleave: true,
-    capture_exceptions: true,
-    debug: isDev,
-  });
-  isDev && console.log("[PostHog] initialized successfully");
+  const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY;
+
+  if (!posthogKey) {
+    console.error("[PostHog] API key not found");
+  } else {
+    try {
+      isDev && console.log("Initializing PostHog...");
+      posthog.init(posthogKey, {
+        api_host: "/ingest",
+        ui_host: "https://eu.posthog.com",
+        capture_pageview: true,
+        capture_pageleave: true,
+        capture_exceptions: true,
+        debug: isDev,
+      });
+      isDev && console.log("[PostHog] initialized successfully");
+    } catch (error) {
+      console.error("[PostHog] initialization failed:", error);
+    }
+  }
 } else {
   isDev &&
     console.log("[PostHog] skipped (development mode without feature flag)");

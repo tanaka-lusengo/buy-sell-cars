@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { StatusCode, logErrorMessage } from "~bsc-shared/utils";
 import { getPaystackSubscription } from "@/src/lib/paystack/endpoints";
+import { convertTrialToPaid } from "@/src/server/actions/trial";
 import { LogSubscriptionType } from "@/src/types";
 import { createClientServiceRole } from "@/supabase/server";
 
@@ -229,6 +230,33 @@ async function handleSubscriptionCancelDisable(
   }
 }
 
+// Helper function to check if user has an active trial subscription
+async function checkActiveTrialForUser(
+  supabase: any,
+  profileId: string,
+  requestId: string
+): Promise<any | null> {
+  try {
+    const { data: activeTrial, error } = await supabase
+      .from("subscriptions")
+      .select("*")
+      .eq("profile_id", profileId)
+      .eq("is_trial", true)
+      .eq("status", "active")
+      .maybeSingle();
+
+    if (error) {
+      console.warn(`[${requestId}] Error checking for active trial:`, error);
+      return null;
+    }
+
+    return activeTrial;
+  } catch (error) {
+    console.warn(`[${requestId}] Exception checking for active trial:`, error);
+    return null;
+  }
+}
+
 // Helper function to handle subscription charges from charge.success events
 async function handleSubscriptionCharge(
   supabase: any,
@@ -264,6 +292,71 @@ async function handleSubscriptionCharge(
   }
 
   const profile = profiles[0];
+
+  // Check if user has an active trial subscription
+  const activeTrial = await checkActiveTrialForUser(
+    supabase,
+    profile.id,
+    requestId
+  );
+
+  if (activeTrial) {
+    console.log(
+      `[${requestId}] Found active trial for user ${customer.email}, converting to paid subscription`
+    );
+
+    // Get the subscription_code from Paystack using customer_code and plan_code
+    console.log(
+      `[${requestId}] Fetching subscription details from Paystack for trial conversion...`
+    );
+
+    const {
+      data: paystackSubscriptionResponse,
+      status: paystackStatus,
+      error: paystackError,
+    } = await getPaystackSubscription(customer.customer_code, plan.plan_code);
+
+    if (
+      !paystackSubscriptionResponse ||
+      paystackStatus !== StatusCode.SUCCESS ||
+      paystackError
+    ) {
+      logErrorMessage(
+        paystackError,
+        `fetching paystack subscription plan for trial conversion (webhook) [${requestId}]`
+      );
+      throw new Error(
+        "Failed to fetch subscription plan from Paystack for trial conversion"
+      );
+    }
+
+    // Convert trial to paid subscription
+    const { status: convertStatus, error: convertError } =
+      await convertTrialToPaid(profile.id, {
+        subscription_code: paystackSubscriptionResponse.subscription_code,
+        customer_code: customer.customer_code,
+        plan_code: plan.plan_code,
+        raw_response: chargeData,
+      });
+
+    if (convertError || convertStatus !== StatusCode.SUCCESS) {
+      logErrorMessage(
+        convertError,
+        `converting trial to paid subscription (webhook) [${requestId}]`
+      );
+      throw new Error("Failed to convert trial to paid subscription");
+    }
+
+    console.log(
+      `[${requestId}] Successfully converted trial to paid subscription: ${paystackSubscriptionResponse.subscription_code}`
+    );
+    return; // Exit early since trial conversion is complete
+  }
+
+  // Continue with normal subscription creation/update for non-trial users
+  console.log(
+    `[${requestId}] No active trial found, proceeding with normal subscription handling`
+  );
 
   // Get the subscription_code from Paystack using customer_code and plan_code
   console.log(`[${requestId}] Fetching subscription details from Paystack...`);

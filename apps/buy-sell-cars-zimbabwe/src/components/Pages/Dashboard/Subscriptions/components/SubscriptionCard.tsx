@@ -1,8 +1,15 @@
 "use client";
 
 import { JSX, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Typography, Button } from "~bsc-shared/ui";
-import { handleClientError, logErrorMessage } from "~bsc-shared/utils";
+import {
+  handleClientError,
+  logErrorMessage,
+  toastNotifySuccess,
+  StatusCode,
+} from "~bsc-shared/utils";
+import { startStarterShowcaseTrial } from "@/src/server/actions/trial";
 import { Profile, Subscription } from "@/src/types";
 import { formatPriceToDollars } from "@/src/utils";
 import { Box, Container, Flex } from "@/styled-system/jsx";
@@ -30,17 +37,59 @@ export const SubscriptionCard = ({
 }: SubscriptionCardProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
+  const searchParams = useSearchParams();
+  const isUpgradeFlow = searchParams.get("upgrade") === "true";
+
   const isIndividual = profile.user_category === "individual";
+  const isStarterShowcase = planName.includes("Starter Showcase");
 
   const noSubscription = !subscription;
+
+  const showTrialPeriodNote = isStarterShowcase && noSubscription;
 
   // Show submit button if:
   // 1. they are a dealership (not individual)
   // 2. They don't have a subscription
   // 3. If they do have a subscription and the status is not "active"
+  // 4. If they are coming to upgrade from trial, always show the button
   const shouldShowSubmitButton =
     !isIndividual &&
-    (noSubscription || (subscription && subscription.status !== "active"));
+    (noSubscription ||
+      (subscription && subscription.status !== "active") ||
+      isUpgradeFlow);
+
+  const handleStartTrial = async () => {
+    setIsLoading(true);
+
+    try {
+      const userConfirmed = confirm(
+        `Start your 14-day free trial of the ${planName} plan?\n\n` +
+          `You'll temporarily get full access to the subscription features.\n` +
+          `No payment required. Start your free trial now?`
+      );
+
+      if (userConfirmed) {
+        const { error, status } = await startStarterShowcaseTrial(profile);
+
+        if (error || status !== StatusCode.SUCCESS) {
+          return handleClientError("Starting your free trial", error);
+        }
+
+        toastNotifySuccess(
+          "Your 14-day free trial has started! Welcome to BuySellCars!"
+        );
+        window.location.reload(); // Refresh to show updated dashboard
+      }
+    } catch (error) {
+      logErrorMessage(error, "starting trial");
+      handleClientError(
+        "An unexpected error occurred while starting your trial",
+        "Please try again later or contact support if the issue persists."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSubscribe = async () => {
     setIsLoading(true);
@@ -71,7 +120,11 @@ export const SubscriptionCard = ({
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        handleSubscribe();
+        if (showTrialPeriodNote) {
+          handleStartTrial();
+        } else {
+          handleSubscribe();
+        }
       }}
     >
       <Box
@@ -127,7 +180,13 @@ export const SubscriptionCard = ({
             {shouldShowSubmitButton && (
               <Box marginX="auto" textAlign="center">
                 <Button type="submit" disabled={isLoading}>
-                  {isLoading ? "Redirecting..." : "Get Started"}
+                  {isLoading
+                    ? showTrialPeriodNote
+                      ? "Starting Trial..."
+                      : "Redirecting..."
+                    : showTrialPeriodNote
+                      ? "Start 14 day Free Trial period"
+                      : "Get Started"}
                 </Button>
               </Box>
             )}
