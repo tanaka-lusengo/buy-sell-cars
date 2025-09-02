@@ -3,19 +3,13 @@
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useWindowSize } from "~bsc-shared/hooks";
-import { breakpointsNumber } from "~bsc-shared/styles";
-import rossiTyresDesktop from "@/public/images/sponsors/rossi/rossi-tyres-lg.jpg";
-import rossiTyresMobile from "@/public/images/sponsors/rossi/rossi-tyres-sm.jpg";
+import rossiTyresImg from "@/public/images/sponsors/rossi/rossi-tyres.jpg";
 import { trackPostHogEvent, useTrackOnView } from "@/src/components/Analytics";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { EXTERNAL_URLS } from "@/src/constants/urls";
 import { Box, Flex } from "@/styled-system/jsx";
 
 export const FeatureBannerOne = () => {
-  const { width } = useWindowSize();
-  const isMobile = (width ?? 0) < breakpointsNumber.md;
-
   const ref = useRef(null);
 
   useTrackOnView(ref, () =>
@@ -60,7 +54,7 @@ export const FeatureBannerOne = () => {
           transition="all 0.3s ease-in-out"
         >
           <Image
-            src={isMobile ? rossiTyresMobile : rossiTyresDesktop}
+            src={rossiTyresImg}
             alt="Rossi Tyres Harrare Drive Zimbabwe"
             loading="lazy"
             width={1600}

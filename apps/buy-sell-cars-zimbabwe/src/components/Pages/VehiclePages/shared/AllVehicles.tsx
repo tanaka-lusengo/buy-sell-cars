@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { ResponsiveContainer, H2, H3, H5, P, Typography } from "~bsc-shared/ui";
 import { formatToReadableString, StatusCode } from "~bsc-shared/utils";
 import roadBoysLogisticsImg from "@/public/images/sponsors/road-boys-logistics/road-boys-logistics.jpg";
-import rossiTyresImgLg from "@/public/images/sponsors/rossi/rossi-tyres-lg.jpg";
+import rossiTyresImg from "@/public/images/sponsors/rossi/rossi-tyres.jpg";
 import {
   PaginatedVehicleList,
   PaidSponsorFeature,
@@ -224,7 +224,7 @@ export const AllVehicles = ({
                     href={EXTERNAL_URLS.ROSSI_TYRES_URL}
                     name={SPONSOR_NAMES.ROSSI_TYRES}
                     placement={`all_vehicles_page_top_${vehicleCategory}`}
-                    imgSrc={rossiTyresImgLg}
+                    imgSrc={rossiTyresImg}
                     imgAlt={SPONSOR_NAMES.ROSSI_TYRES}
                   />
 
