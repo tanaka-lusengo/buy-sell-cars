@@ -5,7 +5,7 @@ import { PostgrestError } from "@supabase/supabase-js";
 import { ResponsiveContainer, H2, H3, H4, P } from "~bsc-shared/ui";
 import { StatusCode } from "~bsc-shared/utils";
 import roadBoysLogisticsImg from "@/public/images/sponsors/road-boys-logistics/road-boys-logistics.jpg";
-import rossiTyresImgLg from "@/public/images/sponsors/rossi/rossi-tyres-lg.jpg";
+import rossiTyresImg from "@/public/images/sponsors/rossi/rossi-tyres.jpg";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { SUBSCRIPTION_FEATURE_TYPES } from "@/src/constants/subscription";
 import { EXTERNAL_URLS } from "@/src/constants/urls";
@@ -132,7 +132,7 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
               href={EXTERNAL_URLS.ROSSI_TYRES_URL}
               name={SPONSOR_NAMES.ROSSI_TYRES}
               placement="all_dealers_page"
-              imgSrc={rossiTyresImgLg}
+              imgSrc={rossiTyresImg}
               imgAlt={SPONSOR_NAMES.ROSSI_TYRES}
             />
             <PaidSponsorFeature
