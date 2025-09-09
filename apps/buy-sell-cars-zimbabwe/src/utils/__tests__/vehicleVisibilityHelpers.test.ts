@@ -1,36 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { Subscription, VehicleWithImage } from "@/src/types";
+import { Subscription } from "@/src/types";
 import {
   shouldVehicleBeVisible,
   getVehicleStatusMessage,
 } from "../vehicleVisibilityHelpers";
 
 describe("vehicleVisibilityHelpers", () => {
-  const mockVehicle = {
-    id: "test-vehicle-id",
-    owner_id: "test-owner-id",
-    make: "Toyota",
-    model: "Camry",
-    year: 2020,
-    price: 25000,
-    condition: "used",
-    fuel: "petrol",
-    gear_box: "automatic",
-    mileage: 50000,
-    doors: 4,
-    seats: 5,
-    location: "Harare",
-    description: "Test vehicle",
-    is_active: true,
-    is_feature: false,
-    vehicle_category: "car",
-    listing_category: "for_sale",
-    created_at: "2023-01-01T00:00:00.000Z",
-    updated_at: "2023-01-01T00:00:00.000Z",
-    spec_sheet_path: null,
-    images: [],
-  } satisfies VehicleWithImage;
-
   const mockActiveTrialSubscription: Subscription = {
     id: "test-id",
     profile_id: "test-profile-id",
@@ -108,10 +83,6 @@ describe("vehicleVisibilityHelpers", () => {
     });
 
     it("should return false for dealership with cancelled trial", () => {
-      const cancelledTrial = {
-        ...mockActiveTrialSubscription,
-        status: "cancelled" as const,
-      };
       const result = shouldVehicleBeVisible(null, "dealership", null);
       expect(result).toBe(false);
     });
