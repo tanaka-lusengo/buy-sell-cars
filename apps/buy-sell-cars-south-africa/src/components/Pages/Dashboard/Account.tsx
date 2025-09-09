@@ -73,10 +73,12 @@ export const Account = ({ profile }: { profile: Profile | null }) => {
           })
         : profileLogoPath;
 
-      try {
-        await deleteOldFiles("profile-logos", [profileLogoPath || ""]);
-      } catch (err) {
-        return handleClientError("deleting old profile logo", err);
+      if (imageFile) {
+        try {
+          await deleteOldFiles("profile-logos", [profileLogoPath || ""]);
+        } catch (err) {
+          return handleClientError("deleting old profile logo", err);
+        }
       }
 
       const newGovernmentIdPath = idFile
@@ -88,10 +90,12 @@ export const Account = ({ profile }: { profile: Profile | null }) => {
           })
         : governmentIdPath;
 
-      try {
-        await deleteOldFiles("government-ids", [governmentIdPath || ""]);
-      } catch (err) {
-        return handleClientError("deleting old government ID", err);
+      if (idFile) {
+        try {
+          await deleteOldFiles("government-ids", [governmentIdPath || ""]);
+        } catch (err) {
+          return handleClientError("deleting old government ID", err);
+        }
       }
 
       const updatedProfile = {
@@ -264,7 +268,7 @@ export const Account = ({ profile }: { profile: Profile | null }) => {
           label="Phone number"
           name="phone"
           type="tel"
-          placeholder="+1 234 567 8900"
+          placeholder="+1 234..."
           register={register}
           errors={errors}
         />
