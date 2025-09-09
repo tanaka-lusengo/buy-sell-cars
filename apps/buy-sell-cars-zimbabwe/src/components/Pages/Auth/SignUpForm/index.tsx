@@ -4,7 +4,12 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { InputField, SelectField, TextareaField } from "~bsc-shared/components";
+import {
+  InputField,
+  SelectField,
+  TextareaField,
+  FileInputField,
+} from "~bsc-shared/components";
 import { USER_CATEGORYS } from "~bsc-shared/constants/values";
 import { Typography, Button } from "~bsc-shared/ui";
 import {
@@ -14,42 +19,99 @@ import {
   toSnakeCase,
 } from "~bsc-shared/utils";
 import { LOCATIONS } from "@/src/constants/values";
+import { useFileUploadHelpers } from "@/src/hooks";
 import { signUpValidationSchema, signUpFormDefaultValues } from "@/src/schemas";
 import { signUp } from "@/src/server/actions/auth";
 import { type SignUpFormType } from "@/src/types";
-import { Stack, Grid, HStack, Divider } from "@/styled-system/jsx";
+import { Stack, Grid, HStack, Divider, Box } from "@/styled-system/jsx";
+import { createClient } from "@/supabase/client";
+import { ProfilePhotoPreviewModal } from "./components";
 import { Form } from "./index.styled";
 
 export const SignUpForm = () => {
+  const supabase = createClient();
   const [showSuccess, setShowSuccess] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagesPreview, setImagesPreview] = useState<string>("");
+  const [uploading, setUploading] = useState(false);
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
   const {
     register,
     watch,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<SignUpFormType>({
     resolver: zodResolver(signUpValidationSchema),
     mode: "all",
     defaultValues: signUpFormDefaultValues,
   });
 
+  const { compressAndUploadFile } = useFileUploadHelpers(supabase);
+
   const handleAction = async (formData: SignUpFormType) => {
     try {
-      const { status, error } = await signUp(formData);
+      setUploading(true);
 
-      if (status !== StatusCode.SUCCESS) {
+      if (!imageFile) {
+        return handleClientError("Profile photo is required", null);
+      }
+
+      // Create user first to get user ID
+      const { data: user, status, error } = await signUp(formData);
+
+      if (status !== StatusCode.SUCCESS || !user) {
         return handleClientError("signing up, please try again later.", error);
+      }
+
+      // Upload profile photo
+      const profileLogoPath = await compressAndUploadFile({
+        id: user.id,
+        file: imageFile,
+        bucket: "profile-logos",
+        fileNamePrefix: "profile-logo",
+      });
+
+      if (!profileLogoPath) {
+        return handleClientError(
+          "Profile photo upload failed. Please try again.",
+          null
+        );
+      }
+
+      // Update the user's profile with the logo path
+      const { error: updateError } = await supabase
+        .from("profiles")
+        .update({ profile_logo_path: profileLogoPath })
+        .eq("id", user.id);
+
+      if (updateError) {
+        return handleClientError(
+          "Error updating profile with photo",
+          updateError
+        );
       }
 
       toastNotifySuccess("Sign up Success!");
       setShowSuccess(true);
     } catch (error) {
       handleClientError("signing up", error);
+    } finally {
+      setUploading(false);
     }
   };
 
   const categoryType = watch("categoryType");
+
+  const handlePreviewClick = () => {
+    if (imageFile) {
+      setIsPreviewModalOpen(true);
+    }
+  };
+
+  const handleClosePreview = () => {
+    setIsPreviewModalOpen(false);
+  };
 
   return (
     <Form
@@ -65,6 +127,70 @@ export const SignUpForm = () => {
 
       {!showSuccess ? (
         <>
+          {/* Profile Photo Upload Section */}
+          <Box marginBottom="md">
+            <Box marginBottom="sm">
+              <Typography variant="h4">Profile Photo Required</Typography>
+            </Box>
+            <Box marginBottom="sm">
+              <Typography>
+                <i>Upload a profile photo to continue with signup</i>
+              </Typography>
+            </Box>
+
+            <Grid
+              gridTemplateColumns={{ base: "1fr", sm: "1fr auto" }}
+              gap="sm"
+              alignItems="end"
+            >
+              <FileInputField
+                accept="image/*"
+                label={
+                  uploading || isSubmitting
+                    ? "Uploading..."
+                    : imageFile
+                      ? "Change photo"
+                      : "Choose photo"
+                }
+                name="profileLogoPath"
+                disabled={uploading || isSubmitting}
+                register={{
+                  ...register("profileLogoPath"),
+                  onChange: async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setImageFile(file);
+                      setImagesPreview(URL.createObjectURL(file));
+                    } else {
+                      setImageFile(null);
+                      setImagesPreview("");
+                    }
+                  },
+                }}
+                errors={errors}
+              />
+
+              {imageFile && (
+                <Button
+                  type="button"
+                  onClick={handlePreviewClick}
+                  disabled={uploading || isSubmitting}
+                >
+                  Preview
+                </Button>
+              )}
+            </Grid>
+
+            {imageFile && (
+              <Box marginTop="sm">
+                <Typography style={{ opacity: 0.3 }}>
+                  Selected: {imageFile.name} (
+                  {(imageFile.size / 1024 / 1024).toFixed(2)} MB)
+                </Typography>
+              </Box>
+            )}
+          </Box>
+
           <Grid gridTemplateColumns={{ base: "1fr", sm: "1fr 1fr" }} gap="sm">
             <InputField
               label="First name"
@@ -151,6 +277,13 @@ export const SignUpForm = () => {
               ))}
             </SelectField>
 
+            <InputField
+              label="Address"
+              name="address"
+              register={register}
+              errors={errors}
+            />
+
             <TextareaField
               label="Description"
               name="description"
@@ -177,7 +310,9 @@ export const SignUpForm = () => {
           />
 
           <Stack alignItems="center" marginTop="md">
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={uploading || isSubmitting}>
+              {uploading || isSubmitting ? "Creating Account..." : "Submit"}
+            </Button>
           </Stack>
 
           <Divider marginY="md" color="grey" />
@@ -207,6 +342,13 @@ export const SignUpForm = () => {
           </Link>
         </Stack>
       )}
+
+      <ProfilePhotoPreviewModal
+        isOpen={isPreviewModalOpen}
+        onClose={handleClosePreview}
+        imageSrc={imagesPreview}
+        imageFile={imageFile}
+      />
     </Form>
   );
 };

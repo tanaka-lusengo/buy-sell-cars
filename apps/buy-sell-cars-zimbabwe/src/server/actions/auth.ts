@@ -96,8 +96,11 @@ export const signUp = async (formData: SignUpFormType) => {
       user_category: parsedData.categoryType,
       dealership_name: parsedData.dealershipName || null,
       location: parsedData.location || null,
+      address: parsedData.address || null,
       description: parsedData.description || null,
     };
+
+    console.log("[createUserData]", createUserData);
 
     // Sign up with Supabase Auth and pass user data to the profiles table
     const {
