@@ -63,6 +63,7 @@ export const SubscriptionsDashboard = ({
   const isCancelled = cancel_time !== null;
   const isIndividual = user_category === "individual";
   const subscriptionPlanName = subscription_name || "No Plan Selected";
+  const showMustSubscribeBanner = subscriptionPlanName === "No Plan Selected";
   const isTrialActive = hasActiveTrialAccess(subscription);
 
   const remainingTrialDays = getRemainingTrialDays(subscription);
@@ -572,6 +573,13 @@ export const SubscriptionsDashboard = ({
               {subscriptionPlan}
             </Span>
           </H4>
+
+          {showMustSubscribeBanner && (
+            <P color="error" weight="bold">
+              (You must subscribe to a plan to access full features. Click
+              button below to get started.)
+            </P>
+          )}
 
           {subscription && !isIndividual && (
             <>

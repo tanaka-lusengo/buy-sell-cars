@@ -1,7 +1,7 @@
 "use client";
 
 import { JSX, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Typography, Button } from "~bsc-shared/ui";
 import {
   handleClientError,
@@ -37,6 +37,7 @@ export const SubscriptionCard = ({
 }: SubscriptionCardProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
+  const router = useRouter();
   const searchParams = useSearchParams();
   const isUpgradeFlow = searchParams.get("upgrade") === "true";
 
@@ -78,7 +79,8 @@ export const SubscriptionCard = ({
         toastNotifySuccess(
           "Your 14-day free trial has started! Welcome to BuySellCars!"
         );
-        window.location.reload(); // Refresh to show updated dashboard
+        router.refresh();
+        router.push("/dashboard/subscriptions");
       }
     } catch (error) {
       logErrorMessage(error, "starting trial");
