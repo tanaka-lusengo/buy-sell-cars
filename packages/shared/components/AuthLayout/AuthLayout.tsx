@@ -21,11 +21,17 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         <VStack
           height="100vh"
           overflowY="auto"
-          paddingX="lg"
+          paddingX={{ base: "sm", sm: "md", lg: "lg" }}
+          paddingY="md"
           justifyContent={{ base: "normal", md: "center" }}
           zIndex={1}
+          width="100%"
+          maxWidth="100%"
+          alignItems="center"
         >
-          {children}
+          <Box width="100%" maxWidth="100%">
+            {children}
+          </Box>
         </VStack>
 
         {/* Empty right column on large screens */}

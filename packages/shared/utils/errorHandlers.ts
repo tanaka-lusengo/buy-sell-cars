@@ -7,28 +7,94 @@ type ParsedZodError = {
   message: string;
 } & ZodError;
 
+// Translate only the most technical/unhelpful error messages
+const translateTechnicalError = (message: string): string => {
+  // Common Supabase/PostgreSQL errors that are not user-friendly
+  if (
+    message.includes("JSON object requested") &&
+    message.includes("multiple") &&
+    message.includes("rows returned")
+  ) {
+    return "Multiple records found where only one was expected. Please try again or contact support.";
+  }
+
+  if (message.includes("duplicate key value violates unique constraint")) {
+    // Try to extract constraint name for context
+    const constraintMatch = message.match(/constraint "([^"]+)"/);
+    if (constraintMatch) {
+      const constraint = constraintMatch[1];
+      if (constraint.includes("email")) {
+        return "An account with this email address already exists.";
+      }
+      if (constraint.includes("unique")) {
+        return "This information already exists in our system.";
+      }
+    }
+    return "This information already exists. Please use different details.";
+  }
+
+  if (
+    message.includes("connection") &&
+    message.toLowerCase().includes("timeout")
+  ) {
+    return "Connection timeout. Please check your internet connection and try again.";
+  }
+
+  if (
+    message.includes("permission denied") ||
+    message.includes("insufficient privileges")
+  ) {
+    return "You don't have permission to perform this action.";
+  }
+
+  // Return original message if it's likely user-friendly
+  return message;
+};
+
 const parseValidationErrorMessages = (error: unknown): string => {
-  if (error instanceof Error) {
-    try {
-      const errorArray = JSON.parse(error.message);
-      const errMessages = errorArray.map(
-        (error: ParsedZodError) => `${error.path[0]}: ${error.message}`
-      );
-      return errMessages.join(", ");
-    } catch {
-      return error.message;
+  // Handle Supabase error objects (based on Supabase docs best practices)
+  if (typeof error === "object" && error !== null) {
+    const errorObj = error as Record<string, unknown>;
+
+    // Check for Supabase error structure first
+    if (errorObj.code || errorObj.details || errorObj.hint) {
+      // Use hint first (most user-friendly), then details, then message
+      const meaningfulMessage =
+        errorObj.hint || errorObj.details || errorObj.message;
+      if (meaningfulMessage && typeof meaningfulMessage === "string") {
+        return translateTechnicalError(meaningfulMessage);
+      }
+    }
+
+    // Handle nested PostgreSQL errors in Supabase responses
+    if (errorObj.message && typeof errorObj.message === "string") {
+      return translateTechnicalError(errorObj.message);
     }
   }
 
-  if (typeof error === "object" && error !== null && "message" in error) {
-    return (error as { message: string }).message;
+  // Handle JavaScript Error objects
+  if (error instanceof Error) {
+    try {
+      // Try parsing as Zod validation errors (array format)
+      const errorArray = JSON.parse(error.message);
+      if (Array.isArray(errorArray)) {
+        const errMessages = errorArray.map(
+          (error: ParsedZodError) => `${error.path[0]}: ${error.message}`
+        );
+        return errMessages.join(", ");
+      }
+    } catch {
+      // Not JSON, return the error message as-is
+      return translateTechnicalError(error.message);
+    }
   }
 
+  // Handle string errors
   if (typeof error === "string") {
-    return error;
+    return translateTechnicalError(error);
   }
 
-  return "Unknown error";
+  return "An unexpected error occurred";
 };
 
 export const logErrorMessage = (error: unknown, errorDetail: string): void => {
