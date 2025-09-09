@@ -21,9 +21,11 @@ export const signUpFormDefaultValues = {
   categoryType: undefined,
   dealershipName: null,
   location: "",
+  address: "",
   password: "",
   confirmPassword: "",
   description: "",
+  profileLogoPath: undefined,
 } satisfies SignUpFormType;
 
 export const updateProfileFormDefaultValues = (profile: Profile) => {
