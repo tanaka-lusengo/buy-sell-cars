@@ -7,6 +7,7 @@ import {
   getAllVehiclesByOwnerId,
   getProfileSubscriptionDetails,
 } from "@/src/server/actions/general";
+import { shouldAllowDashboardAccess } from "@/src/utils/vehicleVisibilityHelpers";
 
 export const metadata: Metadata = {
   title: "Listings | Your Vehicles",
@@ -27,6 +28,11 @@ const ListingsPage = async () => {
     status: profileSubStatus,
     error: profileSubError,
   } = await getProfileSubscriptionDetails(profile.id);
+
+  // Check subscription access control
+  if (!shouldAllowDashboardAccess(profile, profileSubData)) {
+    redirect("/dashboard/subscriptions");
+  }
 
   const profileSubscription = profileSubData?.subscription_name;
 

@@ -33,8 +33,14 @@ export const signUpValidationSchema = z
     location: z.string().min(2, {
       message: "Location is required",
     }),
+    address: z.string().min(2, {
+      message: "Address must be at least 2 characters",
+    }),
     description: z.string().min(10, {
       message: "Description must be at least 10 characters",
+    }),
+    profileLogoPath: z.any().refine((file) => file !== undefined, {
+      message: "Profile photo is required",
     }),
     password: z.string().min(8, {
       message: "Password must be at least 8 characters",

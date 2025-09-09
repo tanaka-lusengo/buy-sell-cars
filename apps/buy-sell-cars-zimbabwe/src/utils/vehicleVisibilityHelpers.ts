@@ -54,6 +54,59 @@ export const shouldVehicleBeVisible = (
 };
 
 /**
+ * Determine if a user should have access to dashboard features
+ * Users are allowed access if:
+ * - show_vehicles is explicitly set to true (manual override)
+ * - Individual users (get free access)
+ * - Dealership users with active subscription
+ */
+export const shouldAllowDashboardAccess = (
+  profile: {
+    show_vehicles?: boolean | null;
+    user_category?: "individual" | "dealership" | null;
+  },
+  subscription: Subscription | null
+): boolean => {
+  // Manual override: always allow access if show_vehicles is true
+  if (profile.show_vehicles === true) {
+    return true;
+  }
+
+  // Always allow access for individual users (they get free access)
+  if (profile.user_category === "individual") {
+    return true;
+  }
+
+  // For dealership users, check subscription status
+  if (profile.user_category === "dealership") {
+    // No subscription - deny access
+    if (!subscription) {
+      return false;
+    }
+
+    // Active paid subscription - allow access
+    if (!subscription.is_trial && subscription.status === "active") {
+      return true;
+    }
+
+    // Active trial - allow access (must be active status and not expired)
+    if (
+      subscription.is_trial &&
+      subscription.status === "active" &&
+      !hasTrialExpired(subscription)
+    ) {
+      return true;
+    }
+
+    // Expired trial or inactive subscription - deny access
+    return false;
+  }
+
+  // Default to denying access if we can't determine status
+  return false;
+};
+
+/**
  * Get vehicle status message for dashboard display
  */
 export const getVehicleStatusMessage = (

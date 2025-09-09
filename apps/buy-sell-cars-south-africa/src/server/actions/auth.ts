@@ -96,6 +96,7 @@ export const signUp = async (formData: SignUpFormType) => {
       user_category: parsedData.categoryType,
       dealership_name: parsedData.dealershipName || null,
       location: parsedData.location || null,
+      address: parsedData.address || null,
       description: parsedData.description || null,
     };
 

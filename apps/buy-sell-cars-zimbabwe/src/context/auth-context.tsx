@@ -51,7 +51,9 @@ export const AuthProvider = ({
         .single();
 
       if (profileError) {
-        console.error("Profile fetch error:", profileError);
+        if (process.env.NODE_ENV === "development") {
+          console.warn("Profile fetch error:", profileError);
+        }
       } else {
         setProfile(profileData);
       }
