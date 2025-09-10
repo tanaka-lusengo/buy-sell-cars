@@ -61,7 +61,18 @@ export const SignUpForm = () => {
       const { data: user, status, error } = await signUp(formData);
 
       if (status !== StatusCode.SUCCESS || !user) {
-        return handleClientError("signing up, please try again later.", error);
+        // Extract more specific error message if available
+        const errorMessage =
+          error && typeof error === "object" && "message" in error
+            ? String(error.message)
+            : typeof error === "string"
+              ? error
+              : "Unable to create your account. Please check your information and try again.";
+
+        return handleClientError(
+          "signing up, please try again later.",
+          errorMessage
+        );
       }
 
       // Upload profile photo

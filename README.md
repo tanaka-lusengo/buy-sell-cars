@@ -3,6 +3,7 @@
 A modern vehicle marketplace platform with separate instances for Zimbabwe and South Africa. Built with Next.js 15, React 19, and Turborepo for scalable development.
 
 **Live Sites:**
+
 - 🇿🇼 [Zimbabwe](https://buysellcars.co.zw/)
 - 🇿🇦 South Africa (Coming Soon)
 
@@ -11,12 +12,12 @@ A modern vehicle marketplace platform with separate instances for Zimbabwe and S
 This is a **Turborepo monorepo** containing:
 
 - **apps/** - Two Next.js applications
-  - `buy-sell-cars-zimbabwe` - Zimbabwe marketplace instance with PostHog analytics
-  - `buy-sell-cars-south-africa` - South Africa marketplace instance
+    - `buy-sell-cars-zimbabwe` - Zimbabwe marketplace instance with PostHog analytics
+    - `buy-sell-cars-south-africa` - South Africa marketplace instance
 - **packages/** - Shared packages and configurations
-  - `shared` - Common UI components, hooks, utilities, and Panda CSS styling system
-  - `eslint-config-custom` - Shared ESLint configuration
-  - `prettier-config-custom` - Shared Prettier configuration
+    - `shared` - Common UI components, hooks, utilities, and Panda CSS styling system
+    - `eslint-config-custom` - Shared ESLint configuration
+    - `prettier-config-custom` - Shared Prettier configuration
 
 ## Tech Stack
 
@@ -42,35 +43,40 @@ This is a **Turborepo monorepo** containing:
 ### Installation & Setup
 
 1. **Clone and install dependencies:**
-   ```bash
-   git clone <repository-url>
-   cd buy-sell-cars
-   pnpm install
-   ```
+
+    ```bash
+    git clone <repository-url>
+    cd buy-sell-cars
+    pnpm install
+    ```
 
 2. **Environment setup:**
-   - Copy `.env.example` to `.env` in each app directory, or
-   - Run `vercel env pull` to pull from Vercel deployment
+
+    - Copy `.env.example` to `.env` in each app directory, or
+    - Run `vercel env pull` to pull from Vercel deployment
 
 3. **Start development (all apps in parallel):**
-   ```bash
-   pnpm dev
-   ```
+
+    ```bash
+    pnpm dev
+    ```
 
 4. **Start individual apps:**
-   ```bash
-   # Zimbabwe instance
-   cd apps/buy-sell-cars-zimbabwe
-   pnpm dev
-   
-   # South Africa instance  
-   cd apps/buy-sell-cars-south-africa
-   pnpm dev
-   ```
+
+    ```bash
+    # Zimbabwe instance
+    cd apps/buy-sell-cars-zimbabwe
+    pnpm dev
+
+    # South Africa instance
+    cd apps/buy-sell-cars-south-africa
+    pnpm dev
+    ```
 
 ## Development Commands
 
 ### Root Level Commands
+
 ```bash
 # Start all apps in development mode
 pnpm dev
@@ -101,6 +107,7 @@ pnpm clean
 ```
 
 ### App-Specific Commands
+
 Navigate to `apps/buy-sell-cars-zimbabwe` or `apps/buy-sell-cars-south-africa`:
 
 ```bash

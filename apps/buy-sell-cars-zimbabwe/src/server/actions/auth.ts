@@ -100,8 +100,6 @@ export const signUp = async (formData: SignUpFormType) => {
       description: parsedData.description || null,
     };
 
-    console.log("[createUserData]", createUserData);
-
     // Sign up with Supabase Auth and pass user data to the profiles table
     const {
       data: { user },

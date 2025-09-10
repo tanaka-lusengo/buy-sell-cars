@@ -121,18 +121,34 @@ export const trackDealerView = (dealerData: TrackDealerViewEvent) => {
  */
 export const identifyUser = (profile: Profile) => {
   if (profile) {
-    posthog.identify(profile.id, {
-      email: profile.email,
-      user_category: profile.user_category,
-      dealership_name:
-        profile.user_category === "dealership" ? profile.dealership_name : null,
-      first_name: profile.first_name,
-      last_name: profile.last_name,
-    });
+    try {
+      posthog.identify(profile.id, {
+        email: profile.email,
+        user_category: profile.user_category,
+        dealership_name:
+          profile.user_category === "dealership"
+            ? profile.dealership_name
+            : null,
+        first_name: profile.first_name,
+        last_name: profile.last_name,
+      });
 
-    // Set groups for analytics segmentation
-    posthog.group("company", profile.dealership_name || "Individual", {
-      user_category: profile.user_category,
-    });
+      // Set groups for analytics segmentation
+      posthog.group("company", profile.dealership_name || "Individual", {
+        user_category: profile.user_category,
+      });
+
+      if (isDev) {
+        console.log("[PostHog]: User identified successfully", {
+          userId: profile.id,
+          userCategory: profile.user_category,
+        });
+      }
+    } catch (error) {
+      if (isDev) {
+        console.error("[PostHog]: Error identifying user:", error);
+      }
+      // Silently fail in production to avoid console spam
+    }
   }
 };
