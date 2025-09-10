@@ -66,6 +66,5 @@ sitemap*.xml
 styled-system
 styled-system-studio
 
-
-
-
+# claude
+.claude

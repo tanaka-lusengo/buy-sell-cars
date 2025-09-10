@@ -15,16 +15,32 @@ if (!isDev || enablePostHogInDev) {
     try {
       isDev && console.log("Initializing PostHog...");
       posthog.init(posthogKey, {
-        api_host: "/ingest",
-        ui_host: "https://eu.posthog.com",
+        api_host: "https://eu.i.posthog.com",
         capture_pageview: true,
         capture_pageleave: true,
         capture_exceptions: true,
         debug: isDev,
+        // Gracefully handle blocked requests (ad blockers, etc.)
+        loaded: (posthog) => {
+          isDev && console.log("[PostHog] loaded successfully");
+        },
+        // Suppress network errors to prevent console spam
+        on_request_error: (error) => {
+          if (isDev) {
+            console.warn(
+              "[PostHog] Request blocked (likely by ad blocker):",
+              error
+            );
+          }
+          // Silently fail in production to avoid console spam
+        },
       });
       isDev && console.log("[PostHog] initialized successfully");
     } catch (error) {
-      console.error("[PostHog] initialization failed:", error);
+      if (isDev) {
+        console.error("[PostHog] initialization failed:", error);
+      }
+      // Silently fail in production
     }
   }
 } else {

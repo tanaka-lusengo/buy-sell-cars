@@ -111,7 +111,9 @@ export const SubscriptionsDashboard = ({
 
   const handleManageSubscription = async () => {
     if (!subscription?.subscription_code) {
-      toastNotifyInfo("You must have a valid subscription before managing it.");
+      toastNotifyInfo(
+        "You must have a valid Paying subscription before managing it."
+      );
       return;
     }
 
