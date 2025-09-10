@@ -65,7 +65,10 @@ const translateTechnicalError = (message: string): string => {
   }
 
   // Handle database/server generic errors
-  if (message.includes("Failed to save") || message.includes("database error")) {
+  if (
+    message.includes("Failed to save") ||
+    message.includes("database error")
+  ) {
     return "Unable to save your information. Please try again.";
   }
 
@@ -133,12 +136,13 @@ export const logErrorMessage = (error: unknown, errorDetail: string): void => {
 
 export const handleClientError = (message: string, error: unknown) => {
   const errorMessage = parseValidationErrorMessages(error);
-  
+
   // Clean up redundant messaging
-  const finalMessage = errorMessage.includes("Unable to") || errorMessage.includes("Please") 
-    ? errorMessage // Use the specific error message directly
-    : `There was an error ${message} - ${errorMessage}`; // Use the formatted version
-  
+  const finalMessage =
+    errorMessage.includes("Unable to") || errorMessage.includes("Please")
+      ? errorMessage // Use the specific error message directly
+      : `There was an error ${message} - ${errorMessage}`; // Use the formatted version
+
   toastNotifyError(finalMessage);
   logErrorMessage(error, message);
 };
@@ -149,15 +153,20 @@ export const handleServerError = (error: unknown, context: string) => {
 
   // Provide context-specific fallback messages for better UX
   let contextualMessage = errorMessage;
-  
+
   // If the error message is still generic, provide a context-specific one
-  if (errorMessage === "An unexpected error occurred" || errorMessage.includes("digest")) {
+  if (
+    errorMessage === "An unexpected error occurred" ||
+    errorMessage.includes("digest")
+  ) {
     switch (context) {
       case "signing up (server)":
-        contextualMessage = "Unable to create your account. Please check your information and try again.";
+        contextualMessage =
+          "Unable to create your account. Please check your information and try again.";
         break;
       case "signing in (server)":
-        contextualMessage = "Unable to sign you in. Please check your credentials and try again.";
+        contextualMessage =
+          "Unable to sign you in. Please check your credentials and try again.";
         break;
       case "updating profile (server)":
         contextualMessage = "Unable to update your profile. Please try again.";
