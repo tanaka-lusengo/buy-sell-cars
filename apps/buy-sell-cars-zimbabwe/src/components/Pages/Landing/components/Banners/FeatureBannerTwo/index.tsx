@@ -5,6 +5,7 @@ import Fade from "embla-carousel-fade";
 import useEmblaCarousel from "embla-carousel-react";
 import refuelVictoriaFalls from "@/public/images/sponsors/refuel/refuel-victoria-falls.jpg";
 import roadBoysLogistics from "@/public/images/sponsors/road-boys-logistics/road-boys-logistics.jpg";
+import supaCarSounds from "@/public/images/sponsors/supa-car-sounds/supa-car-sounds.png";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { EXTERNAL_URLS } from "@/src/constants/urls";
 import { Box, Flex } from "@/styled-system/jsx";
@@ -27,6 +28,12 @@ export const FeatureBannerTwo = () => {
       src: refuelVictoriaFalls,
       alt: "Refuel now open in Victoria Falls",
       name: SPONSOR_NAMES.REFUEL,
+    },
+    {
+      href: EXTERNAL_URLS.SUPA_CAR_SOUNDS_URL,
+      src: supaCarSounds,
+      alt: "Supa Car Sounds",
+      name: SPONSOR_NAMES.SUPA_CAR_SOUNDS,
     },
     {
       href: EXTERNAL_URLS.ROAD_BOYS_LOGISTICS_URL,

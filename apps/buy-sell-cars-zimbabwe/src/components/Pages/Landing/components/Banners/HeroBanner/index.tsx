@@ -11,8 +11,6 @@ import { ResponsiveContainer } from "~bsc-shared/ui";
 import heroBackgroundImg from "@/public/images/hero.jpg";
 import refuelBannerSmallImg from "@/public/images/sponsors/refuel/refuel-all-towns.jpg";
 import refuelBannerLargeImg from "@/public/images/sponsors/refuel/refuel-hero-banner.jpg";
-import supaCarSoundsLargeImg from "@/public/images/sponsors/supa-car-sounds/supa-car-sounds-large.png";
-import supaCarSoundsSmallImg from "@/public/images/sponsors/supa-car-sounds/supa-car-sounds-small.png";
 import { trackPostHogEvent, useTrackOnView } from "@/src/components/Analytics";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { EXTERNAL_URLS } from "@/src/constants/urls";
@@ -23,7 +21,6 @@ import { HomeBannerSlide } from "./components/HomeBannerSlide";
 export const HeroBanner = () => {
   const { width } = useWindowSize();
   const isMobile = (width ?? 0) < breakpointsNumber.lg;
-  const isTablet = (width ?? 0) < breakpointsNumber.xxl;
 
   const [emblaRef] = useEmblaCarousel(
     {
@@ -33,12 +30,6 @@ export const HeroBanner = () => {
     },
     [Autoplay({ delay: 4000, stopOnInteraction: false }), Fade()]
   );
-
-  const handleObjectFit = () => {
-    if (isMobile) return "contain";
-    if (isTablet) return "scale-down";
-    return "cover";
-  };
 
   type BannerSlide = {
     backgroundImage: StaticImageData | string;
@@ -59,14 +50,6 @@ export const HeroBanner = () => {
       objectFit: "cover",
       content: <HomeBannerSlide />,
       isHomeBanner: true,
-    },
-    {
-      backgroundImage: isMobile ? supaCarSoundsSmallImg : supaCarSoundsLargeImg,
-      sponsorName: SPONSOR_NAMES.SUPA_CAR_SOUNDS,
-      href: EXTERNAL_URLS.SUPA_CAR_SOUNDS_URL,
-      alt: "Supa Car Sounds",
-      objectFit: handleObjectFit(),
-      content: null,
     },
     {
       backgroundImage: isMobile ? refuelBannerSmallImg : refuelBannerLargeImg,
