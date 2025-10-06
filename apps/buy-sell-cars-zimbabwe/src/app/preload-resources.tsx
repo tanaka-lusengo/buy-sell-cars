@@ -1,8 +1,6 @@
 import Script from "next/script";
-
+import { GA_TRACKING_ID } from "lib/googleAnalytics/gtag";
 const isProduction = process.env.NODE_ENV === "production";
-const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID;
-
 export const PreloadResources = () => (
   <>
     <head key="preload-resources">
