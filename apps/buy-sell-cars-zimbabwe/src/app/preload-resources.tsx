@@ -1,5 +1,6 @@
 import Script from "next/script";
-import { GA_TRACKING_ID } from "lib/googleAnalytics/gtag";
+import { GA_TRACKING_ID } from "../lib/googleAnalytics/gtag";
+
 const isProduction = process.env.NODE_ENV === "production";
 export const PreloadResources = () => (
   <>
@@ -35,7 +36,7 @@ export const PreloadResources = () => (
     />
 
     {/* Google Analytics */}
-    {isProduction && (
+    {isProduction && GA_TRACKING_ID && (
       <>
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}

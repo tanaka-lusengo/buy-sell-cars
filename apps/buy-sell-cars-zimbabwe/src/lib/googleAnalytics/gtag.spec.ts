@@ -9,9 +9,18 @@ describe("Google Analytics gtag helpers", () => {
     // Reset mocks before each test
     vi.clearAllMocks();
 
-    // Mock window object with gtag
+    // Mock window object with gtag and location
     Object.defineProperty(window, "gtag", {
       value: mockGtag,
+      writable: true,
+      configurable: true,
+    });
+
+    // Mock window.location.origin
+    Object.defineProperty(window, "location", {
+      value: {
+        origin: "https://example.com",
+      },
       writable: true,
       configurable: true,
     });
@@ -31,7 +40,7 @@ describe("Google Analytics gtag helpers", () => {
 
       expect(mockGtag).toHaveBeenCalledTimes(1);
       expect(mockGtag).toHaveBeenCalledWith("config", GA_TRACKING_ID, {
-        page_location: testUrl,
+        page_location: "https://example.com/test-page",
       });
     });
 
@@ -41,7 +50,7 @@ describe("Google Analytics gtag helpers", () => {
       pageview(testUrl);
 
       expect(mockGtag).toHaveBeenCalledWith("config", GA_TRACKING_ID, {
-        page_location: testUrl,
+        page_location: "https://example.com/test-page?param=value&another=test",
       });
     });
 
@@ -65,7 +74,7 @@ describe("Google Analytics gtag helpers", () => {
       pageview(testUrl);
 
       expect(mockGtag).toHaveBeenCalledWith("config", GA_TRACKING_ID, {
-        page_location: testUrl,
+        page_location: "https://example.com",
       });
     });
   });
@@ -220,7 +229,7 @@ describe("Google Analytics gtag helpers", () => {
       pageview(longUrl);
 
       expect(mockGtag).toHaveBeenCalledWith("config", GA_TRACKING_ID, {
-        page_location: longUrl,
+        page_location: "https://example.com" + longUrl,
       });
     });
 
