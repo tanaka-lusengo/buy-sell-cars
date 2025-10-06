@@ -11,7 +11,7 @@ export const GoogleAnalytics = () => {
   useEffect(() => {
     if (process.env.NODE_ENV === "development") return;
 
-    const url = pathname + searchParams.toString();
+    const url = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');
     pageview(url);
   }, [pathname, searchParams]);
 
