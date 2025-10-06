@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import Toaster from "~bsc-shared/utils/reactHotToast/Toaster";
+import { GoogleAnalytics } from "@/src/components/Analytics/GoogleAnalytics";
 import { AuthProvider } from "@/src/context/auth-context";
 import { FavouritesProvider } from "@/src/context/favourites-context";
 import { createClient } from "@/supabase/server";
@@ -46,6 +47,9 @@ export default async function RootLayout({
       <body>
         {/* Vercel Analytics for monitoring app usage and performance */}
         <Analytics />
+
+        {/* Google Analytics page tracking */}
+        <GoogleAnalytics />
 
         {/* Global styles and fonts */}
         <AuthProvider initialUser={user} initialProfile={profile}>

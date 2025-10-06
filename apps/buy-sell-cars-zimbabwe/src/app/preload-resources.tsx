@@ -1,5 +1,8 @@
 import Script from "next/script";
 
+const isProduction = process.env.NODE_ENV === "production";
+const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID;
+
 export const PreloadResources = () => (
   <>
     <head key="preload-resources">
@@ -34,17 +37,21 @@ export const PreloadResources = () => (
     />
 
     {/* Google Analytics */}
-    <Script
-      src="https://www.googletagmanager.com/gtag/js?id=G-89PPSSBR40"
-      strategy="afterInteractive"
-    />
-    <Script id="google-analytics" strategy="afterInteractive">
-      {`
+    {isProduction && (
+      <>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-89PPSSBR40');
+        gtag('config', '${GA_TRACKING_ID}');
       `}
-    </Script>
+        </Script>
+      </>
+    )}
   </>
 );
