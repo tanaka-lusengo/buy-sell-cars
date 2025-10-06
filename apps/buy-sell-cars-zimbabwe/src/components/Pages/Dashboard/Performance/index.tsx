@@ -2,23 +2,33 @@
 
 import { useRouter } from "next/navigation";
 import { ResponsiveContainer, Typography, Button } from "~bsc-shared/ui";
-import { type Profile } from "@/src/types";
+import { SubscriptionTypeNames } from "@/src/constants/subscription";
+import type { Profile, Subscription } from "@/src/types";
 import { Flex } from "@/styled-system/jsx";
 import { InfoFooter } from "../components";
 import { ViewClickedAds } from "./components/ViewClickedAds";
 import { MyProfileViewsCard } from "./components/ViewProfileViews";
 
-export const Performance = ({ profile }: { profile: Profile }) => {
+type PerformanceProps = {
+  profile: Profile;
+  subscription: Subscription | null;
+};
+
+export const Performance = ({ profile, subscription }: PerformanceProps) => {
   const { id, user_category } = profile;
 
   const isIndividual = user_category === "individual";
+  const isStarterShowcase =
+    subscription?.subscription_name === SubscriptionTypeNames.StarterShowcase;
+
+  const doesNotHaveAccess = isIndividual || isStarterShowcase;
 
   const { push } = useRouter();
 
   return (
     <ResponsiveContainer>
       <Flex paddingY="lg" direction="column" gap="md">
-        {isIndividual ? (
+        {doesNotHaveAccess ? (
           <Flex direction="column" gap="md" padding="md">
             <Typography variant="h3">
               Sorry, you don&#39;t have access to Performance metrics at this
