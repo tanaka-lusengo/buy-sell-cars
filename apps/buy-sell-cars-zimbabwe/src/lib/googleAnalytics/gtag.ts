@@ -1,7 +1,7 @@
 // Google Analytics helper functions
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void;
+    gtag: (...args: unknown[]) => void;
   }
 }
 
@@ -32,7 +32,7 @@ export const event = ({
     window.gtag("event", action, {
       event_category: category,
       event_label: label,
-      value: value,
+      value,
     });
   }
 };
