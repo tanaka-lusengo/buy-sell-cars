@@ -17,11 +17,12 @@ type PerformanceProps = {
 export const Performance = ({ profile, subscription }: PerformanceProps) => {
   const { id, user_category } = profile;
 
+  const noSubscription = !subscription;
   const isIndividual = user_category === "individual";
   const isStarterShowcase =
     subscription?.subscription_name === SubscriptionTypeNames.StarterShowcase;
 
-  const doesNotHaveAccess = isIndividual || isStarterShowcase;
+  const doesNotHaveAccess = noSubscription || isIndividual || isStarterShowcase;
 
   const { push } = useRouter();
 
