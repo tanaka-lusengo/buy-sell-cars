@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { pageview, event, GA_TRACKING_ID, GA_MEASUREMENT_ID } from "./gtag";
+import { pageview, event, GA_TRACKING_ID } from "./gtag";
 
 // Mock window.gtag
 const mockGtag = vi.fn();
@@ -29,12 +29,6 @@ describe("Google Analytics gtag helpers", () => {
   describe("GA_TRACKING_ID", () => {
     it("should export the tracking ID from environment variable", () => {
       expect(GA_TRACKING_ID).toBe(process.env.NEXT_PUBLIC_GA_ID);
-    });
-  });
-
-  describe("GA_MEASUREMENT_ID", () => {
-    it("should export the measurement ID from environment variable", () => {
-      expect(GA_MEASUREMENT_ID).toBe(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID);
     });
   });
 
