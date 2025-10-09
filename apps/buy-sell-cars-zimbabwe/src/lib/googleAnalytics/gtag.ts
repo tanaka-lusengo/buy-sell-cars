@@ -6,11 +6,17 @@ declare global {
 }
 
 export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID;
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 // Track page views
 export const pageview = (url: string) => {
   if (typeof window !== "undefined" && window.gtag) {
     window.gtag("config", GA_TRACKING_ID, {
+      page_location: `${window.location.origin}${url}`,
+    });
+  }
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag("config", GA_MEASUREMENT_ID, {
       page_location: `${window.location.origin}${url}`,
     });
   }
