@@ -9,20 +9,19 @@ import {
 import { Json } from "@/database.types";
 import { SubscriptionTypeNames } from "@/src/constants/subscription";
 import { Profile, LogSubscriptionType } from "@/src/types";
-import { generateTrialEndDate } from "@/src/utils/trialHelpers";
 import { createClient } from "@/supabase/server";
 
 /**
- * Start a 14-day trial for the Starter Showcase plan
+ * Start Community Access plan - a permanent free plan with 20 vehicle limit
  */
-export const startStarterShowcaseTrial = async (profile: Profile) => {
+export const startCommunityAccess = async (profile: Profile) => {
   try {
     const supabase = await createClient();
 
     // Check if user already has a subscription
     const { data: existingSubscription, error: checkError } = await supabase
       .from("subscriptions")
-      .select("id, subscription_name, is_trial, status")
+      .select("id, subscription_name, status")
       .eq("profile_id", profile.id)
       .single();
 
@@ -40,7 +39,7 @@ export const startStarterShowcaseTrial = async (profile: Profile) => {
       return {
         data: null,
         status: StatusCode.BAD_REQUEST,
-        error: "You already have an active subscription or trial",
+        error: "You already have an active subscription",
       };
     }
 
@@ -49,15 +48,15 @@ export const startStarterShowcaseTrial = async (profile: Profile) => {
       return {
         data: null,
         status: StatusCode.BAD_REQUEST,
-        error: "Trials are only available for dealership accounts",
+        error: "Community Access is only available for dealership accounts",
       };
     }
 
-    // Create trial subscription
-    const trialSubscriptionData: LogSubscriptionType = {
+    // Create Community Access subscription (permanent, no expiration)
+    const communityAccessData: LogSubscriptionType = {
       profile_id: profile.id,
       email: profile.email,
-      subscription_name: SubscriptionTypeNames.StarterShowcase,
+      subscription_name: SubscriptionTypeNames.CommunityAccess,
       status: "active",
       plan_code: null,
       customer_code: null,
@@ -65,22 +64,22 @@ export const startStarterShowcaseTrial = async (profile: Profile) => {
       start_time: new Date().toISOString(),
       cancel_time: null,
       raw_response: null,
-      is_trial: true,
-      trial_end_date: generateTrialEndDate(),
+      is_trial: false, // Community Access is permanent, not a trial
+      trial_end_date: undefined, // No expiration
     };
 
     const { data, error } = await supabase
       .from("subscriptions")
-      .insert(trialSubscriptionData)
+      .insert(communityAccessData)
       .select()
       .single();
 
     if (error) {
-      logErrorMessage(error, "creating trial subscription");
+      logErrorMessage(error, "creating Community Access subscription");
       return {
         data: null,
         status: StatusCode.INTERNAL_SERVER_ERROR,
-        error: "Failed to start trial",
+        error: "Failed to start Community Access",
       };
     }
 
@@ -93,7 +92,7 @@ export const startStarterShowcaseTrial = async (profile: Profile) => {
       error: null,
     };
   } catch (error) {
-    return handleServerError(error, "starting trial subscription");
+    return handleServerError(error, "starting Community Access subscription");
   }
 };
 

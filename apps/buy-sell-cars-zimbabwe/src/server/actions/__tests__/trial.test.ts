@@ -1,8 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { StatusCode } from "~bsc-shared/utils";
 import { Profile } from "@/src/types";
-import { generateTrialEndDate } from "@/src/utils/trialHelpers";
-import { convertTrialToPaid, startStarterShowcaseTrial } from "../trial";
+import { convertTrialToPaid, startCommunityAccess } from "../trial";
 
 // Mock the Supabase client
 const mockSupabaseClient = {
@@ -163,7 +162,7 @@ describe("trial actions", () => {
     });
   });
 
-  describe("startStarterShowcaseTrial", () => {
+  describe("startCommunityAccess", () => {
     const mockProfile = {
       id: "test-profile-id",
       email: "test@example.com",
@@ -185,7 +184,7 @@ describe("trial actions", () => {
       show_vehicles: null,
     } satisfies Profile;
 
-    it("should successfully start a trial for eligible dealership", async () => {
+    it("should successfully start Community Access for eligible dealership", async () => {
       // Mock no existing subscription
       mockSupabaseClient.single.mockResolvedValueOnce({
         data: null,
@@ -193,36 +192,35 @@ describe("trial actions", () => {
       });
 
       // Mock successful insert
-      const mockTrialData = {
-        id: "new-trial-id",
+      const mockCommunityAccessData = {
+        id: "new-community-access-id",
         profile_id: mockProfile.id,
-        is_trial: true,
-        trial_end_date: generateTrialEndDate(),
+        is_trial: false,
+        trial_end_date: null,
       };
       mockSupabaseClient.single.mockResolvedValueOnce({
-        data: mockTrialData,
+        data: mockCommunityAccessData,
         error: null,
       });
 
-      const result = await startStarterShowcaseTrial(mockProfile);
+      const result = await startCommunityAccess(mockProfile);
 
       expect(result.status).toBe(StatusCode.SUCCESS);
       expect(result.error).toBeNull();
       expect(result.data).toBeTruthy();
 
-      // Verify insert was called with correct data
+      // Verify insert was called with correct data (no trial, no expiration)
       expect(mockSupabaseClient.insert).toHaveBeenCalledWith(
         expect.objectContaining({
           profile_id: mockProfile.id,
           email: mockProfile.email,
-          is_trial: true,
-          trial_end_date: expect.any(String),
+          is_trial: false,
           status: "active",
         })
       );
     });
 
-    it("should reject trial for individual users", async () => {
+    it("should reject Community Access for individual users", async () => {
       const individualProfile = {
         ...mockProfile,
         user_category: "individual" as const,
@@ -234,28 +232,26 @@ describe("trial actions", () => {
         error: { code: "PGRST116", message: "No rows found" },
       });
 
-      const result = await startStarterShowcaseTrial(individualProfile);
+      const result = await startCommunityAccess(individualProfile);
 
       expect(result.status).toBe(StatusCode.BAD_REQUEST);
       expect(result.error).toBe(
-        "Trials are only available for dealership accounts"
+        "Community Access is only available for dealership accounts"
       );
       expect(result.data).toBeNull();
     });
 
-    it("should reject trial when user already has subscription", async () => {
+    it("should reject Community Access when user already has subscription", async () => {
       // Mock existing subscription
       mockSupabaseClient.single.mockResolvedValueOnce({
         data: { id: "existing-sub" },
         error: null,
       });
 
-      const result = await startStarterShowcaseTrial(mockProfile);
+      const result = await startCommunityAccess(mockProfile);
 
       expect(result.status).toBe(StatusCode.BAD_REQUEST);
-      expect(result.error).toBe(
-        "You already have an active subscription or trial"
-      );
+      expect(result.error).toBe("You already have an active subscription");
       expect(result.data).toBeNull();
     });
   });

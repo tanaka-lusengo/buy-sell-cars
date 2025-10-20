@@ -9,7 +9,7 @@ import {
   toastNotifySuccess,
   StatusCode,
 } from "~bsc-shared/utils";
-import { startStarterShowcaseTrial } from "@/src/server/actions/trial";
+import { startCommunityAccess } from "@/src/server/actions/trial";
 import { Profile, Subscription } from "@/src/types";
 import { formatPriceToDollars } from "@/src/utils";
 import { Box, Container, Flex } from "@/styled-system/jsx";
@@ -42,50 +42,59 @@ export const SubscriptionCard = ({
   const isUpgradeFlow = searchParams.get("upgrade") === "true";
 
   const isIndividual = profile.user_category === "individual";
-  const isStarterShowcase = planName.includes("Starter Showcase");
+  const isCommunityAccess = planName.includes("Community Access");
 
   const noSubscription = !subscription;
 
-  const showTrialPeriodNote = isStarterShowcase && noSubscription;
+  console.log("subscription", subscription);
+
+  const isFreeAccess = isCommunityAccess && noSubscription;
+
+  // Check if user is already subscribed to this specific plan
+  const isCurrentPlan =
+    subscription?.subscription_name === planName &&
+    subscription?.status === "active";
 
   // Show submit button if:
   // 1. they are a dealership (not individual)
-  // 2. They don't have a subscription
-  // 3. If they do have a subscription and the status is not "active"
-  // 4. If they are coming to upgrade from trial, always show the button
+  // 2. They are NOT already subscribed to this specific plan
+  // 3. They don't have a subscription
+  // 4. If they do have a subscription and the status is not "active"
+  // 5. If they are coming to upgrade from trial, always show the button (unless it's the current plan)
   const shouldShowSubmitButton =
     !isIndividual &&
+    !isCurrentPlan &&
     (noSubscription ||
       (subscription && subscription.status !== "active") ||
       isUpgradeFlow);
 
-  const handleStartTrial = async () => {
+  const handleStartCommunityAccess = async () => {
     setIsLoading(true);
 
     try {
       const userConfirmed = confirm(
-        `Start your 14-day free trial of the ${planName} plan?\n\n` +
-          `You'll temporarily get full access to the subscription features.\n` +
-          `No payment required. Start your free trial now?`
+        `Subscribe to Community Access\n\n` +
+          `You'll get access to list up to 20 vehicles.\n` +
+          `No payment required. Get started now?`
       );
 
       if (userConfirmed) {
-        const { error, status } = await startStarterShowcaseTrial(profile);
+        const { error, status } = await startCommunityAccess(profile);
 
         if (error || status !== StatusCode.SUCCESS) {
-          return handleClientError("Starting your free trial", error);
+          return handleClientError("Starting Community Access", error);
         }
 
         toastNotifySuccess(
-          "Your 14-day free trial has started! Welcome to BuySellCars!"
+          "Community Access activated! Welcome to BuySellCars!"
         );
         router.refresh();
         router.push("/dashboard/subscriptions");
       }
     } catch (error) {
-      logErrorMessage(error, "starting trial");
+      logErrorMessage(error, "starting Community Access");
       handleClientError(
-        "An unexpected error occurred while starting your trial",
+        "An unexpected error occurred while activating Community Access",
         "Please try again later or contact support if the issue persists."
       );
     } finally {
@@ -122,8 +131,8 @@ export const SubscriptionCard = ({
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        if (showTrialPeriodNote) {
-          handleStartTrial();
+        if (isFreeAccess) {
+          handleStartCommunityAccess();
         } else {
           handleSubscribe();
         }
@@ -142,17 +151,29 @@ export const SubscriptionCard = ({
       >
         <Typography align="center" variant="h3">
           {planName} <br />
-          <Typography
-            as="span"
-            color="primaryDark"
-            style={{ fontSize: "inherit" }}
-          >
-            {formatPriceToDollars(basePrice)} + VAT{" "}
-            <Typography as="span">/ per month</Typography>
-          </Typography>
-          <Typography align="center" variant="body2" color="grey">
-            ({formatPriceToDollars(price)} incl 15% VAT)
-          </Typography>
+          {isCommunityAccess ? (
+            <Typography
+              as="span"
+              color="success"
+              style={{ fontSize: "inherit" }}
+            >
+              FREE
+            </Typography>
+          ) : (
+            <>
+              <Typography
+                as="span"
+                color="primaryDark"
+                style={{ fontSize: "inherit" }}
+              >
+                {formatPriceToDollars(basePrice)} + VAT{" "}
+                <Typography as="span">/ per month</Typography>
+              </Typography>
+              <Typography align="center" variant="body2" color="grey">
+                ({formatPriceToDollars(price)} incl 15% VAT)
+              </Typography>
+            </>
+          )}
         </Typography>
 
         <Box marginY="md">
@@ -179,21 +200,27 @@ export const SubscriptionCard = ({
 
         <Container marginY="md">
           <Flex direction="column" gap="md">
+            {isCurrentPlan && (
+              <Button disabled color="black">
+                ✓ Current Plan
+              </Button>
+            )}
+
             {shouldShowSubmitButton && (
               <Box marginX="auto" textAlign="center">
                 <Button type="submit" disabled={isLoading}>
                   {isLoading
-                    ? showTrialPeriodNote
-                      ? "Starting Trial..."
+                    ? isFreeAccess
+                      ? "Activating..."
                       : "Redirecting..."
-                    : showTrialPeriodNote
-                      ? "Start 14 day Free Trial period"
+                    : isFreeAccess
+                      ? "Get Community Access"
                       : "Get Started"}
                 </Button>
               </Box>
             )}
 
-            {!isIndividual && (
+            {!isIndividual && !isCommunityAccess && !isCurrentPlan && (
               <Typography align="center">
                 If you are already subscribed to a plan,{" "}
                 <b>make sure to cancel</b> your existing subscription first.
@@ -209,11 +236,13 @@ export const SubscriptionCard = ({
               </Typography>
             )}
 
-            <Typography align="center" variant="body2">
-              <i>
-                (Note: You will be charged in South African Rands at checkout)
-              </i>
-            </Typography>
+            {!isCommunityAccess && (
+              <Typography align="center" variant="body2">
+                <i>
+                  (Note: You will be charged in South African Rands at checkout)
+                </i>
+              </Typography>
+            )}
           </Flex>
         </Container>
       </Box>

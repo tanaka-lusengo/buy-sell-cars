@@ -1,24 +1,24 @@
 import { addVAT } from "~bsc-shared/utils";
 
 export enum SubscriptionTypeNames {
-  StarterShowcase = "Starter Showcase (Zimbabwe)",
+  CommunityAccess = "Community Access (Zimbabwe)",
   GrowthAccelerator = "Growth Accelerator (Zimbabwe)",
   DealershipDominator = "Dealership Dominator (Zimbabwe)",
 }
 
 export enum SubscriptionPlanLinks {
-  StarterShowcase = "https://paystack.shop/pay/buy-sell-cars-zw-starter-showcase-test",
+  CommunityAccess = "", // Community Access is free, no payment link
   GrowthAccelerator = "https://paystack.shop/pay/buy-sell-cars-zw-growth-accelerator-live",
   DealershipDominator = "https://paystack.shop/pay/buy-sell-cars-zw-dealership-dominator-live",
 }
 
 export const SUBSCRIPTIONS = {
-  StarterShowcase: {
-    name: SubscriptionTypeNames.StarterShowcase,
-    planLink: SubscriptionPlanLinks.StarterShowcase,
-    price: addVAT(50, 0.15),
-    basePrice: 50,
-    vat: 0.15,
+  CommunityAccess: {
+    name: SubscriptionTypeNames.CommunityAccess,
+    planLink: SubscriptionPlanLinks.CommunityAccess,
+    price: 0,
+    basePrice: 0,
+    vat: 0,
   },
   GrowthAccelerator: {
     name: SubscriptionTypeNames.GrowthAccelerator,
@@ -37,7 +37,7 @@ export const SUBSCRIPTIONS = {
 };
 
 export const SUBSCRIPTION_TYPES = [
-  SubscriptionTypeNames.StarterShowcase,
+  SubscriptionTypeNames.CommunityAccess,
   SubscriptionTypeNames.GrowthAccelerator,
   SubscriptionTypeNames.DealershipDominator,
 ];

@@ -13,7 +13,7 @@ import {
   VehicleWithImage,
 } from "@/src/types";
 import { formatPriceToDollars } from "@/src/utils";
-import { Flex, Divider, Box, Grid } from "@/styled-system/jsx";
+import { Flex, Box, Grid } from "@/styled-system/jsx";
 import { ActionButtons } from "./ActionButtons";
 import { EditableInput } from "./EditableInput";
 
@@ -232,13 +232,6 @@ export const VehicleRow = ({
           <Typography>{formatDate(vehicle.updated_at || "")}</Typography>
         </Box>
       </Grid>
-
-      <Divider
-        orientation="horizontal"
-        marginY="sm"
-        color="grey"
-        key={`divider-${vehicleId}`}
-      />
     </Box>
   );
 };

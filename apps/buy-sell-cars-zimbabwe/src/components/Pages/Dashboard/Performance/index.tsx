@@ -19,10 +19,10 @@ export const Performance = ({ profile, subscription }: PerformanceProps) => {
 
   const noSubscription = !subscription;
   const isIndividual = user_category === "individual";
-  const isStarterShowcase =
-    subscription?.subscription_name === SubscriptionTypeNames.StarterShowcase;
+  const isCommunityAccess =
+    subscription?.subscription_name === SubscriptionTypeNames.CommunityAccess;
 
-  const doesNotHaveAccess = noSubscription || isIndividual || isStarterShowcase;
+  const doesNotHaveAccess = noSubscription || isIndividual || isCommunityAccess;
 
   const { push } = useRouter();
 
@@ -43,7 +43,11 @@ export const Performance = ({ profile, subscription }: PerformanceProps) => {
             </Typography>
 
             <Flex justify="center">
-              <Button onClick={() => push("/dashboard/subscriptions/view")}>
+              <Button
+                onClick={() =>
+                  push("/dashboard/subscriptions/view?upgrade=true")
+                }
+              >
                 Upgrade Now
               </Button>
             </Flex>

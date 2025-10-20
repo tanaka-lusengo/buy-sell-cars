@@ -24,7 +24,7 @@ import {
 import { Profile, type VehicleWithImage, Subscription } from "@/src/types";
 import { EditVehicleFormType } from "@/src/types";
 import { getVehicleStatusMessage } from "@/src/utils/vehicleVisibilityHelpers";
-import { Grid, Box, Flex } from "@/styled-system/jsx";
+import { Box, Flex, Grid } from "@/styled-system/jsx";
 import { createClient } from "@/supabase/client";
 import { ListingsForm } from "../common.styled";
 import { VehicleRow } from "./components";
@@ -211,8 +211,8 @@ export const Listings = ({
   let maxVehicles = 0;
 
   if (profile?.user_category === "dealership") {
-    if (profileSubscription === SubscriptionTypeNames.StarterShowcase) {
-      maxVehicles = 25;
+    if (profileSubscription === SubscriptionTypeNames.CommunityAccess) {
+      maxVehicles = 20;
     } else if (
       profileSubscription === SubscriptionTypeNames.GrowthAccelerator
     ) {
@@ -331,7 +331,7 @@ export const Listings = ({
             async (formData: EditVehicleFormType) => await handleSave(formData)
           )}
         >
-          <table>
+          <Box>
             {/* Table Header */}
             <Grid
               gridTemplateColumns="repeat(2, 1.5fr) repeat(14, 1fr) 2fr repeat(2, 1fr)"
@@ -365,7 +365,7 @@ export const Listings = ({
                 handleImagePreview={handleImagePreview}
               />
             ))}
-          </table>
+          </Box>
         </ListingsForm>
       )}
     </Box>

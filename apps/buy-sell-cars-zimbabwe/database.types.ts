@@ -410,7 +410,7 @@ export type Database = {
       listing_category_type: "rental" | "for_sale";
       subscriber_source_type: "web_page" | "email";
       subscription_type:
-        | "starter_showcase"
+        | "community_access"
         | "growth_accelerator"
         | "dealership_dominator";
       user_category_type: "individual" | "dealership";
@@ -546,7 +546,7 @@ export const Constants = {
       listing_category_type: ["rental", "for_sale"],
       subscriber_source_type: ["web_page", "email"],
       subscription_type: [
-        "starter_showcase",
+        "community_access",
         "growth_accelerator",
         "dealership_dominator",
       ],
