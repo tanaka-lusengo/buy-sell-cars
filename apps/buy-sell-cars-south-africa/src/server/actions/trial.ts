@@ -6,7 +6,6 @@ import {
   handleServerError,
   logErrorMessage,
 } from "~bsc-shared/utils";
-import { Json } from "@/database.types";
 import { SubscriptionTypeNames } from "@/src/constants/subscription";
 import { Profile, LogSubscriptionType } from "@/src/types";
 import { createClient } from "@/supabase/server";
@@ -64,8 +63,6 @@ export const startCommunityAccess = async (profile: Profile) => {
       start_time: new Date().toISOString(),
       cancel_time: null,
       raw_response: null,
-      is_trial: false, // Community Access is permanent, not a trial
-      trial_end_date: undefined, // No expiration
     };
 
     const { data, error } = await supabase
@@ -93,73 +90,5 @@ export const startCommunityAccess = async (profile: Profile) => {
     };
   } catch (error) {
     return handleServerError(error, "starting Community Access subscription");
-  }
-};
-
-/**
- * Convert trial to paid subscription (called from webhook)
- */
-export const convertTrialToPaid = async (
-  profileId: string,
-  paystackData: {
-    subscription_code: string;
-    customer_code: string;
-    plan_code: string;
-    raw_response: Record<string, unknown>;
-  }
-) => {
-  try {
-    const supabase = await createClient();
-
-    // Find active trial for this profile
-    const { data: trialSub, error: findError } = await supabase
-      .from("subscriptions")
-      .select("id")
-      .eq("profile_id", profileId)
-      .eq("is_trial", true)
-      .eq("status", "active")
-      .single();
-
-    if (findError || !trialSub) {
-      logErrorMessage(findError, "finding trial subscription");
-      return {
-        data: null,
-        status: StatusCode.BAD_REQUEST,
-        error: "No active trial found for this user",
-      };
-    }
-
-    // Update trial to paid subscription
-    const { data, error } = await supabase
-      .from("subscriptions")
-      .update({
-        is_trial: false,
-        trial_end_date: null,
-        subscription_code: paystackData.subscription_code,
-        customer_code: paystackData.customer_code,
-        plan_code: paystackData.plan_code,
-        raw_response: paystackData.raw_response as Json,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", trialSub.id)
-      .select()
-      .single();
-
-    if (error) {
-      logErrorMessage(error, "converting trial to paid");
-      return {
-        data: null,
-        status: StatusCode.INTERNAL_SERVER_ERROR,
-        error: "Failed to convert trial to paid subscription",
-      };
-    }
-
-    return {
-      data,
-      status: StatusCode.SUCCESS,
-      error: null,
-    };
-  } catch (error) {
-    return handleServerError(error, "converting trial to paid subscription");
   }
 };

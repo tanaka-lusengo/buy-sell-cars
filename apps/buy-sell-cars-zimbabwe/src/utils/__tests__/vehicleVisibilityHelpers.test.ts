@@ -10,7 +10,7 @@ describe("vehicleVisibilityHelpers", () => {
     id: "test-id",
     profile_id: "test-profile-id",
     email: "test@example.com",
-    subscription_name: "Starter Showcase",
+    subscription_name: "Growth Accelerator",
     status: "active",
     plan_code: "test-plan",
     customer_code: "test-customer",

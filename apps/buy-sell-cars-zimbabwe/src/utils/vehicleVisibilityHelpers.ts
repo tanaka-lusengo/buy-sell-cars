@@ -4,8 +4,9 @@ import { hasTrialExpired } from "./trialHelpers";
 /**
  * Determine if a vehicle should be visible on public pages
  * Vehicles are hidden if:
- * - Owner has expired trial subscription
+ * - Owner has expired trial subscription (applies to paid plans only)
  * - Owner is dealership with no active subscription
+ * Community Access subscriptions are always visible (permanent plan)
  */
 export const shouldVehicleBeVisible = (
   ownerSubscription: Subscription | null,
@@ -29,12 +30,13 @@ export const shouldVehicleBeVisible = (
       return false;
     }
 
-    // Active paid subscription - show vehicles
+    // Active paid subscription or Community Access - show vehicles
+    // Community Access has is_trial = false and no expiration
     if (!ownerSubscription.is_trial && ownerSubscription.status === "active") {
       return true;
     }
 
-    // Active trial - show vehicles (must be active status and not expired)
+    // Active trial (for other paid plans) - show vehicles if not expired
     if (
       ownerSubscription.is_trial &&
       ownerSubscription.status === "active" &&
@@ -58,7 +60,7 @@ export const shouldVehicleBeVisible = (
  * Users are allowed access if:
  * - show_vehicles is explicitly set to true (manual override)
  * - Individual users (get free access)
- * - Dealership users with active subscription
+ * - Dealership users with active subscription (including Community Access)
  */
 export const shouldAllowDashboardAccess = (
   profile: {
@@ -84,12 +86,13 @@ export const shouldAllowDashboardAccess = (
       return false;
     }
 
-    // Active paid subscription - allow access
+    // Active paid subscription or Community Access - allow access
+    // Community Access has is_trial = false and no expiration
     if (!subscription.is_trial && subscription.status === "active") {
       return true;
     }
 
-    // Active trial - allow access (must be active status and not expired)
+    // Active trial (for paid plans) - allow access if not expired
     if (
       subscription.is_trial &&
       subscription.status === "active" &&
@@ -150,6 +153,7 @@ export const getVehicleStatusMessage = (
     };
   }
 
+  // Active subscription (paid or Community Access - both have is_trial = false)
   if (!subscription.is_trial && subscription.status === "active") {
     return {
       status: "visible",

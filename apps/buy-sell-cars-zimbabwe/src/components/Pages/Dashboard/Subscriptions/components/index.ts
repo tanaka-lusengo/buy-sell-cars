@@ -1,6 +1,6 @@
 export { SubscriptionCard } from "./SubscriptionCard";
 export {
-  starterShowcasePlan,
+  communityAccessPlan,
   growthAcceleratorPlan,
   dealershipDominatorPlan,
 } from "./subscriptionData";

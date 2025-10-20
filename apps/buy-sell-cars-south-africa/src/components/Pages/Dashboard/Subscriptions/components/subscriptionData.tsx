@@ -1,18 +1,14 @@
 import { SUBSCRIPTIONS } from "@/src/constants/subscription";
 
-export const starterShowcasePlan = {
-  name: SUBSCRIPTIONS.StarterShowcase.name,
-  planLink: SUBSCRIPTIONS.StarterShowcase.planLink,
-  price: SUBSCRIPTIONS.StarterShowcase.price,
-  basePrice: SUBSCRIPTIONS.StarterShowcase.basePrice,
-  vat: SUBSCRIPTIONS.StarterShowcase.vat,
-  description: "Perfect entry point for new or smaller dealerships.",
+export const communityAccessPlan = {
+  name: SUBSCRIPTIONS.CommunityAccess.name,
+  planLink: SUBSCRIPTIONS.CommunityAccess.planLink,
+  price: SUBSCRIPTIONS.CommunityAccess.price,
+  basePrice: SUBSCRIPTIONS.CommunityAccess.basePrice,
+  description: "Free plan for small dealerships to get started.",
   features: [
     <>
-      List up to <b>25 vehicles</b> at once
-    </>,
-    <>
-      <b>1 Featured Listing</b> (rotated weekly)
+      List up to <b>20 vehicles</b> at once
     </>,
     <>
       <b>Display your logo</b> on each listing

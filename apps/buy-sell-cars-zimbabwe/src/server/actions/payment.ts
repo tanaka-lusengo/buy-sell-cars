@@ -12,7 +12,6 @@ import {
   getPaystackSubscription,
 } from "@/src/lib/paystack/endpoints";
 import { LogSubscriptionType } from "@/src/types";
-import { generateTrialEndDate } from "@/src/utils/trialHelpers";
 import { createClient } from "@/supabase/server";
 
 export const getPaystackSubscriptionPlan = async (
@@ -261,21 +260,15 @@ export const logSubscription = async (
 
   const supabase = await createClient();
 
-  // Check if this is a Starter Showcase plan to set up trial
-  const isStarterShowcase =
-    subscriptionData.subscription_name?.includes("Starter Showcase");
-
+  // Community Access is free and handled separately, not through Paystack
+  // All subscriptions logged here are paid plans (no trial logic needed)
   const logSubscriptionData: LogSubscriptionType = {
     ...subscriptionData,
     profile_id: user.id,
     email: user.email || "",
     subscription_name: subscriptionData.subscription_name,
     start_time: new Date().toISOString(),
-    // Add trial fields for Starter Showcase plan
-    ...(isStarterShowcase && {
-      is_trial: true,
-      trial_end_date: generateTrialEndDate(),
-    }),
+    is_trial: false,
   };
 
   const { error: insertError } = await supabase

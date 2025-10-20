@@ -18,7 +18,7 @@ import { formatPriceToRands, isWithinTrialPeriod } from "@/src/utils";
 import { Box, Flex, Grid, Divider } from "@/styled-system/jsx";
 import { InfoFooter } from "../components";
 import {
-  starterShowcasePlan,
+  communityAccessPlan,
   growthAcceleratorPlan,
   dealershipDominatorPlan,
 } from "./components/subscriptionData";
@@ -62,8 +62,10 @@ export const SubscriptionsDashboard = ({
   const getCurrentPlanDetails = () => {
     if (isIndividual) return null;
 
-    if (subscription_name?.includes("Starter Showcase")) {
-      return starterShowcasePlan;
+    if (subscription_name?.includes("Community Access")) {
+      return communityAccessPlan;
+    } else if (subscription_name?.includes("Starter Showcase")) {
+      return communityAccessPlan; // Fallback for old data
     } else if (subscription_name?.includes("Growth Accelerator")) {
       return growthAcceleratorPlan;
     } else if (subscription_name?.includes("Dealership Dominator")) {
@@ -165,11 +167,13 @@ export const SubscriptionsDashboard = ({
           <Flex direction="column" gap="md">
             <Typography variant="h4">What&apos;s Included:</Typography>
             <Flex direction="column" gap="sm">
-              {currentPlanDetails.features.map((feature, index) => (
-                <Typography key={index}>
-                  {generateIcon("check")} {feature}
-                </Typography>
-              ))}
+              {currentPlanDetails.features.map(
+                (feature: React.ReactNode, index: number) => (
+                  <Typography key={index}>
+                    {generateIcon("check")} {feature}
+                  </Typography>
+                )
+              )}
             </Flex>
           </Flex>
 
@@ -381,7 +385,7 @@ export const SubscriptionsDashboard = ({
     if (isIndividual) return null;
 
     const plans = [
-      { ...starterShowcasePlan, limit: 25, featured: 1 },
+      { ...communityAccessPlan, limit: 20, featured: 0 },
       { ...growthAcceleratorPlan, limit: 75, featured: 3 },
       { ...dealershipDominatorPlan, limit: 100, featured: 5 },
     ];

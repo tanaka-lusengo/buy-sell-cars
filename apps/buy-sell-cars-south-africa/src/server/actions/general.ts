@@ -66,8 +66,8 @@ export const addVehicle = async ({ profile, formData }: AddVehicleProps) => {
     let maxVehicles = 0;
 
     if (profile?.user_category === "dealership") {
-      if (profileSubscription === SubscriptionTypeNames.StarterShowcase) {
-        maxVehicles = 25;
+      if (profileSubscription === SubscriptionTypeNames.CommunityAccess) {
+        maxVehicles = 20;
       } else if (
         profileSubscription === SubscriptionTypeNames.GrowthAccelerator
       ) {
