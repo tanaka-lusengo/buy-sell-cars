@@ -46,7 +46,6 @@ export const SubscriptionCard = ({
 
   const noSubscription = !subscription;
 
-  console.log("subscription", subscription);
 
   const isFreeAccess = isCommunityAccess && noSubscription;
 
