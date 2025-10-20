@@ -11,7 +11,7 @@ import { Box, Flex, Grid, VStack } from "@/styled-system/jsx";
 import { InfoFooter } from "../components";
 import { SubscriptionCard } from "./components";
 import {
-  starterShowcasePlan,
+  communityAccessPlan,
   growthAcceleratorPlan,
   dealershipDominatorPlan,
 } from "./components/subscriptionData";
@@ -115,12 +115,12 @@ export const SubscriptionsList = ({
             <SubscriptionCard
               profile={profile}
               subscription={subscription}
-              planLink={starterShowcasePlan.planLink}
-              planName={starterShowcasePlan.name}
-              price={starterShowcasePlan.price}
-              basePrice={starterShowcasePlan.basePrice}
-              description={starterShowcasePlan.description}
-              features={starterShowcasePlan.features.map((feature, index) => (
+              planLink={communityAccessPlan.planLink}
+              planName={communityAccessPlan.name}
+              price={communityAccessPlan.price}
+              basePrice={communityAccessPlan.basePrice}
+              description={communityAccessPlan.description}
+              features={communityAccessPlan.features.map((feature, index) => (
                 <Typography key={index} as="span">
                   {feature}
                 </Typography>
