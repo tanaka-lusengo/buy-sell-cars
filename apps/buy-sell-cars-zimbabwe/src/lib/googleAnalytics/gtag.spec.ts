@@ -38,10 +38,18 @@ describe("Google Analytics gtag helpers", () => {
 
       pageview(testUrl);
 
-      expect(mockGtag).toHaveBeenCalledTimes(1);
-      expect(mockGtag).toHaveBeenCalledWith("config", GA_TRACKING_ID, {
+      expect(mockGtag).toHaveBeenCalledTimes(2);
+      expect(mockGtag).toHaveBeenNthCalledWith(1, "config", GA_TRACKING_ID, {
         page_location: "https://example.com/test-page",
       });
+      expect(mockGtag).toHaveBeenNthCalledWith(
+        2,
+        "config",
+        process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
+        {
+          page_location: "https://example.com/test-page",
+        }
+      );
     });
 
     it("should handle URLs with query parameters", () => {

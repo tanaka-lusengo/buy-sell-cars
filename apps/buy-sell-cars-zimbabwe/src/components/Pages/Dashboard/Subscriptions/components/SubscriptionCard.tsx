@@ -46,7 +46,6 @@ export const SubscriptionCard = ({
 
   const noSubscription = !subscription;
 
-
   const isFreeAccess = isCommunityAccess && noSubscription;
 
   // Check if user is already subscribed to this specific plan
