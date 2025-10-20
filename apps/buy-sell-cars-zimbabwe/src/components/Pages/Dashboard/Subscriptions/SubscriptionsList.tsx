@@ -85,7 +85,6 @@ export const SubscriptionsList = ({
               lg: "1fr",
               xl: "1fr 1fr 1fr",
             }}
-            // height="fit-content"
             justifyContent="center"
             gap="md"
           >
