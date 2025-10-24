@@ -11,16 +11,17 @@ import { ResponsiveContainer } from "~bsc-shared/ui";
 import heroBackgroundImg from "@/public/images/hero.jpg";
 import refuelBannerSmallImg from "@/public/images/sponsors/refuel/refuel-all-towns.jpg";
 import refuelBannerLargeImg from "@/public/images/sponsors/refuel/refuel-hero-banner.jpg";
+import sprayTechBannerImg from "@/public/images/sponsors/spray-tech/spray-tech-cropped.jpg";
+import sprayTechBannerSmallImg from "@/public/images/sponsors/spray-tech/spray-tech.jpg";
 import { trackPostHogEvent, useTrackOnView } from "@/src/components/Analytics";
-import { SPONSOR_NAMES } from "@/src/constants/sponsors";
-import { EXTERNAL_URLS } from "@/src/constants/urls";
+import { SPONSOR_NAMES, SPONSOR_URL } from "@/src/constants/sponsors";
 import { Box, Container, Flex } from "@/styled-system/jsx";
 import { REFUEL_WHATSAPP_URL } from "../constants";
 import { HomeBannerSlide } from "./components/HomeBannerSlide";
 
 export const HeroBanner = () => {
   const { width } = useWindowSize();
-  const isMobile = (width ?? 0) < breakpointsNumber.lg;
+  const isMobile = (width ?? 0) < breakpointsNumber.xl;
 
   const [emblaRef] = useEmblaCarousel(
     {
@@ -52,6 +53,14 @@ export const HeroBanner = () => {
       isHomeBanner: true,
     },
     {
+      backgroundImage: isMobile ? sprayTechBannerSmallImg : sprayTechBannerImg,
+      sponsorName: SPONSOR_NAMES.SPRAY_TECH,
+      href: SPONSOR_URL.SPRAY_TECH_URL,
+      objectFit: isMobile ? "contain" : "cover",
+      alt: "Spray Tech - Spray painting, car accessories, and more",
+      content: null,
+    },
+    {
       backgroundImage: isMobile ? refuelBannerSmallImg : refuelBannerLargeImg,
       sponsorName: SPONSOR_NAMES.REFUEL,
       href: REFUEL_WHATSAPP_URL,
@@ -74,7 +83,7 @@ export const HeroBanner = () => {
       properties: {
         sponsor: SPONSOR_NAMES.SUPA_CAR_SOUNDS,
         action: "view",
-        url: EXTERNAL_URLS.SUPA_CAR_SOUNDS_URL,
+        url: SPONSOR_URL.SUPA_CAR_SOUNDS_URL,
         placement: "landing_page_banner_top",
       },
     })
@@ -95,7 +104,7 @@ export const HeroBanner = () => {
   return (
     <Container
       px="0"
-      minHeight={{ base: "48rem", md: "54rem" }}
+      minHeight={{ base: "48rem", md: "65rem" }}
       position="relative"
     >
       <Box
@@ -118,7 +127,7 @@ export const HeroBanner = () => {
                 position="relative"
                 width="100%"
                 height="100%"
-                minHeight={{ base: "48rem", md: "54rem" }}
+                minHeight={{ base: "48rem", md: "65rem" }}
               >
                 {/* Background Image */}
                 {isHomeBanner ? (
