@@ -13,7 +13,7 @@ import {
   PaidSponsorFeature,
 } from "@/src/components/shared";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
-import { EXTERNAL_URLS } from "@/src/constants/urls";
+import { SPONSOR_URL } from "@/src/constants/sponsors";
 import { VehicleCategoryType, VehicleWithImageAndDealer } from "@/src/types";
 import { filterVehicles, parseUrlSearchParams } from "@/src/utils";
 import { Container, Box, Flex, Grid, Divider } from "@/styled-system/jsx";
@@ -221,7 +221,7 @@ export const AllVehicles = ({
                   />
 
                   <PaidSponsorFeature
-                    href={EXTERNAL_URLS.ROSSI_TYRES_URL}
+                    href={SPONSOR_URL.ROSSI_TYRES_URL}
                     name={SPONSOR_NAMES.ROSSI_TYRES}
                     placement={`all_vehicles_page_top_${vehicleCategory}`}
                     imgSrc={rossiTyresImg}
@@ -248,7 +248,7 @@ export const AllVehicles = ({
 
         {successStatus && vehicles.length > 0 && (
           <PaidSponsorFeature
-            href={EXTERNAL_URLS.ROAD_BOYS_LOGISTICS_URL}
+            href={SPONSOR_URL.ROAD_BOYS_LOGISTICS_URL}
             name={SPONSOR_NAMES.ROAD_BOYS_LOGISTICS}
             placement={`all_vehicles_page_bottom_${vehicleCategory}`}
             imgSrc={roadBoysLogisticsImg}

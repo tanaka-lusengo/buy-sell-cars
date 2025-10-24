@@ -7,7 +7,7 @@ import refuelVictoriaFalls from "@/public/images/sponsors/refuel/refuel-victoria
 import roadBoysLogistics from "@/public/images/sponsors/road-boys-logistics/road-boys-logistics.jpg";
 import supaCarSounds from "@/public/images/sponsors/supa-car-sounds/supa-car-sounds.png";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
-import { EXTERNAL_URLS } from "@/src/constants/urls";
+import { SPONSOR_URL } from "@/src/constants/sponsors";
 import { Box, Flex } from "@/styled-system/jsx";
 import { REFUEL_WHATSAPP_URL } from "../constants";
 import { BannerSlide } from "./components/BannerSlide";
@@ -30,13 +30,13 @@ export const FeatureBannerTwo = () => {
       name: SPONSOR_NAMES.REFUEL,
     },
     {
-      href: EXTERNAL_URLS.SUPA_CAR_SOUNDS_URL,
+      href: SPONSOR_URL.SUPA_CAR_SOUNDS_URL,
       src: supaCarSounds,
       alt: "Supa Car Sounds",
       name: SPONSOR_NAMES.SUPA_CAR_SOUNDS,
     },
     {
-      href: EXTERNAL_URLS.ROAD_BOYS_LOGISTICS_URL,
+      href: SPONSOR_URL.ROAD_BOYS_LOGISTICS_URL,
       src: roadBoysLogistics,
       alt: "Road boys logistics Zimbabwe",
       name: SPONSOR_NAMES.ROAD_BOYS_LOGISTICS,
