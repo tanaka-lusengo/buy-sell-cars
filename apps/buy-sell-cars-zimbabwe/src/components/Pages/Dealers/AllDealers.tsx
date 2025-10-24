@@ -7,8 +7,8 @@ import { StatusCode } from "~bsc-shared/utils";
 import roadBoysLogisticsImg from "@/public/images/sponsors/road-boys-logistics/road-boys-logistics.jpg";
 import rossiTyresImg from "@/public/images/sponsors/rossi/rossi-tyres.jpg";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
+import { SPONSOR_URL } from "@/src/constants/sponsors";
 import { SUBSCRIPTION_FEATURE_TYPES } from "@/src/constants/subscription";
-import { EXTERNAL_URLS } from "@/src/constants/urls";
 import { ProfileWithSubscription } from "@/src/types";
 import { filterAndSortByDealers } from "@/src/utils";
 import { Container, Box, Grid, Flex, Divider } from "@/styled-system/jsx";
@@ -129,14 +129,14 @@ export const AllDealers = ({ dealers, error, status }: AllDealersProps) => {
 
           <Flex wrap="wrap" width="100%" justifyContent="center" paddingY="md">
             <PaidSponsorFeature
-              href={EXTERNAL_URLS.ROSSI_TYRES_URL}
+              href={SPONSOR_URL.ROSSI_TYRES_URL}
               name={SPONSOR_NAMES.ROSSI_TYRES}
               placement="all_dealers_page"
               imgSrc={rossiTyresImg}
               imgAlt={SPONSOR_NAMES.ROSSI_TYRES}
             />
             <PaidSponsorFeature
-              href={EXTERNAL_URLS.ROAD_BOYS_LOGISTICS_URL}
+              href={SPONSOR_URL.ROAD_BOYS_LOGISTICS_URL}
               name={SPONSOR_NAMES.ROAD_BOYS_LOGISTICS}
               placement="all_dealers_page"
               imgSrc={roadBoysLogisticsImg}
