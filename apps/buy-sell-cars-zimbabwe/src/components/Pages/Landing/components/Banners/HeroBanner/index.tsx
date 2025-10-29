@@ -71,19 +71,19 @@ export const HeroBanner = () => {
   ];
 
   // Create refs for each sponsor banner
-  const supaCarSoundsRef = useRef<HTMLImageElement>(null);
+  const sprayTechRef = useRef<HTMLImageElement>(null);
   const refuelRef = useRef<HTMLImageElement>(null);
 
-  const sponsorBannerRefs = [null, supaCarSoundsRef, refuelRef];
+  const sponsorBannerRefs = [null, sprayTechRef, refuelRef];
 
   // Set up individual tracking for each sponsor banner
-  useTrackOnView(supaCarSoundsRef, () =>
+  useTrackOnView(sprayTechRef, () =>
     trackPostHogEvent({
       event: "sponsor_ad_view",
       properties: {
-        sponsor: SPONSOR_NAMES.SUPA_CAR_SOUNDS,
+        sponsor: SPONSOR_NAMES.SPRAY_TECH,
         action: "view",
-        url: SPONSOR_URL.SUPA_CAR_SOUNDS_URL,
+        url: SPONSOR_URL.SPRAY_TECH_URL,
         placement: "landing_page_banner_top",
       },
     })
