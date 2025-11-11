@@ -10,7 +10,8 @@
         "build": {
             "dependsOn": ["^build"],
             "inputs": ["apps/**/package.json", "packages/**/package.json"],
-            "outputs": [".next/**", "!.next/cache/**"]
+            "outputs": [".next/**", "!.next/cache/**"],
+            "env": ["POSTGRES_USER", "POSTGRES_PASSWORD", "POSTGRES_DATABASE", "POSTGRES_HOST", "POSTGRES_URL_NON_POOLING", "POSTGRES_URL", "POSTGRES_PRISMA_URL", "SUPABASE_ANON_KEY", "SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "SUPABASE_JWT_SECRET", "PAYSTACK_SECRET_KEY_TEST", "PAYSTACK_SECRET_KEY_LIVE", "POSTHOG_PERSONAL_API_KEY"]
         },
         "dev": {
             "persistent": true,
