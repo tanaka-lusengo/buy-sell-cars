@@ -5,7 +5,6 @@ import Fade from "embla-carousel-fade";
 import useEmblaCarousel from "embla-carousel-react";
 import roadAngelsImg from "@/public/images/sponsors/road-angels/road-angels.webp";
 import roadBoysLogistics from "@/public/images/sponsors/road-boys-logistics/road-boys-logistics.jpg";
-import supaCarSounds from "@/public/images/sponsors/supa-car-sounds/supa-car-sounds.png";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { SPONSOR_URL } from "@/src/constants/sponsors";
 import { Box, Flex } from "@/styled-system/jsx";
@@ -27,12 +26,6 @@ export const FeatureBannerTwo = () => {
       src: roadAngelsImg,
       alt: "Road Angels Zimbabwe - Breakdown cover",
       name: SPONSOR_NAMES.ROAD_ANGELS,
-    },
-    {
-      href: SPONSOR_URL.SUPA_CAR_SOUNDS_URL,
-      src: supaCarSounds,
-      alt: "Supa Car Sounds",
-      name: SPONSOR_NAMES.SUPA_CAR_SOUNDS,
     },
     {
       href: SPONSOR_URL.ROAD_BOYS_LOGISTICS_URL,
