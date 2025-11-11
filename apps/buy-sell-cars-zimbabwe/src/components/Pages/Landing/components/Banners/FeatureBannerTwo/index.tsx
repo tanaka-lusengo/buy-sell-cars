@@ -3,13 +3,12 @@
 import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
 import useEmblaCarousel from "embla-carousel-react";
-import refuelVictoriaFalls from "@/public/images/sponsors/refuel/refuel-victoria-falls.jpg";
+import roadAngelsImg from "@/public/images/sponsors/road-angels/road-angels.webp";
 import roadBoysLogistics from "@/public/images/sponsors/road-boys-logistics/road-boys-logistics.jpg";
 import supaCarSounds from "@/public/images/sponsors/supa-car-sounds/supa-car-sounds.png";
 import { SPONSOR_NAMES } from "@/src/constants/sponsors";
 import { SPONSOR_URL } from "@/src/constants/sponsors";
 import { Box, Flex } from "@/styled-system/jsx";
-import { REFUEL_WHATSAPP_URL } from "../constants";
 import { BannerSlide } from "./components/BannerSlide";
 
 export const FeatureBannerTwo = () => {
@@ -24,10 +23,10 @@ export const FeatureBannerTwo = () => {
 
   const sponsors = [
     {
-      href: REFUEL_WHATSAPP_URL,
-      src: refuelVictoriaFalls,
-      alt: "Refuel now open in Victoria Falls",
-      name: SPONSOR_NAMES.REFUEL,
+      href: SPONSOR_URL.ROAD_ANGELS_URL,
+      src: roadAngelsImg,
+      alt: "Road Angels Zimbabwe - Breakdown cover",
+      name: SPONSOR_NAMES.ROAD_ANGELS,
     },
     {
       href: SPONSOR_URL.SUPA_CAR_SOUNDS_URL,

@@ -5,6 +5,7 @@ export const SPONSOR_NAMES = {
   SUPA_CAR_SOUNDS: "Supa Car Sounds",
   SPRAY_TECH: "Spray Tech",
   CERAMIC_PRO: "Ceramic Pro",
+  ROAD_ANGELS: "Road Angels",
 } as const;
 
 export const SPONSOR_URL = {
@@ -17,4 +18,5 @@ export const SPONSOR_URL = {
   SPRAY_TECH_URL: "https://spraytechzw.com",
   CERAMIC_PRO_URL:
     "https://www.instagram.com/ceramicprozimbabwe?igsh=bWk0d2V1Z2tzbWlj",
+  ROAD_ANGELS_URL: "https://roadangels.co.zw/membership/",
 };
