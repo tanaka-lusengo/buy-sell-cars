@@ -15,7 +15,8 @@ if (!isDev || enablePostHogInDev) {
     try {
       isDev && console.log("Initializing PostHog...");
       posthog.init(posthogKey, {
-        api_host: "https://eu.i.posthog.com",
+        api_host: "/ph-analytics-bsc",
+        ui_host: "https://eu.posthog.com",
         capture_pageview: true,
         capture_pageleave: true,
         capture_exceptions: true,
